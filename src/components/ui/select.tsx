@@ -140,6 +140,89 @@ const SelectSeparator = React.forwardRef<
 ))
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName
 
+type obj = {
+  label: string
+  value: string
+  className?: string
+}
+type strOrObj = string | obj
+export type itemType = strOrObj | {
+  label: string
+  child: strOrObj[]
+  className?: string
+};
+
+interface props {
+  value: string
+  onChange: (v: string) => void
+  items: itemType[];
+  placeholder: string;
+  triggerCls?: string
+  contentCls?: string
+  groupWrapperCls?: string
+  groupLabelCls?: string
+  itemCls?: string
+}
+
+export default function SelectWrapper({
+  value, onChange,
+  items, placeholder,
+  triggerCls = "", contentCls = "",
+  groupWrapperCls = "", itemCls = "",
+  groupLabelCls = "",
+}: props) {
+  return (
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger className={cn(triggerCls)}>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+
+      <SelectContent className={cn(contentCls)}>
+        {items.map((item) => {
+          if (typeof item === "string") {
+            return (
+              <SelectItem key={item} value={item} className={cn(itemCls)}>
+                {item}
+              </SelectItem>
+            );
+          }
+
+          if ('child' in item) {
+            return (
+              <SelectGroup key={item.label} className={cn(groupWrapperCls, item.className)}>
+                <SelectLabel className={cn(groupLabelCls)}>{item.label}</SelectLabel>
+
+                {item.child.map((child) => {
+                  if (typeof child === "string") {
+                    return (
+                      <SelectItem key={child} value={child} className={cn(itemCls)}>
+                        {child}
+                      </SelectItem>
+                    )
+                  }
+
+                  return (
+                    <SelectItem key={child.value} value={child.value} className={cn(itemCls, child.className)}>
+                      {child.label}
+                    </SelectItem>
+                  )
+                })}
+                <SelectSeparator />
+              </SelectGroup>
+            )
+          }
+
+          return (
+            <SelectItem key={item.value} value={item.value} className={cn(itemCls, item.className)}>
+              {item.label}
+            </SelectItem>
+          )
+        })}
+      </SelectContent>
+    </Select>
+  )
+}
+
 export {
   Select,
   SelectGroup,
