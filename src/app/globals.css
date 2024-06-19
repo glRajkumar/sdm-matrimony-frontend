@@ -103,11 +103,15 @@
   input,
   textarea,
   select {
-    @apply block w-full p-2 outline-none rounded disabled:cursor-not-allowed;
+    @apply block w-full p-2 text-sm rounded border border-input bg-background ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 placeholder:text-muted-foreground;
   }
 
   button {
-    @apply px-2 py-1 w-fit rounded-sm outline-none disabled:cursor-not-allowed disabled:opacity-80;
+    @apply w-fit px-4 py-2 text-sm font-medium rounded bg-primary text-primary-foreground hover:bg-primary/90 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
   }
 
   img {
