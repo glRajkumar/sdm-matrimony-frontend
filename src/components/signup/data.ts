@@ -1,10 +1,10 @@
 type base = {
   name: string;
-  label?: string
-}
+  label?: string;
+};
 
 type BaseField = base & {
-  type: "text" | "number" | "email"
+  type: "text" | "number" | "email";
 };
 
 type SelectField = base & {
@@ -18,7 +18,7 @@ export const fieldList: fields[] = [
   {
     name: "fullName",
     type: "text",
-    label: "Name"
+    label: "Name",
   },
   {
     name: "email",
@@ -31,21 +31,17 @@ export const fieldList: fields[] = [
   {
     name: "gender",
     type: "select",
-    options: [
-      "Male",
-      "Female",
-      "Other",
-    ]
+    options: ["Male", "Female", "Other"],
   },
   {
     name: "dob",
     type: "text",
-    label: "Date of Birth"
+    label: "Date of Birth",
   },
   {
     name: "placeOfBirth",
     type: "text",
-    label: "Place of Birth"
+    label: "Place of Birth",
   },
   {
     name: "nakshatra",
@@ -117,7 +113,7 @@ export const fieldList: fields[] = [
   {
     name: "dashaPeriod",
     type: "text",
-    label: "Dasha Period"
+    label: "Dasha Period",
   },
   {
     name: "height",
@@ -127,13 +123,13 @@ export const fieldList: fields[] = [
     name: "color",
     type: "text",
   },
-]
+];
 
 type InitialFields = {
-  [K in (typeof fieldList)[number]['name']]: string;
+  [K in (typeof fieldList)[number]["name"]]: string;
 };
 
 export const initialData: InitialFields = fieldList.reduce((prev, curr) => {
-  prev[curr.name as keyof InitialFields] = ""
-  return prev
-}, {} as InitialFields)
+  prev[curr.name as keyof InitialFields] = "";
+  return prev;
+}, {} as InitialFields);
