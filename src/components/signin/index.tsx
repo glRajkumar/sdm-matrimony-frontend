@@ -27,7 +27,7 @@ function SignIn() {
   return (
     <section className="min-h-screen flex items-center justify-center mx-4 md:mx-0">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5">
-        <div className="sm:w-1/2 px-16">
+        <div className="px-16">
           <h1 className="text-[18px] sm:text-xl text-[#4F6F52] font-bold py-5">
             Login
           </h1>
@@ -95,12 +95,12 @@ function SignIn() {
           </div>
         </div>
 
-        <div className="hidden sm:block w-1/2">
+        {/* <div className="hidden sm:block w-1/2">
           <img
             className="rounded-2xl h-full"
             src="https://antphotography.in/wp-content/uploads/2023/07/TIL03525-1024x682.jpg"
           />
-        </div>
+        </div> */}
       </div>
     </section>
   );

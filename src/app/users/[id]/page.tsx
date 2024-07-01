@@ -1,0 +1,264 @@
+'use client';
+
+import Link from "next/link";
+
+function UserPage({ params }: any) {
+  const users = [
+    {
+      id: 1,
+      name: 'John Doe',
+      email: "one@gmail.com",
+      contact: "56451115",
+      age: 12,
+      work: "It guy"
+    },
+    {
+      id: 2,
+      name: 'Jane Smith',
+      email: "one@gmail.com",
+      contact: "46451115",
+      age: 42,
+      work: "Civil Engineer"
+    },
+    {
+      id: 3,
+      name: 'Alice Johnson',
+      email: "one@gmail.com",
+      contact: "87451115",
+      age: 31,
+      work: "Teacher"
+    },
+  ];
+  const user = users.find((user) => user.id === parseInt(params?.id));
+  if (!user) {
+    return <div>User not found</div>;
+  }
+
+  return (
+    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen p-4">
+      <div className="bg-gray-200 h-fit p-6 rounded-lg shadow-md flex flex-col lg:flex-row items-center justify-center w-full max-w-6xl">
+        <div className="w-full max-w-4xl mb-8 lg:mb-0 lg:mr-8">
+          <div className="flex justify-center [&:hover>div]:w-16 [&>div:hover]:w-full sm:[&>div:hover]:w-72 md:[&>div:hover]:w-80 lg:[&>div:hover]:w-96">
+            <div className="group relative h-[400px] md:h-[600px] w-72 sm:w-80 md:w-96 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
+              <img className="h-full w-full object-cover transition-all group-hover:rotate-3 md:group-hover:rotate-6 group-hover:scale-125" src="https://cdn.pixabay.com/photo/2016/01/31/19/41/apple-1172060_960_720.jpg" alt="" />
+            </div>
+            <div className="group relative h-[400px] md:h-[600px] w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
+              <img className="h-full w-full object-cover transition-all  group-hover:rotate-3 md:group-hover:rotate-6 group-hover:scale-125" src="https://cdn.pixabay.com/photo/2022/08/17/15/46/family-7392843_960_720.jpg" alt="" />
+            </div>
+            <div className="group relative h-[400px] md:h-[600px] w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
+              <img className="h-full w-full object-cover transition-all  group-hover:rotate-3 md:group-hover:rotate-6 group-hover:scale-125" src="https://cdn.pixabay.com/photo/2020/04/17/14/07/athlete-5055367_960_720.jpg" alt="" />
+            </div>
+            <div className="group relative h-[400px] md:h-[600px] w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
+              <img className="h-full w-full object-cover transition-all  group-hover:rotate-3 md:group-hover:rotate-6 group-hover:scale-125" src="https://cdn.pixabay.com/photo/2021/09/17/15/17/fruit-6633086_960_720.jpg" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full max-w-md ">
+          <div className="bg-white p-4 w-full rounded h-[600px]  overflow-y-auto">
+            <p className="flex justify-center text-[23px] font-bold">User Details</p>
+            <div className="flex flex-col">
+              <p className="text-blue-700 text-[20px] font-medium ">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  FullName:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Email:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium ">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Married Status:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Gender:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium ">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  DOB:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Nakshatra:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium ">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Rasi:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Lagna:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium ">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Qualification:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Work:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium ">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Salary:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  FatherName:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  MotherName:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium ">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Brothers:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Sisters:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium ">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Order of Birth:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Expectation:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Formalities:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  HouseType:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium ">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Address:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  DashaPeriod:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium ">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Height:
+                </span>
+                {user?.name}
+              </p>
+              <p className="text-blue-700 text-[20px] font-medium">
+                <span className="text-emerald-600 text-[23px] font-semibold mr-4">
+                  Color:
+                </span>
+                {user?.name}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  );
+}
+
+export default UserPage;
+
+{/* <p>email: {user?.email}</p>
+            <p>age: {user?.age}</p>
+            <p>contact: {user?.contact}</p>
+            <p>work: {user?.work}</p>
+            <p>name: {user?.name}</p>
+            <p>email: {user?.email}</p>
+            <p>age: {user?.age}</p>
+            <p>contact: {user?.contact}</p>
+            <p>work: {user?.work}</p>
+            <p>name: {user?.name}</p>
+            <p>email: {user?.email}</p>
+            <p>age: {user?.age}</p>
+            <p>contact: {user?.contact}</p>
+            <p>work: {user?.work}</p>
+            <p>name: {user?.name}</p>
+            <p>email: {user?.email}</p>
+            <p>age: {user?.age}</p>
+            <p>contact: {user?.contact}</p>
+            <p>work: {user?.work}</p> */}
+// </div>
+// </div>
+// </div>
+{/* <Link className="text-blue-400 mt-6 block text-center" href="/users"><button>move to users page</button></Link> */ }
+// "_id": "66815b9afb779bc1ddebb6e3",
+//   "fullName": "raj",
+//   "role": "user",
+//   "email": "raj7@gmail.com",
+//   "images": [
+//     "http://res.cloudinary.com/dz0vvjdhc/image/upload/v1719753671/my_uploads/kvu0pppe1nygtxsykxwa.png",
+//     "http://res.cloudinary.com/dz0vvjdhc/image/upload/v1719753673/my_uploads/iyohzlpqxgiuky0sffye.png"
+//   ],
+//   "isMarried": false,
+//   "gender": "male",
+//   "dob": "21-06-2002 10:10 AM",
+//   "nakshatra": "nagam",
+//   "rasi": "thulam",
+//   "lagna": "mirugam",
+//   "qualification": "bsc",
+//   "work": "it",
+//   "salary": 25000,
+//   "fatherName": "nallu",
+//   "motherName": "angali",
+//   "noOfBrothers": 1,
+//   "noOfSisters": 2,
+//   "birthOrder": 2,
+//   "expectation": "nothing else",
+//   "formalities": "all",
+//   "houseType": "own",
+//   "address": "chennai",
+//   "dashaPeriod": "4months",
+//   "height": "180",
+//   "color": "white",
+//   "createdAt": "2024-06-30T13:20:26.628Z",
+//   "updatedAt": "2024-07-01T14:55:39.615Z",
+//   "__v": 3

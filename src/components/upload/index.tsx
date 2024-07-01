@@ -9,17 +9,16 @@ function Upload() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
     const formData = new FormData();
-    formData.append("image",image);
+    formData.append("image", image);
 
     try {
-      let res = await axios.put(`http://localhost:5000/users/imgupload`,formData);
-       console.log("img upload success",res?.data)
+      let res = await axios.put(`http://localhost:5000/users/imgupload`, formData);
+      console.log("img upload success", res?.data);
     } catch (error) {
       console.error("img upload error:", error);
     }
-    
+
   };
   return (
     <section className="min-h-screen flex justify-center items-center">
