@@ -1,11 +1,21 @@
 "use client";
 
-import { Controller, useForm } from 'react-hook-form';
-import { initialData, fieldList } from './data';
-import SelectWrapper from '../ui/select';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import { Controller, useForm } from 'react-hook-form';
+
+import { signupUser } from '@/app/actions';
+
+import SelectWrapper from '../ui/select';
+
+import { initialData, fieldList } from './data';
+import { DatePicker } from '../ui-components/date-picker';
+import { useState } from 'react';
 
 function Signup() {
+
+  const [selectedDate, setSelectedDate] = useState("");
   const {
     control,
     handleSubmit,
@@ -15,10 +25,22 @@ function Signup() {
     defaultValues: initialData
   });
 
-  const onSubmit = async (data: any) => {
+  const router = useRouter();
+
+  const { mutate } = useMutation({
+    mutationFn: signupUser,
+    onSuccess: (data) => {
+      console.log("Register success:", data?.msg);
+      router.push('/signin');
+    },
+  });
+  const onSubmit = (data: any) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log(data);
+      let payload = {
+        ...data,
+        dob: selectedDate
+      };
+      mutate(payload);
     } catch (error) {
       console.log(error);
     }
@@ -61,6 +83,15 @@ function Signup() {
               );
             }
 
+            if (field?.name === "dob") {
+              return (
+                <div>
+                  <label htmlFor="dob">Date of Birth</label>
+                  <DatePicker onDateSelect={(date: string) => setSelectedDate(date)} />
+                </div>
+              );
+            }
+
             return (
               <div
                 key={field.name}
@@ -72,7 +103,7 @@ function Signup() {
                 >
                   {field?.label || field?.name}
                 </label>
-                {["fullName", "email", "password"].includes(field.name)
+                {["fullName", "email", "password", "dob"].includes(field.name)
                   ? <label className='text-red-500 ml-2 '>*</label>
                   : <></>
                 }
@@ -81,7 +112,7 @@ function Signup() {
                   id={`signup-${field.name}`}
                   type={field.type}
                   {...register(field.name, {
-                    required: ["fullName", "email", "password"].includes(field.name)
+                    required: ["fullName", "email", "password", "dob"].includes(field.name)
                       ? `${field.name} is required`
                       : false
                   })}

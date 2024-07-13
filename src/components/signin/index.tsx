@@ -1,7 +1,11 @@
 "use client";
 
+import { LoginUser } from "@/app/actions";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Cookies from "js-cookie";
 
 type FormFileds = {
   email: string;
@@ -15,9 +19,26 @@ function SignIn() {
     formState: { errors, isSubmitting },
   } = useForm<FormFileds>();
 
+  const router = useRouter();
+
+  const { mutate } = useMutation({
+    mutationFn: LoginUser,
+    onSuccess: (data: any) => {
+      console.log("Login success:", data);
+      if (data.token) {
+        // Set the token in a cookie
+        Cookies.set('auth_token', data.token, { expires: 7 }); // expires in 7 days
+        // Navigate to home page
+        router.push('/');
+      } else {
+        console.error("No token received in login response");
+      }
+    },
+  });
+
   const onSubmit: SubmitHandler<FormFileds> = async (data: any) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      mutate(data);
       console.log(data);
     } catch (error) {
       console.log(error);

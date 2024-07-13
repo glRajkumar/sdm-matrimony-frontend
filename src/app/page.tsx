@@ -1,8 +1,13 @@
+import Navbar from "./navbar";
+
 function Page() {
   return (
-    <main>
-      <div>i am home page</div>
-    </main>
+    <>
+      <Navbar />
+      <main>
+        <div>i am home page</div>
+      </main>
+    </>
   );
 }
 
