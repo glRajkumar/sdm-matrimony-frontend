@@ -1,9 +1,11 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import Cookies from 'js-cookie';
+
 import { root } from './endPoints';
 
-const token = Cookies.get('auth_token')
-console.log("token",token)
+const token = Cookies.get('sdm')
+console.log("token", token)
+
 type SendApiReqParams = AxiosRequestConfig & {
   isAuthendicated?: boolean;
   headers?: AxiosRequestConfig["headers"]
@@ -13,7 +15,8 @@ type CustomError = Error & { status?: number };
 
 const requestIntercepter = (instance: AxiosInstance, isAuthendicated: boolean, headers: AxiosRequestConfig["headers"]): void => {
   instance.interceptors.request.use(
-    function (config:any) {
+    function (config: any) {
+      console.log("tokentokentoken", token)
       if (isAuthendicated) {
         config.headers = {
           Authorization: "Bearer " + token,

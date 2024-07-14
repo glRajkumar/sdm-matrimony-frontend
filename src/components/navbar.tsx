@@ -2,10 +2,9 @@
 
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
 import Link from 'next/link';
 
-import { logout } from '../actions';
+import { logout, removeToken } from '../actions';
 
 import {
   DropdownMenu,
@@ -23,21 +22,15 @@ function Navbar() {
   const { mutate } = useMutation({
     mutationFn: logout,
     onSuccess() {
-      console.log("success");
-      Cookies.remove("auth_token");
-
-      router.push('/signin');
+      removeToken()
+      router.push('/signin')
     },
     onError: (error) => {
       console.error("Logout failed:", error);
     }
-  });
+  })
 
-  const handleLogout = () => {
-    // Cookies.remove('auth_token');
-    // router.push('/signin');
-    mutate();
-  };
+  const handleLogout = () => mutate()
 
   return (
     <nav className="flex justify-between items-center py-4 px-6 bg-neutral-400 shadow-md">

@@ -3,10 +3,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import Link from "next/link";
 
-import { LoginUser } from "@/actions";
+import { LoginUser, setToken } from "@/actions";
 
 type FormFileds = {
   email: string;
@@ -27,7 +26,7 @@ function SignIn() {
     onSuccess: (data: any) => {
       console.log("Login success:", data)
       if (data.token) {
-        Cookies.set('auth_token', data.token, { expires: 7 })
+        setToken(data.token)
         router.push('/')
 
       } else {
@@ -76,7 +75,7 @@ function SignIn() {
                 {...register("password", {
                   required: "password is required",
                   minLength: {
-                    value: 8,
+                    value: 6,
                     message: "password must be 8 charecters",
                   },
                 })}

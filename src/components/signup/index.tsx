@@ -77,7 +77,7 @@ function Signup() {
 
             if (field?.name === "dob") {
               return (
-                <div>
+                <div key={field.name}>
                   <label htmlFor="dob">Date of Birth</label>
                   <DatePicker onDateSelect={(date: string) => setSelectedDate(date)} />
                 </div>
