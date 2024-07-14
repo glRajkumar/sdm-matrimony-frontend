@@ -8,16 +8,20 @@ export const metadata: Metadata = {
   description: "",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+type props = Readonly<{
   children: React.ReactNode;
-}>) {
+}>
+
+function RootLayout({ children }: props) {
   return (
     <html lang="en">
       <body>
-        <ClientWrapper>{children}</ClientWrapper>
+        <ClientWrapper>
+          {children}
+        </ClientWrapper>
       </body>
     </html>
   );
 }
+
+export default RootLayout

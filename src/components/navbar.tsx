@@ -1,9 +1,12 @@
 "use client";
 
-import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import Link from 'next/link';
+
+import { logout } from '../actions';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,9 +15,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
-import { logout } from './actions';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 function Navbar() {
   const router = useRouter();
@@ -22,15 +24,12 @@ function Navbar() {
     mutationFn: logout,
     onSuccess() {
       console.log("success");
-      // Remove the auth token from cookies
       Cookies.remove("auth_token");
 
-      // Redirect to login page
       router.push('/signin');
     },
     onError: (error) => {
       console.error("Logout failed:", error);
-      // Handle logout error (e.g., show an error message to the user)
     }
   });
 
@@ -40,15 +39,12 @@ function Navbar() {
     mutate();
   };
 
-
   return (
     <nav className="flex justify-between items-center py-4 px-6 bg-neutral-400 shadow-md">
-      {/* Logo */}
-      <Link href="/">
-        <div className="text-xl font-bold text-gray-800">YourLogo</div>
+      <Link href="/" className="text-xl font-bold text-gray-800">
+        Logo
       </Link>
 
-      {/* User Profile Dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -58,6 +54,7 @@ function Navbar() {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
+
         <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">

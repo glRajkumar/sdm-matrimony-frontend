@@ -1,49 +1,42 @@
 "use client";
 
-import { LoginUser } from "@/app/actions";
-import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import Link from "next/link";
+
+import { LoginUser } from "@/actions";
 
 type FormFileds = {
   email: string;
   password: string;
-};
+}
 
 function SignIn() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormFileds>();
+  } = useForm<FormFileds>()
 
-  const router = useRouter();
+  const router = useRouter()
 
   const { mutate } = useMutation({
     mutationFn: LoginUser,
     onSuccess: (data: any) => {
-      console.log("Login success:", data);
+      console.log("Login success:", data)
       if (data.token) {
-        // Set the token in a cookie
-        Cookies.set('auth_token', data.token, { expires: 7 }); // expires in 7 days
-        // Navigate to home page
-        router.push('/');
+        Cookies.set('auth_token', data.token, { expires: 7 })
+        router.push('/')
+
       } else {
-        console.error("No token received in login response");
+        console.error("No token received in login response")
       }
     },
-  });
+  })
 
-  const onSubmit: SubmitHandler<FormFileds> = async (data: any) => {
-    try {
-      mutate(data);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const onSubmit: SubmitHandler<FormFileds> = data => mutate(data)
 
   return (
     <section className="min-h-screen flex items-center justify-center mx-4 md:mx-0">
@@ -74,6 +67,7 @@ function SignIn() {
               {errors.email && (
                 <div className="text-red-500">{errors.email.message}</div>
               )}
+
               <label htmlFor="password">Password</label>
               <input
                 id="password"

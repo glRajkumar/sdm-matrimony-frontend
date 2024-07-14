@@ -1,7 +1,6 @@
 import endPoints from "@/utils/endPoints";
 import sendApiReq from "@/utils/sendApiReq";
 
-
 export const signupUser = async (userData: any) => {
   return sendApiReq({
     isAuthendicated: false,

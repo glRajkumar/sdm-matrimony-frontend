@@ -1,14 +1,17 @@
 import { useState } from "react";
+import { LuCalendar as CalendarIcon } from "react-icons/lu";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
+
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
+
 export function DatePicker({ onDateSelect }: any) {
   const [date, setDate] = useState<Date | undefined>(undefined);
 
@@ -26,6 +29,7 @@ export function DatePicker({ onDateSelect }: any) {
           {date ? format(date, "dd-MM-yyyy hh:mm a") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
+
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"

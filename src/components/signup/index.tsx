@@ -1,50 +1,41 @@
 "use client";
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-
-import { signupUser } from '@/app/actions';
-
-import SelectWrapper from '../ui/select';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { initialData, fieldList } from './data';
-import { DatePicker } from '../ui-components/date-picker';
-import { useState } from 'react';
+import { signupUser } from '@/actions';
+
+import { DatePicker } from '../common/date-picker';
+import SelectWrapper from '../ui/select';
 
 function Signup() {
-
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState("")
   const {
-    control,
-    handleSubmit,
-    register,
+    control, handleSubmit, register,
     formState: { errors, isSubmitting }
-  } = useForm({
-    defaultValues: initialData
-  });
+  } = useForm({ defaultValues: initialData })
 
-  const router = useRouter();
+  const router = useRouter()
 
   const { mutate } = useMutation({
     mutationFn: signupUser,
     onSuccess: (data) => {
-      console.log("Register success:", data?.msg);
-      router.push('/signin');
+      console.log("Register success:", data?.msg)
+      router.push('/signin')
     },
-  });
+  })
+
   const onSubmit = (data: any) => {
-    try {
-      let payload = {
-        ...data,
-        dob: selectedDate
-      };
-      mutate(payload);
-    } catch (error) {
-      console.log(error);
+    let payload = {
+      ...data,
+      dob: selectedDate
     }
-  };
+    mutate(payload)
+  }
 
   return (
     <div className='dc p-4 h-screen overflow-hidden'>
@@ -55,6 +46,7 @@ function Signup() {
         <h1 className="text-[18px] sm:text-xl text-[#4F6F52] font-bold pb-5">
           SignUp
         </h1>
+
         {
           fieldList.map(field => {
             if (field.type === "select") {
@@ -80,7 +72,7 @@ function Signup() {
                     )}
                   />
                 </div>
-              );
+              )
             }
 
             if (field?.name === "dob") {
@@ -89,7 +81,7 @@ function Signup() {
                   <label htmlFor="dob">Date of Birth</label>
                   <DatePicker onDateSelect={(date: string) => setSelectedDate(date)} />
                 </div>
-              );
+              )
             }
 
             return (
@@ -121,14 +113,16 @@ function Signup() {
                   <div className="text-red-500">{errors[field.name]?.message}</div>
                 )}
               </div>
-            );
+            )
           })
         }
+
         <div className="my-2 flex justify-center items-center">
           <button className="bg-[#4F6F52] w-32 text-white py-1 px-4 text-[13px] sm:text-[15px]">
             {isSubmitting ? "Loading..." : "SignUp"}
           </button>
         </div>
+
         <div className="grid grid-cols-3 items-center text-gray-400">
           <hr className="border-gray-400" />
           <p className="text-center">or</p>
@@ -145,7 +139,7 @@ function Signup() {
         </div>
       </form>
     </div>
-  );
+  )
 }
 
-export default Signup;
+export default Signup
