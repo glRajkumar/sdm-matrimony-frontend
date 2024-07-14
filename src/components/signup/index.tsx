@@ -8,6 +8,7 @@ import Link from 'next/link';
 
 import { initialData, fieldList } from './data';
 import { signupUser } from '@/actions';
+import { useToast } from '../ui/use-toast';
 
 import { DatePicker } from '../common/date-picker';
 import SelectWrapper from '../ui/select';
@@ -19,14 +20,22 @@ function Signup() {
     formState: { errors, isSubmitting }
   } = useForm({ defaultValues: initialData })
 
+  const { toast } = useToast()
   const router = useRouter()
 
   const { mutate } = useMutation({
     mutationFn: signupUser,
     onSuccess: (data) => {
-      console.log("Register success:", data?.msg)
+      toast({
+        title: "Register Success",
+      })
       router.push('/signin')
     },
+    onError() {
+      toast({
+        title: "register error",
+      })
+    }
   })
 
   const onSubmit = (data: any) => {

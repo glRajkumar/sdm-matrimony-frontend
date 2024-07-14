@@ -28,12 +28,16 @@ export const getUsers = () => sendApiReq({
   url: endPoints.getUsers,
 })
 
-export const getUser = (id: string) => sendApiReq({
-  url: `${endPoints.getUser}/${id}`,
+export const getUserDetails = (id: string) => sendApiReq({
+  url: `${endPoints.getUserDetails}/${id}`,
 })
 
 export const imgUpload = (userData: any) => sendApiReq({
   url: endPoints.imgUpload,
   method: 'POST',
   data: { userData },
+})
+
+export const getMatches = (gender: string) => sendApiReq({
+  url: `${endPoints.getMatches}/${gender}`,
 })

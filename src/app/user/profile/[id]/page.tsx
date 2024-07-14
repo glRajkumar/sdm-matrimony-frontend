@@ -1,7 +1,7 @@
 import Profile from "@/components/profile";
 
-function Page() {
-  return <Profile />
+function Page({ params }: { params: { id: string } }) {
+  return <Profile userId={params?.id} />
 }
 
 export default Page

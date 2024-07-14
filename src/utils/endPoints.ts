@@ -8,8 +8,9 @@ const endPoints = {
   me: '/users/me',
   logout: '/users/logout',
   getUsers: '/users/getusers',
-  getUser: '/users/getuser',
+  getUserDetails: '/users',
   imgUpload: '/users/imgupload',
+  getMatches:'/users/matches'
 }
 
 export default endPoints

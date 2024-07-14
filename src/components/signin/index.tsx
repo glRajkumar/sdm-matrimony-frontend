@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { LoginUser, setToken } from "@/actions";
+import useUserStore from "@/store/user";
+import { useToast } from "../ui/use-toast";
 
 type FormFileds = {
   email: string;
@@ -19,20 +21,30 @@ function SignIn() {
     formState: { errors, isSubmitting },
   } = useForm<FormFileds>()
 
+  const updateUser = useUserStore((state: any) => state.updateUser)
+  const { toast } = useToast()
   const router = useRouter()
 
   const { mutate } = useMutation({
     mutationFn: LoginUser,
     onSuccess: (data: any) => {
-      console.log("Login success:", data)
-      if (data.token) {
-        setToken(data.token)
+      const { token, ...rest } = data
+      if (token) {
+        setToken(token)
+        updateUser(rest)
+        toast({
+          title: "Login Success",
+        })
         router.push('/')
-
       } else {
         console.error("No token received in login response")
       }
     },
+    onError() {
+      toast({
+        title: "login error",
+      })
+    }
   })
 
   const onSubmit: SubmitHandler<FormFileds> = data => mutate(data)
