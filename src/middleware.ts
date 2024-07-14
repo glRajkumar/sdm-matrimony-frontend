@@ -2,7 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
   const token = request.cookies.get('sdm')?.value
+
+  const publicPaths = ['/signin', '/signup']
+
+  if (publicPaths.includes(pathname)) {
+    return NextResponse.next()
+  }
 
   if (!token) {
     return NextResponse.redirect(new URL('/signin', request.url))
@@ -16,6 +23,10 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/signin', request.url))
     }
 
+    if (pathname === "/") {
+      return NextResponse.redirect(new URL(`/${payload.role}`, request.url))
+    }
+
     return NextResponse.next()
 
   } catch (error) {
@@ -24,6 +35,6 @@ export async function middleware(request: NextRequest) {
   }
 }
 
-export const config = {
-  matcher: ['/'],
-}
+// export const config = {
+//   matcher: ['/'],
+// }

@@ -18,7 +18,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
 function Navbar() {
-  const router = useRouter();
+  const router = useRouter()
+
   const { mutate } = useMutation({
     mutationFn: logout,
     onSuccess() {
@@ -26,14 +27,14 @@ function Navbar() {
       router.push('/signin')
     },
     onError: (error) => {
-      console.error("Logout failed:", error);
+      console.error("Logout failed:", error)
     }
   })
 
   const handleLogout = () => mutate()
 
   return (
-    <nav className="flex justify-between items-center py-4 px-6 bg-neutral-400 shadow-md">
+    <nav className="df justify-between py-4 px-6 shadow-md">
       <Link href="/" className="text-xl font-bold text-gray-800">
         Logo
       </Link>
