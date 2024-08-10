@@ -8,6 +8,8 @@ import Link from "next/link";
 import { LoginUser, setToken } from "@/actions";
 import useUserStore from "@/store/user";
 import { useToast } from "../ui/use-toast";
+import Approval from "@/app/user/approval";
+import { useState } from "react";
 
 type FormFileds = {
   email: string;
@@ -24,6 +26,9 @@ function SignIn() {
   const updateUser = useUserStore((state: any) => state.updateUser)
   const { toast } = useToast()
   const router = useRouter()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const user_approval = useUserStore(state => state?.approval_required)
 
   const { mutate } = useMutation({
     mutationFn: LoginUser,
@@ -35,7 +40,9 @@ function SignIn() {
         toast({
           title: "Login Success",
         })
-        router.push('/')
+        user_approval !== "rejected" && router.push('/')
+        setIsAuthenticated(true);
+        setShowModal(true);
       } else {
         console.error("No token received in login response")
       }
@@ -128,6 +135,11 @@ function SignIn() {
           />
         </div> */}
       </div>
+      {isAuthenticated && user_approval === "rejected" && (
+        <Approval
+          isOpen={showModal}
+          onClose={() => setShowModal(false)} />
+      )}
     </section>
   );
 }

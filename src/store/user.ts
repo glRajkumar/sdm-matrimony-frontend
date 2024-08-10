@@ -1,11 +1,13 @@
 import { persist, createJSONStorage } from "zustand/middleware";
 import { create } from "zustand";
 
-export interface User{
-  id: string,
-  email: string,
-  fullName: string,
-  gender:string
+export interface User {
+  id: string;
+  email: string;
+  fullName: string;
+  gender: string;
+  role: string;
+  approval_required: string;
 }
 
 interface Actions {
@@ -15,11 +17,12 @@ interface Actions {
 const useUserStore = create(
   persist<User & Actions>(
     (set) => ({
-      id: '',
-      email: '',
-      fullName: '',
-      gender: '',
-
+      id: "",
+      email: "",
+      fullName: "",
+      gender: "",
+      role: "",
+      approval_required: "",
       updateUser: (payload) => set({ ...payload }),
     }),
     {
@@ -29,4 +32,4 @@ const useUserStore = create(
   )
 );
 
-export default useUserStore
+export default useUserStore;

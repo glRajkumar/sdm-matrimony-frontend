@@ -31,7 +31,8 @@ function Signup() {
       })
       router.push('/signin')
     },
-    onError() {
+    onError(error) {
+      console.log("err", error)
       toast({
         title: "register error",
       })

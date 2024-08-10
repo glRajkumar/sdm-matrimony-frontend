@@ -16,9 +16,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import useUserStore from '@/store/user';
 
 function Navbar() {
   const router = useRouter()
+  const user_email = useUserStore(state => state.email)
+  const user_name = useUserStore(state => state.fullName)
+  const user_id = useUserStore(state => state.id)
 
   const { mutate } = useMutation({
     mutationFn: logout,
@@ -38,6 +42,9 @@ function Navbar() {
       <Link href="/" className="text-xl font-bold text-gray-800">
         Logo
       </Link>
+      <Link href="/pending-users" className="text-xl font-bold text-gray-800">
+        pending Users
+      </Link>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -52,23 +59,21 @@ function Navbar() {
         <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">Username</p>
+              <p className="text-sm font-medium leading-none">{user_name}</p>
               <p className="text-xs leading-none text-muted-foreground">
-                user@example.com
+                {user_email}
               </p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
-              router.push('/users');
+              router.push(`/user/profile/${user_id}`);
             }}
           >
             Profile
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-          </DropdownMenuItem>
+
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-red-600"
