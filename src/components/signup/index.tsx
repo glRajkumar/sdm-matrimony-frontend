@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -12,40 +11,31 @@ import { useToast } from '../ui/use-toast';
 
 import { DatePicker } from '../common/date-picker';
 import SelectWrapper from '../ui/select';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 function Signup() {
-  const [selectedDate, setSelectedDate] = useState("")
-  const {
-    control, handleSubmit, register,
-    formState: { errors, isSubmitting }
-  } = useForm({ defaultValues: initialData })
+  const { control, handleSubmit, register, formState: { errors, isSubmitting } } = useForm({
+    defaultValues: {
+      ...initialData
+    }
+  })
 
   const { toast } = useToast()
   const router = useRouter()
 
   const { mutate } = useMutation({
     mutationFn: signupUser,
-    onSuccess: (data) => {
-      toast({
-        title: "Register Success",
-      })
+    onSuccess: () => {
+      toast({ title: "Register Success" })
       router.push('/signin')
     },
     onError(error) {
-      console.log("err", error)
-      toast({
-        title: "register error",
-      })
+      toast({ title: "register error" })
     }
   })
 
-  const onSubmit = (data: any) => {
-    let payload = {
-      ...data,
-      dob: selectedDate
-    }
-    mutate(payload)
-  }
+  const onSubmit = (data: any) => mutate(data)
 
   return (
     <div className='dc p-4 h-screen overflow-hidden'>
@@ -61,35 +51,51 @@ function Signup() {
           fieldList.map(field => {
             if (field.type === "select") {
               return (
-                <div key={field.name}>
-                  <label
+                <div key={field.name} className='mb-4'>
+                  <Label
                     htmlFor={`signup-${field.name}`}
                     className='capitalize'
                   >
                     {field?.label || field?.name}
-                  </label>
+                  </Label>
 
                   <Controller
                     name={field.name}
                     control={control}
+                    rules={field?.rules || {}}
                     render={({ field: { value, onChange } }) => (
                       <SelectWrapper
-                        value={value}
+                        value={value as string}
                         items={field.options}
                         onChange={onChange}
                         placeholder=''
                       />
                     )}
                   />
+                  {errors[field.name] && (
+                    <div className="text-xs text-red-500">{errors[field.name]?.message}</div>
+                  )}
                 </div>
               )
             }
 
             if (field?.name === "dob") {
               return (
-                <div key={field.name}>
-                  <label htmlFor="dob">Date of Birth</label>
-                  <DatePicker onDateSelect={(date: string) => setSelectedDate(date)} />
+                <div key={field.name} className='mb-4'>
+                  <Label htmlFor="dob" className='block mb-1'>Date of Birth</Label>
+                  <Controller
+                    name={field.name}
+                    control={control}
+                    rules={field?.rules || {}}
+                    render={({ field: { onChange } }) => (
+                      <DatePicker
+                        onDateSelect={(date: string) => onChange(date)}
+                      />
+                    )}
+                  />
+                  {errors[field.name] && (
+                    <div className="text-xs text-red-500">{errors[field.name]?.message}</div>
+                  )}
                 </div>
               )
             }
@@ -99,28 +105,21 @@ function Signup() {
                 key={field.name}
                 className='mb-4'
               >
-                <label
+                <Label
                   htmlFor={`signup-${field.name}`}
                   className='capitalize'
                 >
                   {field?.label || field?.name}
-                </label>
-                {["fullName", "email", "password", "dob"].includes(field.name)
-                  ? <label className='text-red-500 ml-2 '>*</label>
-                  : <></>
-                }
+                </Label>
 
-                <input
+                <Input
                   id={`signup-${field.name}`}
                   type={field.type}
-                  {...register(field.name, {
-                    required: ["fullName", "email", "password", "dob"].includes(field.name)
-                      ? `${field.name} is required`
-                      : false
-                  })}
+                  {...register(field.name, field?.rules || {})}
+                  className='no-number-arrows'
                 />
                 {errors[field.name] && (
-                  <div className="text-red-500">{errors[field.name]?.message}</div>
+                  <div className="text-xs text-red-500">{errors[field.name]?.message}</div>
                 )}
               </div>
             )
