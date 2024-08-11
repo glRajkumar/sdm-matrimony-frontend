@@ -1,15 +1,23 @@
-"use client";
-
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-
-import { LoginUser, setToken } from "@/actions";
-import useUserStore from "@/store/user";
-import { useToast } from "../ui/use-toast";
-import Approval from "@/app/user/approval";
-import { useState } from "react";
+"use client"
+import Link from "next/link"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { SubmitHandler, useForm } from "react-hook-form"
+import useUserStore from "@/store/user"
+import { useToast } from "../ui/use-toast"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { useMutation } from "@tanstack/react-query"
+import { LoginUser, setToken } from "@/actions"
+import { Button } from "../ui/button"
+import ApprovalModal from "@/components/approval-modal"
 
 type FormFileds = {
   email: string;
@@ -24,11 +32,13 @@ function SignIn() {
   } = useForm<FormFileds>()
 
   const updateUser = useUserStore((state: any) => state.updateUser)
-  const { toast } = useToast()
+  const approval_status = useUserStore(state => state?.approvalStatus)
+
   const router = useRouter()
+  const { toast } = useToast()
+
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const user_approval = useUserStore(state => state?.approval_required)
 
   const { mutate } = useMutation({
     mutationFn: LoginUser,
@@ -38,9 +48,10 @@ function SignIn() {
         setToken(token)
         updateUser(rest)
         toast({
-          title: "Login Success",
-        })
-        user_approval !== "rejected" && router.push('/')
+          title: "Success",
+          description: "You have successfully logged in.",
+        });
+        approval_status !== "rejected" && router.push('/')
         setIsAuthenticated(true);
         setShowModal(true);
       } else {
@@ -49,8 +60,9 @@ function SignIn() {
     },
     onError() {
       toast({
-        title: "login error",
-      })
+        title: "Error",
+        description: "Error While logged in.",
+      });
     }
   })
 
@@ -58,90 +70,90 @@ function SignIn() {
 
   return (
     <section className="min-h-screen flex items-center justify-center mx-4 md:mx-0">
-      <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5">
-        <div className="px-16">
-          <h1 className="text-[18px] sm:text-xl text-[#4F6F52] font-bold py-5">
-            Login
-          </h1>
 
-          <div className="flex flex-col gap-4">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                type="email"
-                className="p-2 border h-8 border-gray-300 min-w-[200px] mb-4"
-                {...register("email", {
-                  required: "email is required",
-                  validate: (value) => {
-                    if (!value.includes("@")) {
-                      return "must be include @ charector";
-                    }
-                    return true;
-                  },
-                })}
-              />
+      <form onSubmit={handleSubmit(onSubmit)}>
 
-              {errors.email && (
-                <div className="text-red-500">{errors.email.message}</div>
-              )}
+        <Card className="mx-auto max-w-sm">
 
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                className="p-2 border h-8 border-gray-300 min-w-[200px] mb-4"
-                {...register("password", {
-                  required: "password is required",
-                  minLength: {
-                    value: 6,
-                    message: "password must be 8 charecters",
-                  },
-                })}
-              />
+          <CardHeader>
+            <CardTitle className="text-2xl font-semibold">Login</CardTitle>
+            <CardDescription>
+              Enter your email below to login to your account
+            </CardDescription>
+          </CardHeader>
 
-              {errors.password && (
-                <div className="text-red-500">{errors.password.message}</div>
-              )}
-
-              <div className="my-2 flex justify-center items-center">
-                <button className="bg-[#4F6F52] text-white py-1 px-4 text-[13px] sm:text-[15px]">
-                  {isSubmitting ? "Loading..." : "Login"}
-                </button>
+          <CardContent>
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="ruby@gmail.com"
+                  required
+                  // className="p-2 border h-8 border-gray-300 min-w-[200px] mb-4"
+                  {...register("email", {
+                    required: "email is required",
+                    validate: (value) => {
+                      if (!value.includes("@")) {
+                        return "must be include @ charector";
+                      }
+                      return true;
+                    },
+                  })}
+                />
+                {errors.email && (
+                  <div className="text-red-500">{errors.email.message}</div>
+                )}
               </div>
-            </form>
 
-            <div className="grid grid-cols-3 items-center text-gray-400">
-              <hr className="border-gray-400" />
-              <p className="text-center">or</p>
-              <hr className="border-gray-400" />
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                  {/* <Link href="#" className="ml-auto inline-block text-sm underline">
+                  Forgot your password?
+                </Link> */}
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  // className="p-2 border h-8 border-gray-300 min-w-[200px] mb-4"
+                  {...register("password", {
+                    required: "password is required",
+                    minLength: {
+                      value: 6,
+                      message: "password must be 8 charecters",
+                    },
+                  })}
+                  required
+                />
+              </div>
+
+              <Button className="w-full bg-[#4F6F52] text-white py-1 px-4 text-[13px] sm:text-[15px]">
+                {isSubmitting ? "Loading..." : "Login"}
+              </Button>
+
             </div>
 
-            <div className="flex flex-col items-center">
-              <p className="text-[#4F6F52] text-[14px] sm:text-[16px]">
-                You dont't have an account ?{" "}
-              </p>
-              <p className="text-blue-400">
-                <Link href={"/signup"}>Signup</Link>
-              </p>
+            <div className="mt-4 text-center text-sm">
+              Don&apos;t have an account?{" "}
+              <Link href={"/signup"} className="text-blue-600">
+                Sign up
+              </Link>
             </div>
-          </div>
-        </div>
 
-        {/* <div className="hidden sm:block w-1/2">
-          <img
-            className="rounded-2xl h-full"
-            src="https://antphotography.in/wp-content/uploads/2023/07/TIL03525-1024x682.jpg"
-          />
-        </div> */}
-      </div>
-      {isAuthenticated && user_approval === "rejected" && (
-        <Approval
+          </CardContent>
+        </Card>
+
+      </form>
+
+      {isAuthenticated && approval_status === "pending" && (
+        <ApprovalModal
           isOpen={showModal}
           onClose={() => setShowModal(false)} />
       )}
-    </section>
-  );
-}
 
-export default SignIn;
+    </section>
+  )
+}
+export default SignIn

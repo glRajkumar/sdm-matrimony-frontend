@@ -50,14 +50,14 @@ export const getMatches = (gender: string) =>
     url: `${endPoints.getMatches}/${gender}`,
   });
 
-export const getApproval = (userData: any) =>
+export const getPendingList = () =>
   sendApiReq({
-    url: `${endPoints.approvalRequest}/${userData?.id}`,
-    method: "PUT",
-    params: { userData },
+    url: endPoints.getPendingList,
   });
 
-export const getPendingUsers = () =>
+export const updateApproval = (userData: any) =>
   sendApiReq({
-    url: endPoints.getPendingUsers,
+    url: `${endPoints.updateApproval}/${userData?.id}`,
+    method: "PUT",
+    params: { userData },
   });

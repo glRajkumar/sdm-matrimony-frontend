@@ -23,6 +23,7 @@ function Navbar() {
   const user_email = useUserStore(state => state.email)
   const user_name = useUserStore(state => state.fullName)
   const user_id = useUserStore(state => state.id)
+  const user_role = useUserStore(state => state?.role)
 
   const { mutate } = useMutation({
     mutationFn: logout,
@@ -42,9 +43,11 @@ function Navbar() {
       <Link href="/" className="text-xl font-bold text-gray-800">
         Logo
       </Link>
-      <Link href="/pending-users" className="text-xl font-bold text-gray-800">
-        pending Users
-      </Link>
+      {user_role === "admin" &&
+        <Link href="/pending-users" className="text-xl font-bold text-gray-800">
+          pending Users
+        </Link>
+      }
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

@@ -7,7 +7,7 @@ export interface User {
   fullName: string;
   gender: string;
   role: string;
-  approval_required: string;
+  approvalStatus: string;
 }
 
 interface Actions {
@@ -22,7 +22,7 @@ const useUserStore = create(
       fullName: "",
       gender: "",
       role: "",
-      approval_required: "",
+      approvalStatus: "",
       updateUser: (payload) => set({ ...payload }),
     }),
     {
