@@ -45,9 +45,11 @@ export const imgUpload = (userData: any) =>
     data: { userData },
   });
 
-export const getMatches = (gender: string) =>
+export const getMatches = (userData: any) =>
   sendApiReq({
-    url: `${endPoints.getMatches}/${gender}`,
+    url: endPoints.getMatches,
+    method: "GET",
+    data: { userData },
   });
 
 export const getPendingList = () =>
