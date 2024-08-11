@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -12,13 +11,15 @@ import { useToast } from '../ui/use-toast';
 
 import { DatePicker } from '../common/date-picker';
 import SelectWrapper from '../ui/select';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 function Signup() {
-  const [selectedDate, setSelectedDate] = useState("")
-  const {
-    control, handleSubmit, register,
-    formState: { errors, isSubmitting }
-  } = useForm({ defaultValues: initialData })
+  const { control, handleSubmit, register, formState: { errors, isSubmitting } } = useForm({
+    defaultValues: {
+      ...initialData
+    }
+  })
 
   const { toast } = useToast()
   const router = useRouter()
@@ -26,25 +27,24 @@ function Signup() {
   const { mutate } = useMutation({
     mutationFn: signupUser,
     onSuccess: (data) => {
-      toast({
-        title: "Register Success",
-      })
+      toast({ title: "Register Success" })
       router.push('/signin')
     },
     onError(error) {
       console.log("err", error)
-      toast({
-        title: "register error",
-      })
+      toast({ title: "register error" })
     }
   })
 
   const onSubmit = (data: any) => {
+    console.log(data)
     let payload = {
       ...data,
-      dob: selectedDate
+      gender: data?.gender?.toLowerCase?.()
     }
-    mutate(payload)
+    console.log(typeof data?.gender)
+    console.log(payload)
+    // mutate(payload)
   }
 
   return (
@@ -62,12 +62,12 @@ function Signup() {
             if (field.type === "select") {
               return (
                 <div key={field.name}>
-                  <label
+                  <Label
                     htmlFor={`signup-${field.name}`}
                     className='capitalize'
                   >
                     {field?.label || field?.name}
-                  </label>
+                  </Label>
 
                   <Controller
                     name={field.name}
@@ -88,8 +88,16 @@ function Signup() {
             if (field?.name === "dob") {
               return (
                 <div key={field.name}>
-                  <label htmlFor="dob">Date of Birth</label>
-                  <DatePicker onDateSelect={(date: string) => setSelectedDate(date)} />
+                  <Label htmlFor="dob">Date of Birth</Label>
+                  <Controller
+                    name={field.name}
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <DatePicker
+                        onDateSelect={(date: string) => onChange(date)}
+                      />
+                    )}
+                  />
                 </div>
               )
             }
@@ -99,18 +107,14 @@ function Signup() {
                 key={field.name}
                 className='mb-4'
               >
-                <label
+                <Label
                   htmlFor={`signup-${field.name}`}
                   className='capitalize'
                 >
                   {field?.label || field?.name}
-                </label>
-                {["fullName", "email", "password", "dob"].includes(field.name)
-                  ? <label className='text-red-500 ml-2 '>*</label>
-                  : <></>
-                }
+                </Label>
 
-                <input
+                <Input
                   id={`signup-${field.name}`}
                   type={field.type}
                   {...register(field.name, {

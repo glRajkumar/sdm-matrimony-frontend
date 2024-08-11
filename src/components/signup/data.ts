@@ -56,7 +56,7 @@ export const fieldList: fields[] = [
     type: "text",
   },
   {
-    name: "Qualification",
+    name: "qualification",
     type: "text",
   },
   {
