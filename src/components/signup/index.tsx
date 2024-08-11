@@ -26,26 +26,16 @@ function Signup() {
 
   const { mutate } = useMutation({
     mutationFn: signupUser,
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({ title: "Register Success" })
       router.push('/signin')
     },
     onError(error) {
-      console.log("err", error)
       toast({ title: "register error" })
     }
   })
 
-  const onSubmit = (data: any) => {
-    console.log(data)
-    let payload = {
-      ...data,
-      gender: data?.gender?.toLowerCase?.()
-    }
-    console.log(typeof data?.gender)
-    console.log(payload)
-    // mutate(payload)
-  }
+  const onSubmit = (data: any) => mutate(data)
 
   return (
     <div className='dc p-4 h-screen overflow-hidden'>
@@ -61,7 +51,7 @@ function Signup() {
           fieldList.map(field => {
             if (field.type === "select") {
               return (
-                <div key={field.name}>
+                <div key={field.name} className='mb-4'>
                   <Label
                     htmlFor={`signup-${field.name}`}
                     className='capitalize'
@@ -72,32 +62,40 @@ function Signup() {
                   <Controller
                     name={field.name}
                     control={control}
+                    rules={field?.rules || {}}
                     render={({ field: { value, onChange } }) => (
                       <SelectWrapper
-                        value={value}
+                        value={value as string}
                         items={field.options}
                         onChange={onChange}
                         placeholder=''
                       />
                     )}
                   />
+                  {errors[field.name] && (
+                    <div className="text-xs text-red-500">{errors[field.name]?.message}</div>
+                  )}
                 </div>
               )
             }
 
             if (field?.name === "dob") {
               return (
-                <div key={field.name}>
-                  <Label htmlFor="dob">Date of Birth</Label>
+                <div key={field.name} className='mb-4'>
+                  <Label htmlFor="dob" className='block mb-1'>Date of Birth</Label>
                   <Controller
                     name={field.name}
                     control={control}
+                    rules={field?.rules || {}}
                     render={({ field: { onChange } }) => (
                       <DatePicker
                         onDateSelect={(date: string) => onChange(date)}
                       />
                     )}
                   />
+                  {errors[field.name] && (
+                    <div className="text-xs text-red-500">{errors[field.name]?.message}</div>
+                  )}
                 </div>
               )
             }
@@ -117,14 +115,11 @@ function Signup() {
                 <Input
                   id={`signup-${field.name}`}
                   type={field.type}
-                  {...register(field.name, {
-                    required: ["fullName", "email", "password", "dob"].includes(field.name)
-                      ? `${field.name} is required`
-                      : false
-                  })}
+                  {...register(field.name, field?.rules || {})}
+                  className='no-number-arrows'
                 />
                 {errors[field.name] && (
-                  <div className="text-red-500">{errors[field.name]?.message}</div>
+                  <div className="text-xs text-red-500">{errors[field.name]?.message}</div>
                 )}
               </div>
             )
