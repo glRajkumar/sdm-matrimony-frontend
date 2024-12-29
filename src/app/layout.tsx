@@ -6,13 +6,9 @@ import ClientWrapper from "@/components/common/client-wrapper";
 export const metadata: Metadata = {
   title: "SD Matrimony",
   description: "",
-};
+}
 
-type props = Readonly<{
-  children: React.ReactNode;
-}>
-
-function RootLayout({ children }: props) {
+function RootLayout({ children }: readOnlyChildren) {
   return (
     <html lang="en">
       <body>

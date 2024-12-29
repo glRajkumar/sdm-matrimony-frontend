@@ -1,65 +1,75 @@
-import endPoints from "@/utils/endPoints";
 import sendApiReq from "@/utils/sendApiReq";
+import endPoints from "@/utils/endPoints";
 
-export const signupUser = (data: any) =>
-  sendApiReq({
+export function signupUser(data: any) {
+  return sendApiReq({
     isAuthendicated: false,
     url: endPoints.register,
     method: "POST",
     data,
-  });
+  })
+}
 
-export const LoginUser = (data: any) =>
-  sendApiReq({
+export function LoginUser(data: any) {
+  return sendApiReq({
     isAuthendicated: false,
     url: endPoints.login,
     method: "POST",
     data,
-  });
+  })
+}
 
-export const me = () =>
-  sendApiReq({
+export function me() {
+  return sendApiReq({
     url: endPoints.me,
-  });
+  })
+}
 
-export const logout = () =>
-  sendApiReq({
+export function logout() {
+  return sendApiReq({
     url: endPoints.logout,
     method: "POST",
-  });
+  })
+}
 
-export const getUsers = () =>
-  sendApiReq({
+export function getUsers() {
+  return sendApiReq({
     url: endPoints.getUsers,
-  });
+  })
+}
 
-export const getUserDetails = (id: string) =>
-  sendApiReq({
+export function getUserDetails(id: string) {
+  return sendApiReq({
     url: `${endPoints.getUserDetails}/${id}`,
-  });
+  })
+}
 
-export const imgUpload = (userData: any) =>
-  sendApiReq({
+export function imgUpload(userData: any) {
+  return sendApiReq({
     url: endPoints.imgUpload,
     method: "POST",
     data: { userData },
-  });
+  })
+}
 
-export const getMatches = (userData: any) =>
-  sendApiReq({
+export function getMatches(userData: any) {
+  return sendApiReq({
     url: endPoints.getMatches,
     method: "GET",
     data: { userData },
-  });
+  })
+}
 
-export const getPendingList = () =>
-  sendApiReq({
+export function getPendingList() {
+  return sendApiReq({
     url: endPoints.getPendingList,
-  });
+  })
+}
 
-export const updateApproval = (userData: any) =>
-  sendApiReq({
+export function updateApproval(userData: any) {
+  return sendApiReq({
     url: `${endPoints.updateApproval}/${userData?.id}`,
     method: "PUT",
     params: { userData },
-  });
+  })
+}
