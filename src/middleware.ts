@@ -5,7 +5,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get('sdm')?.value
 
-  const publicPaths = ['/signin', '/signup']
+  const publicPaths = ['/signin', '/signup', "/forgot-pass", "/reset-pass"]
 
   if (publicPaths.includes(pathname)) {
     return NextResponse.next()
