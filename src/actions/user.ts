@@ -1,7 +1,7 @@
 import sendApiReq from "@/utils/sendApiReq";
 import endPoints from "@/utils/endPoints";
 
-export function signupUser(data: any) {
+export function signup(data: any) {
   return sendApiReq({
     isAuthendicated: false,
     url: endPoints.register,
@@ -10,7 +10,7 @@ export function signupUser(data: any) {
   })
 }
 
-export function LoginUser(data: any) {
+export function login(data: any) {
   return sendApiReq({
     isAuthendicated: false,
     url: endPoints.login,
@@ -19,9 +19,19 @@ export function LoginUser(data: any) {
   })
 }
 
-export function me() {
+export function forgotPass(data: any) {
   return sendApiReq({
-    url: endPoints.me,
+    method: "post",
+    url: endPoints.forgotPass,
+    data,
+  })
+}
+
+export function resetPass(data: any) {
+  return sendApiReq({
+    method: "post",
+    url: endPoints.resetPass,
+    data,
   })
 }
 
@@ -29,6 +39,12 @@ export function logout() {
   return sendApiReq({
     url: endPoints.logout,
     method: "POST",
+  })
+}
+
+export function me() {
+  return sendApiReq({
+    url: endPoints.me,
   })
 }
 

@@ -1,15 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
+
+import { useResetPass } from "@/hooks/use-user";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 type FormValues = {
+  email: string
   password: string
+  otp: string
 }
 
 function Page() {
@@ -17,20 +21,42 @@ function Page() {
 
   const { register, formState: { errors }, handleSubmit } = useForm<FormValues>({
     defaultValues: {
+      email: "",
       password: "",
+      otp: "",
     },
   })
 
-  const onSubmit = (data: FormValues) => {
+  const { isPending, mutate } = useResetPass()
 
-  }
-
-  const isPending = false
+  const onSubmit = (data: FormValues) => mutate(data)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-4">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="email">Email</Label>
+
+        <Input
+          id="email"
+          type="email"
+          placeholder="you@example.com"
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: "Email is invalid",
+            },
+          })}
+        />
+        {
+          errors.email &&
+          <p className="text-xs text-red-400">{errors.email.message}</p>
+        }
+      </div>
+
+      <div className="mb-4">
+        <Label htmlFor="password">New Password</Label>
+
         <div className="relative">
           <Input
             id="password"
@@ -59,12 +85,32 @@ function Page() {
         }
       </div>
 
+      <div className="mb-8">
+        <Label htmlFor="otp">OTP</Label>
+
+        <Input
+          id="otp"
+          type="number"
+          className="no-number-arrows"
+          {...register("otp", {
+            valueAsNumber: true,
+            required: "OTP is required",
+          })}
+        />
+        {
+          errors.otp &&
+          <p className="text-xs text-red-400">{errors.otp.message}</p>
+        }
+      </div>
+
       <Button
         type="submit"
-        className="w-full bg-pink-500 hover:bg-pink-600"
         disabled={isPending}
+        className="w-full bg-pink-500 hover:bg-pink-600"
       >
-        {isPending ? 'Submiting...' : 'Confirm'}
+        {isPending && <Loader className="animate-spin" />}
+
+        Confirm
       </Button>
     </form>
   )

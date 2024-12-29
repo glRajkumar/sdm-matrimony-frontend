@@ -167,12 +167,3 @@ export const fieldList: fields[] = [
     type: "text",
   },
 ];
-
-type InitialFields = {
-  [K in (typeof fieldList)[number]["name"]]: string | number;
-};
-
-export const initialData: InitialFields = fieldList.reduce((prev, curr) => {
-  prev[curr.name as keyof InitialFields] = curr.rules?.valueAsNumber ? 0 : "";
-  return prev;
-}, {} as InitialFields);

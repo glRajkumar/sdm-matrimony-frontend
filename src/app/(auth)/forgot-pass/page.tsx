@@ -1,6 +1,9 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { Loader } from "lucide-react";
+
+import { useForgotPass } from "@/hooks/use-user";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -17,11 +20,9 @@ function Page() {
     },
   })
 
-  const onSubmit = (data: FormValues) => {
+  const { isPending, mutate } = useForgotPass()
 
-  }
-
-  const isPending = false
+  const onSubmit = (data: FormValues) => mutate(data)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -45,10 +46,11 @@ function Page() {
 
       <Button
         type="submit"
-        className="w-full bg-pink-500 hover:bg-pink-600"
         disabled={isPending}
+        className="w-full bg-pink-500 hover:bg-pink-600"
       >
-        {isPending ? 'Submiting...' : 'Submit'}
+        {isPending && <Loader className="animate-spin" />}
+        Submit
       </Button>
     </form>
   )

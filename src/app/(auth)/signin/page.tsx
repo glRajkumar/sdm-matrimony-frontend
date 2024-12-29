@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
+
+import { useLogin } from "@/hooks/use-user";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,16 +25,15 @@ function Page() {
     },
   })
 
-  const onSubmit = (data: FormFileds) => {
+  const { isPending, mutate } = useLogin()
 
-  }
+  const onSubmit = (data: FormFileds) => mutate(data)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-4">
-        <Label htmlFor="email">
-          Email
-        </Label>
+        <Label htmlFor="email">Email</Label>
+
         <Input
           id="email"
           type="email"
@@ -52,9 +53,8 @@ function Page() {
       </div>
 
       <div className="mb-6">
-        <Label htmlFor="password">
-          Password
-        </Label>
+        <Label htmlFor="password">Password</Label>
+
         <div className="relative">
           <Input
             id="password"
@@ -86,8 +86,10 @@ function Page() {
 
       <Button
         type="submit"
+        disabled={isPending}
         className="w-full bg-pink-500 hover:bg-pink-600"
       >
+        {isPending && <Loader className="animate-spin" />}
         Sign In
       </Button>
     </form>

@@ -1,18 +1,21 @@
 export const root = {
-  baseUrl: `http://localhost:5000`,
+  baseUrl: `http://localhost:5000/api`,
 };
 
 const endPoints = {
-  register: "/users/register",
-  login: "/users/login",
-  me: "/users/me",
-  logout: "/users/logout",
-  getUsers: "/users/getusers",
+  register: "/user/register",
+  login: "/user/login",
+  forgotPass: "/user/forgot-pass",
+  resetPass: "/user/reset-pass",
+  logout: "/user/logout",
+
+  me: "/user/me",
+  getUsers: "/user/getusers",
   getUserDetails: "/users",
-  imgUpload: "/users/imgupload",
-  getMatches: "/users/matches",
-  getPendingList: "/users/pending-user-list",
-  updateApproval: "/users/approval",
+  imgUpload: "/user/imgupload",
+  getMatches: "/user/matches",
+  getPendingList: "/user/pending-user-list",
+  updateApproval: "/user/approval",
 };
 
 export default endPoints;

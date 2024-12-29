@@ -1,7 +1,10 @@
 "use client";
 
 import { Controller, useForm } from 'react-hook-form';
+import { Loader } from 'lucide-react';
+import { format } from 'date-fns';
 
+import { useSignup } from '@/hooks/use-user';
 import { fieldList } from './data';
 
 import {
@@ -19,8 +22,21 @@ import { Input } from '@/components/ui/input';
 function Page() {
   const { control, handleSubmit, register, formState: { errors } } = useForm<any>()
 
-  const onSubmit = (data: any) => {
+  const { isPending, mutate } = useSignup()
 
+  const onSubmit = (data: any) => {
+    const payload = {
+      ...data,
+      dob: format(data?.dob, "dd-MM-yyyy")
+    }
+    const filtered = Object.keys(payload).reduce((prev: any, curr: string) => {
+      if (payload[curr]) {
+        prev[curr] = payload[curr]
+      }
+      return prev
+    }, {})
+
+    mutate(filtered)
   }
 
   return (
@@ -122,6 +138,7 @@ function Page() {
         type="submit"
         className="mt-6 w-full bg-pink-500 hover:bg-pink-600"
       >
+        {isPending && <Loader className="animate-spin" />}
         Sign Up
       </Button>
     </form>
