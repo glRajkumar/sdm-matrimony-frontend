@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DatePicker } from '@/components/common/date-picker';
+import { DatePicker } from '@/components/ui/date-picker';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -24,8 +24,8 @@ function Page() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className='grid md:grid-cols-2 gap-4 -mr-8 pr-8 pb-4 max-h-[50vh] overflow-y-auto'>
+    <form onSubmit={handleSubmit(onSubmit)} id='signup-form'>
+      <div className='grid md:grid-cols-2 gap-4 -mr-8 pl-1 pr-8 pb-4 max-h-[50vh] overflow-y-auto'>
         {
           fieldList.map(field => {
             if (field.type === "select") {
@@ -71,14 +71,16 @@ function Page() {
             if (field?.name === "dob") {
               return (
                 <div key={field.name}>
-                  <Label htmlFor="dob" className='block mb-1'>Date of Birth</Label>
+                  <Label htmlFor="dob">Date of Birth</Label>
                   <Controller
                     name={field.name}
                     control={control}
                     rules={field?.rules || {}}
-                    render={({ field: { onChange } }) => (
+                    render={({ field: { value, onChange } }) => (
                       <DatePicker
-                        onDateSelect={(date: string) => onChange(date)}
+                        selected={value}
+                        onChange={onChange}
+                        calendarProps={{ mode: "single" }}
                       />
                     )}
                   />

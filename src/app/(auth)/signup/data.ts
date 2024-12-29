@@ -68,10 +68,12 @@ export const fieldList: fields[] = [
   {
     name: "qualification",
     type: "text",
+    rules: { required: "Qualification is required" },
   },
   {
     name: "work",
     type: "text",
+    rules: { required: "Work is required" },
   },
   {
     name: "salary",
