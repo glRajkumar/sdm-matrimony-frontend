@@ -42,6 +42,7 @@ export function useLogin() {
       toast('Login failed', {
         description: error.message
       })
+      router.replace("/un-auth")
     },
   })
 }

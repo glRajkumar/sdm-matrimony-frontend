@@ -1,5 +1,5 @@
 import React from 'react'
-import SelectWrapper from '../ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 
 interface props {
   filterData: any,
@@ -51,62 +51,111 @@ function Filter({ filterData, setFilterData }: props) {
       {/* Filters */}
       <div className="flex justify-between gap-2">
 
-        <SelectWrapper
-          contentCls="text-black"
+        <Select
           value={filterData?.gender}
-          items={genderOptions}
-          onChange={(val) => {
+          onValueChange={(val: any) => {
             setFilterData((pre: any) => ({
               ...pre,
               gender: val
             }))
           }}
-          placeholder='Select a Gender'
-        />
-        <SelectWrapper
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a Gender" />
+          </SelectTrigger>
+          <SelectContent>
+            {genderOptions?.map((option: any) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select
           value={filterData?.marriedStatus}
-          items={marriedOptions}
-          onChange={(val) => {
+          onValueChange={(val: any) => {
             setFilterData((pre: any) => ({
               ...pre,
               marriedStatus: val
             }))
           }}
-          placeholder='Select a MarriedStatus'
-        />
-        <SelectWrapper
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a MarriedStatus" />
+          </SelectTrigger>
+          <SelectContent>
+            {marriedOptions?.map((option: any) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select
           value={filterData?.age}
-          items={ageOptions}
-          onChange={(val) => {
+          onValueChange={(val: any) => {
             setFilterData((pre: any) => ({
               ...pre,
               age: val
             }))
           }}
-          placeholder='Select a Age'
-        />
-        <SelectWrapper
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a Age" />
+          </SelectTrigger>
+          <SelectContent>
+            {ageOptions?.map((option: any) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select
           value={filterData?.salrayRange}
-          items={salaryRanges}
-          onChange={(val) => {
+          onValueChange={(val: any) => {
             setFilterData((pre: any) => ({
               ...pre,
               salrayRange: val
             }))
           }}
-          placeholder='Select a salrayRange'
-        />
-        <SelectWrapper
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a salrayRange" />
+          </SelectTrigger>
+          <SelectContent>
+            {salaryRanges?.map((option: any) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select
           value={filterData?.rasi}
-          items={RasiList}
-          onChange={(val) => {
+          onValueChange={(val: any) => {
             setFilterData((pre: any) => ({
               ...pre,
               rasi: val
             }))
           }}
-          placeholder='Select a Rasi'
-        />
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a Rasi" />
+          </SelectTrigger>
+          <SelectContent>
+            {RasiList?.map((option: any) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
       </div>
     </div>
   )
