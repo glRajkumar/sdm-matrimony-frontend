@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { forgotPass, login, resetPass, signup, } from "@/actions/user";
+import { forgotPass, login, logout, resetPass, signup, } from "@/actions/user";
 import { removeToken, setToken } from "@/actions/token";
 import useUserStore from "@/store/user";
 
@@ -42,7 +42,6 @@ export function useLogin() {
       toast('Login failed', {
         description: error.message
       })
-      router.replace("/un-auth")
     },
   })
 }
@@ -82,7 +81,7 @@ export function useLogout() {
   const router = useRouter()
 
   return useMutation({
-    mutationFn: async () => true,
+    mutationFn: logout,
     onSuccess() {
       removeToken()
       toast('Logged out successfully')

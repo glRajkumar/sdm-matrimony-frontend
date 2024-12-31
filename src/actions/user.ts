@@ -1,3 +1,5 @@
+"use client";
+
 import sendApiReq from "@/utils/sendApiReq";
 import endPoints from "@/utils/endPoints";
 
@@ -39,6 +41,7 @@ export function logout() {
   return sendApiReq({
     url: endPoints.logout,
     method: "POST",
+    data: {}
   })
 }
 

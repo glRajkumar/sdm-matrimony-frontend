@@ -1,4 +1,4 @@
-import { persist, createJSONStorage } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 import { create } from "zustand";
 
 export interface User {
@@ -7,29 +7,24 @@ export interface User {
   fullName: string;
   gender: string;
   role: string;
-  approvalStatus: string;
 }
 
 interface Actions {
   updateUser: (payload: User) => void;
 }
 
-const useUserStore = create(
-  persist<User & Actions>(
-    (set) => ({
-      id: "",
-      email: "",
-      fullName: "",
-      gender: "",
-      role: "",
-      approvalStatus: "",
-      updateUser: (payload) => set({ ...payload }),
-    }),
-    {
-      name: "user-storage",
-      storage: createJSONStorage(() => localStorage),
-    }
-  )
-);
+const useUserStore = create<User & Actions>()(persist(set => ({
+  id: "",
+  email: "",
+  fullName: "",
+  gender: "",
+  role: "",
+
+  updateUser: (payload) => set({ ...payload }),
+}),
+  {
+    name: "user-storage",
+  }
+))
 
 export default useUserStore;

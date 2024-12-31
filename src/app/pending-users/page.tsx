@@ -1,3 +1,5 @@
+"use client";
+
 import { getPendingList, updateApproval } from '@/actions'
 import { Button } from '@/components/ui/button'
 import useUserStore from '@/store/user'

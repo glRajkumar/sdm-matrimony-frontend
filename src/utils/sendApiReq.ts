@@ -1,10 +1,9 @@
+"use client";
+
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import Cookies from 'js-cookie';
 
+import { getToken } from "@/actions";
 import { root } from './endPoints';
-
-const token = Cookies.get('sdm')
-console.log("token", token)
 
 type SendApiReqParams = AxiosRequestConfig & {
   isAuthendicated?: boolean;
@@ -16,8 +15,8 @@ type CustomError = Error & { status?: number };
 const requestIntercepter = (instance: AxiosInstance, isAuthendicated: boolean, headers: AxiosRequestConfig["headers"]): void => {
   instance.interceptors.request.use(
     function (config: any) {
-      console.log("tokentokentoken", token)
       if (isAuthendicated) {
+        const token = getToken()
         config.headers = {
           Authorization: "Bearer " + token,
           ...headers
