@@ -5,7 +5,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get('sdm')?.value
 
-  const publicPaths = ['/signin', '/signup', "/forgot-pass", "/reset-pass"]
+  const publicPaths = ['/signin', '/signup', "/forgot-pass", "/reset-pass", "/pending", "/rejected"]
 
   if (publicPaths.includes(pathname)) {
     return NextResponse.next()
@@ -23,6 +23,10 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/signin', request.url))
     }
 
+    if (payload.role === "user" && payload.approvalStatus !== "approved") {
+      return NextResponse.redirect(new URL(`/${payload.approvalStatus}`, request.url))
+    }
+
     if (pathname === "/") {
       return NextResponse.redirect(new URL(`/${payload.role}`, request.url))
     }
@@ -30,11 +34,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
 
   } catch (error) {
-    console.log(error)
     return NextResponse.redirect(new URL('/signin', request.url))
   }
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|signin|signup).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }
