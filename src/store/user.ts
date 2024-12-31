@@ -2,7 +2,7 @@ import { persist } from "zustand/middleware";
 import { create } from "zustand";
 
 export interface User {
-  id: string;
+  _id: string;
   email: string;
   fullName: string;
   gender: string;
@@ -14,7 +14,7 @@ interface Actions {
 }
 
 const useUserStore = create<User & Actions>()(persist(set => ({
-  id: "",
+  _id: "",
   email: "",
   fullName: "",
   gender: "",

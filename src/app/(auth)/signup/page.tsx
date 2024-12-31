@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Loader } from 'lucide-react';
 import { format } from 'date-fns';
 
-import { useSignup } from '@/hooks/use-user';
+import { useSignup } from '@/hooks/use-account';
 import { fieldList } from './data';
 
 import {

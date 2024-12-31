@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { Loader } from "lucide-react";
 
-import { useForgotPass } from "@/hooks/use-user";
+import { useForgotPass } from "@/hooks/use-account";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";

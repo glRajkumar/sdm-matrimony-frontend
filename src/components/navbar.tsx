@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { useLogout } from '@/hooks/use-user';
+import { useLogout } from '@/hooks/use-account';
 import useUserStore from '@/store/user';
 
 import {
@@ -16,7 +16,7 @@ import {
 
 function Navbar() {
   const userName = useUserStore(s => s.fullName)
-  const user_id = useUserStore(s => s.id)
+  const user_id = useUserStore(s => s._id)
   const email = useUserStore(s => s.email)
 
   const { mutate } = useLogout()

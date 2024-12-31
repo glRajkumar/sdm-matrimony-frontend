@@ -3,13 +3,13 @@ export const root = {
 };
 
 const endPoints = {
-  register: "/user/register",
-  login: "/user/login",
-  forgotPass: "/user/forgot-pass",
-  resetPass: "/user/reset-pass",
-  logout: "/user/logout",
+  register: "/account/register",
+  login: "/account/login",
+  forgotPass: "/account/forgot-pass",
+  resetPass: "/account/reset-pass",
+  logout: "/account/logout",
+  me: "/account/me",
 
-  me: "/user/me",
   getUsers: "/user/getusers",
   getUserDetails: "/users",
   imgUpload: "/user/imgupload",

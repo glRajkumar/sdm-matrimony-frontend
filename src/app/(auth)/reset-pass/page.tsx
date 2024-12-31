@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Eye, EyeOff, Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 
-import { useResetPass } from "@/hooks/use-user";
+import { useResetPass } from "@/hooks/use-account";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
