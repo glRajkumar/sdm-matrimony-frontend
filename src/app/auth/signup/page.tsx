@@ -1,8 +1,8 @@
 "use client";
 
 import { Controller, useForm } from 'react-hook-form';
+import { formatISO } from 'date-fns';
 import { Loader } from 'lucide-react';
-import { format } from 'date-fns';
 
 import { useSignup } from '@/hooks/use-account';
 import { fieldList } from './data';
@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DatePicker } from '@/components/ui/date-picker';
+import { DateTimePicker } from '@/components/ui/date-time-picker';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -27,7 +27,7 @@ function Page() {
   const onSubmit = (data: any) => {
     const payload = {
       ...data,
-      dob: format(data?.dob, "dd-MM-yyyy"),
+      dob: formatISO(data?.dob),
       role: "user",
     }
     const filtered = Object.keys(payload).reduce((prev: any, curr: string) => {
@@ -94,10 +94,10 @@ function Page() {
                     control={control}
                     rules={field?.rules || {}}
                     render={({ field: { value, onChange } }) => (
-                      <DatePicker
-                        selected={value}
+                      <DateTimePicker
+                        value={value}
                         onChange={onChange}
-                        calendarProps={{ mode: "single" }}
+                        hourCycle={12}
                       />
                     )}
                   />
