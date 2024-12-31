@@ -27,7 +27,8 @@ function Page() {
   const onSubmit = (data: any) => {
     const payload = {
       ...data,
-      dob: format(data?.dob, "dd-MM-yyyy")
+      dob: format(data?.dob, "dd-MM-yyyy"),
+      role: "user",
     }
     const filtered = Object.keys(payload).reduce((prev: any, curr: string) => {
       if (payload[curr]) {

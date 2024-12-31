@@ -15,7 +15,11 @@ type FormFileds = {
   password: string;
 }
 
-function Page() {
+type props = {
+  role?: rolesT
+}
+
+function Page({ role = "user" }: props) {
   const [showPass, setShowPass] = useState(false)
 
   const { register, formState: { errors }, handleSubmit } = useForm<FormFileds>({
@@ -27,7 +31,7 @@ function Page() {
 
   const { isPending, mutate } = useLogin()
 
-  const onSubmit = (data: FormFileds) => mutate(data)
+  const onSubmit = (data: FormFileds) => mutate({ ...data, role })
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

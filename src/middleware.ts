@@ -18,7 +18,8 @@ export async function middleware(request: NextRequest) {
     const { payload } = await jwtVerify(token, secret)
 
     if (typeof payload.exp === 'number' && Date.now() >= payload.exp * 1000) {
-      return NextResponse.redirect(new URL('/auth/signin', request.url))
+      const base = payload.role === "user" ? "/auth" : `/auth/${payload.role}`
+      return NextResponse.redirect(new URL(`${base}/signin`, request.url))
     }
 
     if (payload.role === "user" && payload.approvalStatus !== "approved") {
@@ -26,6 +27,10 @@ export async function middleware(request: NextRequest) {
     }
 
     if (pathname.startsWith("/admin") && payload.role !== "admin") {
+      return NextResponse.redirect(new URL(`/auth/unauthorized`, request.url))
+    }
+
+    if (pathname.startsWith("/broker") && payload.role !== "broker") {
       return NextResponse.redirect(new URL(`/auth/unauthorized`, request.url))
     }
 

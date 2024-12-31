@@ -13,7 +13,11 @@ type FormValues = {
   email: string
 }
 
-function Page() {
+type props = {
+  role?: rolesT
+}
+
+function Page({ role = "user" }: props) {
   const { register, formState: { errors }, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       email: "",
@@ -22,7 +26,7 @@ function Page() {
 
   const { isPending, mutate } = useForgotPass()
 
-  const onSubmit = (data: FormValues) => mutate(data)
+  const onSubmit = (data: FormValues) => mutate({ ...data, role })
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

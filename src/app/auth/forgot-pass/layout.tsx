@@ -3,7 +3,9 @@ import { HeartIcon } from 'lucide-react';
 
 import { CardDescription, CardTitle } from "@/components/ui/card";
 
-function Layout({ children }: readOnlyChildren) {
+function Layout({ children, role = "user" }: readOnlyChildren & { role?: rolesT }) {
+  const base = role === "user" ? "/auth" : `/auth/${role}`
+
   return (
     <>
       <div className="flex flex-col items-center space-y-2 mb-6">
@@ -17,7 +19,7 @@ function Layout({ children }: readOnlyChildren) {
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">
           Remember your password?{" "}
-          <Link className="font-medium text-pink-600 hover:underline" href="/auth/signin">
+          <Link className="font-medium text-pink-600 hover:underline" href={`${base}/signin`}>
             Sign in
           </Link>
         </p>

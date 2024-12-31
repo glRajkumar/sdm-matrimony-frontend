@@ -16,7 +16,11 @@ type FormValues = {
   otp: string
 }
 
-function Page() {
+type props = {
+  role?: rolesT
+}
+
+function Page({ role = "user" }: props) {
   const [showPass, setShowPass] = useState(false)
 
   const { register, formState: { errors }, handleSubmit } = useForm<FormValues>({
@@ -29,7 +33,7 @@ function Page() {
 
   const { isPending, mutate } = useResetPass()
 
-  const onSubmit = (data: FormValues) => mutate(data)
+  const onSubmit = (data: FormValues) => mutate({ ...data, role })
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
