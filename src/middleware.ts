@@ -5,7 +5,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get('sdm')?.value
 
-  const publicPaths = ['/signin', '/signup', "/forgot-pass", "/reset-pass", "/pending", "/rejected"]
+  const publicPaths = ['/signin', '/signup', "/forgot-pass", "/reset-pass", "/pending", "/rejected", "/unauthorized"]
 
   if (publicPaths.includes(pathname)) {
     return NextResponse.next()
@@ -25,6 +25,10 @@ export async function middleware(request: NextRequest) {
 
     if (payload.role === "user" && payload.approvalStatus !== "approved") {
       return NextResponse.redirect(new URL(`/${payload.approvalStatus}`, request.url))
+    }
+
+    if (pathname.startsWith("/admin") && payload.role !== "admin") {
+      return NextResponse.redirect(new URL(`/unauthorized`, request.url))
     }
 
     if (pathname === "/") {

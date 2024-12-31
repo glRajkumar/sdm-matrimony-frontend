@@ -58,7 +58,7 @@ function Page() {
         <div className="relative">
           <Input
             id="password"
-            type="password"
+            type={showPass ? "text" : "password"}
             className="pr-8"
             {...register("password", {
               required: "Password is required",

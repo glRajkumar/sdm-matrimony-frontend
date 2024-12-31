@@ -1,7 +1,7 @@
 import InfoCard from '@/components/info-card';
 
 function Page() {
-  return <InfoCard title='Your application has not been approved yet' />
+  return <InfoCard title="You don't have permission" />
 }
 
 export default Page
