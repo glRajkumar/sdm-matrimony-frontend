@@ -15,7 +15,7 @@ export function useSignup() {
     mutationFn: signup,
     onSuccess() {
       toast('Account created successfully')
-      router.push("/signin")
+      router.push("/auth/signin")
     },
     onError(error) {
       toast('Signup failed', {
@@ -67,7 +67,7 @@ export function useResetPass() {
     mutationFn: resetPass,
     onSuccess() {
       toast('Password reset successfully')
-      router.replace("/signin")
+      router.replace("/auth/signin")
     },
     onError(error) {
       toast('Password reset failed', {
@@ -85,7 +85,7 @@ export function useLogout() {
     onSuccess() {
       removeToken()
       toast('Logged out successfully')
-      router.replace("/signin")
+      router.replace("/auth/signin")
     },
     onError() {
       toast('Error on logging out')

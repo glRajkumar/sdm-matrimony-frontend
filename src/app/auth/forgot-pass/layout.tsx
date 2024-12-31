@@ -17,7 +17,7 @@ function Layout({ children }: readOnlyChildren) {
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">
           Remember your password?{" "}
-          <Link className="font-medium text-pink-600 hover:underline" href="/signin">
+          <Link className="font-medium text-pink-600 hover:underline" href="/auth/signin">
             Sign in
           </Link>
         </p>

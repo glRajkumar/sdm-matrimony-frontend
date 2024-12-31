@@ -5,14 +5,12 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get('sdm')?.value
 
-  const publicPaths = ['/signin', '/signup', "/forgot-pass", "/reset-pass", "/pending", "/rejected", "/unauthorized"]
-
-  if (publicPaths.includes(pathname)) {
+  if (pathname.startsWith("/auth")) {
     return NextResponse.next()
   }
 
   if (!token) {
-    return NextResponse.redirect(new URL('/signin', request.url))
+    return NextResponse.redirect(new URL('/auth/signin', request.url))
   }
 
   try {
@@ -20,15 +18,15 @@ export async function middleware(request: NextRequest) {
     const { payload } = await jwtVerify(token, secret)
 
     if (typeof payload.exp === 'number' && Date.now() >= payload.exp * 1000) {
-      return NextResponse.redirect(new URL('/signin', request.url))
+      return NextResponse.redirect(new URL('/auth/signin', request.url))
     }
 
     if (payload.role === "user" && payload.approvalStatus !== "approved") {
-      return NextResponse.redirect(new URL(`/${payload.approvalStatus}`, request.url))
+      return NextResponse.redirect(new URL(`/auth/${payload.approvalStatus}`, request.url))
     }
 
     if (pathname.startsWith("/admin") && payload.role !== "admin") {
-      return NextResponse.redirect(new URL(`/unauthorized`, request.url))
+      return NextResponse.redirect(new URL(`/auth/unauthorized`, request.url))
     }
 
     if (pathname === "/") {
@@ -38,7 +36,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
 
   } catch (error) {
-    return NextResponse.redirect(new URL('/signin', request.url))
+    return NextResponse.redirect(new URL('/auth/signin', request.url))
   }
 }
 
