@@ -14,8 +14,9 @@ const endPoints = {
   getUserDetails: "/users",
   imgUpload: "/user/imgupload",
   getMatches: "/user/matches",
-  getPendingList: "/user/pending-user-list",
-  updateApproval: "/user/approval",
+
+  getPendingList: "/admin/pending-user-list",
+  updateApproval: "/admin/approval",
 };
 
 export default endPoints;

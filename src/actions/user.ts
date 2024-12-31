@@ -78,17 +78,3 @@ export function getMatches(userData: any) {
     data: { userData },
   })
 }
-
-export function getPendingList() {
-  return sendApiReq({
-    url: endPoints.getPendingList,
-  })
-}
-
-export function updateApproval(userData: any) {
-  return sendApiReq({
-    url: `${endPoints.updateApproval}/${userData?.id}`,
-    method: "PUT",
-    params: { userData },
-  })
-}

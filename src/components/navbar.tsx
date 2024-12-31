@@ -13,17 +13,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 
 function Navbar() {
-  const email = useUserStore(state => state.email)
-  const userName = useUserStore(state => state.fullName)
-  const user_id = useUserStore(state => state.id)
+  const userName = useUserStore(s => s.fullName)
+  const user_id = useUserStore(s => s.id)
+  const email = useUserStore(s => s.email)
 
   const { mutate } = useLogout()
 
@@ -34,25 +28,15 @@ function Navbar() {
       </Link>
 
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-            <Avatar className="h-8 w-8">
-              <AvatarImage
-                src="https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt={userName}
-              />
-              <AvatarFallback>{userName}</AvatarFallback>
-            </Avatar>
-          </Button>
+        <DropdownMenuTrigger className="dc size-8 p-0 rounded-full uppercase bg-primary text-primary-foreground hover:bg-primary/90">
+          {userName?.[0]}
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="w-56" align="end" forceMount>
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">{userName}</p>
-              <p className="text-xs leading-none text-muted-foreground">
-                {email}
-              </p>
+        <DropdownMenuContent className='w-40' align="end">
+          <DropdownMenuLabel asChild>
+            <div>
+              <p className="mb-1 text-sm font-medium leading-none">{userName}</p>
+              <p className="text-xs leading-none text-muted-foreground">{email}</p>
             </div>
           </DropdownMenuLabel>
 
@@ -64,12 +48,7 @@ function Navbar() {
             </Link>
           </DropdownMenuItem>
 
-          <DropdownMenuSeparator />
-
-          <DropdownMenuItem
-            className="text-red-600"
-            onClick={() => mutate()}
-          >
+          <DropdownMenuItem onClick={() => mutate()}>
             Log out
           </DropdownMenuItem>
         </DropdownMenuContent>
