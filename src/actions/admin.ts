@@ -6,6 +6,10 @@ import endPoints from "@/utils/endPoints";
 export function getPendingList() {
   return sendApiReq({
     url: endPoints.getPendingList,
+    params: {
+      limit: 50,
+      approvalStatus: ["pending", "approved"].toString(),
+    }
   })
 }
 

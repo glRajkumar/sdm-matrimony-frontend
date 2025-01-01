@@ -5,7 +5,7 @@ import { getPendingList, updateApproval } from "@/actions";
 import { toast } from "sonner";
 
 export function usePendingList() {
-  return useQuery({
+  return useQuery<pendingUsersListT[]>({
     queryKey: ["pending-user-list"],
     queryFn: getPendingList,
   })
