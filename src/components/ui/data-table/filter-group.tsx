@@ -1,7 +1,5 @@
 import { useState } from "react";
-
-import { AiOutlinePlus } from "react-icons/ai";
-import { MdRefresh } from "react-icons/md";
+import { CirclePlus, RotateCw } from "lucide-react";
 import { Table } from "@tanstack/react-table";
 
 import {
@@ -12,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { ColumnFilter } from "./column-filter";
+import { Button } from "../button";
 
 interface FilterGroupProps<TData> {
   table: Table<TData>
@@ -44,9 +43,11 @@ export function FilterGroup<TData>({ table, options }: FilterGroupProps<TData>) 
       }
 
       <DropdownMenu>
-        <DropdownMenuTrigger className="df gap-1 px-2.5 py-[7px] text-xs font-medium border border-dashed border-[#DDDDDD] text-theme-icon hover:border-solid hover:shadow-elevate">
-          <AiOutlinePlus className="text-lg leading-3" />
-          <span>Filter</span>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">
+            <CirclePlus className="size-4" />
+            <span>Filter</span>
+          </Button>
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="start" className="px-0">
@@ -68,12 +69,13 @@ export function FilterGroup<TData>({ table, options }: FilterGroupProps<TData>) 
 
       {
         isFiltered &&
-        <button
-          className="p-2 text-sm border border-dashed border-[#DDDDDD] text-theme-icon hover:border-solid hover:shadow-elevate rotate-90"
+        <Button
+          size="icon"
+          variant="outline"
           onClick={() => table.resetColumnFilters()}
         >
-          <MdRefresh />
-        </button>
+          <RotateCw className=" size-4" />
+        </Button>
       }
     </>
   )

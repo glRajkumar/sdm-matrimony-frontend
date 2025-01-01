@@ -1,8 +1,10 @@
 "use client";
 
 import { useApprovalMutate, usePendingList } from '@/hooks/use-admin';
-import { DataTable, useTable } from "@/components/ui/data-table";
+import { ColumnToggle, DataTable, FilterGroup, Pagination, useTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
+import { Input } from '@/components/ui/input';
+import { ColumnFacetedFilter } from '@/components/ui/data-table/column-faceted-filter';
 
 function PendingUsers() {
   const { data: users } = usePendingList()
@@ -13,12 +15,48 @@ function PendingUsers() {
 
   return (
     <section className="h-[calc(100vh-3rem)] px-2 sm:px-4 py-8 overflow-y-auto">
-      {
-        users &&
-        <DataTable
-          table={table}
+      <div className='df'>
+        <Input
+          className='w-60'
+          value={table.getState().globalFilter}
+          onChange={e => table.setGlobalFilter(e.target.value)}
         />
-      }
+
+        <FilterGroup
+          table={table}
+          options={[
+            {
+              key: "fullName",
+              lable: "FullName",
+              options: ["raj", "ClintonCunningham"]
+            }
+          ]}
+        />
+
+        <ColumnFacetedFilter
+          column={table.getColumn("gender")}
+          title="gender"
+          options={[
+            {
+              label: "male",
+              value: "male",
+            },
+            {
+              label: "female",
+              value: "female",
+            },
+          ]}
+        />
+
+        <ColumnToggle table={table} />
+      </div>
+
+      <DataTable
+        table={table}
+        className='my-4'
+      />
+
+      <Pagination table={table} />
 
       {/* <div className='flex items-center gap-2'>
           <Button

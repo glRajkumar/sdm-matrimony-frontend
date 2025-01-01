@@ -21,10 +21,7 @@ export function ColumnToggle<TData>({ table }: ColumnToggleProps<TData>) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-        >
+        <Button variant="outline">
           <RxMixerHorizontal className="h-4 w-4" />
           View
         </Button>

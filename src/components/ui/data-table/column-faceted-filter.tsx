@@ -43,8 +43,8 @@ export function ColumnFacetedFilter<TData, TValue>({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 border-dashed">
-          <PlusCircle />
+        <Button variant="outline">
+          <PlusCircle className="size-4" />
           {title}
           {selectedValues?.size > 0 && (
             <>

@@ -110,19 +110,9 @@ export function ColumnFilter<TData, TValue>({
 
             <CommandSeparator />
 
-            <div className="df justify-between px-4 py-1">
-              <Button
-                variant="ghost"
-                className="p-0 text-xs hover:bg-transparent text-theme-icon hover:text-theme-grey"
-                onClick={remove}
-              >
-                Remove
-              </Button>
-
-              <Button className="h-8 px-2.5 text-xs rounded-sm">
-                Apply
-              </Button>
-            </div>
+            <CommandItem onSelect={remove} className="justify-center py-2">
+              Remove Filter
+            </CommandItem>
           </CommandList>
         </Command>
       </PopoverContent>
