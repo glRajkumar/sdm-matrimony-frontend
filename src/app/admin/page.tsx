@@ -1,11 +1,13 @@
 "use client";
 
 import { useApprovalMutate, usePendingList } from '@/hooks/use-admin';
-import { DataTable } from "@/components/ui/data-table";
+import { DataTable, useTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
 
 function PendingUsers() {
   const { data: users } = usePendingList()
+
+  const table = useTable({ data: users || [], columns })
 
   const { mutate } = useApprovalMutate()
 
@@ -14,14 +16,7 @@ function PendingUsers() {
       {
         users &&
         <DataTable
-          data={users}
-          columns={columns}
-          filters={[
-            {
-              key: "gender",
-              lable: "Gender",
-            },
-          ]}
+          table={table}
         />
       }
 

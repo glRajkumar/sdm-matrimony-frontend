@@ -25,10 +25,11 @@ export function ColumnToggle<TData>({ table }: ColumnToggleProps<TData>) {
           variant="outline"
           size="sm"
         >
-          <RxMixerHorizontal className="mr-2 h-4 w-4" />
+          <RxMixerHorizontal className="h-4 w-4" />
           View
         </Button>
       </DropdownMenuTrigger>
+
       <DropdownMenuContent align="end" className="w-[150px]">
         <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
