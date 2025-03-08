@@ -48,10 +48,15 @@ export function useLogin() {
 }
 
 export function useForgotPass() {
+  const router = useRouter()
+
   return useMutation({
     mutationFn: forgotPass,
-    onSuccess() {
+    onSuccess(res, variables) {
+      const base = variables?.role === "user" ? "/auth" : `/auth/${variables?.role}`
       toast('Check your email')
+      console.log(`${base}/forgot-pass`)
+      router.replace(`${base}/reset-pass`)
     },
     onError(error) {
       toast('Failed to send password reset link', {
