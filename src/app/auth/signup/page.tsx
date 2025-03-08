@@ -21,14 +21,7 @@ function Page() {
       dob: formatISO(data?.dob),
       role: "user",
     }
-    const filtered = Object.keys(payload).reduce((prev: any, curr: string) => {
-      if (payload[curr]) {
-        prev[curr] = payload[curr]
-      }
-      return prev
-    }, {})
-
-    mutate(filtered)
+    mutate(payload)
   }
 
   return (
@@ -37,7 +30,7 @@ function Page() {
         <div className='-mr-8 pl-1 pr-8 pb-4 max-h-[50vh] overflow-y-auto'>
           {
             fieldList.map(field => (
-              <div key={field.lable} className='mb-4'>
+              <div key={field.lable} className='mb-8'>
                 <h4 className="text-sm font-semibold text-gray-400">
                   {field.lable}
                 </h4>

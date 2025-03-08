@@ -25,6 +25,12 @@ type FieldListType = {
   list: fields[]
 };
 
+const maritalStatus = [
+  { label: "Single", value: "Single" },
+  { label: "Divorced", value: "Divorced" },
+  { label: "Widowed", value: "Widowed" },
+]
+
 export const fieldList: FieldListType[] = [
   {
     lable: "Account Details",
@@ -66,9 +72,9 @@ export const fieldList: FieldListType[] = [
         name: "gender",
         type: "select",
         options: [
-          { label: "Male", value: "male" },
-          { label: "Female", value: "female" },
-          { label: "Other", value: "other" }
+          { label: "Male", value: "Male" },
+          { label: "Female", value: "Female" },
+          { label: "Other", value: "Other" }
         ],
         rules: { required: "Gender is required" },
       },
@@ -79,26 +85,26 @@ export const fieldList: FieldListType[] = [
         rules: { required: "Date of Birth is required" },
       },
       {
-        name: "height",
-        type: "number",
-        rules: { valueAsNumber: true },
-      },
-      {
-        name: "color",
-        type: "text",
-      },
+        name: "maritalStatus",
+        type: "select",
+        label: "Marital Status",
+        options: maritalStatus,
+        rules: { required: "Marital Status is required" },
+      }
     ]
   },
   {
     lable: "Contact Details",
     list: [
       {
-        name: "mobile",
+        name: "contactDetails.mobile",
         type: "number",
+        label: "Mobile Number",
       },
       {
-        name: "address",
+        name: "contactDetails.address",
         type: "text",
+        label: "Address",
       },
     ]
   },
@@ -106,17 +112,19 @@ export const fieldList: FieldListType[] = [
     lable: "Professional Details",
     list: [
       {
-        name: "qualification",
+        name: "proffessionalDetails.qualification",
         type: "text",
+        label: "Qualification",
         rules: { required: "Qualification is required" },
       },
       {
-        name: "work",
+        name: "proffessionalDetails.work",
         type: "text",
+        label: "Work",
         rules: { required: "Work is required" },
       },
       {
-        name: "salary",
+        name: "proffessionalDetails.salary",
         type: "number",
         label: "Salary per Month (in ₹)",
         rules: {
@@ -134,31 +142,31 @@ export const fieldList: FieldListType[] = [
     lable: "Family Details",
     list: [
       {
-        name: "fatherName",
+        name: "familyDetails.fatherName",
         type: "text",
         label: "Father's Name",
         rules: { required: "Father's Name is required" },
       },
       {
-        name: "motherName",
+        name: "familyDetails.motherName",
         type: "text",
         label: "Mother's Name",
         rules: { required: "Mother's Name is required" },
       },
       {
-        name: "noOfBrothers",
+        name: "familyDetails.noOfBrothers",
         type: "number",
         label: "Number Of Brothers",
         rules: { valueAsNumber: true },
       },
       {
-        name: "noOfSisters",
+        name: "familyDetails.noOfSisters",
         type: "number",
         label: "Number Of Sisters",
         rules: { valueAsNumber: true },
       },
       {
-        name: "birthOrder",
+        name: "familyDetails.birthOrder",
         type: "number",
         label: "Birth Order",
         rules: { valueAsNumber: true },
@@ -169,31 +177,34 @@ export const fieldList: FieldListType[] = [
     lable: "Horoscope Details",
     list: [
       {
-        name: "nakshatra",
+        name: "vedicHoroscope.nakshatra",
+        label: "Nakshatra",
         type: "text",
       },
       {
-        name: "rasi",
+        name: "vedicHoroscope.rasi",
+        label: "Rasi",
         type: "text",
       },
       {
-        name: "lagna",
+        name: "vedicHoroscope.lagna",
+        label: "Lagna",
         type: "text",
       },
       {
-        name: "dashaPeriod",
-        type: "text",
+        name: "vedicHoroscope.dashaPeriod",
         label: "Dasha Period",
+        type: "text",
       },
       {
-        name: "placeOfBirth",
-        type: "text",
+        name: "vedicHoroscope.placeOfBirth",
         label: "Place of Birth",
+        type: "text",
       },
       {
-        name: "timeOfBirth",
-        type: "text",
+        name: "vedicHoroscope.timeOfBirth",
         label: "Time of Birth",
+        type: "text",
       },
     ]
   },
@@ -201,64 +212,90 @@ export const fieldList: FieldListType[] = [
     lable: "Other Details",
     list: [
       {
-        name: "expectation",
-        type: "text",
+        name: "otherDetails.height",
+        label: "Height (in cm)",
+        type: "number",
+        rules: { valueAsNumber: true },
       },
       {
-        name: "houseType",
+        name: "otherDetails.color",
+        type: "text",
+        label: "Color",
+      },
+      {
+        name: "otherDetails.houseType",
         type: "text",
         label: "House Type",
       },
+      {
+        name: "otherDetails.motherTongue",
+        type: "text",
+        label: "Mother Tongue",
+      }
     ]
   },
   {
     lable: "Partner Preferences",
     list: [
       {
-        name: "minAge",
+        name: "partnerPreferences.minAge",
         type: "number",
         label: "Minimum Age",
         rules: { valueAsNumber: true },
       },
       {
-        name: "maxAge",
+        name: "partnerPreferences.maxAge",
         type: "number",
         label: "Maximum Age",
         rules: { valueAsNumber: true },
       },
       {
-        name: "qualification",
+        name: "partnerPreferences.qualification",
         type: "text",
         label: "Qualification",
       },
       {
-        name: "work",
+        name: "partnerPreferences.work",
         type: "text",
         label: "Work",
       },
       {
-        name: "salary",
+        name: "partnerPreferences.salary",
         type: "number",
         label: "Salary per Month (in ₹)",
         rules: { valueAsNumber: true },
       },
       {
-        name: "religion",
+        name: "partnerPreferences.religion",
         type: "text",
+        label: "Religion",
       },
       {
-        name: "caste",
+        name: "partnerPreferences.caste",
         type: "text",
+        label: "Caste",
       },
       {
-        name: "motherTongue",
+        name: "partnerPreferences.motherTongue",
         type: "text",
         label: "Mother Tongue",
       },
       {
-        name: "location",
+        name: "partnerPreferences.location",
         type: "text",
+        label: "Location",
       },
+      {
+        name: "partnerPreferences.expectation",
+        type: "text",
+        label: "Expectations",
+      },
+      {
+        name: "partnerPreferences.maritalStatus",
+        type: "select",
+        label: "Marital Status",
+        options: maritalStatus,
+      }
     ]
   }
 ]
