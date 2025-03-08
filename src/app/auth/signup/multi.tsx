@@ -262,7 +262,7 @@ export default function SignupPage() {
   const currentFields = steps[currentStep].fields
 
   return (
-    <div className="min-h-screen py-8 flex items-center justify-center bg-gradient-to-r from-pink-100 to-purple-100">
+    <div className="min-h-screen py-8 flex items-center justify-center bg-linear-to-r from-pink-100 to-purple-100">
       <Card className="w-full max-w-2xl">
         <CardContent className="p-8">
           <div className="flex flex-col items-center space-y-2 mb-6">

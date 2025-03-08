@@ -25,7 +25,7 @@ function Card({ id, image, fullName, email }: props) {
           <h1 className="font-dmserif text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1">{fullName}</h1>
           <p className="text-xs sm:text-sm italic text-white mb-2">{email}</p>
 
-          <Link href={`/user/profile/${id}`} className="inline-block rounded-[10px] bg-neutral-900 py-1 px-2 sm:py-2 sm:px-3 font-com text-xs sm:text-sm capitalize text-white shadow shadow-black/60">
+          <Link href={`/user/profile/${id}`} className="inline-block rounded-[10px] bg-neutral-900 py-1 px-2 sm:py-2 sm:px-3 font-com text-xs sm:text-sm capitalize text-white shadow-sm shadow-black/60">
             See More
           </Link>
         </div>
