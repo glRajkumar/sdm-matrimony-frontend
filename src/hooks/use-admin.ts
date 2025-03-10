@@ -4,15 +4,32 @@ import { useMutation, useInfiniteQuery, useQueryClient } from "@tanstack/react-q
 import { getUsersList, updateApproval } from "@/actions";
 import { toast } from "sonner";
 
-export function useUsersList() {
+export type userListProps = {
+  approvalStatus?: approvalStatusT | approvalStatusT[]
+  isBlocked?: boolean
+  isDeleted?: boolean
+}
+export function useUsersList({ approvalStatus, isBlocked, isDeleted }: userListProps) {
   const limit = 50
+  const payload: any = {}
+
+  if (approvalStatus) {
+    payload["approvalStatus"] = approvalStatus.toString()
+  }
+  if (isBlocked) {
+    payload["isBlocked"] = isBlocked
+  }
+  if (isDeleted) {
+    payload["isDeleted"] = isDeleted
+  }
+
   return useInfiniteQuery<pendingUsersListT[]>({
-    queryKey: ["pending-user-list"],
+    queryKey: ["user-list", payload],
     queryFn: ({ pageParam }) => {
       return getUsersList({
         skip: (pageParam as number || 0) * limit,
         limit,
-        approvalStatus: ["pending", "approved"].toString(),
+        ...payload,
       })
     },
     initialPageParam: 0,

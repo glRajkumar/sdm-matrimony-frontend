@@ -12,7 +12,7 @@ export const columns: ColumnDef<pendingUsersListT>[] = [
       return (
         <div className="df">
           <img
-            className="size-8 shrink-0 rounded object-cover"
+            className="size-16 shrink-0 rounded object-cover"
             src={row.original.profileImg || "/imgs/user.jpg"}
             alt=""
           />
@@ -34,12 +34,6 @@ export const columns: ColumnDef<pendingUsersListT>[] = [
   {
     accessorKey: "maritalStatus",
     header: ({ column }) => <ColumnSorter column={column} title="Marital Status" />,
-    filterFn: (row, id, value) => value?.includes(row?.getValue(id)),
-  },
-  {
-    accessorKey: "approvalStatus",
-    header: ({ column }) => <ColumnSorter column={column} title="Approval Status" />,
-    enableSorting: false,
     filterFn: (row, id, value) => value?.includes(row?.getValue(id)),
   },
   {
