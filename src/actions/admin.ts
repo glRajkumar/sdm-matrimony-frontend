@@ -5,7 +5,7 @@ import endPoints from "@/utils/endPoints";
 
 export function getUsersList(params: any = {}) {
   return sendApiReq({
-    url: endPoints.getPendingList,
+    url: endPoints.getUsersList,
     params,
   })
 }

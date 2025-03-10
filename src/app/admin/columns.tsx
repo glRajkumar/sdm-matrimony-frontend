@@ -4,7 +4,7 @@ import { ColumnSorter } from "@/components/ui/data-table";
 import { ColumnDef } from "@tanstack/react-table";
 import Actions from "./actions";
 
-export const columns: ColumnDef<pendingUsersListT>[] = [
+export const columns: ColumnDef<Partial<userT>>[] = [
   {
     accessorKey: "fullName",
     header: ({ column }) => <ColumnSorter column={column} title="Name" />,
@@ -48,8 +48,8 @@ export const columns: ColumnDef<pendingUsersListT>[] = [
     cell({ row }) {
       return (
         <Actions
-          _id={row.original._id}
-          status={row.original.approvalStatus}
+          _id={row?.original?._id || ""}
+          status={row?.original?.approvalStatus || "pending"}
         />
       )
     }

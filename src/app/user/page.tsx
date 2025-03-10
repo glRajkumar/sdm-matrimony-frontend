@@ -1,11 +1,39 @@
-import UsersList from "@/components/users-list";
+"use client";
+
+import { Loader } from "lucide-react";
+
+import { useUsersList } from "@/hooks/use-user";
+
+import LoadMore from "@/components/common/load-more";
+import UserCard from "./user-card";
 
 function Page() {
+  const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage } = useUsersList()
+
+  if (isLoading) return (
+    <div className='dc h-[calc(100vh-3rem)]'>
+      <Loader className="animate-spin" />
+    </div>
+  )
+
   return (
-    <section className="h-[calc(100vh-3rem)] px-2 sm:px-4 py-8 overflow-y-auto">
-      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 sm:gap-2">
-        <UsersList />
-      </div>
+    <section className="px-2 sm:px-4 py-8">
+      {
+        users?.map(user => <UserCard key={user._id} {...user} />)
+      }
+
+      {
+        !isLoading && hasNextPage && !isFetching &&
+        <LoadMore fn={fetchNextPage} />
+      }
+
+      {
+        isFetching &&
+        <div className="dc my-6">
+          <Loader className="animate-spin" />
+        </div>
+      }
+
     </section>
   )
 }

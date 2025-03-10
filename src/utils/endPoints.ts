@@ -10,12 +10,11 @@ const endPoints = {
   logout: "/account/logout",
   me: "/account/me",
 
-  getUsers: "/user/getusers",
-  getUserDetails: "/users",
-  imgUpload: "/user/imgupload",
   getMatches: "/user/matches",
+  imgUpload: "/user/imgupload",
+  getUserDetails: "/users",
 
-  getPendingList: "/admin/users",
+  getUsersList: "/admin/users",
   updateApproval: "/admin/approval",
 };
 

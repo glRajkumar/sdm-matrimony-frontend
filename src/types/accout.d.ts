@@ -72,6 +72,7 @@ type userT = {
     houseType: string
     height: string
     color: string
+    caste: string
   }
   partnerPreferences: {
     minAge: number

@@ -23,7 +23,7 @@ export function useUsersList({ approvalStatus, isBlocked, isDeleted }: userListP
     payload["isDeleted"] = isDeleted
   }
 
-  return useInfiniteQuery<pendingUsersListT[]>({
+  return useInfiniteQuery<Partial<userT>[], Error, Partial<userT>[]>({
     queryKey: ["user-list", payload],
     queryFn: ({ pageParam }) => {
       return getUsersList({

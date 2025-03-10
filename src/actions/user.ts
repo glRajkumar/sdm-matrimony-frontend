@@ -3,9 +3,10 @@
 import sendApiReq from "@/utils/sendApiReq";
 import endPoints from "@/utils/endPoints";
 
-export function getUsers() {
+export function getMatches(params: any) {
   return sendApiReq({
-    url: endPoints.getUsers,
+    url: endPoints.getMatches,
+    params,
   })
 }
 
@@ -19,14 +20,6 @@ export function imgUpload(userData: any) {
   return sendApiReq({
     url: endPoints.imgUpload,
     method: "POST",
-    data: { userData },
-  })
-}
-
-export function getMatches(userData: any) {
-  return sendApiReq({
-    url: endPoints.getMatches,
-    method: "GET",
     data: { userData },
   })
 }
