@@ -20,9 +20,7 @@ export const columns: ColumnDef<pendingUsersListT>[] = [
         </div>
       )
     },
-    // filterFn: (row, id, value) => {
-    //   return value?.includes(row?.getValue(id))
-    // },
+    filterFn: (row, id, value) => value?.includes(row?.getValue(id)),
   },
   {
     accessorKey: "email",
@@ -31,17 +29,21 @@ export const columns: ColumnDef<pendingUsersListT>[] = [
   {
     accessorKey: "gender",
     header: ({ column }) => <ColumnSorter column={column} title="Gender" />,
+    filterFn: (row, id, value) => value?.includes(row?.getValue(id)),
   },
   {
     accessorKey: "maritalStatus",
     header: ({ column }) => <ColumnSorter column={column} title="Marital Status" />,
+    filterFn: (row, id, value) => value?.includes(row?.getValue(id)),
   },
   {
     accessorKey: "approvalStatus",
     header: ({ column }) => <ColumnSorter column={column} title="Approval Status" />,
     enableSorting: false,
+    filterFn: (row, id, value) => value?.includes(row?.getValue(id)),
   },
   {
+    id: "Salary",
     accessorKey: "proffessionalDetails.salary",
     header: ({ column }) => <ColumnSorter column={column} title="Salary" />,
   },

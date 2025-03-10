@@ -46,6 +46,7 @@ function PendingUsers() {
           title="Marital Status"
           options={maritalStatus.map(status => ({ label: status, value: status }))}
         />
+
         <ColumnToggle table={table} />
       </div>
 
