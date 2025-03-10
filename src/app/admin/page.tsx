@@ -1,18 +1,54 @@
 "use client";
 
-import { useUsersList } from '@/hooks/use-admin';
-import { ColumnToggle, DataTable, Pagination, useTable } from "@/components/ui/data-table";
-import { approvalStatus, gender, maritalStatus } from '@/utils/enums';
+import { useState } from "react";
+import {
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
+import { approvalStatus, gender, maritalStatus } from '@/utils/enums';
+import { useUsersList } from '@/hooks/use-admin';
+
+import { ColumnToggle, DataTable, ColumnFacetedFilter, useTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
 
-import { ColumnFacetedFilter } from '@/components/ui/data-table/column-faceted-filter';
 import { Input } from '@/components/ui/input';
 
 function PendingUsers() {
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [sorting, setSorting] = useState<SortingState>([])
+
+  const [globalFilter, setGlobalFilter] = useState('')
+
   const { data: users, isLoading } = useUsersList()
 
-  const table = useTable({ data: users || [], columns })
+  const table = useReactTable({
+    data: users || [],
+    columns,
+    state: {
+      sorting,
+      columnVisibility,
+      columnFilters,
+      globalFilter,
+    },
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    onGlobalFilterChange: setGlobalFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+  })
 
   if (isLoading) return (
     <div className='dc h-[calc(100vh-3rem)]'>
@@ -54,8 +90,6 @@ function PendingUsers() {
         table={table}
         className='my-4'
       />
-
-      <Pagination table={table} />
     </section>
   )
 }

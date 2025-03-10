@@ -1,3 +1,4 @@
+export * from "./column-faceted-filter";
 export * from "./column-filter";
 export * from "./column-sorter";
 export * from "./column-toggle";
