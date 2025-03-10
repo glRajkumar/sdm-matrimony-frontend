@@ -1,20 +1,27 @@
 "use client";
 
-import { useApprovalMutate, usePendingList } from '@/hooks/use-admin';
-import { ColumnToggle, DataTable, FilterGroup, Pagination, useTable } from "@/components/ui/data-table";
+import { useUsersList } from '@/hooks/use-admin';
+import { ColumnToggle, DataTable, Pagination, useTable } from "@/components/ui/data-table";
+import { approvalStatus, gender, maritalStatus } from '@/utils/enums';
+
 import { columns } from "./columns";
-import { Input } from '@/components/ui/input';
+
 import { ColumnFacetedFilter } from '@/components/ui/data-table/column-faceted-filter';
+import { Input } from '@/components/ui/input';
 
 function PendingUsers() {
-  const { data: users } = usePendingList()
+  const { data: users, isLoading } = useUsersList()
 
   const table = useTable({ data: users || [], columns })
 
-  const { mutate } = useApprovalMutate()
+  if (isLoading) return (
+    <div className='dc h-[calc(100vh-3rem)]'>
+      Loading...
+    </div>
+  )
 
   return (
-    <section className="h-[calc(100vh-3rem)] px-2 sm:px-4 py-8 overflow-y-auto">
+    <section className="px-2 sm:px-4 py-8">
       <div className='df'>
         <Input
           className='w-60'
@@ -22,32 +29,23 @@ function PendingUsers() {
           onChange={e => table.setGlobalFilter(e.target.value)}
         />
 
-        <FilterGroup
-          table={table}
-          options={[
-            {
-              key: "fullName",
-              lable: "FullName",
-              options: ["raj", "ClintonCunningham"]
-            }
-          ]}
+        <ColumnFacetedFilter
+          column={table.getColumn("gender")}
+          title="Gender"
+          options={gender.map(gen => ({ label: gen, value: gen }))}
         />
 
         <ColumnFacetedFilter
-          column={table.getColumn("gender")}
-          title="gender"
-          options={[
-            {
-              label: "male",
-              value: "male",
-            },
-            {
-              label: "female",
-              value: "female",
-            },
-          ]}
+          column={table.getColumn("approvalStatus")}
+          title="Approval Status"
+          options={approvalStatus.map(status => ({ label: status, value: status }))}
         />
 
+        <ColumnFacetedFilter
+          column={table.getColumn("maritalStatus")}
+          title="Marital Status"
+          options={maritalStatus.map(status => ({ label: status, value: status }))}
+        />
         <ColumnToggle table={table} />
       </div>
 
@@ -57,22 +55,6 @@ function PendingUsers() {
       />
 
       <Pagination table={table} />
-
-      {/* <div className='flex items-center gap-2'>
-          <Button
-            className='h-8 px-3 text-xs text-white bg-green-500 hover:bg-green-600'
-            onClick={() => mutate({ _id: user?._id, approvalStatus: "approved" })}
-          >
-            Approve
-          </Button>
-
-          <Button
-            className='h-8 px-3 text-xs text-white bg-red-500 hover:bg-red-600'
-            onClick={() => mutate({ _id: user?._id, approvalStatus: "rejected" })}
-          >
-            Reject
-          </Button>
-        </div> */}
     </section>
   )
 }

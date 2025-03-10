@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getPendingList, updateApproval } from "@/actions";
 import { toast } from "sonner";
 
-export function usePendingList() {
+export function useUsersList() {
   return useQuery<pendingUsersListT[]>({
     queryKey: ["pending-user-list"],
     queryFn: getPendingList,

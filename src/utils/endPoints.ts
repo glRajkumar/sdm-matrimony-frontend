@@ -15,7 +15,7 @@ const endPoints = {
   imgUpload: "/user/imgupload",
   getMatches: "/user/matches",
 
-  getPendingList: "/admin/pending-user-list",
+  getPendingList: "/admin/users",
   updateApproval: "/admin/approval",
 };
 

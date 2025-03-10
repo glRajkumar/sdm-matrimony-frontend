@@ -22,7 +22,7 @@ function Navbar() {
   const { mutate } = useLogout()
 
   return (
-    <nav className="df justify-between py-4 px-6 shadow-md">
+    <nav className="df justify-between py-4 px-6 shadow-md sticky top-0 bg-white z-[1]">
       <Link href="/" className="text-xl font-bold text-gray-800">
         Logo
       </Link>

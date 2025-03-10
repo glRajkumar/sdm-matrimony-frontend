@@ -1,3 +1,4 @@
+import { gender, maritalStatus } from "@/utils/enums";
 import { RegisterOptions } from "react-hook-form";
 
 type base = {
@@ -24,12 +25,6 @@ type FieldListType = {
   lable: string
   list: fields[]
 };
-
-const maritalStatus = [
-  { label: "Single", value: "Single" },
-  { label: "Divorced", value: "Divorced" },
-  { label: "Widowed", value: "Widowed" },
-]
 
 export const fieldList: FieldListType[] = [
   {
@@ -71,11 +66,7 @@ export const fieldList: FieldListType[] = [
       {
         name: "gender",
         type: "select",
-        options: [
-          { label: "Male", value: "Male" },
-          { label: "Female", value: "Female" },
-          { label: "Other", value: "Other" }
-        ],
+        options: gender.map(gen => ({ label: gen, value: gen })),
         rules: { required: "Gender is required" },
       },
       {
@@ -88,7 +79,7 @@ export const fieldList: FieldListType[] = [
         name: "maritalStatus",
         type: "select",
         label: "Marital Status",
-        options: maritalStatus,
+        options: maritalStatus.map(status => ({ label: status, value: status })),
         rules: { required: "Marital Status is required" },
       }
     ]
@@ -294,7 +285,7 @@ export const fieldList: FieldListType[] = [
         name: "partnerPreferences.maritalStatus",
         type: "select",
         label: "Marital Status",
-        options: maritalStatus,
+        options: maritalStatus.map(status => ({ label: status, value: status })),
       }
     ]
   }

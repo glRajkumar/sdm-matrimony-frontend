@@ -1,9 +1,32 @@
 
 type rolesT = "user" | "broker" | "admin"
 
-type genderT = 'male' | 'female' | 'other'
+type genderT = 'Male' | 'Female' | 'Other'
 
 type approvalStatusT = 'pending' | 'approved' | 'rejected'
+
+type maritalStatusT = 'Single' | 'Divorced' | 'Widowed'
+
+type planetT = {
+  planet: string
+  degree: number
+  sign: string
+}
+
+type chartT = {
+  house1: planetT[]
+  house2: planetT[]
+  house3: planetT[]
+  house4: planetT[]
+  house5: planetT[]
+  house6: planetT[]
+  house7: planetT[]
+  house8: planetT[]
+  house9: planetT[]
+  house10: planetT[]
+  house11: planetT[]
+  house12: planetT[]
+}
 
 type userT = {
   _id: string
@@ -13,26 +36,54 @@ type userT = {
   password: string
   images: string[]
   isMarried: boolean
+  profileImg: string
   gender: genderT
   dob: string
-  placeOfBirth: string
-  nakshatra: string
-  rasi: string
-  lagna: string
-  qualification: string
-  work: string
-  salary: number
-  fatherName: string
-  motherName: string
-  noOfBrothers: number
-  noOfSisters: number
-  birthOrder: number
-  expectation: string
-  formalities: string
-  houseType: string
-  address: string
-  dashaPeriod: string
-  height: string
-  color: string
+  maritalStatus: maritalStatusT
   approvalStatus: approvalStatusT
+  contactDetails: {
+    mobile: string
+    address: string
+  }
+  proffessionalDetails: {
+    qualification: string
+    salary: number
+    work: string
+  }
+  familyDetails: {
+    fatherName: string
+    motherName: string
+    noOfBrothers: number
+    noOfSisters: number
+    birthOrder: number
+    isFatherAlive: boolean
+    isMotherAlive: boolean
+  }
+  vedicHoroscope: {
+    nakshatra: string
+    rasi: string
+    lagna: string
+    dashaPeriod: string
+    raasiChart: chartT
+    navamsaChart: chartT
+  }
+  otherDetails: {
+    motherTongue: string
+    houseType: string
+    height: string
+    color: string
+  }
+  partnerPreferences: {
+    minAge: number
+    maxAge: number
+    religion: string
+    caste: string
+    salary: number
+    qualification: string
+    work: string
+    motherTongue: string
+    location: string
+    expectation: string
+    maritalStatus: maritalStatusT
+  }
 }
