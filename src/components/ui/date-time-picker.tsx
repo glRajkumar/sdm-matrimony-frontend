@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { useImperativeHandle, useRef } from 'react';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
-import type { CalendarProps } from '@/components/ui/calendar';
 import { type Locale, enUS } from 'date-fns/locale';
 import { add, format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
@@ -234,7 +233,7 @@ function Calendar({
   showOutsideDays = true,
   yearRange = 50,
   ...props
-}: CalendarProps & { yearRange?: number }) {
+}: React.ComponentProps<typeof DayPicker> & { yearRange?: number }) {
   const MONTHS = React.useMemo(() => {
     let locale: Pick<Locale, 'options' | 'localize' | 'formatLong'> = enUS;
     const { options, localize, formatLong } = props.locale || {};
@@ -279,6 +278,7 @@ function Calendar({
       classNames={{
         months: 'flex flex-col sm:flex-row space-y-4  sm:space-y-0 justify-center',
         month: 'flex flex-col items-center space-y-4',
+        // @ts-ignore
         month_caption: 'flex justify-center pt-1 relative items-center',
         caption_label: 'text-sm font-medium',
         nav: 'space-x-1 flex items-center ',
@@ -313,13 +313,14 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        Chevron: ({ ...props }) =>
+        // @ts-ignore
+        Chevron: ({ ...props }: any) =>
           props.orientation === 'left' ? (
             <ChevronLeft className="h-4 w-4" />
           ) : (
             <ChevronRight className="h-4 w-4" />
           ),
-        MonthCaption: ({ calendarMonth }) => {
+        MonthCaption: ({ calendarMonth }: any) => {
           return (
             <div className="inline-flex gap-2">
               <Select
@@ -668,7 +669,7 @@ type DateTimePickerProps = {
    * Show the default month and time when popup the calendar. Default is the current Date().
    **/
   defaultPopupValue?: Date;
-} & Pick<CalendarProps, 'locale' | 'weekStartsOn' | 'showWeekNumber' | 'showOutsideDays'>;
+} & Pick<React.ComponentProps<typeof DayPicker>, 'locale' | 'weekStartsOn' | 'showWeekNumber' | 'showOutsideDays'>;
 
 type DateTimePickerRef = {
   value?: Date;

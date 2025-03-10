@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Button, ButtonProps } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
 
@@ -22,7 +22,7 @@ type DatePickerProps = {
   | { from: Date | undefined; to: Date | undefined }
   | undefined
   onChange?: (date: any) => void
-  btnProps?: ButtonProps
+  btnProps?: React.ComponentPropsWithoutRef<typeof Button>
   calendarProps?: Partial<
     | DayPickerDefaultProps
     | DayPickerSingleProps
