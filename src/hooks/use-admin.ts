@@ -1,13 +1,23 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getPendingList, updateApproval } from "@/actions";
+import { useMutation, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { getUsersList, updateApproval } from "@/actions";
 import { toast } from "sonner";
 
 export function useUsersList() {
-  return useQuery<pendingUsersListT[]>({
+  const limit = 50
+  return useInfiniteQuery<pendingUsersListT[]>({
     queryKey: ["pending-user-list"],
-    queryFn: getPendingList,
+    queryFn: ({ pageParam }) => {
+      return getUsersList({
+        skip: (pageParam as number || 0) * limit,
+        limit,
+        approvalStatus: ["pending", "approved"].toString(),
+      })
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
+    select: data => data?.pages?.flat() as any,
   })
 }
 

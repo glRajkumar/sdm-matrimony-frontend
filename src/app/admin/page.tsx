@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Loader } from "lucide-react";
 import {
   ColumnFiltersState,
   SortingState,
@@ -16,10 +17,11 @@ import {
 import { approvalStatus, gender, maritalStatus } from '@/utils/enums';
 import { useUsersList } from '@/hooks/use-admin';
 
-import { ColumnToggle, DataTable, ColumnFacetedFilter, useTable } from "@/components/ui/data-table";
+import { ColumnToggle, DataTable, ColumnFacetedFilter } from "@/components/ui/data-table";
 import { columns } from "./columns";
 
 import { Input } from '@/components/ui/input';
+import LoadMore from "@/components/common/load-more";
 
 function PendingUsers() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -28,10 +30,10 @@ function PendingUsers() {
 
   const [globalFilter, setGlobalFilter] = useState('')
 
-  const { data: users, isLoading } = useUsersList()
+  const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage, } = useUsersList()
 
   const table = useReactTable({
-    data: users || [],
+    data: users as any || [],
     columns,
     state: {
       sorting,
@@ -52,7 +54,7 @@ function PendingUsers() {
 
   if (isLoading) return (
     <div className='dc h-[calc(100vh-3rem)]'>
-      Loading...
+      <Loader className="animate-spin" />
     </div>
   )
 
@@ -90,6 +92,18 @@ function PendingUsers() {
         table={table}
         className='my-4'
       />
+
+      {
+        !isLoading && hasNextPage && !isFetching &&
+        <LoadMore fn={fetchNextPage} />
+      }
+
+      {
+        isFetching &&
+        <div className="dc my-6">
+          <Loader className="animate-spin" />
+        </div>
+      }
     </section>
   )
 }

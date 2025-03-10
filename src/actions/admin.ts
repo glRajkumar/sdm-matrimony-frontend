@@ -3,13 +3,10 @@
 import sendApiReq from "@/utils/sendApiReq";
 import endPoints from "@/utils/endPoints";
 
-export function getPendingList() {
+export function getUsersList(params: any = {}) {
   return sendApiReq({
     url: endPoints.getPendingList,
-    params: {
-      limit: 50,
-      approvalStatus: ["pending", "approved"].toString(),
-    }
+    params,
   })
 }
 
