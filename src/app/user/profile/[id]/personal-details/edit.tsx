@@ -43,7 +43,7 @@ function Edit({ user }: { user: userT }) {
       gender: user.gender,
       dob: new Date(user.dob),
       maritalStatus: user.maritalStatus,
-      address: user.contactDetails.address,
+      address: user?.contactDetails?.address,
     },
   })
 

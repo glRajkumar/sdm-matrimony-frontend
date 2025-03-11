@@ -42,7 +42,7 @@ function PersonalDetails({ user, canEdit }: props) {
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Address</span>
-            <p className="font-medium">{user?.contactDetails.address}</p>
+            <p className="font-medium">{user?.contactDetails?.address}</p>
           </div>
         </div>
       </CardContent>

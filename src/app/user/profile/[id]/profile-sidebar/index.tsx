@@ -47,8 +47,8 @@ function ProfileSidebar({ user, canEdit }: props) {
           <div className="flex flex-col items-center">
             <div className="relative w-40 h-40 mb-4">
               <Image
-                src={user.profileImg || "/placeholder.svg"}
-                alt={user.fullName}
+                src={user?.profileImg || "/placeholder.svg"}
+                alt={user?.fullName}
                 fill
                 className="rounded-full object-cover border-4 border-primary/20"
               />
@@ -59,24 +59,27 @@ function ProfileSidebar({ user, canEdit }: props) {
               }
             </div>
 
-            <h2 className="text-2xl font-bold">{user.fullName}</h2>
-            <p className="text-muted-foreground">{user.proffessionalDetails.work}</p>
+            <h2 className="text-2xl font-bold">{user?.fullName}</h2>
+            <p className="text-muted-foreground">{user?.proffessionalDetails?.work}</p>
 
             <div className="mt-4 w-full">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm font-medium">Profile Status</span>
-                <span
-                  className={cn(
-                    "px-2 py-1 rounded-full text-xs font-medium",
-                    user.approvalStatus === "approved"
-                      ? "bg-green-100 text-green-800"
-                      : user.approvalStatus === "pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-red-100 text-red-800",
-                  )}
-                >
-                  {user.approvalStatus.charAt(0).toUpperCase() + user.approvalStatus.slice(1)}
-                </span>
+                {
+                  user?.approvalStatus &&
+                  <span
+                    className={cn(
+                      "px-2 py-1 rounded-full text-xs font-medium",
+                      user?.approvalStatus === "approved"
+                        ? "bg-green-100 text-green-800"
+                        : user?.approvalStatus === "pending"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-red-100 text-red-800",
+                    )}
+                  >
+                    {user?.approvalStatus?.[0]?.toUpperCase() + user?.approvalStatus?.slice(1)}
+                  </span>
+                }
               </div>
 
               <Separator className="my-4" />
@@ -84,15 +87,15 @@ function ProfileSidebar({ user, canEdit }: props) {
               <div className="space-y-3">
                 <div>
                   <span className="text-sm text-muted-foreground">Email</span>
-                  <p className="font-medium">{user.email}</p>
+                  <p className="font-medium">{user?.email}</p>
                 </div>
                 <div>
                   <span className="text-sm text-muted-foreground">Mobile</span>
-                  <p className="font-medium">{user.contactDetails.mobile}</p>
+                  <p className="font-medium">{user?.contactDetails?.mobile}</p>
                 </div>
                 <div>
                   <span className="text-sm text-muted-foreground">Date of Birth</span>
-                  <p className="font-medium">{new Date(user.dob).toLocaleDateString()}</p>
+                  <p className="font-medium">{new Date(user?.dob).toLocaleDateString()}</p>
                 </div>
               </div>
             </div>
@@ -108,7 +111,7 @@ function ProfileSidebar({ user, canEdit }: props) {
 
         <CardContent>
           <div className="grid grid-cols-2 gap-2">
-            {user.images.map((image, index) => (
+            {user?.images.map((image, index) => (
               <div key={index} className="relative group aspect-square">
                 <Image
                   src={image || "/placeholder.svg"}
@@ -131,13 +134,16 @@ function ProfileSidebar({ user, canEdit }: props) {
                 }
               </div>
             ))}
+
+            {
+              canEdit &&
+              <AddImageDialog
+                onAddImage={handleAddImage}
+              />
+            }
           </div>
         </CardContent>
       </Card>
-
-      <AddImageDialog
-        onAddImage={handleAddImage}
-      />
 
       <ImageView
         selectedImage={selectedImage || ""}

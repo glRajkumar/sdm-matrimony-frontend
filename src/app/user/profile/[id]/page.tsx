@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 
+import { getUserDetails } from '@/server/actions/user';
 import { decodeJwt } from '@/server/utils/jwt-helpers';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,108 +13,21 @@ import ProfileSidebar from "./profile-sidebar";
 import FamilyDetails from "./family-details";
 import OtherDetails from "./other-details";
 
-const user: userT = {
-  _id: "123456",
-  fullName: "Arjun Sharma",
-  role: "user",
-  password: "",
-  email: "arjun.sharma@example.com",
-  images: [
-    "/placeholder.svg?height=400&width=300",
-    "/placeholder.svg?height=400&width=300",
-    "/placeholder.svg?height=400&width=300",
-  ],
-  isMarried: false,
-  profileImg: "/placeholder.svg?height=400&width=300",
-  gender: "Male",
-  dob: "1990-05-15",
-  maritalStatus: "Single",
-  approvalStatus: "approved",
-  contactDetails: {
-    mobile: "+91 9876543210",
-    address: "123, Park Street, Mumbai, Maharashtra",
-  },
-  proffessionalDetails: {
-    qualification: "MBA",
-    salary: 1200000,
-    work: "Senior Manager at Tech Corp",
-  },
-  familyDetails: {
-    fatherName: "Rajesh Sharma",
-    motherName: "Sunita Sharma",
-    noOfBrothers: 1,
-    noOfSisters: 1,
-    birthOrder: 1,
-    isFatherAlive: true,
-    isMotherAlive: true,
-  },
-  vedicHoroscope: {
-    nakshatra: "Rohini",
-    rasi: "Taurus",
-    lagna: "Leo",
-    dashaPeriod: "Venus Mahadasha",
-    raasiChart: {
-      house1: [{ planet: "Sun", degree: 15, sign: "Leo" }],
-      house2: [{ planet: "Mercury", degree: 10, sign: "Virgo" }],
-      house3: [],
-      house4: [{ planet: "Mars", degree: 5, sign: "Scorpio" }],
-      house5: [],
-      house6: [],
-      house7: [{ planet: "Jupiter", degree: 20, sign: "Aquarius" }],
-      house8: [],
-      house9: [{ planet: "Saturn", degree: 25, sign: "Aries" }],
-      house10: [],
-      house11: [{ planet: "Venus", degree: 8, sign: "Gemini" }],
-      house12: [{ planet: "Moon", degree: 12, sign: "Cancer" }],
-    },
-    navamsaChart: {
-      house1: [{ planet: "Sun", degree: 15, sign: "Leo" }],
-      house2: [{ planet: "Mercury", degree: 10, sign: "Virgo" }],
-      house3: [],
-      house4: [{ planet: "Mars", degree: 5, sign: "Scorpio" }],
-      house5: [],
-      house6: [],
-      house7: [{ planet: "Jupiter", degree: 20, sign: "Aquarius" }],
-      house8: [],
-      house9: [{ planet: "Saturn", degree: 25, sign: "Aries" }],
-      house10: [],
-      house11: [{ planet: "Venus", degree: 8, sign: "Gemini" }],
-      house12: [{ planet: "Moon", degree: 12, sign: "Cancer" }],
-    },
-  },
-  otherDetails: {
-    motherTongue: "Hindi",
-    houseType: "Apartment",
-    height: "5'10\"",
-    color: "Wheatish",
-    caste: "Brahmin",
-  },
-  partnerPreferences: {
-    minAge: 25,
-    maxAge: 30,
-    religion: "Hindu",
-    caste: "Any",
-    salary: 800000,
-    qualification: "Graduate",
-    work: "Any Professional",
-    motherTongue: "Any",
-    location: "Mumbai",
-    expectation: "Looking for a well-educated, family-oriented partner",
-    maritalStatus: "Single",
-  },
-}
-
 type props = {
   params: Promise<{ id: string }>
 }
 
 async function Page({ params }: props) {
   const { id: userId } = await params
-  const cookieStore = await cookies()
-  const token = cookieStore?.get("sdm")?.value || ""
-  const loggedInUser = await decodeJwt(token)
 
-  const canEdit = userId === loggedInUser?._id
+  const cookieStore = await cookies()
+  const token = cookieStore.get('sdm')?.value || ""
+
+  const loggedInUser = await decodeJwt(token)
+  const loggedInUserId = loggedInUser?._id as string || ""
+
+  const user = await getUserDetails(loggedInUserId)
+  const canEdit = userId === loggedInUserId
 
   return (
     <div className="container mx-auto py-6 max-w-6xl">
