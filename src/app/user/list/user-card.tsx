@@ -1,7 +1,9 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 type props = {
   type?: "liked" | "disliked" | "full"
+  isLiked?: boolean
+  isDisliked?: boolean
   onView?: () => void
   onAdd?: (userId: string, type: "liked" | "disliked") => void
   onRemove?: (userId: string, type: "liked" | "disliked") => void
@@ -10,7 +12,7 @@ type props = {
 function UserCard({
   _id, profileImg, fullName, maritalStatus,
   proffessionalDetails, otherDetails,
-  type = "full",
+  type = "full", isLiked, isDisliked,
   onView = () => { },
   onAdd = () => { },
   onRemove = () => { },
@@ -33,7 +35,7 @@ function UserCard({
 
         <div className="df">
           {
-            (type === "full" || type === "disliked") &&
+            (type === "full" || type === "disliked") && !isLiked &&
             <Button
               size="sm"
               onClick={() => onAdd(_id as string, "liked")}
@@ -43,7 +45,7 @@ function UserCard({
           }
 
           {
-            (type === "full" || type === "liked") &&
+            (type === "full" || type === "liked") && !isDisliked &&
             <Button
               size="sm"
               onClick={() => onAdd(_id as string, "disliked")}
@@ -53,7 +55,7 @@ function UserCard({
           }
 
           {
-            type === "liked" &&
+            ((type === "full" && isLiked) || type === "liked") &&
             <Button
               size="sm"
               onClick={() => onRemove(_id as string, "liked")}
@@ -63,7 +65,7 @@ function UserCard({
           }
 
           {
-            type === "disliked" &&
+            ((type === "full" && isDisliked) || type === "disliked") &&
             <Button
               size="sm"
               onClick={() => onRemove(_id as string, "disliked")}

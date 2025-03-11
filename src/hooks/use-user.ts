@@ -54,6 +54,7 @@ export function useAddLiked() {
     mutationFn: addLiked,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["likes-list", "liked"] })
+      queryClient.invalidateQueries({ queryKey: ["user-list", "approved"] })
       toast.success("User added to liked list successfully");
     },
     onError: (error) => {
@@ -69,6 +70,7 @@ export function useRemoveLiked() {
     mutationFn: removeLiked,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["likes-list", "disliked"] })
+      queryClient.invalidateQueries({ queryKey: ["user-list", "approved"] })
       toast.success("User removed from liked list successfully");
     },
     onError: (error) => {
