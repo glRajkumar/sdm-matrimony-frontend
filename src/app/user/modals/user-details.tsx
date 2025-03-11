@@ -222,7 +222,7 @@ function UserDetails() {
                     </div>
                   </div>
 
-                  <Separator />
+                  {/* <Separator />
 
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Contact Details</h3>
@@ -231,7 +231,7 @@ function UserDetails() {
                       <InfoItem label="Mobile" value={user?.contactDetails?.mobile} />
                       <InfoItem label="Address" value={user?.contactDetails?.address} className="col-span-2" />
                     </div>
-                  </div>
+                  </div> */}
 
                   <Separator />
 

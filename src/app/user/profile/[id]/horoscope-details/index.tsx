@@ -1,0 +1,56 @@
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import ChartDisplay from "./chart-display";
+import Edit from "./edit";
+
+function HoroscopeDetails({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>) => void }) {
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Vedic Horoscope</CardTitle>
+          <CardDescription>Your astrological information</CardDescription>
+        </div>
+        <Edit user={user} onUpdate={onUpdate} />
+      </CardHeader>
+
+      <CardContent>
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <span className="text-sm text-muted-foreground">Nakshatra</span>
+            <p className="font-medium">{user.vedicHoroscope.nakshatra}</p>
+          </div>
+          <div>
+            <span className="text-sm text-muted-foreground">Rasi</span>
+            <p className="font-medium">{user.vedicHoroscope.rasi}</p>
+          </div>
+          <div>
+            <span className="text-sm text-muted-foreground">Lagna</span>
+            <p className="font-medium">{user.vedicHoroscope.lagna}</p>
+          </div>
+          <div>
+            <span className="text-sm text-muted-foreground">Dasha Period</span>
+            <p className="font-medium">{user.vedicHoroscope.dashaPeriod}</p>
+          </div>
+        </div>
+
+        <Tabs defaultValue="raasi">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="raasi">Raasi Chart</TabsTrigger>
+            <TabsTrigger value="navamsa">Navamsa Chart</TabsTrigger>
+          </TabsList>
+          <TabsContent value="raasi" className="mt-4">
+            <ChartDisplay chart={user.vedicHoroscope.raasiChart} />
+          </TabsContent>
+          <TabsContent value="navamsa" className="mt-4">
+            <ChartDisplay chart={user.vedicHoroscope.navamsaChart} />
+          </TabsContent>
+        </Tabs>
+      </CardContent>
+    </Card>
+  )
+}
+
+export default HoroscopeDetails
