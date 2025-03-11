@@ -2,7 +2,7 @@
 
 import { Loader } from "lucide-react";
 
-import { useLikesList } from "@/hooks/use-user";
+import { useAddLiked, useRemoveLiked, useLikesList } from "@/hooks/use-user";
 import useUIStore from "@/store/ui";
 
 import LoadMore from "@/components/common/load-more";
@@ -11,6 +11,17 @@ import UserCard from "../user-card";
 function Page() {
   const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage } = useLikesList("disliked")
   const updateModal = useUIStore(s => s.update)
+
+  const { mutate: unlikeMutate } = useRemoveLiked()
+  const { mutate: likeMutate } = useAddLiked()
+
+  const onAdd = (userId: string, type: "liked" | "disliked") => {
+    likeMutate({ userId, type })
+  }
+
+  const onRemove = (userId: string, type: "liked" | "disliked") => {
+    unlikeMutate({ userId, type })
+  }
 
   const onView = (_id: string) => {
     updateModal({ open: "user-details", data: { _id } })
@@ -30,6 +41,8 @@ function Page() {
             key={user._id}
             {...user}
             type="disliked"
+            onAdd={onAdd}
+            onRemove={onRemove}
             onView={() => onView(user?._id as string)}
           />
         ))
