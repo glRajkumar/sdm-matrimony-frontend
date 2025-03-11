@@ -4,10 +4,7 @@ import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 
-import { cn } from "@/lib/utils";
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 
 import EditProfileImageDialog from "./edit-profile-image-dialog";
 import AddImageDialog from "./add-image-dialog";
@@ -61,44 +58,6 @@ function ProfileSidebar({ user, canEdit }: props) {
 
             <h2 className="text-2xl font-bold">{user?.fullName}</h2>
             <p className="text-muted-foreground">{user?.proffessionalDetails?.work}</p>
-
-            <div className="mt-4 w-full">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium">Profile Status</span>
-                {
-                  user?.approvalStatus &&
-                  <span
-                    className={cn(
-                      "px-2 py-1 rounded-full text-xs font-medium",
-                      user?.approvalStatus === "approved"
-                        ? "bg-green-100 text-green-800"
-                        : user?.approvalStatus === "pending"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-red-100 text-red-800",
-                    )}
-                  >
-                    {user?.approvalStatus?.[0]?.toUpperCase() + user?.approvalStatus?.slice(1)}
-                  </span>
-                }
-              </div>
-
-              <Separator className="my-4" />
-
-              <div className="space-y-3">
-                <div>
-                  <span className="text-sm text-muted-foreground">Email</span>
-                  <p className="font-medium">{user?.email}</p>
-                </div>
-                <div>
-                  <span className="text-sm text-muted-foreground">Mobile</span>
-                  <p className="font-medium">{user?.contactDetails?.mobile}</p>
-                </div>
-                <div>
-                  <span className="text-sm text-muted-foreground">Date of Birth</span>
-                  <p className="font-medium">{new Date(user?.dob).toLocaleDateString()}</p>
-                </div>
-              </div>
-            </div>
           </div>
         </CardContent>
       </Card>

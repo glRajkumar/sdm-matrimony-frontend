@@ -75,7 +75,7 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="fatherName"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='mb-2'>
                   <FormLabel>Father's Name</FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -86,9 +86,40 @@ function Edit({ user }: { user: userT }) {
             />
             <FormField
               control={form.control}
+              name="isFatherAlive"
+              render={({ field }) => (
+                <FormItem className="mb-6">
+                  <FormLabel className='sr-only'>Father Status</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={(value) => field.onChange(value === "true")}
+                      defaultValue={field.value ? "true" : "false"}
+                      className="flex items-center gap-12"
+                    >
+                      <FormItem className="flex items-center space-x-1">
+                        <FormControl>
+                          <RadioGroupItem value="true" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Alive</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1">
+                        <FormControl>
+                          <RadioGroupItem value="false" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Deceased</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="motherName"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='mb-2'>
                   <FormLabel>Mother's Name</FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -97,6 +128,38 @@ function Edit({ user }: { user: userT }) {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="isMotherAlive"
+              render={({ field }) => (
+                <FormItem className="mb-6">
+                  <FormLabel className='sr-only'>Mother Status</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={(value) => field.onChange(value === "true")}
+                      defaultValue={field.value ? "true" : "false"}
+                      className="flex items-center gap-12"
+                    >
+                      <FormItem className="flex items-center space-x-1">
+                        <FormControl>
+                          <RadioGroupItem value="true" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Alive</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1">
+                        <FormControl>
+                          <RadioGroupItem value="false" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Deceased</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -125,6 +188,7 @@ function Edit({ user }: { user: userT }) {
                 )}
               />
             </div>
+
             <FormField
               control={form.control}
               name="birthOrder"
@@ -138,68 +202,6 @@ function Edit({ user }: { user: userT }) {
                 </FormItem>
               )}
             />
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="isFatherAlive"
-                render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel>Father Status</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={(value) => field.onChange(value === "true")}
-                        defaultValue={field.value ? "true" : "false"}
-                        className="flex flex-col space-y-1"
-                      >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="true" />
-                          </FormControl>
-                          <FormLabel className="font-normal">Alive</FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="false" />
-                          </FormControl>
-                          <FormLabel className="font-normal">Deceased</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="isMotherAlive"
-                render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel>Mother Status</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={(value) => field.onChange(value === "true")}
-                        defaultValue={field.value ? "true" : "false"}
-                        className="flex flex-col space-y-1"
-                      >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="true" />
-                          </FormControl>
-                          <FormLabel className="font-normal">Alive</FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="false" />
-                          </FormControl>
-                          <FormLabel className="font-normal">Deceased</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
 
             <div className="flex justify-end space-x-2 pt-2">
               <Button variant="outline" onClick={() => setOpen(false)} type="button">

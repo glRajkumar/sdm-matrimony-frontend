@@ -33,16 +33,16 @@ function Edit({ user }: { user: userT }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      minAge: user.partnerPreferences.minAge,
-      maxAge: user.partnerPreferences.maxAge,
-      religion: user.partnerPreferences.religion,
-      caste: user.partnerPreferences.caste,
-      qualification: user.partnerPreferences.qualification,
-      work: user.partnerPreferences.work,
-      motherTongue: user.partnerPreferences.motherTongue,
-      location: user.partnerPreferences.location,
-      expectation: user.partnerPreferences.expectation,
-      maritalStatus: user.partnerPreferences.maritalStatus,
+      minAge: user?.partnerPreferences?.minAge,
+      maxAge: user?.partnerPreferences?.maxAge,
+      religion: user?.partnerPreferences?.religion,
+      caste: user?.partnerPreferences?.caste,
+      qualification: user?.partnerPreferences?.qualification,
+      work: user?.partnerPreferences?.work,
+      motherTongue: user?.partnerPreferences?.motherTongue,
+      location: user?.partnerPreferences?.location,
+      expectation: user?.partnerPreferences?.expectation,
+      maritalStatus: user?.partnerPreferences?.maritalStatus,
     },
   })
 
@@ -81,7 +81,7 @@ function Edit({ user }: { user: userT }) {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-[60vh] -ml-1 -mr-6 pl-1 pr-6 overflow-y-auto">
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -189,7 +189,7 @@ function Edit({ user }: { user: userT }) {
                 <Label>Expected Salary</Label>
                 <p className="text-sm text-muted-foreground">(Not editable)</p>
               </div>
-              <Input value={`₹${user.partnerPreferences.salary.toLocaleString()}`} disabled className="mt-1" />
+              <Input value={`₹ ${user?.partnerPreferences?.salary || "-"}`} disabled className="mt-1" />
             </div>
             <FormField
               control={form.control}

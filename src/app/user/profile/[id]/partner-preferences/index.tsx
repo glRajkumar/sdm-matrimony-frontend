@@ -52,7 +52,7 @@ function PartnerPreferences({ user, canEdit }: props) {
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Expected Salary</span>
-            <p className="font-medium">₹{user?.partnerPreferences?.salary.toLocaleString()} per annum</p>
+            <p className="font-medium">₹{user?.partnerPreferences?.salary} per annum</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Mother Tongue</span>
