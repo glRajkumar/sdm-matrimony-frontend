@@ -1,7 +1,6 @@
-"use client";
-
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
+import { getServerSideToken } from "../server/utils";
 import { getToken } from "@/actions";
 import { root } from './endPoints';
 
@@ -14,12 +13,21 @@ type CustomError = Error & { status?: number };
 
 const requestIntercepter = (instance: AxiosInstance, isAuthendicated: boolean, headers: AxiosRequestConfig["headers"]): void => {
   instance.interceptors.request.use(
-    function (config: any) {
+    async function (config: any) {
       if (isAuthendicated) {
-        const token = getToken()
-        config.headers = {
-          Authorization: "Bearer " + token,
-          ...headers
+        if (typeof window === 'undefined') {
+          const token = await getServerSideToken()
+          config.headers = {
+            Authorization: "Bearer " + token,
+            ...headers
+          }
+
+        } else {
+          const token = getToken()
+          config.headers = {
+            Authorization: "Bearer " + token,
+            ...headers
+          }
         }
       }
       return config;

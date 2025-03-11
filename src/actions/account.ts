@@ -1,5 +1,3 @@
-"use client";
-
 import sendApiReq from "@/utils/sendApiReq";
 import endPoints from "@/utils/endPoints";
 

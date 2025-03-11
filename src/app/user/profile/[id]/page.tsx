@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 
-import { getUserDetails } from '@/server/actions/user';
+import { getUserDetails } from '@/actions';
 import { decodeJwt } from '@/server/utils/jwt-helpers';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -26,7 +26,7 @@ async function Page({ params }: props) {
   const loggedInUser = await decodeJwt(token)
   const loggedInUserId = loggedInUser?._id as string || ""
 
-  const user = await getUserDetails(loggedInUserId)
+  const user = await getUserDetails(userId)
   const canEdit = userId === loggedInUserId
 
   return (
