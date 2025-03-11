@@ -2,8 +2,8 @@
 
 import { Heart, Eye, Briefcase, User, Calendar, ThumbsDown, HeartOff } from "lucide-react";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { ToolTipWrapper } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -75,97 +75,71 @@ function UserCard({
 
           <CardFooter className="df flex-wrap p-0">
             {(type === "full" || type === "disliked") && !isLiked &&
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => onAdd(_id as string, "liked")}
-                  >
-                    <Heart className="h-4 w-4" />
-                    <span className="sr-only">Add to Like</span>
-                  </Button>
-                </TooltipTrigger>
-
-                <TooltipContent>
-                  Add to Like
-                </TooltipContent>
-              </Tooltip>
+              <ToolTipWrapper description="Add to Like">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => onAdd(_id as string, "liked")}
+                  className="text-rose-500 border-rose-200 hover:bg-rose-50 hover:text-rose-600"
+                >
+                  <Heart className="h-4 w-4" />
+                  <span className="sr-only">Add to Like</span>
+                </Button>
+              </ToolTipWrapper>
             }
 
             {(type === "full" || type === "liked") && !isDisliked &&
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => onAdd(_id as string, "disliked")}
-                  >
-                    <ThumbsDown className="h-4 w-4" />
-                    <span className="sr-only">Add to Dislike</span>
-                  </Button>
-                </TooltipTrigger>
-
-                <TooltipContent>
-                  Add to Dislike
-                </TooltipContent>
-              </Tooltip>
+              <ToolTipWrapper description="Add to Dislike">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => onAdd(_id as string, "disliked")}
+                  className="text-blue-500 border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+                >
+                  <ThumbsDown className="h-4 w-4" />
+                  <span className="sr-only">Add to Dislike</span>
+                </Button>
+              </ToolTipWrapper>
             }
 
             {((type === "full" && isLiked) || type === "liked") &&
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-rose-500 border-rose-200 hover:bg-rose-50 hover:text-rose-600"
-                    onClick={() => onRemove(_id as string, "liked")}
-                  >
-                    <HeartOff className="h-4 w-4 fill-rose-500" />
-                    <span className="sr-only">Remove from Like</span>
-                  </Button>
-                </TooltipTrigger>
-
-                <TooltipContent>
-                  Remove from Like
-                </TooltipContent>
-              </Tooltip>
+              <ToolTipWrapper description="Remove from Like">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => onRemove(_id as string, "liked")}
+                  className="text-rose-500 border-rose-200 hover:bg-rose-50 hover:text-rose-600"
+                >
+                  <HeartOff className="h-4 w-4 fill-rose-500" />
+                  <span className="sr-only">Remove from Like</span>
+                </Button>
+              </ToolTipWrapper>
             }
 
             {((type === "full" && isDisliked) || type === "disliked") &&
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => onRemove(_id as string, "disliked")}
-                  >
-                    <ThumbsDown className="h-4 w-4" />
-                    <span className="sr-only">Remove from Dislike</span>
-                  </Button>
-                </TooltipTrigger>
-
-                <TooltipContent>
-                  Remove from Dislike
-                </TooltipContent>
-              </Tooltip>
-            }
-
-            <Tooltip>
-              <TooltipTrigger asChild>
+              <ToolTipWrapper description="Remove from Dislike">
                 <Button
                   size="sm"
-                  onClick={onView}
+                  variant="outline"
+                  onClick={() => onRemove(_id as string, "disliked")}
+                  className="text-blue-500 border-blue-200 hover:bg-blue-50 hover:text-blue-600 relative"
                 >
-                  <Eye className="h-4 w-4" />
-                  <span className="sr-only">View Profile</span>
+                  <ThumbsDown className="h-4 w-4" />
+                  <span className="sr-only">Remove from Dislike</span>
+                  <span className="absolute top-0.5 right-4 w-px h-[22px] bg-blue-500 rounded-full -rotate-45"></span>
                 </Button>
-              </TooltipTrigger>
+              </ToolTipWrapper>
+            }
 
-              <TooltipContent>
-                View Profile
-              </TooltipContent>
-            </Tooltip>
+            <ToolTipWrapper description="View Profile">
+              <Button
+                size="sm"
+                onClick={onView}
+              >
+                <Eye className="h-4 w-4" />
+                <span className="sr-only">View Profile</span>
+              </Button>
+            </ToolTipWrapper>
           </CardFooter>
         </CardContent>
       </div>
