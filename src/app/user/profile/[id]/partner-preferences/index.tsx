@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Edit from "./edit";
 
-function PartnerPreferences({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>) => void }) {
+function PartnerPreferences({ user }: { user: userT }) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -10,7 +10,8 @@ function PartnerPreferences({ user, onUpdate }: { user: userT; onUpdate: (data: 
           <CardTitle>Partner Preferences</CardTitle>
           <CardDescription>Your preferences for a life partner</CardDescription>
         </div>
-        <Edit user={user} onUpdate={onUpdate} />
+
+        <Edit user={user} />
       </CardHeader>
 
       <CardContent>
@@ -18,46 +19,46 @@ function PartnerPreferences({ user, onUpdate }: { user: userT; onUpdate: (data: 
           <div>
             <span className="text-sm text-muted-foreground">Age Range</span>
             <p className="font-medium">
-              {user.partnerPreferences.minAge} - {user.partnerPreferences.maxAge} years
+              {user?.partnerPreferences?.minAge} - {user?.partnerPreferences?.maxAge} years
             </p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Religion</span>
-            <p className="font-medium">{user.partnerPreferences.religion}</p>
+            <p className="font-medium">{user?.partnerPreferences?.religion}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Caste</span>
-            <p className="font-medium">{user.partnerPreferences.caste}</p>
+            <p className="font-medium">{user?.partnerPreferences?.caste}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Marital Status</span>
-            <p className="font-medium">{user.partnerPreferences.maritalStatus}</p>
+            <p className="font-medium">{user?.partnerPreferences?.maritalStatus}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Qualification</span>
-            <p className="font-medium">{user.partnerPreferences.qualification}</p>
+            <p className="font-medium">{user?.partnerPreferences?.qualification}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Profession</span>
-            <p className="font-medium">{user.partnerPreferences.work}</p>
+            <p className="font-medium">{user?.partnerPreferences?.work}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Expected Salary</span>
-            <p className="font-medium">₹{user.partnerPreferences.salary.toLocaleString()} per annum</p>
+            <p className="font-medium">₹{user?.partnerPreferences?.salary.toLocaleString()} per annum</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Mother Tongue</span>
-            <p className="font-medium">{user.partnerPreferences.motherTongue}</p>
+            <p className="font-medium">{user?.partnerPreferences?.motherTongue}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Location</span>
-            <p className="font-medium">{user.partnerPreferences.location}</p>
+            <p className="font-medium">{user?.partnerPreferences?.location}</p>
           </div>
         </div>
 
         <div>
           <span className="text-sm text-muted-foreground">Expectations</span>
-          <p className="font-medium mt-1">{user.partnerPreferences.expectation}</p>
+          <p className="font-medium mt-1">{user?.partnerPreferences?.expectation}</p>
         </div>
       </CardContent>
     </Card>

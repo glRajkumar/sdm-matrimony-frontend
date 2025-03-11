@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
@@ -11,7 +13,7 @@ import EditProfileImageDialog from "./edit-profile-image-dialog";
 import AddImageDialog from "./add-image-dialog";
 import ImageView from "./image-view";
 
-function ProfileSidebar({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>) => void }) {
+function ProfileSidebar({ user }: { user: userT }) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [isImageViewOpen, setIsImageViewOpen] = useState(false)
 

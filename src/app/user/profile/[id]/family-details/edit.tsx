@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon } from 'lucide-react';
@@ -10,7 +12,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>) => void }) {
+function Edit({ user }: { user: userT }) {
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
@@ -37,18 +39,18 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    onUpdate({
-      familyDetails: {
-        ...user.familyDetails,
-        fatherName: values.fatherName,
-        motherName: values.motherName,
-        noOfBrothers: values.noOfBrothers,
-        noOfSisters: values.noOfSisters,
-        birthOrder: values.birthOrder,
-        isFatherAlive: values.isFatherAlive,
-        isMotherAlive: values.isMotherAlive,
-      },
-    })
+    // onUpdate({
+    //   familyDetails: {
+    //     ...user.familyDetails,
+    //     fatherName: values.fatherName,
+    //     motherName: values.motherName,
+    //     noOfBrothers: values.noOfBrothers,
+    //     noOfSisters: values.noOfSisters,
+    //     birthOrder: values.birthOrder,
+    //     isFatherAlive: values.isFatherAlive,
+    //     isMotherAlive: values.isMotherAlive,
+    //   },
+    // })
     setOpen(false)
   }
 
@@ -60,11 +62,13 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
           Edit
         </Button>
       </DialogTrigger>
+
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Family Details</DialogTitle>
           <DialogDescription>Make changes to your family information here.</DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -196,6 +200,7 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
                 )}
               />
             </div>
+
             <div className="flex justify-end space-x-2 pt-2">
               <Button variant="outline" onClick={() => setOpen(false)} type="button">
                 Cancel

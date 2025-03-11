@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Edit from "./edit";
 
-function PersonalDetails({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>) => void }) {
+function PersonalDetails({ user }: { user: userT }) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -11,30 +11,30 @@ function PersonalDetails({ user, onUpdate }: { user: userT; onUpdate: (data: Par
           <CardDescription>Your basic personal information</CardDescription>
         </div>
 
-        <Edit user={user} onUpdate={onUpdate} />
+        <Edit user={user} />
       </CardHeader>
 
       <CardContent>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <span className="text-sm text-muted-foreground">Full Name</span>
-            <p className="font-medium">{user.fullName}</p>
+            <p className="font-medium">{user?.fullName}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Gender</span>
-            <p className="font-medium">{user.gender}</p>
+            <p className="font-medium">{user?.gender}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Date of Birth</span>
-            <p className="font-medium">{new Date(user.dob).toLocaleDateString()}</p>
+            <p className="font-medium">{new Date(user?.dob).toLocaleDateString()}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Marital Status</span>
-            <p className="font-medium">{user.maritalStatus}</p>
+            <p className="font-medium">{user?.maritalStatus}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Address</span>
-            <p className="font-medium">{user.contactDetails.address}</p>
+            <p className="font-medium">{user?.contactDetails.address}</p>
           </div>
         </div>
       </CardContent>

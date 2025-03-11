@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon } from 'lucide-react';
@@ -12,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>) => void }) {
+function Edit({ user }: { user: userT }) {
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
@@ -45,21 +47,21 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    onUpdate({
-      partnerPreferences: {
-        ...user.partnerPreferences,
-        minAge: values.minAge,
-        maxAge: values.maxAge,
-        religion: values.religion,
-        caste: values.caste,
-        qualification: values.qualification,
-        work: values.work,
-        motherTongue: values.motherTongue,
-        location: values.location,
-        expectation: values.expectation,
-        maritalStatus: values.maritalStatus,
-      },
-    })
+    // onUpdate({
+    //   partnerPreferences: {
+    //     ...user.partnerPreferences,
+    //     minAge: values.minAge,
+    //     maxAge: values.maxAge,
+    //     religion: values.religion,
+    //     caste: values.caste,
+    //     qualification: values.qualification,
+    //     work: values.work,
+    //     motherTongue: values.motherTongue,
+    //     location: values.location,
+    //     expectation: values.expectation,
+    //     maritalStatus: values.maritalStatus,
+    //   },
+    // })
     setOpen(false)
   }
 
@@ -71,11 +73,13 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
           Edit
         </Button>
       </DialogTrigger>
+
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Partner Preferences</DialogTitle>
           <DialogDescription>Make changes to your partner preferences here.</DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -226,6 +230,7 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
                 </FormItem>
               )}
             />
+
             <div className="flex justify-end space-x-2 pt-2">
               <Button variant="outline" onClick={() => setOpen(false)} type="button">
                 Cancel

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { CalendarIcon, EditIcon } from 'lucide-react';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,8 +17,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-function format(date: Date, format: string) {
-  // Simple implementation for the example
+function format(date: Date) {
   return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -24,7 +25,7 @@ function format(date: Date, format: string) {
   })
 }
 
-function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>) => void }) {
+function Edit({ user }: { user: userT }) {
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
@@ -47,16 +48,16 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    onUpdate({
-      fullName: values.fullName,
-      gender: values.gender,
-      dob: values.dob.toISOString(),
-      maritalStatus: values.maritalStatus,
-      contactDetails: {
-        ...user.contactDetails,
-        address: values.address,
-      },
-    })
+    // onUpdate({
+    //   fullName: values.fullName,
+    //   gender: values.gender,
+    //   dob: values.dob.toISOString(),
+    //   maritalStatus: values.maritalStatus,
+    //   contactDetails: {
+    //     ...user.contactDetails,
+    //     address: values.address,
+    //   },
+    // })
     setOpen(false)
   }
 
@@ -68,11 +69,13 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
           Edit
         </Button>
       </DialogTrigger>
+
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Personal Details</DialogTitle>
           <DialogDescription>Make changes to your personal information here.</DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -123,7 +126,7 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
                           variant={"outline"}
                           className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
                         >
-                          {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                          {field.value ? format(field.value) : <span>Pick a date</span>}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
@@ -177,6 +180,7 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
                 </FormItem>
               )}
             />
+
             <div className="flex justify-end space-x-2 pt-2">
               <Button variant="outline" onClick={() => setOpen(false)} type="button">
                 Cancel

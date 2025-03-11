@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react"
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import ProfessionalDetails from "./professional-details";
@@ -12,7 +10,7 @@ import ProfileSidebar from "./profile-sidebar";
 import FamilyDetails from "./family-details";
 import OtherDetails from "./other-details";
 
-const mockUser: userT = {
+const user: userT = {
   _id: "123456",
   fullName: "Arjun Sharma",
   role: "user",
@@ -104,20 +102,13 @@ const mockUser: userT = {
 }
 
 function Page() {
-  const [user, setUser] = useState<userT>(mockUser)
-  const [activeTab, setActiveTab] = useState("personal")
-
-  const handleUpdateUser = (updatedData: Partial<userT>) => {
-    setUser((prev) => ({ ...prev, ...updatedData }))
-  }
-
   return (
     <div className="container mx-auto py-6 max-w-6xl">
       <div className="flex flex-col md:flex-row gap-6">
-        <ProfileSidebar user={user} onUpdate={handleUpdateUser} />
+        <ProfileSidebar user={user} />
 
         <div className="w-full md:w-2/3">
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <Tabs defaultValue="personal">
             <TabsList className="grid grid-cols-4 mb-6">
               <TabsTrigger value="personal">Personal</TabsTrigger>
               <TabsTrigger value="family">Family</TabsTrigger>
@@ -126,21 +117,21 @@ function Page() {
             </TabsList>
 
             <TabsContent value="personal" className="space-y-6">
-              <PersonalDetails user={user} onUpdate={handleUpdateUser} />
-              <ProfessionalDetails user={user} onUpdate={handleUpdateUser} />
-              <OtherDetails user={user} onUpdate={handleUpdateUser} />
+              <PersonalDetails user={user} />
+              <ProfessionalDetails user={user} />
+              <OtherDetails user={user} />
             </TabsContent>
 
             <TabsContent value="family" className="space-y-6">
-              <FamilyDetails user={user} onUpdate={handleUpdateUser} />
+              <FamilyDetails user={user} />
             </TabsContent>
 
             <TabsContent value="horoscope" className="space-y-6">
-              <HoroscopeDetails user={user} onUpdate={handleUpdateUser} />
+              <HoroscopeDetails user={user} />
             </TabsContent>
 
             <TabsContent value="preferences" className="space-y-6">
-              <PartnerPreferences user={user} onUpdate={handleUpdateUser} />
+              <PartnerPreferences user={user} />
             </TabsContent>
           </Tabs>
         </div>

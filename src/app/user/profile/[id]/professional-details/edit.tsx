@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon } from 'lucide-react';
@@ -10,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from '@/components/ui/label';
 
-function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>) => void }) {
+function Edit({ user }: { user: userT }) {
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
@@ -27,13 +29,13 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    onUpdate({
-      proffessionalDetails: {
-        ...user.proffessionalDetails,
-        qualification: values.qualification,
-        work: values.work,
-      },
-    })
+    // onUpdate({
+    //   proffessionalDetails: {
+    //     ...user.proffessionalDetails,
+    //     qualification: values.qualification,
+    //     work: values.work,
+    //   },
+    // })
     setOpen(false)
   }
 
@@ -45,11 +47,13 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
           Edit
         </Button>
       </DialogTrigger>
+
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Professional Details</DialogTitle>
           <DialogDescription>Make changes to your professional information here.</DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -85,6 +89,7 @@ function Edit({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>
               </div>
               <Input value={`₹${user.proffessionalDetails.salary.toLocaleString()}`} disabled className="mt-1" />
             </div>
+
             <div className="flex justify-end space-x-2 pt-2">
               <Button variant="outline" onClick={() => setOpen(false)} type="button">
                 Cancel

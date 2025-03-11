@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ChartDisplay from "./chart-display";
 import Edit from "./edit";
 
-function HoroscopeDetails({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>) => void }) {
+function HoroscopeDetails({ user }: { user: userT }) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -13,26 +13,27 @@ function HoroscopeDetails({ user, onUpdate }: { user: userT; onUpdate: (data: Pa
           <CardTitle>Vedic Horoscope</CardTitle>
           <CardDescription>Your astrological information</CardDescription>
         </div>
-        <Edit user={user} onUpdate={onUpdate} />
+
+        <Edit user={user} />
       </CardHeader>
 
       <CardContent>
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div>
             <span className="text-sm text-muted-foreground">Nakshatra</span>
-            <p className="font-medium">{user.vedicHoroscope.nakshatra}</p>
+            <p className="font-medium">{user?.vedicHoroscope?.nakshatra}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Rasi</span>
-            <p className="font-medium">{user.vedicHoroscope.rasi}</p>
+            <p className="font-medium">{user?.vedicHoroscope?.rasi}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Lagna</span>
-            <p className="font-medium">{user.vedicHoroscope.lagna}</p>
+            <p className="font-medium">{user?.vedicHoroscope?.lagna}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Dasha Period</span>
-            <p className="font-medium">{user.vedicHoroscope.dashaPeriod}</p>
+            <p className="font-medium">{user?.vedicHoroscope?.dashaPeriod}</p>
           </div>
         </div>
 
@@ -42,10 +43,10 @@ function HoroscopeDetails({ user, onUpdate }: { user: userT; onUpdate: (data: Pa
             <TabsTrigger value="navamsa">Navamsa Chart</TabsTrigger>
           </TabsList>
           <TabsContent value="raasi" className="mt-4">
-            <ChartDisplay chart={user.vedicHoroscope.raasiChart} />
+            <ChartDisplay chart={user?.vedicHoroscope?.raasiChart} />
           </TabsContent>
           <TabsContent value="navamsa" className="mt-4">
-            <ChartDisplay chart={user.vedicHoroscope.navamsaChart} />
+            <ChartDisplay chart={user?.vedicHoroscope?.navamsaChart} />
           </TabsContent>
         </Tabs>
       </CardContent>
