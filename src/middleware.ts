@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { jwtVerify } from 'jose';
+import { decodeJwt } from './server/utils/jwt-helpers';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -14,8 +14,7 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const secret = new TextEncoder().encode(process.env.jwtSecretKey)
-    const { payload } = await jwtVerify(token, secret)
+    const payload = await decodeJwt(token)
 
     if (typeof payload.exp === 'number' && Date.now() >= payload.exp * 1000) {
       const base = payload.role === "user" ? "/auth" : `/auth/${payload.role}`

@@ -5,7 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ChartDisplay from "./chart-display";
 import Edit from "./edit";
 
-function HoroscopeDetails({ user }: { user: userT }) {
+type props = {
+  user: userT
+  canEdit: boolean
+}
+
+function HoroscopeDetails({ user, canEdit }: props) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -14,7 +19,10 @@ function HoroscopeDetails({ user }: { user: userT }) {
           <CardDescription>Your astrological information</CardDescription>
         </div>
 
-        <Edit user={user} />
+        {
+          canEdit &&
+          <Edit user={user} />
+        }
       </CardHeader>
 
       <CardContent>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Heart, Eye, Briefcase, User, Calendar, ThumbsDown, HeartOff } from "lucide-react";
+import Link from "next/link";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ToolTipWrapper } from "@/components/ui/tooltip";
@@ -135,9 +136,12 @@ function UserCard({
               <Button
                 size="sm"
                 onClick={onView}
+                asChild
               >
-                <Eye className="h-4 w-4" />
-                <span className="sr-only">View Profile</span>
+                <Link href={`/user/profile/${_id}`}>
+                  <Eye className="h-4 w-4" />
+                  <span className="sr-only">View Profile</span>
+                </Link>
               </Button>
             </ToolTipWrapper>
           </CardFooter>

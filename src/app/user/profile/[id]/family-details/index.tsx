@@ -2,7 +2,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Edit from "./edit";
 
-function FamilyDetails({ user }: { user: userT }) {
+type props = {
+  user: userT
+  canEdit: boolean
+}
+
+function FamilyDetails({ user, canEdit }: props) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -11,7 +16,10 @@ function FamilyDetails({ user }: { user: userT }) {
           <CardDescription>Information about your family</CardDescription>
         </div>
 
-        <Edit user={user} />
+        {
+          canEdit &&
+          <Edit user={user} />
+        }
       </CardHeader>
 
       <CardContent>

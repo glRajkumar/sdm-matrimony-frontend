@@ -1,6 +1,8 @@
-"use client";
+import { cookies } from 'next/headers';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { decodeJwt } from '@/server/utils/jwt-helpers';
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import ProfessionalDetails from "./professional-details";
 import PartnerPreferences from "./partner-preferences";
@@ -101,11 +103,22 @@ const user: userT = {
   },
 }
 
-function Page() {
+type props = {
+  params: Promise<{ id: string }>
+}
+
+async function Page({ params }: props) {
+  const { id: userId } = await params
+  const cookieStore = await cookies()
+  const token = cookieStore?.get("sdm")?.value || ""
+  const loggedInUser = await decodeJwt(token)
+
+  const canEdit = userId === loggedInUser?._id
+
   return (
     <div className="container mx-auto py-6 max-w-6xl">
       <div className="flex flex-col md:flex-row gap-6">
-        <ProfileSidebar user={user} />
+        <ProfileSidebar user={user} canEdit={canEdit} />
 
         <div className="w-full md:w-2/3">
           <Tabs defaultValue="personal">
@@ -117,21 +130,21 @@ function Page() {
             </TabsList>
 
             <TabsContent value="personal" className="space-y-6">
-              <PersonalDetails user={user} />
-              <ProfessionalDetails user={user} />
-              <OtherDetails user={user} />
+              <PersonalDetails user={user} canEdit={canEdit} />
+              <ProfessionalDetails user={user} canEdit={canEdit} />
+              <OtherDetails user={user} canEdit={canEdit} />
             </TabsContent>
 
             <TabsContent value="family" className="space-y-6">
-              <FamilyDetails user={user} />
+              <FamilyDetails user={user} canEdit={canEdit} />
             </TabsContent>
 
             <TabsContent value="horoscope" className="space-y-6">
-              <HoroscopeDetails user={user} />
+              <HoroscopeDetails user={user} canEdit={canEdit} />
             </TabsContent>
 
             <TabsContent value="preferences" className="space-y-6">
-              <PartnerPreferences user={user} />
+              <PartnerPreferences user={user} canEdit={canEdit} />
             </TabsContent>
           </Tabs>
         </div>

@@ -2,7 +2,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Edit from "./edit";
 
-function PartnerPreferences({ user }: { user: userT }) {
+type props = {
+  user: userT
+  canEdit: boolean
+}
+
+function PartnerPreferences({ user, canEdit }: props) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -11,7 +16,10 @@ function PartnerPreferences({ user }: { user: userT }) {
           <CardDescription>Your preferences for a life partner</CardDescription>
         </div>
 
-        <Edit user={user} />
+        {
+          canEdit &&
+          <Edit user={user} />
+        }
       </CardHeader>
 
       <CardContent>
