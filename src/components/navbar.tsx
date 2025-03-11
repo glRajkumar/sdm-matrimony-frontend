@@ -18,6 +18,7 @@ function Navbar() {
   const userName = useUserStore(s => s.fullName)
   const user_id = useUserStore(s => s._id)
   const email = useUserStore(s => s.email)
+  const role = useUserStore(s => s.role)
 
   const { mutate } = useLogout()
 
@@ -47,6 +48,24 @@ function Navbar() {
               Profile
             </Link>
           </DropdownMenuItem>
+
+          {
+            role === "user" &&
+            <>
+              <DropdownMenuItem asChild>
+                <Link href={`/user/liked`}>
+                  Liked
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <Link href={`/user/disliked`}>
+                  Disliked
+                </Link>
+              </DropdownMenuItem>
+
+            </>
+          }
 
           <DropdownMenuItem onClick={() => mutate()}>
             Log out

@@ -2,13 +2,13 @@
 
 import { Loader } from "lucide-react";
 
-import { useUsersList } from "@/hooks/use-user";
+import { useLikesList } from "@/hooks/use-user";
 
 import LoadMore from "@/components/common/load-more";
-import UserCard from "./user-card";
+import UserCard from "../user-card";
 
 function Page() {
-  const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage } = useUsersList()
+  const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage } = useLikesList("liked")
 
   if (isLoading) return (
     <div className='dc h-[calc(100vh-3rem)]'>

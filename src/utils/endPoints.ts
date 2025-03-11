@@ -11,8 +11,11 @@ const endPoints = {
   me: "/account/me",
 
   getMatches: "/user/matches",
+  getLikesList: "/user/likes-list",
   imgUpload: "/user/imgupload",
   getUserDetails: "/users",
+  addLiked: "/user/addliked",
+  removeLiked: "/user/removeliked",
 
   getUsersList: "/admin/users",
   updateApproval: "/admin/approval",

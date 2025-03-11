@@ -10,6 +10,13 @@ export function getMatches(params: any) {
   })
 }
 
+export function getLikesList(params: any) {
+  return sendApiReq({
+    url: endPoints.getLikesList,
+    params,
+  })
+}
+
 export function getUserDetails(id: string) {
   return sendApiReq({
     url: `${endPoints.getUserDetails}/${id}`,
@@ -21,5 +28,21 @@ export function imgUpload(userData: any) {
     url: endPoints.imgUpload,
     method: "POST",
     data: { userData },
+  })
+}
+
+export function addLiked(data: any) {
+  return sendApiReq({
+    url: endPoints.addLiked,
+    method: "POST",
+    data,
+  })
+}
+
+export function removeLiked(data: any) {
+  return sendApiReq({
+    url: endPoints.removeLiked,
+    method: "POST",
+    data,
   })
 }
