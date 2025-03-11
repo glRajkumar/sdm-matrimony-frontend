@@ -1,7 +1,7 @@
-import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { addLiked, getLikesList, getMatches, removeLiked } from "@/actions";
+import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked } from "@/actions";
 
 export function useUsersList() {
   const limit = 50
@@ -36,6 +36,14 @@ export function useLikesList(type: "liked" | "disliked") {
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
+  })
+}
+
+export function useUserDetails(_id: string) {
+  return useQuery<Partial<userT>>({
+    queryKey: ["user-details", _id],
+    queryFn: () => getUserDetails(_id),
+    enabled: !!_id,
   })
 }
 

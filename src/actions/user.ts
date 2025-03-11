@@ -17,9 +17,9 @@ export function getLikesList(params: any) {
   })
 }
 
-export function getUserDetails(id: string) {
+export function getUserDetails(_id: string) {
   return sendApiReq({
-    url: `${endPoints.getUserDetails}/${id}`,
+    url: `${endPoints.getUserDetails}/${_id}`,
   })
 }
 

@@ -13,7 +13,7 @@ const endPoints = {
   getMatches: "/user/matches",
   getLikesList: "/user/likes-list",
   imgUpload: "/user/imgupload",
-  getUserDetails: "/users",
+  getUserDetails: "/user/profile",
   addLiked: "/user/addliked",
   removeLiked: "/user/removeliked",
 
