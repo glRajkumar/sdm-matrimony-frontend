@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useUpdateProfile } from '@/hooks/use-user';
 import { cn } from '@/lib/utils';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -26,6 +27,7 @@ function format(date: Date) {
 }
 
 function Edit({ user }: { user: userT }) {
+  const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
@@ -48,17 +50,23 @@ function Edit({ user }: { user: userT }) {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // onUpdate({
-    //   fullName: values.fullName,
-    //   gender: values.gender,
-    //   dob: values.dob.toISOString(),
-    //   maritalStatus: values.maritalStatus,
-    //   contactDetails: {
-    //     ...user.contactDetails,
-    //     address: values.address,
-    //   },
-    // })
-    setOpen(false)
+    mutate(
+      {
+        fullName: values.fullName,
+        gender: values.gender,
+        dob: values.dob.toISOString(),
+        maritalStatus: values.maritalStatus,
+        contactDetails: {
+          ...user.contactDetails,
+          address: values.address,
+        },
+      },
+      {
+        onSuccess() {
+          setOpen(false)
+        }
+      }
+    )
   }
 
   return (
@@ -182,10 +190,21 @@ function Edit({ user }: { user: userT }) {
             />
 
             <div className="flex justify-end space-x-2 pt-2">
-              <Button variant="outline" onClick={() => setOpen(false)} type="button">
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isPending}
+                onClick={() => setOpen(false)}
+              >
                 Cancel
               </Button>
-              <Button type="submit">Save Changes</Button>
+
+              <Button
+                type="submit"
+                disabled={isPending}
+              >
+                Save Changes
+              </Button>
             </div>
           </form>
         </Form>

@@ -6,12 +6,15 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useUpdateProfile } from '@/hooks/use-user';
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 function Edit({ user }: { user: userT }) {
+  const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
@@ -32,16 +35,22 @@ function Edit({ user }: { user: userT }) {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // onUpdate({
-    //   vedicHoroscope: {
-    //     ...user.vedicHoroscope,
-    //     nakshatra: values.nakshatra,
-    //     rasi: values.rasi,
-    //     lagna: values.lagna,
-    //     dashaPeriod: values.dashaPeriod,
-    //   },
-    // })
-    setOpen(false)
+    mutate(
+      {
+        vedicHoroscope: {
+          ...user.vedicHoroscope,
+          nakshatra: values.nakshatra,
+          rasi: values.rasi,
+          lagna: values.lagna,
+          dashaPeriod: values.dashaPeriod,
+        },
+      },
+      {
+        onSuccess() {
+          setOpen(false)
+        }
+      }
+    )
   }
 
   return (
@@ -115,10 +124,21 @@ function Edit({ user }: { user: userT }) {
             />
 
             <div className="flex justify-end space-x-2 pt-2">
-              <Button variant="outline" onClick={() => setOpen(false)} type="button">
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isPending}
+                onClick={() => setOpen(false)}
+              >
                 Cancel
               </Button>
-              <Button type="submit">Save Changes</Button>
+
+              <Button
+                type="submit"
+                disabled={isPending}
+              >
+                Save Changes
+              </Button>
             </div>
           </form>
         </Form>

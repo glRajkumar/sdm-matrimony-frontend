@@ -16,6 +16,7 @@ const endPoints = {
   getUserDetails: "/user/profile",
   addLiked: "/user/addliked",
   removeLiked: "/user/removeliked",
+  updateProfile: "/user/profile",
 
   getUsersList: "/admin/users",
   updateApproval: "/admin/approval",

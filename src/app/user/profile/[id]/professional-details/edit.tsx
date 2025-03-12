@@ -6,6 +6,8 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useUpdateProfile } from '@/hooks/use-user';
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -13,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from '@/components/ui/label';
 
 function Edit({ user }: { user: userT }) {
+  const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
@@ -29,14 +32,20 @@ function Edit({ user }: { user: userT }) {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // onUpdate({
-    //   proffessionalDetails: {
-    //     ...user.proffessionalDetails,
-    //     qualification: values.qualification,
-    //     work: values.work,
-    //   },
-    // })
-    setOpen(false)
+    mutate(
+      {
+        proffessionalDetails: {
+          ...user.proffessionalDetails,
+          qualification: values.qualification,
+          work: values.work,
+        },
+      },
+      {
+        onSuccess() {
+          setOpen(false)
+        }
+      }
+    )
   }
 
   return (
@@ -91,10 +100,21 @@ function Edit({ user }: { user: userT }) {
             </div>
 
             <div className="flex justify-end space-x-2 pt-2">
-              <Button variant="outline" onClick={() => setOpen(false)} type="button">
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isPending}
+                onClick={() => setOpen(false)}
+              >
                 Cancel
               </Button>
-              <Button type="submit">Save Changes</Button>
+
+              <Button
+                type="submit"
+                disabled={isPending}
+              >
+                Save Changes
+              </Button>
             </div>
           </form>
         </Form>

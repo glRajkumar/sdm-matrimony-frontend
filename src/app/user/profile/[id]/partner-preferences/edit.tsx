@@ -6,6 +6,8 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useUpdateProfile } from '@/hooks/use-user';
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -15,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 function Edit({ user }: { user: userT }) {
+  const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
@@ -47,22 +50,28 @@ function Edit({ user }: { user: userT }) {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // onUpdate({
-    //   partnerPreferences: {
-    //     ...user.partnerPreferences,
-    //     minAge: values.minAge,
-    //     maxAge: values.maxAge,
-    //     religion: values.religion,
-    //     caste: values.caste,
-    //     qualification: values.qualification,
-    //     work: values.work,
-    //     motherTongue: values.motherTongue,
-    //     location: values.location,
-    //     expectation: values.expectation,
-    //     maritalStatus: values.maritalStatus,
-    //   },
-    // })
-    setOpen(false)
+    mutate(
+      {
+        partnerPreferences: {
+          ...user.partnerPreferences,
+          minAge: values.minAge,
+          maxAge: values.maxAge,
+          religion: values.religion,
+          caste: values.caste,
+          qualification: values.qualification,
+          work: values.work,
+          motherTongue: values.motherTongue,
+          location: values.location,
+          expectation: values.expectation,
+          maritalStatus: values.maritalStatus,
+        },
+      },
+      {
+        onSuccess() {
+          setOpen(false)
+        }
+      }
+    )
   }
 
   return (
@@ -232,10 +241,21 @@ function Edit({ user }: { user: userT }) {
             />
 
             <div className="flex justify-end space-x-2 pt-2">
-              <Button variant="outline" onClick={() => setOpen(false)} type="button">
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isPending}
+                onClick={() => setOpen(false)}
+              >
                 Cancel
               </Button>
-              <Button type="submit">Save Changes</Button>
+
+              <Button
+                type="submit"
+                disabled={isPending}
+              >
+                Save Changes
+              </Button>
             </div>
           </form>
         </Form>

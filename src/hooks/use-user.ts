@@ -1,7 +1,8 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked } from "@/actions";
+import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked, updateProfile } from "@/actions";
+import { useRouter } from "next/navigation";
 
 export function useUsersList() {
   const limit = 50
@@ -47,6 +48,23 @@ export function useUserDetails(_id: string) {
   })
 }
 
+export function useUpdateProfile() {
+  const navigation = useRouter()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: updateProfile,
+    onSuccess: (res, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["user-details", variables._id] })
+      navigation.refresh()
+      toast.success("Profile updated successfully")
+    },
+    onError: (error) => {
+      toast.error(error?.message || "Failed to update profile")
+    },
+  })
+}
+
 export function useAddLiked() {
   const queryClient = useQueryClient()
 
@@ -55,10 +73,10 @@ export function useAddLiked() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["likes-list", "liked"] })
       queryClient.invalidateQueries({ queryKey: ["user-list", "approved"] })
-      toast.success("User added to liked list successfully");
+      toast.success("User added to liked list successfully")
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to add user to liked list");
+      toast.error(error?.message || "Failed to add user to liked list")
     },
   })
 }
@@ -71,10 +89,10 @@ export function useRemoveLiked() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["likes-list", "disliked"] })
       queryClient.invalidateQueries({ queryKey: ["user-list", "approved"] })
-      toast.success("User removed from liked list successfully");
+      toast.success("User removed from liked list successfully")
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to remove user from liked list");
+      toast.error(error?.message || "Failed to remove user from liked list")
     },
   })
 }

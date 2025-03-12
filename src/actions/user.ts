@@ -21,6 +21,14 @@ export function getUserDetails(_id: string) {
   })
 }
 
+export function updateProfile(data: any) {
+  return sendApiReq({
+    url: endPoints.updateProfile,
+    method: "PUT",
+    data,
+  })
+}
+
 export function imgUpload(userData: any) {
   return sendApiReq({
     url: endPoints.imgUpload,
