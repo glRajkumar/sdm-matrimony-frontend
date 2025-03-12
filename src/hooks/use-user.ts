@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked, updateProfile } from "@/actions";
+import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked, addImages, updateProfile } from "@/actions";
 import { useRouter } from "next/navigation";
 
 export function useUsersList() {
@@ -49,8 +49,8 @@ export function useUserDetails(_id: string) {
 }
 
 export function useUpdateProfile() {
-  const navigation = useRouter()
   const queryClient = useQueryClient()
+  const navigation = useRouter()
 
   return useMutation({
     mutationFn: updateProfile,
@@ -61,6 +61,23 @@ export function useUpdateProfile() {
     },
     onError: (error) => {
       toast.error(error?.message || "Failed to update profile")
+    },
+  })
+}
+
+export function useAddImages() {
+  const queryClient = useQueryClient()
+  const navigation = useRouter()
+
+  return useMutation({
+    mutationFn: addImages,
+    onSuccess: (res, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["user-details", variables._id] })
+      navigation.refresh()
+      toast.success("Images updated successfully")
+    },
+    onError: (error) => {
+      toast.error(error?.message || "Failed to update images")
     },
   })
 }

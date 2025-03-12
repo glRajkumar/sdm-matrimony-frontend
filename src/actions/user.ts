@@ -29,11 +29,11 @@ export function updateProfile(data: any) {
   })
 }
 
-export function imgUpload(userData: any) {
+export function addImages(data: any) {
   return sendApiReq({
-    url: endPoints.imgUpload,
-    method: "POST",
-    data: { userData },
+    url: endPoints.addImages,
+    method: "PUT",
+    data,
   })
 }
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 
@@ -16,24 +15,10 @@ type props = {
 }
 
 function ProfileSidebar({ user, canEdit }: props) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [isImageViewOpen, setIsImageViewOpen] = useState(false)
-
-  const handleUpdateUser = (updatedData: Partial<userT>) => {
-    // setUser((prev) => ({ ...prev, ...updatedData }))
-  }
-
   const handleDeleteImage = (imageUrl: string) => {
     // setUser((prev) => ({
     //   ...prev,
     //   images: prev.images.filter((img) => img !== imageUrl),
-    // }))
-  }
-
-  const handleAddImage = (imageUrl: string) => {
-    // setUser((prev) => ({
-    //   ...prev,
-    //   images: [...prev.images, imageUrl],
     // }))
   }
 
@@ -52,7 +37,7 @@ function ProfileSidebar({ user, canEdit }: props) {
 
               {
                 canEdit &&
-                <EditProfileImageDialog user={user} onUpdate={handleUpdateUser} />
+                <EditProfileImageDialog />
               }
             </div>
 
@@ -72,16 +57,7 @@ function ProfileSidebar({ user, canEdit }: props) {
           <div className="grid grid-cols-2 gap-2">
             {user?.images.map((image, index) => (
               <div key={index} className="relative group aspect-square">
-                <Image
-                  src={image || "/placeholder.svg"}
-                  alt={`Gallery image ${index + 1}`}
-                  fill
-                  className="object-cover rounded-md cursor-pointer"
-                  onClick={() => {
-                    setSelectedImage(image)
-                    setIsImageViewOpen(true)
-                  }}
-                />
+                <ImageView image={image} />
                 {
                   canEdit &&
                   <button
@@ -96,19 +72,11 @@ function ProfileSidebar({ user, canEdit }: props) {
 
             {
               canEdit &&
-              <AddImageDialog
-                onAddImage={handleAddImage}
-              />
+              <AddImageDialog />
             }
           </div>
         </CardContent>
       </Card>
-
-      <ImageView
-        selectedImage={selectedImage || ""}
-        isImageViewOpen={isImageViewOpen}
-        setIsImageViewOpen={setIsImageViewOpen}
-      />
     </div>
   )
 }

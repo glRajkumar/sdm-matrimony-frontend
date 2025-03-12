@@ -1,32 +1,32 @@
 
 import Image from "next/image";
-import { X } from "lucide-react";
 
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 type props = {
-  selectedImage: string
-  isImageViewOpen: boolean
-  setIsImageViewOpen: React.Dispatch<React.SetStateAction<boolean>>
+  image: string
 }
 
-function ImageView({ selectedImage, isImageViewOpen, setIsImageViewOpen }: props) {
+function ImageView({ image }: props) {
   return (
-    <Dialog open={isImageViewOpen} onOpenChange={setIsImageViewOpen}>
-      <DialogContent className="max-w-3xl p-0 overflow-hidden">
+    <Dialog>
+      <DialogTrigger asChild>
+        <Image
+          src={image || "/placeholder.svg"}
+          alt={"User Image"}
+          fill
+          className="object-cover rounded-md cursor-pointer"
+        />
+      </DialogTrigger>
+
+      <DialogHeader>
+        <DialogTitle className="sr-only">User Image</DialogTitle>
+        <DialogDescription className="sr-only">View the selected image in full size.</DialogDescription>
+      </DialogHeader>
+
+      <DialogContent className="max-w-3xl">
         <div className="relative aspect-video">
-          {selectedImage && (
-            <Image src={selectedImage || "/placeholder.svg"} alt="Gallery image" fill className="object-contain" />
-          )}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-2 right-2"
-            onClick={() => setIsImageViewOpen(false)}
-          >
-            <X className="h-6 w-6" />
-          </Button>
+          <Image src={image || "/placeholder.svg"} alt="Gallery image" fill className="object-contain" />
         </div>
       </DialogContent>
     </Dialog>

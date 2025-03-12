@@ -1,20 +1,47 @@
-
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { FileRejection, useDropzone } from 'react-dropzone';
 import { EditIcon } from 'lucide-react';
+import { toast } from 'sonner';
 import Image from 'next/image';
+
+import { useAddImages } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-function EditProfileImageDialog({ user, onUpdate }: { user: userT; onUpdate: (data: Partial<userT>) => void }) {
+const acceptedFileTypes = {
+  'image/*': ['.png', ".jpg", ".jpeg", ".webp"],
+}
+
+function EditProfileImageDialog() {
   const [open, setOpen] = useState(false)
-  const [imageUrl, setImageUrl] = useState(user.profileImg)
+  const [file, setFile] = useState<File | null>(null)
+  const { mutate, isPending } = useAddImages()
+
+  const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
+    if (fileRejections.length > 0) return toast("You may only upload 1 file at a time.")
+    setFile(acceptedFiles[0])
+  }, [])
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: acceptedFileTypes,
+    multiple: false,
+    maxFiles: 1,
+  })
 
   const handleSubmit = () => {
-    onUpdate({ profileImg: imageUrl })
-    setOpen(false)
+    const formData = new FormData()
+    formData.append("images", file!)
+    formData.append("isProfilePic", "true")
+
+    mutate(formData, {
+      onSuccess() {
+        setOpen(false)
+      },
+    })
   }
 
   return (
@@ -28,31 +55,54 @@ function EditProfileImageDialog({ user, onUpdate }: { user: userT; onUpdate: (da
           <EditIcon className="h-4 w-4" />
         </Button>
       </DialogTrigger>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Update Profile Picture</DialogTitle>
           <DialogDescription>Change your profile picture. Click save when you're done.</DialogDescription>
         </DialogHeader>
+
         <div className="space-y-4">
-          <div className="flex justify-center">
-            <div className="relative w-40 h-40">
-              <Image src={imageUrl || "/placeholder.svg"} alt="Profile" fill className="rounded-full object-cover" />
+          {
+            file &&
+            <div className="flex justify-center">
+              <div className="relative w-40 h-40">
+                <Image src={file ? URL.createObjectURL(file) : "/placeholder.svg"} alt="Profile" fill className="rounded-full object-cover" />
+              </div>
             </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="imageUrl">Image URL</Label>
+          }
+
+          <div
+            className="space-y-2"
+            {...getRootProps()}
+          >
+            <Label htmlFor="images">Profile Image</Label>
             <Input
-              id="imageUrl"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="Enter image URL"
+              id="images"
+              {...getInputProps({
+                multiple: false,
+                style: {}
+              })}
             />
           </div>
+
           <div className="flex justify-end space-x-2">
-            <Button variant="outline" onClick={() => setOpen(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isPending}
+              onClick={() => setOpen(false)}
+            >
               Cancel
             </Button>
-            <Button onClick={handleSubmit}>Save</Button>
+
+            <Button
+              type="submit"
+              disabled={isPending}
+              onClick={handleSubmit}
+            >
+              Save
+            </Button>
           </div>
         </div>
       </DialogContent>
