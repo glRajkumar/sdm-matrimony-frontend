@@ -19,13 +19,15 @@ type props = {
 function ProfileSidebar({ user, canEdit }: props) {
   const { mutate, isPending } = useUpdateProfile()
 
-  const images = [...new Set([user?.profileImg, ...user?.images])].filter(Boolean)
-
   const handleDeleteImage = (imageUrl: string) => {
     mutate({
       images: user?.images?.filter(img => img !== imageUrl),
       ...(user?.profileImg === imageUrl && { profileImg: "" })
     })
+  }
+
+  function setAsProfilePic(url: string) {
+    mutate({ profileImg: url })
   }
 
   return (
@@ -62,9 +64,14 @@ function ProfileSidebar({ user, canEdit }: props) {
         <CardContent>
           <div className="grid grid-cols-2 gap-2">
             {
-              images.map((image, index) => (
+              user?.images.map((image, index) => (
                 <div key={index} className="relative group aspect-square">
-                  <ImageView image={image} />
+                  <ImageView
+                    image={image}
+                    images={user?.images}
+                    profileImg={user?.profileImg}
+                    setAsProfilePic={setAsProfilePic}
+                  />
                   {
                     canEdit &&
                     <button

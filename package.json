@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
     "date-fns": "^3.6.0",
+    "embla-carousel-react": "^8.5.2",
     "jose": "^5.10.0",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.379.0",

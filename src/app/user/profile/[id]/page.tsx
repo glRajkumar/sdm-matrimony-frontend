@@ -41,7 +41,7 @@ async function Page({ params }: props) {
 
       <div className="w-full md:w-2/3">
         <Tabs defaultValue="personal">
-          <TabsList className="grid grid-cols-4 mb-6">
+          <TabsList className="grid grid-cols-4 mb-2">
             <TabsTrigger value="personal">Personal</TabsTrigger>
             <TabsTrigger value="family">Family</TabsTrigger>
             <TabsTrigger value="horoscope">Horoscope</TabsTrigger>
