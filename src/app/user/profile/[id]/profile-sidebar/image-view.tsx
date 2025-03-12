@@ -12,10 +12,10 @@ function ImageView({ image }: props) {
     <Dialog>
       <DialogTrigger asChild>
         <Image
-          src={image || "/placeholder.svg"}
+          src={image || "/imgs/user.jpg"}
           alt={"User Image"}
           fill
-          className="object-cover rounded-md cursor-pointer"
+          className="object-cover rounded-md cursor-pointer border"
         />
       </DialogTrigger>
 
@@ -26,7 +26,7 @@ function ImageView({ image }: props) {
 
       <DialogContent className="max-w-3xl">
         <div className="relative aspect-video">
-          <Image src={image || "/placeholder.svg"} alt="Gallery image" fill className="object-contain" />
+          <Image src={image || "/imgs/user.jpg"} alt="Gallery image" fill className="object-contain" />
         </div>
       </DialogContent>
     </Dialog>

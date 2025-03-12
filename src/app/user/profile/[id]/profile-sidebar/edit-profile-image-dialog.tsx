@@ -67,7 +67,7 @@ function EditProfileImageDialog() {
             file &&
             <div className="flex justify-center">
               <div className="relative w-40 h-40">
-                <Image src={file ? URL.createObjectURL(file) : "/placeholder.svg"} alt="Profile" fill className="rounded-full object-cover" />
+                <Image src={file ? URL.createObjectURL(file) : "/imgs/user.jpg"} alt="Profile" fill className="rounded-full object-cover" />
               </div>
             </div>
           }

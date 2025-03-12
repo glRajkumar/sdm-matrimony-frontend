@@ -31,7 +31,7 @@ function UserCard({
         <div className="relative w-full sm:w-auto">
           <img
             className="w-full sm:w-60 h-60 object-cover"
-            src={profileImg || "/placeholder.svg?height=160&width=160"}
+            src={profileImg || "/imgs/user.jpg"}
             alt={fullName || "Profile Image"}
           />
           {isLiked && (
