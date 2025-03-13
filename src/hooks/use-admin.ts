@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import { getUsersList, updateUserDetails } from "@/actions";
+import { createUsers, getUsersList, updateUserDetails } from "@/actions";
 import { toast } from "sonner";
 
 export type userListProps = {
@@ -35,6 +35,18 @@ export function useUsersList({ approvalStatus, isBlocked, isDeleted }: userListP
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
+  })
+}
+
+export function useCreateUsersMutate() {
+  return useMutation({
+    mutationFn: createUsers,
+    onSuccess() {
+      toast("New user(s) created successfully")
+    },
+    onError(error) {
+      toast(error?.message || "Something went wrong!!!")
+    }
   })
 }
 

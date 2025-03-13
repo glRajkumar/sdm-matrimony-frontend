@@ -8,10 +8,18 @@ export function getUsersList(params: any = {}) {
   })
 }
 
+export function createUsers(data: Partial<userT>[]) {
+  return sendApiReq({
+    url: endPoints.getUsersList,
+    method: "post",
+    data,
+  })
+}
+
 export function updateUserDetails(data: Partial<userT>) {
   return sendApiReq({
     url: endPoints.updateUserDetails,
-    method: "PUT",
+    method: "put",
     data,
   })
 }
