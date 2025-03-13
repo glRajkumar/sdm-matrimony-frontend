@@ -11,6 +11,10 @@ type BaseField = base & {
   type: "text" | "number" | "email";
 };
 
+type FileField = base & {
+  type: "file";
+};
+
 type SelectField = base & {
   type: "select";
   options: {
@@ -19,7 +23,7 @@ type SelectField = base & {
   }[];
 };
 
-export type fields = BaseField | SelectField;
+export type fields = BaseField | SelectField | FileField;
 
 type FieldListType = {
   lable: string
@@ -57,6 +61,12 @@ export const fieldList: FieldListType[] = [
   {
     lable: "Personal Details",
     list: [
+      {
+        name: "profileImage",
+        type: "file",
+        label: "Profile Image",
+        // rules: { required: "Profile Image is required" },
+      },
       {
         name: "fullName",
         type: "text",

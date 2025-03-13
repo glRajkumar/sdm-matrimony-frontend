@@ -4,16 +4,13 @@ import { EditIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import Image from 'next/image';
 
+import { acceptedImagesTypes } from '@/utils/enums';
 import { useAddImages } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-const acceptedFileTypes = {
-  'image/*': ['.png', ".jpg", ".jpeg", ".webp"],
-}
 
 function EditProfileImageDialog() {
   const [open, setOpen] = useState(false)
@@ -27,7 +24,7 @@ function EditProfileImageDialog() {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: acceptedFileTypes,
+    accept: acceptedImagesTypes,
     multiple: false,
     maxFiles: 1,
   })

@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { forgotPass, login, logout, resetPass, signup, } from "@/actions";
+import { forgotPass, login, logout, registerImage, resetPass, signup, } from "@/actions";
 import { removeToken, setToken } from "@/actions/token";
 import useUserStore from "@/store/user";
 
@@ -23,6 +23,12 @@ export function useSignup() {
         description: error?.message
       })
     },
+  })
+}
+
+export function useRegisterImage() {
+  return useMutation({
+    mutationFn: registerImage,
   })
 }
 

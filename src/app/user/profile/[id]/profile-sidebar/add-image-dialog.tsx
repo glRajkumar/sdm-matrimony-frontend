@@ -3,16 +3,13 @@ import { FileRejection, useDropzone } from 'react-dropzone';
 import { Plus, X } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { acceptedImagesTypes } from '@/utils/enums';
 import { useAddImages } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-const acceptedFileTypes = {
-  'image/*': ['.png', ".jpg", ".jpeg", ".webp"],
-}
 
 function AddImageDialog() {
   const [files, setFiles] = useState<File[]>([])
@@ -27,7 +24,7 @@ function AddImageDialog() {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: acceptedFileTypes,
+    accept: acceptedImagesTypes,
     maxFiles: 4,
   })
 

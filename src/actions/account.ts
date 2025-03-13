@@ -10,6 +10,14 @@ export function signup(data: any) {
   })
 }
 
+export function registerImage(data: any) {
+  return sendApiReq({
+    method: "post",
+    url: endPoints.registerImage,
+    data,
+  })
+}
+
 export function login(data: any) {
   return sendApiReq({
     isAuthendicated: false,

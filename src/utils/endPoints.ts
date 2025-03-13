@@ -7,6 +7,7 @@ const endPoints = {
   login: "/account/login",
   forgotPass: "/account/forgot-pass",
   resetPass: "/account/reset-pass",
+  registerImage: "/account/register-image",
   logout: "/account/logout",
   me: "/account/me",
 
