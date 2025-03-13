@@ -11,7 +11,7 @@ export function getUsersList(params: any = {}) {
 type dataT = { _id: string, approvalStatus: "approved" | "rejected" }
 export function updateApproval(data: dataT) {
   return sendApiReq({
-    url: endPoints.updateApproval,
+    url: endPoints.updateUserDetails,
     method: "PUT",
     data,
   })

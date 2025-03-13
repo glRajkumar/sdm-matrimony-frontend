@@ -21,7 +21,7 @@ const endPoints = {
   addImages: "/user/images",
 
   getUsersList: "/admin/users",
-  updateApproval: "/admin/approval",
+  updateUserDetails: "/admin/user",
 };
 
 export default endPoints;
