@@ -62,7 +62,7 @@ export const fieldList: FieldListType[] = [
     lable: "Personal Details",
     list: [
       {
-        name: "profileImage",
+        name: "profileImg",
         type: "file",
         label: "Profile Image",
         // rules: { required: "Profile Image is required" },

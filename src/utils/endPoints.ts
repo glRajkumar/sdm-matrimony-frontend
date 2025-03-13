@@ -10,6 +10,7 @@ const endPoints = {
   registerImage: "/account/register-image",
   logout: "/account/logout",
   me: "/account/me",
+  checkApprovalStatus: "/account/check-approval-status",
 
   getMatches: "/user/matches",
   getLikesList: "/user/likes-list",

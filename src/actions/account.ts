@@ -27,6 +27,12 @@ export function login(data: any) {
   })
 }
 
+export function checkApprovalStatus() {
+  return sendApiReq({
+    url: endPoints.checkApprovalStatus,
+  })
+}
+
 export function forgotPass(data: any) {
   return sendApiReq({
     method: "post",

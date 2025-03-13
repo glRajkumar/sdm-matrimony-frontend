@@ -18,12 +18,12 @@ function Page() {
   const { isPending, mutate } = useSignup()
 
   const onSubmit = async (data: any) => {
-    const { profileImage, ...rest } = data
-    if (!profileImage) return toast('Profile image is required')
+    const { profileImg, ...rest } = data
+    if (!profileImg) return toast('Profile image is required')
 
     try {
       const formData = new FormData()
-      formData.append('image', profileImage)
+      formData.append('image', profileImg)
 
       const { url } = await mutateRegisterImage(formData)
 
@@ -31,7 +31,7 @@ function Page() {
         ...rest,
         dob: formatISO(data?.dob),
         role: "user",
-        profileImage: url,
+        profileImg: url,
         images: [url],
       }
 

@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { forgotPass, login, logout, registerImage, resetPass, signup, } from "@/actions";
+import { checkApprovalStatus, forgotPass, login, logout, registerImage, resetPass, signup, } from "@/actions";
 import { removeToken, setToken } from "@/actions/token";
 import useUserStore from "@/store/user";
 
@@ -49,6 +49,24 @@ export function useLogin() {
       toast('Login failed', {
         description: error.message
       })
+    },
+  })
+}
+
+export function useCheckApprovalStatus() {
+  const router = useRouter()
+  const updateUser = useUserStore(s => s.updateUser)
+
+  return useMutation({
+    mutationFn: checkApprovalStatus,
+    onSuccess(res) {
+      const { token, ...rest } = res
+      setToken(token)
+      updateUser(rest)
+      router.replace("/")
+    },
+    onError(error) {
+      toast(error.message)
     },
   })
 }
