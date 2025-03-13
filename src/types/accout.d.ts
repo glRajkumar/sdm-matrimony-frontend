@@ -87,4 +87,6 @@ type userT = {
     expectation: string
     maritalStatus: maritalStatusT
   }
+  isBlocked: boolean
+  isDeleted: boolean
 }

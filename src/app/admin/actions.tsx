@@ -1,6 +1,8 @@
 import { BsThreeDots } from "react-icons/bs";
 
-import { useApprovalMutate } from "@/hooks/use-admin";
+import type { tab } from "./types";
+
+import { useUpdateUserMutate } from "@/hooks/use-admin";
 
 import {
   DropdownMenu,
@@ -11,14 +13,18 @@ import {
 
 type props = {
   _id: string
-  status: approvalStatusT
+  currentTab: tab
 }
 
-function Actions({ _id, status }: props) {
-  const { mutate } = useApprovalMutate()
+function Actions({ _id, currentTab }: props) {
+  const { mutate } = useUpdateUserMutate()
 
   function updateStatus(approvalStatus: "approved" | "rejected") {
-    mutate({ _id, approvalStatus })
+    mutate({ _id, approvalStatus, isBlocked: false, isDeleted: false })
+  }
+
+  function updateActions(data: Partial<userT>) {
+    mutate({ _id, ...data, approvalStatus: "pending" })
   }
 
   return (
@@ -29,7 +35,7 @@ function Actions({ _id, status }: props) {
 
       <DropdownMenuContent>
         {
-          status === "pending" && (
+          currentTab !== "approved" && (
             <DropdownMenuItem
               onClick={() => updateStatus("approved")}
             >
@@ -39,7 +45,7 @@ function Actions({ _id, status }: props) {
         }
 
         {
-          (status === "pending" || status === "approved") && (
+          (currentTab === "pending" || currentTab === "approved") && (
             <DropdownMenuItem
               onClick={() => updateStatus("rejected")}
             >
@@ -49,11 +55,41 @@ function Actions({ _id, status }: props) {
         }
 
         {
-          status === "rejected" && (
+          currentTab !== "blocked" && currentTab !== "deleted" && (
             <DropdownMenuItem
-              onClick={() => updateStatus("approved")}
+              onClick={() => updateActions({ isBlocked: true })}
             >
-              Re-Approve
+              Block
+            </DropdownMenuItem>
+          )
+        }
+
+        {
+          currentTab === "blocked" && (
+            <DropdownMenuItem
+              onClick={() => updateActions({ isBlocked: false })}
+            >
+              Unblock
+            </DropdownMenuItem>
+          )
+        }
+
+        {
+          currentTab !== "deleted" && (
+            <DropdownMenuItem
+              onClick={() => updateActions({ isDeleted: true })}
+            >
+              Delete
+            </DropdownMenuItem>
+          )
+        }
+
+        {
+          currentTab === "deleted" && (
+            <DropdownMenuItem
+              onClick={() => updateActions({ isDeleted: false })}
+            >
+              Restore
             </DropdownMenuItem>
           )
         }

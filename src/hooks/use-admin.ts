@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import { getUsersList, updateApproval } from "@/actions";
+import { getUsersList, updateUserDetails } from "@/actions";
 import { toast } from "sonner";
 
 export type userListProps = {
@@ -38,14 +38,14 @@ export function useUsersList({ approvalStatus, isBlocked, isDeleted }: userListP
   })
 }
 
-export function useApprovalMutate() {
+export function useUpdateUserMutate() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: updateApproval,
-    onSuccess(_, variables) {
-      queryClient.invalidateQueries({ queryKey: ["pending-user-list"] })
-      toast(`Applicant status ${variables?.approvalStatus} successfully`)
+    mutationFn: updateUserDetails,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["user-list"] })
+      toast("Applicant details successfully")
     },
     onError(error) {
       toast(error?.message || "Something went wrong!!!")

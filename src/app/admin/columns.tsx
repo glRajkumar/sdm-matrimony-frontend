@@ -2,9 +2,12 @@
 
 import { ColumnSorter } from "@/components/ui/data-table";
 import { ColumnDef } from "@tanstack/react-table";
+
+import type { tab } from "./types";
+
 import Actions from "./actions";
 
-export const columns: ColumnDef<Partial<userT>>[] = [
+export const columns = (currentTab: tab): ColumnDef<Partial<userT>>[] => [
   {
     accessorKey: "fullName",
     header: ({ column }) => <ColumnSorter column={column} title="Name" />,
@@ -49,7 +52,7 @@ export const columns: ColumnDef<Partial<userT>>[] = [
       return (
         <Actions
           _id={row?.original?._id || ""}
-          status={row?.original?.approvalStatus || "pending"}
+          currentTab={currentTab}
         />
       )
     }

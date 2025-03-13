@@ -8,8 +8,7 @@ export function getUsersList(params: any = {}) {
   })
 }
 
-type dataT = { _id: string, approvalStatus: "approved" | "rejected" }
-export function updateApproval(data: dataT) {
+export function updateUserDetails(data: Partial<userT>) {
   return sendApiReq({
     url: endPoints.updateUserDetails,
     method: "PUT",

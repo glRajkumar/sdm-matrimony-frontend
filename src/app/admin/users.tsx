@@ -36,9 +36,11 @@ function Users({ approvalStatus, isBlocked, isDeleted }: userListProps) {
     isDeleted,
   })
 
+  const currentTab: any = approvalStatus || (isBlocked ? "blocked" : "deleted")
+
   const table = useReactTable({
     data: users as any || [],
-    columns,
+    columns: columns(currentTab),
     state: {
       sorting,
       columnVisibility,
