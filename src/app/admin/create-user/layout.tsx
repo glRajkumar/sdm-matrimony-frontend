@@ -1,7 +1,8 @@
 
 function Layout({ children }: readOnlyChildren) {
   return (
-    <div className="min-h-screen p-16 overflow-y-hidden">
+    <div className="p-8 max-w-2xl mt-8 mx-auto border rounded-2xl shadow">
+      <h1 className="mb-2 text-xl font-bold">Create user</h1>
       {children}
     </div>
   )

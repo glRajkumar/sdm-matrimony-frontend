@@ -22,7 +22,7 @@ function SelectWrapper({ name, label, rules = {}, options }: props) {
   const { control, formState: { errors } } = useFormContext()
 
   return (
-    <div>
+    <div className=" relative">
       <Label
         htmlFor={`signup-${name}`}
         className='capitalize'
