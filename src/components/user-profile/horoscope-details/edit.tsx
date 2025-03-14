@@ -18,10 +18,10 @@ function Edit({ user }: { user: userT }) {
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
-    nakshatra: z.string().min(2, "Nakshatra must be at least 2 characters"),
-    rasi: z.string().min(2, "Rasi must be at least 2 characters"),
-    lagna: z.string().min(2, "Lagna must be at least 2 characters"),
-    dashaPeriod: z.string().min(2, "Dasha period must be at least 2 characters"),
+    nakshatra: z.string().min(2, "Nakshatra must be at least 2 characters").optional().or(z.literal("")),
+    rasi: z.string().min(2, "Rasi must be at least 2 characters").optional().or(z.literal("")),
+    lagna: z.string().min(2, "Lagna must be at least 2 characters").optional().or(z.literal("")),
+    dashaPeriod: z.string().min(2, "Dasha period must be at least 2 characters").optional().or(z.literal("")),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({

@@ -35,7 +35,7 @@ function Edit({ user }: { user: userT }) {
     gender: z.enum(["Male", "Female", "Other"] as const),
     dob: z.date(),
     maritalStatus: z.enum(["Single", "Divorced", "Widowed"] as const),
-    address: z.string().min(5, "Address must be at least 5 characters"),
+    address: z.string().min(5, "Address must be at least 5 characters").optional().or(z.literal("")),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({

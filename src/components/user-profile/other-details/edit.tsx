@@ -18,21 +18,21 @@ function Edit({ user }: { user: userT }) {
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
-    motherTongue: z.string().min(2, "Mother tongue must be at least 2 characters"),
-    houseType: z.string().min(2, "House type must be at least 2 characters"),
-    height: z.string().min(2, "Height must be at least 2 characters"),
-    color: z.string().min(2, "Complexion must be at least 2 characters"),
-    caste: z.string().min(2, "Caste must be at least 2 characters"),
+    motherTongue: z.string().min(2, "Mother tongue must be at least 2 characters").optional().or(z.literal("")),
+    houseType: z.string().min(2, "House type must be at least 2 characters").optional().or(z.literal("")),
+    height: z.string().min(2, "Height must be at least 2 characters").optional().or(z.literal("")),
+    color: z.string().min(2, "Complexion must be at least 2 characters").optional().or(z.literal("")),
+    caste: z.string().min(2, "Caste must be at least 2 characters").optional().or(z.literal("")),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      motherTongue: user.otherDetails.motherTongue,
-      houseType: user.otherDetails.houseType,
-      height: user.otherDetails.height,
-      color: user.otherDetails.color,
-      caste: user.otherDetails.caste,
+      motherTongue: user.otherDetails.motherTongue || "",
+      houseType: user.otherDetails.houseType || "",
+      height: user.otherDetails.height || "",
+      color: user.otherDetails.color || "",
+      caste: user.otherDetails.caste || "",
     },
   })
 
