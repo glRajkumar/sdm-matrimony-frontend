@@ -18,7 +18,7 @@ const userLinks = [
     href: "liked",
   },
   {
-    lable: "Dis-Liked",
+    lable: "Disliked",
     href: "disliked",
   },
 ]

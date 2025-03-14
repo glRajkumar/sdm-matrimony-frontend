@@ -41,6 +41,12 @@ function List({ type, users, isLoading, isFetching, hasNextPage, fetchNextPage }
     </div>
   )
 
+  if (users.length === 0) return (
+    <section className="dc px-2 sm:px-4 py-8 h-[90vh]">
+      No users found
+    </section>
+  )
+
   return (
     <section className="px-2 sm:px-4 py-8 max-w-3xl mx-auto">
       {
