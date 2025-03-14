@@ -3,7 +3,7 @@ import Navbar from "@/components/navbar";
 function Layout({ children }: readOnlyChildren) {
   return (
     <main>
-      <Navbar />
+      <Navbar isAdmin />
       {children}
     </main>
   )

@@ -1,4 +1,5 @@
 import { BsThreeDots } from "react-icons/bs";
+import Link from "next/link";
 
 import type { tab } from "./types";
 
@@ -34,6 +35,12 @@ function Actions({ _id, currentTab }: props) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>
+        <DropdownMenuItem asChild>
+          <Link href={`/admin/user/${_id}`}>
+            View
+          </Link>
+        </DropdownMenuItem>
+
         {
           currentTab !== "approved" && (
             <DropdownMenuItem

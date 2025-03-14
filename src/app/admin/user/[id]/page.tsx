@@ -12,22 +12,21 @@ type props = {
 
 async function Page({ params }: props) {
   const { id: userId } = await params
-  if (!userId) return redirect("/user")
+  if (!userId) return redirect("/admin")
 
   const cookieStore = await cookies()
   const token = cookieStore.get('sdm')?.value || ""
-  if (!token) return redirect("/user")
+  if (!token) return redirect("/admin")
 
   const loggedInUser = await decodeJwt(token)
   const loggedInUserId = loggedInUser?._id as string || ""
-  if (!loggedInUserId) return redirect("/user")
+  if (!loggedInUserId) return redirect("/admin")
 
   const user = await getUserDetails(userId)
-  const canEdit = userId === loggedInUserId
 
-  if (!user) return redirect("/user")
+  if (!user) return redirect("/admin")
 
-  return <UserProfile user={user} canEdit={canEdit} />
+  return <UserProfile user={user} canEdit />
 }
 
 export default Page
