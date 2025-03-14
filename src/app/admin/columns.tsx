@@ -28,6 +28,7 @@ export const columns = (currentTab: tab): ColumnDef<Partial<userT>>[] => [
   {
     accessorKey: "email",
     header: ({ column }) => <ColumnSorter column={column} title="Email" />,
+    cell: ({ row }) => <p className="normal-case">{row?.original?.email}</p>,
   },
   {
     accessorKey: "gender",

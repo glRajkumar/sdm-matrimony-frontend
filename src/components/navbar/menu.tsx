@@ -38,11 +38,14 @@ function Menu() {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem asChild>
-          <Link href={`/${role}/profile/${user_id}`}>
-            Profile
-          </Link>
-        </DropdownMenuItem>
+        {
+          role === "user" &&
+          <DropdownMenuItem asChild>
+            <Link href={`/user/profile/${user_id}`}>
+              Profile
+            </Link>
+          </DropdownMenuItem>
+        }
 
         <DropdownMenuItem onClick={() => mutate()}>
           Log out
