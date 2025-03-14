@@ -42,8 +42,10 @@ function Edit({ user }: { user: userT }) {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const isAdmin = window.location.pathname.includes("admin")
     mutate(
       {
+        ...(isAdmin && { _id: user._id }),
         familyDetails: {
           ...user.familyDetails,
           fatherName: values.fatherName,

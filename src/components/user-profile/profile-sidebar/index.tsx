@@ -20,14 +20,20 @@ function ProfileSidebar({ user, canEdit }: props) {
   const { mutate, isPending } = useUpdateProfile()
 
   const handleDeleteImage = (imageUrl: string) => {
+    const isAdmin = window.location.pathname.includes("admin")
     mutate({
+      ...(isAdmin && { _id: user._id }),
       images: user?.images?.filter(img => img !== imageUrl),
       ...(user?.profileImg === imageUrl && { profileImg: "" })
     })
   }
 
   function setAsProfilePic(url: string) {
-    mutate({ profileImg: url })
+    const isAdmin = window.location.pathname.includes("admin")
+    mutate({
+      ...(isAdmin && { _id: user._id }),
+      profileImg: url
+    })
   }
 
   return (
@@ -45,7 +51,7 @@ function ProfileSidebar({ user, canEdit }: props) {
 
               {
                 canEdit &&
-                <EditProfileImageDialog />
+                <EditProfileImageDialog _id={user._id} />
               }
             </div>
 
@@ -88,7 +94,7 @@ function ProfileSidebar({ user, canEdit }: props) {
 
             {
               canEdit &&
-              <AddImageDialog />
+              <AddImageDialog _id={user._id} />
             }
           </div>
         </CardContent>

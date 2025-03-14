@@ -35,8 +35,10 @@ function Edit({ user }: { user: userT }) {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const isAdmin = window.location.pathname.includes("admin")
     mutate(
       {
+        ...(isAdmin && { _id: user._id }),
         vedicHoroscope: {
           ...user.vedicHoroscope,
           nakshatra: values.nakshatra,

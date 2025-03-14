@@ -97,7 +97,7 @@ function FormLabel({
     <Label
       data-slot="form-label"
       data-error={!!error}
-      className={cn("data-[error=true]:text-destructive-foreground", className)}
+      className={cn(className)} // data-[error=true]:text-destructive-foreground
       htmlFor={formItemId}
       {...props}
     />

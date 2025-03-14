@@ -11,7 +11,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-function AddImageDialog() {
+type props = {
+  _id: string
+}
+function AddImageDialog({ _id }: props) {
   const [files, setFiles] = useState<File[]>([])
   const [open, setOpen] = useState(false)
 
@@ -29,8 +32,14 @@ function AddImageDialog() {
   })
 
   const handleSubmit = () => {
+    const isAdmin = window.location.pathname.includes("admin")
     const formData = new FormData()
     files.forEach(file => formData.append("images", file))
+
+    if (isAdmin) {
+      formData.append("_id", _id)
+    }
+
     mutate(formData, {
       onSuccess() {
         setFiles([])

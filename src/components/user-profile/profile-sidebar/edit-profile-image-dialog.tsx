@@ -12,7 +12,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-function EditProfileImageDialog() {
+type props = {
+  _id: string
+}
+
+function EditProfileImageDialog({ _id }: props) {
   const [open, setOpen] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const { mutate, isPending } = useAddImages()
@@ -30,9 +34,14 @@ function EditProfileImageDialog() {
   })
 
   const handleSubmit = () => {
+    const isAdmin = window.location.pathname.includes("admin")
     const formData = new FormData()
     formData.append("images", file!)
     formData.append("isProfilePic", "true")
+
+    if (isAdmin) {
+      formData.append("_id", _id)
+    }
 
     mutate(formData, {
       onSuccess() {
