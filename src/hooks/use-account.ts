@@ -112,16 +112,17 @@ export function useLogout() {
   const router = useRouter()
   const role = useUserStore(s => s.role)
 
+  function onSuccess() {
+    const base = role === "user" ? "/auth" : `/auth/${role}`
+    removeToken()
+    toast('Logged out successfully')
+    router.replace(`${base}/signin`)
+  }
+
   return useMutation({
     mutationFn: logout,
-    onSuccess() {
-      const base = role === "user" ? "/auth" : `/auth/${role}`
-      removeToken()
-      toast('Logged out successfully')
-      router.replace(`${base}/signin`)
-    },
-    onError() {
-      toast('Error on logging out')
+    onSettled() {
+      onSuccess()
     },
   })
 }

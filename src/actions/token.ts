@@ -13,4 +13,7 @@ export function setToken(token: string) {
   Cookies.set(tokenEnums.accessToken, token, { expires })
 }
 
-export const removeToken = () => Cookies.remove(tokenEnums.accessToken)
+export const removeToken = () => {
+  Cookies.remove(tokenEnums.accessToken)
+  Cookies.remove(tokenEnums.refreshToken)
+}

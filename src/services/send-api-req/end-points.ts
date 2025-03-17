@@ -5,12 +5,13 @@ export const root = {
 export const endPoints = {
   register: "/account/register",
   login: "/account/login",
+  getAccessToken: "/account/access-token",
   forgotPass: "/account/forgot-pass",
   resetPass: "/account/reset-pass",
   registerImage: "/account/register-image",
+  checkApprovalStatus: "/account/check-approval-status",
   logout: "/account/logout",
   me: "/account/me",
-  checkApprovalStatus: "/account/check-approval-status",
 
   getMatches: "/user/matches",
   getLikesList: "/user/likes-list",
