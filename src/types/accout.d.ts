@@ -1,7 +1,7 @@
 
 type rolesT = "user" | "broker" | "admin"
 
-type genderT = 'Male' | 'Female' | 'Other'
+type genderT = 'Male' | 'Female' // | 'Other'
 
 type approvalStatusT = 'pending' | 'approved' | 'rejected'
 

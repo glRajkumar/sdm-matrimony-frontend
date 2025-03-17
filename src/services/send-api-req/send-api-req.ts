@@ -57,7 +57,12 @@ const requestIntercepter = (instance: AxiosInstance, isAuthendicated: boolean, h
             ...headers
           }
         } else {
-          const token = getToken()
+          let token = getToken()
+
+          if (!token) {
+            token = await refreshAccessToken()
+          }
+
           config.headers = {
             Authorization: "Bearer " + token,
             ...headers
@@ -102,7 +107,6 @@ const responseIntercepter = (instance: AxiosInstance): void => {
 
         try {
           const newToken = await refreshAccessToken()
-          console.log(newToken)
           originalRequest.headers.Authorization = `Bearer ${newToken}`
 
           processQueue(null, newToken)

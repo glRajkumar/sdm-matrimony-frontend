@@ -6,10 +6,12 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { castes, languages, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -29,12 +31,12 @@ function Edit({ user }: { user: userT }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      motherTongue: user.otherDetails.motherTongue || "",
-      houseType: user.otherDetails.houseType || "",
-      religion: user.otherDetails.religion || "",
-      height: user.otherDetails.height || "",
-      color: user.otherDetails.color || "",
-      caste: user.otherDetails.caste || "",
+      motherTongue: user?.otherDetails?.motherTongue || "",
+      houseType: user?.otherDetails?.houseType || "",
+      religion: user?.otherDetails?.religion || "",
+      height: user?.otherDetails?.height || "",
+      color: user?.otherDetails?.color || "",
+      caste: user?.otherDetails?.caste || "",
     },
   })
 
@@ -79,13 +81,30 @@ function Edit({ user }: { user: userT }) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Mother Tongue</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
+
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select mother tongue" />
+                      </SelectTrigger>
+                    </FormControl>
+
+                    <SelectContent>
+                      {
+                        languages.map((language) => (
+                          <SelectItem key={language} value={language}>
+                            {language}
+                          </SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="houseType"
@@ -99,6 +118,7 @@ function Edit({ user }: { user: userT }) {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="height"
@@ -112,6 +132,7 @@ function Edit({ user }: { user: userT }) {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="color"
@@ -125,28 +146,62 @@ function Edit({ user }: { user: userT }) {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="religion"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Religion</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
+
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select religion" />
+                      </SelectTrigger>
+                    </FormControl>
+
+                    <SelectContent>
+                      {
+                        religions.map((religion) => (
+                          <SelectItem key={religion} value={religion}>
+                            {religion}
+                          </SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="caste"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Caste</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
+
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select caste" />
+                      </SelectTrigger>
+                    </FormControl>
+
+                    <SelectContent>
+                      {
+                        castes.map((caste) => (
+                          <SelectItem key={caste} value={caste}>
+                            {caste}
+                          </SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
+
                   <FormMessage />
                 </FormItem>
               )}

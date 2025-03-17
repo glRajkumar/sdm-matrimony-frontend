@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { gender, maritalStatus } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 import { cn } from '@/lib/utils';
 
@@ -32,9 +33,9 @@ function Edit({ user }: { user: userT }) {
 
   const formSchema = z.object({
     fullName: z.string().min(2, "Name must be at least 2 characters"),
-    gender: z.enum(["Male", "Female", "Other"] as const),
+    gender: z.enum(gender),
     dob: z.date(),
-    maritalStatus: z.enum(["Single", "Divorced", "Widowed"] as const),
+    maritalStatus: z.enum(maritalStatus),
     address: z.string().min(5, "Address must be at least 5 characters").optional().or(z.literal("")),
   })
 
@@ -99,28 +100,37 @@ function Edit({ user }: { user: userT }) {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="gender"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Gender</FormLabel>
+
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select gender" />
                       </SelectTrigger>
                     </FormControl>
+
                     <SelectContent>
-                      <SelectItem value="Male">Male</SelectItem>
-                      <SelectItem value="Female">Female</SelectItem>
-                      <SelectItem value="Other">Other</SelectItem>
+                      {
+                        gender.map(gen => (
+                          <SelectItem value={gen} key={gen}>
+                            {gen}
+                          </SelectItem>
+                        ))
+                      }
                     </SelectContent>
                   </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="dob"
@@ -153,6 +163,7 @@ function Edit({ user }: { user: userT }) {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="maritalStatus"
@@ -165,16 +176,20 @@ function Edit({ user }: { user: userT }) {
                         <SelectValue placeholder="Select marital status" />
                       </SelectTrigger>
                     </FormControl>
+
                     <SelectContent>
-                      <SelectItem value="Single">Single</SelectItem>
-                      <SelectItem value="Divorced">Divorced</SelectItem>
-                      <SelectItem value="Widowed">Widowed</SelectItem>
+                      {
+                        maritalStatus.map(mart => (
+                          <SelectItem value={mart} key={mart}>{mart}</SelectItem>
+                        ))
+                      }
                     </SelectContent>
                   </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="address"

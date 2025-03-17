@@ -1,4 +1,4 @@
-import { gender, maritalStatus } from "@/utils/enums";
+import { castes, gender, languages, maritalStatus, nakshatra, raasi, religions } from "@/utils/enums";
 import { RegisterOptions } from "react-hook-form";
 
 type base = {
@@ -180,17 +180,20 @@ export const fieldList: FieldListType[] = [
       {
         name: "vedicHoroscope.nakshatra",
         label: "Nakshatra",
-        type: "text",
+        type: "select",
+        options: nakshatra.map(nakshatra => ({ label: nakshatra, value: nakshatra })),
       },
       {
         name: "vedicHoroscope.rasi",
         label: "Rasi",
-        type: "text",
+        type: "select",
+        options: raasi.map(rasi => ({ label: rasi, value: rasi })),
       },
       {
         name: "vedicHoroscope.lagna",
         label: "Lagna",
-        type: "text",
+        type: "select",
+        options: raasi.map(rasi => ({ label: rasi, value: rasi })),
       },
       {
         name: "vedicHoroscope.dashaPeriod",
@@ -230,18 +233,21 @@ export const fieldList: FieldListType[] = [
       },
       {
         name: "otherDetails.motherTongue",
-        type: "text",
+        type: "select",
         label: "Mother Tongue",
+        options: languages.map(language => ({ label: language, value: language })),
       },
       {
         name: "otherDetails.religion",
-        type: "text",
+        type: "select",
         label: "Religion",
+        options: religions.map(religion => ({ label: religion, value: religion })),
       },
       {
         name: "otherDetails.caste",
-        type: "text",
+        type: "select",
         label: "Caste",
+        options: castes.map(caste => ({ label: caste, value: caste })),
       }
     ]
   },
@@ -278,18 +284,21 @@ export const fieldList: FieldListType[] = [
       },
       {
         name: "partnerPreferences.religion",
-        type: "text",
+        type: "select",
         label: "Religion",
+        options: religions.map(religion => ({ label: religion, value: religion })),
       },
       {
         name: "partnerPreferences.caste",
-        type: "text",
+        type: "select",
         label: "Caste",
+        options: castes.map(caste => ({ label: caste, value: caste })),
       },
       {
         name: "partnerPreferences.motherTongue",
-        type: "text",
+        type: "select",
         label: "Mother Tongue",
+        options: languages.map(language => ({ label: language, value: language })),
       },
       {
         name: "partnerPreferences.location",

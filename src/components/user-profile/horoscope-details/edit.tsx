@@ -7,9 +7,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { useUpdateProfile } from '@/hooks/use-user';
+import { nakshatra, raasi } from '@/utils';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -18,8 +20,8 @@ function Edit({ user }: { user: userT }) {
   const [open, setOpen] = useState(false)
 
   const formSchema = z.object({
-    nakshatra: z.string().min(2, "Nakshatra must be at least 2 characters").optional().or(z.literal("")),
-    rasi: z.string().min(2, "Rasi must be at least 2 characters").optional().or(z.literal("")),
+    nakshatra: z.string().optional().or(z.literal("")),
+    rasi: z.string().optional().or(z.literal("")),
     lagna: z.string().min(2, "Lagna must be at least 2 characters").optional().or(z.literal("")),
     dashaPeriod: z.string().min(2, "Dasha period must be at least 2 characters").optional().or(z.literal("")),
   })
@@ -27,10 +29,10 @@ function Edit({ user }: { user: userT }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nakshatra: user.vedicHoroscope.nakshatra,
-      rasi: user.vedicHoroscope.rasi,
-      lagna: user.vedicHoroscope.lagna,
-      dashaPeriod: user.vedicHoroscope.dashaPeriod,
+      nakshatra: user?.vedicHoroscope?.nakshatra || "",
+      rasi: user?.vedicHoroscope?.rasi || "",
+      lagna: user?.vedicHoroscope?.lagna || "",
+      dashaPeriod: user?.vedicHoroscope?.dashaPeriod || "",
     },
   })
 
@@ -75,39 +77,84 @@ function Edit({ user }: { user: userT }) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nakshatra</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
+
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a nakshatra" />
+                      </SelectTrigger>
+                    </FormControl>
+
+                    <SelectContent>
+                      {nakshatra.map((nakshatra) => (
+                        <SelectItem key={nakshatra} value={nakshatra}>
+                          {nakshatra}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="rasi"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Rasi</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
+
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a rasi" />
+                      </SelectTrigger>
+                    </FormControl>
+
+                    <SelectContent>
+                      {raasi.map((rasi) => (
+                        <SelectItem key={rasi} value={rasi}>
+                          {rasi}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="lagna"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Lagna</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
+
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a lagna" />
+                      </SelectTrigger>
+                    </FormControl>
+
+                    <SelectContent>
+                      {raasi.map((rasi) => (
+                        <SelectItem key={rasi} value={rasi}>
+                          {rasi}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="dashaPeriod"
