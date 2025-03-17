@@ -48,13 +48,7 @@ function Edit({ user }: { user: userT }) {
         ...(isAdmin && { _id: user._id }),
         familyDetails: {
           ...user.familyDetails,
-          fatherName: values.fatherName,
-          motherName: values.motherName,
-          noOfBrothers: values.noOfBrothers,
-          noOfSisters: values.noOfSisters,
-          birthOrder: values.birthOrder,
-          isFatherAlive: values.isFatherAlive,
-          isMotherAlive: values.isMotherAlive,
+          ...values,
         },
       },
       {

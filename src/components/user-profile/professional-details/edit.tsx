@@ -38,8 +38,7 @@ function Edit({ user }: { user: userT }) {
         ...(isAdmin && { _id: user._id }),
         proffessionalDetails: {
           ...user.proffessionalDetails,
-          qualification: values.qualification,
-          work: values.work,
+          ...values,
         },
       },
       {

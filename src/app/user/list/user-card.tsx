@@ -40,12 +40,12 @@ function UserCard({
               Liked
             </Badge>
           )}
-          {isDisliked && (
+          {/* {isDisliked && (
             <Badge variant="secondary" className="absolute top-2 right-2 bg-white/80">
               <ThumbsDown className="h-3 w-3 mr-1 text-slate-500" />
               Disliked
             </Badge>
-          )}
+          )} */}
         </div>
 
         <CardContent className="flex-1 p-4">
@@ -89,7 +89,7 @@ function UserCard({
               </ToolTipWrapper>
             }
 
-            {(type === "full" || type === "liked") && !isDisliked &&
+            {/* {(type === "full" || type === "liked") && !isDisliked &&
               <ToolTipWrapper description="Add to Dislike">
                 <Button
                   size="sm"
@@ -101,7 +101,7 @@ function UserCard({
                   <span className="sr-only">Add to Dislike</span>
                 </Button>
               </ToolTipWrapper>
-            }
+            } */}
 
             {((type === "full" && isLiked) || type === "liked") &&
               <ToolTipWrapper description="Remove from Like">
@@ -117,7 +117,7 @@ function UserCard({
               </ToolTipWrapper>
             }
 
-            {((type === "full" && isDisliked) || type === "disliked") &&
+            {/* {((type === "full" && isDisliked) || type === "disliked") &&
               <ToolTipWrapper description="Remove from Dislike">
                 <Button
                   size="sm"
@@ -130,7 +130,7 @@ function UserCard({
                   <span className="absolute top-0.5 right-4 w-px h-[22px] bg-blue-500 rounded-full -rotate-45"></span>
                 </Button>
               </ToolTipWrapper>
-            }
+            } */}
 
             <ToolTipWrapper description="View Profile">
               <Button

@@ -54,10 +54,8 @@ function Edit({ user }: { user: userT }) {
     mutate(
       {
         ...(isAdmin && { _id: user._id }),
-        fullName: values.fullName,
-        gender: values.gender,
+        ...values,
         dob: values.dob.toISOString(),
-        maritalStatus: values.maritalStatus,
         contactDetails: {
           ...user.contactDetails,
           address: values.address,

@@ -76,16 +76,7 @@ function Edit({ user }: { user: userT }) {
         ...(isAdmin && { _id: user._id }),
         partnerPreferences: {
           ...user.partnerPreferences,
-          minAge: values.minAge,
-          maxAge: values.maxAge,
-          religion: values.religion,
-          caste: values.caste,
-          qualification: values.qualification,
-          work: values.work,
-          motherTongue: values.motherTongue,
-          location: values.location,
-          expectation: values.expectation,
-          maritalStatus: values.maritalStatus,
+          ...values,
         },
       },
       {

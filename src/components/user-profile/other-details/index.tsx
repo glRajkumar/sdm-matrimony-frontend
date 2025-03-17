@@ -41,6 +41,10 @@ function OtherDetails({ user, canEdit }: props) {
             <p className="font-medium">{user?.otherDetails?.color}</p>
           </div>
           <div>
+            <span className="text-sm text-muted-foreground">Religion</span>
+            <p className="font-medium">{user?.otherDetails?.religion}</p>
+          </div>
+          <div>
             <span className="text-sm text-muted-foreground">Caste</span>
             <p className="font-medium">{user?.otherDetails?.caste}</p>
           </div>

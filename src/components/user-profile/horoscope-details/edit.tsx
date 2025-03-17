@@ -41,10 +41,7 @@ function Edit({ user }: { user: userT }) {
         ...(isAdmin && { _id: user._id }),
         vedicHoroscope: {
           ...user.vedicHoroscope,
-          nakshatra: values.nakshatra,
-          rasi: values.rasi,
-          lagna: values.lagna,
-          dashaPeriod: values.dashaPeriod,
+          ...values,
         },
       },
       {

@@ -20,6 +20,7 @@ function Edit({ user }: { user: userT }) {
   const formSchema = z.object({
     motherTongue: z.string().min(2, "Mother tongue must be at least 2 characters").optional().or(z.literal("")),
     houseType: z.string().min(2, "House type must be at least 2 characters").optional().or(z.literal("")),
+    religion: z.string().min(2, "Religion must be at least 2 characters").optional().or(z.literal("")),
     height: z.string().min(2, "Height must be at least 2 characters").optional().or(z.literal("")),
     color: z.string().min(2, "Complexion must be at least 2 characters").optional().or(z.literal("")),
     caste: z.string().min(2, "Caste must be at least 2 characters").optional().or(z.literal("")),
@@ -30,6 +31,7 @@ function Edit({ user }: { user: userT }) {
     defaultValues: {
       motherTongue: user.otherDetails.motherTongue || "",
       houseType: user.otherDetails.houseType || "",
+      religion: user.otherDetails.religion || "",
       height: user.otherDetails.height || "",
       color: user.otherDetails.color || "",
       caste: user.otherDetails.caste || "",
@@ -43,11 +45,7 @@ function Edit({ user }: { user: userT }) {
         ...(isAdmin && { _id: user._id }),
         otherDetails: {
           ...user.otherDetails,
-          motherTongue: values.motherTongue,
-          houseType: values.houseType,
-          height: values.height,
-          color: values.color,
-          caste: values.caste,
+          ...values,
         },
       },
       {
@@ -120,6 +118,19 @@ function Edit({ user }: { user: userT }) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Complexion</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="religion"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Religion</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

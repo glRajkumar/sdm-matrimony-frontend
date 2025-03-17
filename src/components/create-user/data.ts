@@ -234,6 +234,11 @@ export const fieldList: FieldListType[] = [
         label: "Mother Tongue",
       },
       {
+        name: "otherDetails.religion",
+        type: "text",
+        label: "Religion",
+      },
+      {
         name: "otherDetails.caste",
         type: "text",
         label: "Caste",
