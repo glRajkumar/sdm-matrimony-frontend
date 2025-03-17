@@ -2,7 +2,7 @@ export const root = {
   baseUrl: `http://localhost:5000/api`,
 };
 
-const endPoints = {
+export const endPoints = {
   register: "/account/register",
   login: "/account/login",
   forgotPass: "/account/forgot-pass",
@@ -22,6 +22,4 @@ const endPoints = {
 
   getUsersList: "/admin/users",
   updateUserDetails: "/admin/user",
-};
-
-export default endPoints;
+}

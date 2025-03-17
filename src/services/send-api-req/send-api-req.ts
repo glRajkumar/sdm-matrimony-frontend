@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-import { getServerSideToken } from "../server/utils";
+import { getServerSideToken } from "@/server/utils";
 import { getToken } from "@/actions";
-import { root } from './endPoints';
+import { root } from './end-points';
 
 type SendApiReqParams = AxiosRequestConfig & {
   isAuthendicated?: boolean;
@@ -50,11 +50,9 @@ const responseIntercepter = (instance: AxiosInstance): void => {
   )
 }
 
-const sendApiReq = ({ isAuthendicated = true, headers = {}, ...others }: SendApiReqParams): Promise<any> => {
+export const sendApiReq = ({ isAuthendicated = true, headers = {}, ...others }: SendApiReqParams): Promise<any> => {
   const instance = axios.create({ baseURL: root.baseUrl })
   requestIntercepter(instance, isAuthendicated, headers)
   responseIntercepter(instance)
   return instance({ ...others })
 }
-
-export default sendApiReq;

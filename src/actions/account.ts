@@ -1,5 +1,4 @@
-import sendApiReq from "@/utils/sendApiReq";
-import endPoints from "@/utils/endPoints";
+import { sendApiReq, endPoints } from "@/services";
 
 export function signup(data: any) {
   return sendApiReq({
@@ -21,6 +20,7 @@ export function registerImage(data: any) {
 export function login(data: any) {
   return sendApiReq({
     isAuthendicated: false,
+    withCredentials: true,
     url: endPoints.login,
     method: "POST",
     data,

@@ -1,5 +1,4 @@
-import sendApiReq from "@/utils/sendApiReq";
-import endPoints from "@/utils/endPoints";
+import { sendApiReq, endPoints } from "@/services";
 
 export function getMatches(params: any) {
   return sendApiReq({
