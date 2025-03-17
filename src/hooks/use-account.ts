@@ -39,7 +39,7 @@ export function useLogin() {
   return useMutation({
     mutationFn: login,
     onSuccess(res) {
-      const { token, ...rest } = res
+      const { access_token: token, ...rest } = res
       setToken(token)
       updateUser(rest)
       toast('Logged in successfully')
@@ -60,7 +60,7 @@ export function useCheckApprovalStatus() {
   return useMutation({
     mutationFn: checkApprovalStatus,
     onSuccess(res) {
-      const { token, ...rest } = res
+      const { access_token: token, ...rest } = res
       setToken(token)
       updateUser(rest)
       router.replace("/")

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { decodeJwt } from './server/utils';
+import { tokenEnums } from './utils';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const token = request.cookies.get('sdm')?.value
+  const token = request.cookies.get(tokenEnums.refreshToken)?.value
 
   if (pathname.startsWith("/auth")) {
     return NextResponse.next()

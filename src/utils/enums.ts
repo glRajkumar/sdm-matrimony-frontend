@@ -11,3 +11,8 @@ export const tokenEnums = {
   accessToken: "access_token",
   refreshToken: "refresh_token",
 } as const
+
+export const tokenValidity = {
+  accessToken: 60 * 30, // 30 min
+  refreshToken: 60 * 60 * 24 * 7, // 7 days
+} as const

@@ -2,7 +2,8 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
 import { getUserDetails } from '@/actions';
-import { decodeJwt } from '@/server/utils/jwt-helpers';
+import { tokenEnums } from '@/utils';
+import { decodeJwt } from '@/server/utils';
 
 import UserProfile from '@/components/user-profile';
 
@@ -15,7 +16,7 @@ async function Page({ params }: props) {
   if (!userId) return redirect("/admin")
 
   const cookieStore = await cookies()
-  const token = cookieStore.get('sdm')?.value || ""
+  const token = cookieStore.get(tokenEnums.refreshToken)?.value || ""
   if (!token) return redirect("/admin")
 
   const loggedInUser = await decodeJwt(token)
