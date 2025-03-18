@@ -10,12 +10,11 @@ import { castes, languages, maritalStatus, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+import { InputWrapper, SelectWrapper, TextareaWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Input } from '@/components/ui/input';
+import { Form } from "@/components/ui/form";
 
 function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
@@ -106,147 +105,57 @@ function Edit({ user }: { user: userT }) {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-[60vh] -ml-1 -mr-6 pl-1 pr-6 overflow-y-auto">
             <div className="grid grid-cols-2 gap-4 items-start">
-              <FormField
+              <InputWrapper
                 control={form.control}
                 name="minAge"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Minimum Age</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="number" min={18} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Minimum Age"
+                type="number"
+                min={18}
               />
 
-              <FormField
+              <InputWrapper
                 control={form.control}
                 name="maxAge"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Maximum Age</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="number" min={18} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Maximum Age"
+                type="number"
+                min={18}
               />
             </div>
 
-            <FormField
+            <SelectWrapper
               control={form.control}
               name="religion"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Religion</FormLabel>
-
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select religion" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {
-                        religions.map((religion) => (
-                          <SelectItem key={religion} value={religion}>{religion}</SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Religion"
+              options={religions}
+              placeholder="Select religion"
             />
 
-            <FormField
+            <SelectWrapper
               control={form.control}
               name="caste"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Caste</FormLabel>
-
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select caste" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {
-                        castes.map((caste) => (
-                          <SelectItem key={caste} value={caste}>{caste}</SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Caste"
+              options={castes}
+              placeholder="Select caste"
             />
 
-            <FormField
+            <SelectWrapper
               control={form.control}
               name="maritalStatus"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Marital Status</FormLabel>
-
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select marital status" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {
-                        maritalStatus.map((status) => (
-                          <SelectItem key={status} value={status}>
-                            {status}
-                          </SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Marital Status"
+              options={maritalStatus}
+              placeholder="Select marital status"
             />
 
-            <FormField
+            <InputWrapper
               control={form.control}
               name="qualification"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Qualification</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Qualification"
             />
 
-            <FormField
+            <InputWrapper
               control={form.control}
               name="work"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Profession</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Profession"
             />
 
             <div className="pt-2">
@@ -257,62 +166,25 @@ function Edit({ user }: { user: userT }) {
               <Input value={`₹ ${user?.partnerPreferences?.salary || "-"}`} disabled className="mt-1" />
             </div>
 
-            <FormField
+            <SelectWrapper
               control={form.control}
               name="motherTongue"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mother Tongue</FormLabel>
-
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select mother tongue" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {
-                        languages.map((language) => (
-                          <SelectItem key={language} value={language}>
-                            {language}
-                          </SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Mother Tongue"
+              options={languages}
+              placeholder="Select mother tongue"
             />
 
-            <FormField
+            <InputWrapper
               control={form.control}
               name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Location"
             />
 
-            <FormField
+            <TextareaWrapper
               control={form.control}
               name="expectation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Expectations</FormLabel>
-                  <FormControl>
-                    <Textarea {...field} className="min-h-[100px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Expectations"
+              className="min-h-[100px]"
             />
 
             <div className="flex justify-end space-x-2 pt-2">

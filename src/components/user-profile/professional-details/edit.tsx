@@ -9,10 +9,11 @@ import { z } from "zod";
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { InputWrapper } from '@/components/ui/form-wrapper';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from '@/components/ui/label';
+import { Form } from "@/components/ui/form";
 
 function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
@@ -66,32 +67,18 @@ function Edit({ user }: { user: userT }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
+            <InputWrapper
               control={form.control}
               name="qualification"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Qualification</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Qualification"
             />
-            <FormField
+
+            <InputWrapper
               control={form.control}
               name="work"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Work</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Work"
             />
+
             <div className="pt-2">
               <div className="flex items-center space-x-2">
                 <Label>Annual Salary</Label>

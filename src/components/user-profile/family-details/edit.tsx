@@ -7,12 +7,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { useUpdateProfile } from '@/hooks/use-user';
+import { aliveOptions } from '@/utils';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { InputWrapper, RadioWrapper } from '@/components/ui/form-wrapper';
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { aliveOptions } from '@/utils';
 
 function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()

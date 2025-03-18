@@ -10,10 +10,9 @@ import { castes, languages, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { SelectWrapper, InputWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 
 function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
@@ -75,136 +74,46 @@ function Edit({ user }: { user: userT }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
+            <SelectWrapper
               control={form.control}
               name="motherTongue"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mother Tongue</FormLabel>
-
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select mother tongue" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {
-                        languages.map((language) => (
-                          <SelectItem key={language} value={language}>
-                            {language}
-                          </SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Mother Tongue"
+              options={languages}
+              placeholder="Select mother tongue"
             />
 
-            <FormField
+            <InputWrapper
               control={form.control}
               name="houseType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>House Type</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="House Type"
             />
 
-            <FormField
+            <InputWrapper
               control={form.control}
               name="height"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Height</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Height"
             />
 
-            <FormField
+            <InputWrapper
               control={form.control}
               name="color"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Complexion</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Complexion"
             />
 
-            <FormField
+            <SelectWrapper
               control={form.control}
               name="religion"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Religion</FormLabel>
-
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select religion" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {
-                        religions.map((religion) => (
-                          <SelectItem key={religion} value={religion}>
-                            {religion}
-                          </SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Religion"
+              options={religions}
+              placeholder="Select religion"
             />
 
-            <FormField
+            <SelectWrapper
               control={form.control}
               name="caste"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Caste</FormLabel>
-
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select caste" />
-                      </SelectTrigger>
-                    </FormControl>
-
-                    <SelectContent>
-                      {
-                        castes.map((caste) => (
-                          <SelectItem key={caste} value={caste}>
-                            {caste}
-                          </SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Caste"
+              options={castes}
+              placeholder="Select caste"
             />
 
             <div className="flex justify-end space-x-2 pt-2">
