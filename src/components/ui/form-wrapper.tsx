@@ -18,32 +18,8 @@ type BaseWrapperProps<T extends FieldValues> = {
   control: Control<T>
   className?: string
 }
-type InputWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
-  type?: "text" | "email" | "password" | "tel" | "number"
-} & React.InputHTMLAttributes<HTMLInputElement>
 
-type primitiveT = string | number | boolean
-
-type optionsT = readonly primitiveT[] | {
-  label: string
-  value: primitiveT
-}[]
-
-type RadioWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
-  options: optionsT
-}
-
-type SelectWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
-  options: optionsT
-  placeholder?: string
-}
-
-type TextareaWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
-  placeholder?: string;
-  className?: string;
-}
-
-type DatePickerWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & Omit<React.ComponentProps<typeof Calendar>, "selected" | "onSelect">
+type InputWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & React.InputHTMLAttributes<HTMLInputElement>
 
 export function InputWrapper<T extends FieldValues>({ name, label, control, className, type = "text", ...props }: InputWrapperProps<T>) {
   return (
@@ -66,9 +42,12 @@ export function InputWrapper<T extends FieldValues>({ name, label, control, clas
 }
 
 const isOptionObject = (option: any): option is { label: string; value: primitiveT } => {
-  return typeof option === 'object' && 'label' in option && 'value' in option;
-};
+  return typeof option === 'object' && 'label' in option && 'value' in option
+}
 
+type RadioWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
+  options: optionsT
+}
 export function RadioWrapper<T extends FieldValues>({ name, label, control, className, options }: RadioWrapperProps<T>) {
   return (
     <FormField
@@ -111,13 +90,17 @@ export function RadioWrapper<T extends FieldValues>({ name, label, control, clas
   )
 }
 
+type SelectWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
+  options: optionsT
+  placeholder?: string
+}
 export function SelectWrapper<T extends FieldValues>({ name, label, control, className, options, placeholder }: SelectWrapperProps<T>) {
   return (
     <FormField
       name={name}
       control={control}
       render={({ field }) => (
-        <FormItem className={className}>
+        <FormItem className={cn("relative", className)}>
           {label && <FormLabel>{label}</FormLabel>}
 
           <Select
@@ -130,7 +113,7 @@ export function SelectWrapper<T extends FieldValues>({ name, label, control, cla
           >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder={placeholder} />
+                <SelectValue placeholder={placeholder ?? `Select ${label}`} />
               </SelectTrigger>
             </FormControl>
 
@@ -153,17 +136,19 @@ export function SelectWrapper<T extends FieldValues>({ name, label, control, cla
   )
 }
 
-export function TextareaWrapper<T extends FieldValues>({ name, label, control, className, placeholder }: TextareaWrapperProps<T>) {
+type TextareaWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & React.TextareaHTMLAttributes<HTMLTextAreaElement>
+
+export function TextareaWrapper<T extends FieldValues>({ name, label, control, className, ...rest }: TextareaWrapperProps<T>) {
   return (
     <FormField
       name={name}
       control={control}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           {label && <FormLabel>{label}</FormLabel>}
 
           <FormControl>
-            <Textarea placeholder={placeholder} className={className} {...field} />
+            <Textarea {...rest} {...field} />
           </FormControl>
 
           <FormMessage />
@@ -173,6 +158,7 @@ export function TextareaWrapper<T extends FieldValues>({ name, label, control, c
   )
 }
 
+type DatePickerWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & Omit<React.ComponentProps<typeof Calendar>, "selected" | "onSelect">
 export function DatePickerWrapper<T extends FieldValues>({ name, label, control, className, ...calendarProps }: DatePickerWrapperProps<T>) {
   function format(date: Date) {
     return date.toLocaleDateString("en-US", {

@@ -13,7 +13,7 @@ type props = {
   rules?: RegisterOptions
 }
 
-function SelectImageWrapper({ name, label, rules }: props) {
+export function SelectImageWrapper({ name, label, rules }: props) {
   const [file, setFile] = useState<File | null>(null)
 
   const { register, formState: { errors }, setValue } = useFormContext()
@@ -32,7 +32,7 @@ function SelectImageWrapper({ name, label, rules }: props) {
 
   return (
     <div className="md:col-span-2">
-      <Label htmlFor={`signup-${name}`} className='capitalize'>{label || name}</Label>
+      <Label htmlFor={`signup-${name}`} className='capitalize'>{label}</Label>
 
       <div
         {...getRootProps()}
@@ -62,5 +62,3 @@ function SelectImageWrapper({ name, label, rules }: props) {
     </div>
   )
 }
-
-export default SelectImageWrapper

@@ -1,15 +1,18 @@
 "use client";
 
 import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
 import { formatISO } from 'date-fns';
 import { Loader } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { createUserSchema, type CreateUserInput } from './schema';
 import { useRegisterImage } from '@/hooks/use-account';
 import { fieldList } from './data';
 
+import { SelectWrapper, InputWrapper, DatePickerWrapper } from '@/components/ui/form-wrapper';
+import { SelectImageWrapper } from './select-image-wrapper';
 import { Button } from '@/components/ui/button';
-import Fields from './fields';
 
 type props = {
   isPending: boolean
@@ -18,7 +21,20 @@ type props = {
 }
 
 function CreateUser({ isPending, isAdmin, onSubmit }: props) {
-  const methods = useForm()
+  const methods = useForm<CreateUserInput>({
+    resolver: zodResolver(createUserSchema),
+    defaultValues: {
+      contactDetails: {},
+      proffessionalDetails: {},
+      familyDetails: {
+        noOfBrothers: 0,
+        noOfSisters: 0,
+        birthOrder: 1,
+      },
+      vedicHoroscope: {},
+      otherDetails: {},
+    }
+  })
 
   const { isPending: isPending1, mutateAsync: mutateRegisterImage } = useRegisterImage()
 
@@ -57,10 +73,45 @@ function CreateUser({ isPending, isAdmin, onSubmit }: props) {
                   {field.lable}
                 </h4>
 
-                <div className='grid md:grid-cols-2 gap-4'>
-                  <Fields
-                    fields={field.list}
-                  />
+                <div className='grid md:grid-cols-2 items-start gap-4'>
+                  {
+                    field.list.map(field => {
+                      if (field.type === "select") {
+                        return (
+                          <SelectWrapper
+                            key={field.name}
+                            control={methods.control}
+                            {...field}
+                          />
+                        )
+                      }
+
+                      if (field?.name === "dob") {
+                        return (
+                          <DatePickerWrapper
+                            key={field.name}
+                            control={methods.control}
+                            {...field}
+                          />
+                        )
+                      }
+
+                      if (field?.type === "file") {
+                        return <SelectImageWrapper
+                          key={field.name}
+                          {...field}
+                        />
+                      }
+
+                      return (
+                        <InputWrapper
+                          key={field.name}
+                          control={methods.control}
+                          {...field}
+                        />
+                      )
+                    })
+                  }
                 </div>
               </div>
             ))
