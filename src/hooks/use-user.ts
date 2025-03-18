@@ -4,15 +4,16 @@ import { toast } from "sonner";
 import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked, addImages, updateProfile } from "@/actions";
 import { useRouter } from "next/navigation";
 
-export function useUsersList() {
+export function useUsersList(filters?: objT) {
   const limit = 50
 
   return useInfiniteQuery<Partial<userT>[], Error, Partial<userT>[]>({
-    queryKey: ["user-list", "approved"],
+    queryKey: ["user-list", "approved", filters],
     queryFn: ({ pageParam }) => {
       return getMatches({
-        skip: (pageParam as number || 0) * limit,
+        ...filters,
         limit,
+        skip: (pageParam as number || 0) * limit,
         approvalStatus: "approved",
       })
     },

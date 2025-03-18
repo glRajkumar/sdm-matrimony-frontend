@@ -9,10 +9,10 @@ import { z } from "zod";
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { InputWrapper, RadioWrapper } from '@/components/ui/form-wrapper';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
+import { aliveOptions } from '@/utils';
 
 function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
@@ -76,136 +76,56 @@ function Edit({ user }: { user: userT }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
+            <InputWrapper
               name="fatherName"
-              render={({ field }) => (
-                <FormItem className='mb-2'>
-                  <FormLabel>Father's Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
+              label="Father's Name"
               control={form.control}
+            />
+
+            <RadioWrapper
               name="isFatherAlive"
-              render={({ field }) => (
-                <FormItem className="mb-6">
-                  <FormLabel className='sr-only'>Father Status</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={(value) => field.onChange(value === "true")}
-                      defaultValue={field.value ? "true" : "false"}
-                      className="flex items-center gap-12"
-                    >
-                      <FormItem className="flex items-center space-x-1">
-                        <FormControl>
-                          <RadioGroupItem value="true" />
-                        </FormControl>
-                        <FormLabel className="font-normal">Alive</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-1">
-                        <FormControl>
-                          <RadioGroupItem value="false" />
-                        </FormControl>
-                        <FormLabel className="font-normal">Deceased</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              control={form.control}
+              options={aliveOptions}
             />
 
-            <FormField
-              control={form.control}
+            <InputWrapper
               name="motherName"
-              render={({ field }) => (
-                <FormItem className='mb-2'>
-                  <FormLabel>Mother's Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Mother's Name"
+              control={form.control}
             />
 
-            <FormField
-              control={form.control}
+            <RadioWrapper
               name="isMotherAlive"
-              render={({ field }) => (
-                <FormItem className="mb-6">
-                  <FormLabel className='sr-only'>Mother Status</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={(value) => field.onChange(value === "true")}
-                      defaultValue={field.value ? "true" : "false"}
-                      className="flex items-center gap-12"
-                    >
-                      <FormItem className="flex items-center space-x-1">
-                        <FormControl>
-                          <RadioGroupItem value="true" />
-                        </FormControl>
-                        <FormLabel className="font-normal">Alive</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-1">
-                        <FormControl>
-                          <RadioGroupItem value="false" />
-                        </FormControl>
-                        <FormLabel className="font-normal">Deceased</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              control={form.control}
+              options={aliveOptions}
             />
 
             <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
+              <InputWrapper
+                min={0}
+                step={1}
+                type="number"
                 name="noOfBrothers"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Number of Brothers</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="number" min={0} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
+                label="Number of Brothers"
                 control={form.control}
+              />
+              <InputWrapper
+                min={0}
+                step={1}
+                type="number"
                 name="noOfSisters"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Number of Sisters</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="number" min={0} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Number of Sisters"
+                control={form.control}
               />
             </div>
 
-            <FormField
-              control={form.control}
+            <InputWrapper
+              min={1}
+              step={1}
+              type="number"
               name="birthOrder"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Birth Order</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="number" min={1} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Birth Order"
+              control={form.control}
             />
 
             <div className="flex justify-end space-x-2 pt-2">

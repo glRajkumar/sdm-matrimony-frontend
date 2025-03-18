@@ -19,6 +19,26 @@ export const nakshatra = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashir
 export const planets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'] as const
 export const raasi = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'] as const
 
+export const ageRange = [
+  { label: 'Below 25', value: 'below_25' },
+  { label: '25 to 30', value: '25_30' },
+  { label: '30 to 40', value: '30_40' },
+  { label: 'Above 40', value: 'above_50' },
+]
+
+export const salaryRange = [
+  { label: 'Below ₹20,000', value: 'below_20000' },
+  { label: '₹20,000 - ₹30,000', value: '20000_30000' },
+  { label: '₹30,000 - ₹40,000', value: '30000_40000' },
+  { label: '₹40,000 - ₹50,000', value: '40000_50000' },
+  { label: 'Above ₹50,000', value: 'above_50000' },
+]
+
+export const aliveOptions = [
+  { label: "Alive", value: true },
+  { label: "Deceased", value: false }
+]
+
 export const acceptedImagesTypes = {
   'image/*': ['.png', ".jpg", ".jpeg", ".webp"],
 } as const
