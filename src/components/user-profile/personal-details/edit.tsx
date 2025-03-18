@@ -6,6 +6,7 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { contactDetailsSchema, personalDetailsSchema } from '@/utils/user-schema';
 import { gender, maritalStatus } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
@@ -14,17 +15,13 @@ import { DatePickerWrapper, InputWrapper, SelectWrapper, TextareaWrapper } from 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
+const formSchema = personalDetailsSchema.extend({
+  address: contactDetailsSchema.shape.address,
+})
+
 function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
-
-  const formSchema = z.object({
-    fullName: z.string().min(2, "Name must be at least 2 characters"),
-    gender: z.enum(gender),
-    dob: z.date(),
-    maritalStatus: z.enum(maritalStatus),
-    address: z.string().min(5, "Address must be at least 5 characters").optional().or(z.literal("")),
-  })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

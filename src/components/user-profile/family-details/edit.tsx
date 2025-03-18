@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
+import { familyDetailsSchema, type familyDetailsT } from '@/utils/user-schema';
 import { useUpdateProfile } from '@/hooks/use-user';
 import { aliveOptions } from '@/utils';
 
@@ -18,30 +18,20 @@ function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
-  const formSchema = z.object({
-    fatherName: z.string().min(2, "Father's name must be at least 2 characters"),
-    motherName: z.string().min(2, "Mother's name must be at least 2 characters"),
-    noOfBrothers: z.coerce.number().min(0, "Cannot be negative"),
-    noOfSisters: z.coerce.number().min(0, "Cannot be negative"),
-    birthOrder: z.coerce.number().min(1, "Birth order must be at least 1"),
-    isFatherAlive: z.boolean(),
-    isMotherAlive: z.boolean(),
-  })
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<familyDetailsT>({
+    resolver: zodResolver(familyDetailsSchema),
     defaultValues: {
-      fatherName: user.familyDetails.fatherName,
-      motherName: user.familyDetails.motherName,
-      noOfBrothers: user.familyDetails.noOfBrothers,
-      noOfSisters: user.familyDetails.noOfSisters,
-      birthOrder: user.familyDetails.birthOrder,
-      isFatherAlive: user.familyDetails.isFatherAlive,
-      isMotherAlive: user.familyDetails.isMotherAlive,
+      fatherName: user?.familyDetails?.fatherName || "",
+      motherName: user?.familyDetails?.motherName || "",
+      noOfBrothers: user?.familyDetails?.noOfBrothers ?? 0,
+      noOfSisters: user?.familyDetails?.noOfSisters ?? 0,
+      birthOrder: user?.familyDetails?.birthOrder || 1,
+      isFatherAlive: user?.familyDetails?.isFatherAlive ?? true,
+      isMotherAlive: user?.familyDetails?.isMotherAlive ?? true,
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: familyDetailsT) {
     const isAdmin = window.location.pathname.includes("admin")
     mutate(
       {

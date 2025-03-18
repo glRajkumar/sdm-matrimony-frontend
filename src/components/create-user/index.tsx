@@ -6,7 +6,7 @@ import { formatISO } from 'date-fns';
 import { Loader } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { createUserSchema, type CreateUserInput } from './schema';
+import { createUserSchema, type userInputT } from '@/utils/user-schema';
 import { useRegisterImage } from '@/hooks/use-account';
 import { fieldList } from './data';
 
@@ -21,7 +21,7 @@ type props = {
 }
 
 function CreateUser({ isPending, isAdmin, onSubmit }: props) {
-  const methods = useForm<CreateUserInput>({
+  const methods = useForm<userInputT>({
     resolver: zodResolver(createUserSchema),
     defaultValues: {
       contactDetails: {},
@@ -97,10 +97,12 @@ function CreateUser({ isPending, isAdmin, onSubmit }: props) {
                       }
 
                       if (field?.type === "file") {
-                        return <SelectImageWrapper
-                          key={field.name}
-                          {...field}
-                        />
+                        return (
+                          <SelectImageWrapper
+                            key={field.name}
+                            {...field}
+                          />
+                        )
                       }
 
                       return (

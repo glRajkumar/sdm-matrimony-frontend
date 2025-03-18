@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
+import { otherDetailsSchema, type otherDetailsT } from '@/utils/user-schema';
 import { castes, languages, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
@@ -18,17 +18,8 @@ function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
-  const formSchema = z.object({
-    motherTongue: z.string().min(2, "Mother tongue must be at least 2 characters").optional().or(z.literal("")),
-    houseType: z.string().min(2, "House type must be at least 2 characters").optional().or(z.literal("")),
-    religion: z.string().min(2, "Religion must be at least 2 characters").optional().or(z.literal("")),
-    height: z.string().min(2, "Height must be at least 2 characters").optional().or(z.literal("")),
-    color: z.string().min(2, "Complexion must be at least 2 characters").optional().or(z.literal("")),
-    caste: z.string().min(2, "Caste must be at least 2 characters").optional().or(z.literal("")),
-  })
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<otherDetailsT>({
+    resolver: zodResolver(otherDetailsSchema),
     defaultValues: {
       motherTongue: user?.otherDetails?.motherTongue || "",
       houseType: user?.otherDetails?.houseType || "",
@@ -39,7 +30,7 @@ function Edit({ user }: { user: userT }) {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: otherDetailsT) {
     const isAdmin = window.location.pathname.includes("admin")
     mutate(
       {

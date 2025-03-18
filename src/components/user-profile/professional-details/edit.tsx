@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
+import { professionalDetailsSchema, type professionalDetailsT } from '@/utils/user-schema';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -19,20 +19,15 @@ function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
-  const formSchema = z.object({
-    qualification: z.string().min(2, "Qualification must be at least 2 characters"),
-    work: z.string().min(2, "Work details must be at least 2 characters"),
-  })
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<professionalDetailsT>({
+    resolver: zodResolver(professionalDetailsSchema),
     defaultValues: {
-      qualification: user.proffessionalDetails.qualification,
-      work: user.proffessionalDetails.work,
+      qualification: user?.proffessionalDetails?.qualification || "",
+      work: user?.proffessionalDetails?.work || "",
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: professionalDetailsT) {
     const isAdmin = window.location.pathname.includes("admin")
     mutate(
       {
@@ -84,7 +79,11 @@ function Edit({ user }: { user: userT }) {
                 <Label>Annual Salary</Label>
                 <p className="text-sm text-muted-foreground">(Not editable)</p>
               </div>
-              <Input value={`₹${user.proffessionalDetails.salary.toLocaleString()}`} disabled className="mt-1" />
+              <Input
+                className="mt-1"
+                value={`₹${user?.proffessionalDetails?.salary}`}
+                disabled
+              />
             </div>
 
             <div className="flex justify-end space-x-2 pt-2">

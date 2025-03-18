@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
+import { partnerPreferencesSchema, type partnerPreferencesT } from '@/utils/user-schema';
 import { castes, languages, maritalStatus, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
@@ -20,41 +20,8 @@ function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
-  const formSchema = z.object({
-    minAge: z.coerce.number().min(18, "Minimum age must be at least 18").optional().or(z.literal("")),
-    maxAge: z.coerce.number().min(18, "Maximum age must be at least 18").optional().or(z.literal("")),
-    religion: z.string().min(2, "Religion must be at least 2 characters").optional().or(z.literal("")),
-    caste: z.string().optional().or(z.literal("")),
-    qualification: z.string().optional().or(z.literal("")),
-    work: z.string().optional().or(z.literal("")),
-    motherTongue: z.string().optional().or(z.literal("")),
-    location: z.string().optional().or(z.literal("")),
-    expectation: z.string().optional().or(z.literal("")),
-    maritalStatus: z.enum(maritalStatus).optional().or(z.literal("")),
-  })
-    .refine(
-      (data) =>
-        (typeof data.minAge === "number" && typeof data.maxAge === "number")
-          ? data.minAge < data.maxAge
-          : true,
-      {
-        message: "Minimum age must be less than maximum age",
-        path: ["minAge"],
-      }
-    )
-    .refine(
-      (data) =>
-        (typeof data.minAge === "number" && typeof data.maxAge === "number")
-          ? data.minAge !== data.maxAge
-          : true,
-      {
-        message: "Minimum age and maximum age should not be equal",
-        path: ["minAge"],
-      }
-    )
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<partnerPreferencesT>({
+    resolver: zodResolver(partnerPreferencesSchema),
     defaultValues: {
       minAge: user?.partnerPreferences?.minAge || "",
       maxAge: user?.partnerPreferences?.maxAge || "",
@@ -69,7 +36,7 @@ function Edit({ user }: { user: userT }) {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: partnerPreferencesT) {
     const isAdmin = window.location.pathname.includes("admin")
     mutate(
       {

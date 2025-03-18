@@ -1,10 +1,10 @@
 import { Path } from 'react-hook-form';
 
 import { gender, maritalStatus, languages, religions, castes, nakshatra, raasi } from '@/utils';
-import { CreateUserInput } from './schema';
+import { userInputT } from '@/utils/user-schema';
 
 type BaseField = {
-  name: Path<CreateUserInput>
+  name: Path<userInputT>
   label: string
 }
 

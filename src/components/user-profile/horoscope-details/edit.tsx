@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
+import { vedicHoroscopeSchema, type vedicHoroscopeT } from '@/utils/user-schema';
 import { useUpdateProfile } from '@/hooks/use-user';
 import { nakshatra, raasi } from '@/utils';
 
@@ -18,15 +18,8 @@ function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
-  const formSchema = z.object({
-    nakshatra: z.string().optional().or(z.literal("")),
-    rasi: z.string().optional().or(z.literal("")),
-    lagna: z.string().min(2, "Lagna must be at least 2 characters").optional().or(z.literal("")),
-    dashaPeriod: z.string().min(2, "Dasha period must be at least 2 characters").optional().or(z.literal("")),
-  })
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<vedicHoroscopeT>({
+    resolver: zodResolver(vedicHoroscopeSchema),
     defaultValues: {
       nakshatra: user?.vedicHoroscope?.nakshatra || "",
       rasi: user?.vedicHoroscope?.rasi || "",
@@ -35,7 +28,7 @@ function Edit({ user }: { user: userT }) {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: vedicHoroscopeT) {
     const isAdmin = window.location.pathname.includes("admin")
     mutate(
       {
