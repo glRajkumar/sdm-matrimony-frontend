@@ -7,7 +7,7 @@ type primitiveT = string | number | boolean
 
 type objT = Record<string, primitiveT>
 
-type optionsT = readonly primitiveT[] | {
+type optionsT = readonly (primitiveT | {
   label: string
   value: primitiveT
-}[]
+})[]

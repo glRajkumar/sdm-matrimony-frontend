@@ -167,6 +167,37 @@ function SelectScrollDownButton({
   )
 }
 
+type props = {
+  options: optionsT
+  placeholder?: string
+}
+function SelectWrapper({
+  options,
+  placeholder,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Root> & props) {
+  return (
+    <Select {...props}>
+      <SelectTrigger>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+
+      <SelectContent>
+        {
+          options.map(option => (
+            <SelectItem
+              key={typeof option === "object" ? `${option.value}` : `${option}`}
+              value={typeof option === "object" ? `${option.value}` : `${option}`}
+            >
+              {typeof option === "object" ? option.label : option}
+            </SelectItem>
+          ))
+        }
+      </SelectContent>
+    </Select>
+  )
+}
+
 export {
   Select,
   SelectContent,
@@ -178,4 +209,5 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  SelectWrapper,
 }

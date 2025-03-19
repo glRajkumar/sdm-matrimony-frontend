@@ -41,10 +41,6 @@ export function InputWrapper<T extends FieldValues>({ name, label, control, clas
   )
 }
 
-const isOptionObject = (option: any): option is { label: string; value: primitiveT } => {
-  return typeof option === 'object' && 'label' in option && 'value' in option
-}
-
 type RadioWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
   options: optionsT
 }
@@ -69,14 +65,14 @@ export function RadioWrapper<T extends FieldValues>({ name, label, control, clas
             >
               {options.map((option) => (
                 <FormItem
-                  key={`${isOptionObject(option) ? option.value : option}`}
+                  key={typeof option === "object" ? `${option.value}` : `${option}`}
                   className="flex items-center space-x-1"
                 >
                   <FormControl>
-                    <RadioGroupItem value={isOptionObject(option) ? `${option.value}` : `${option}`} />
+                    <RadioGroupItem value={typeof option === "object" ? `${option.value}` : `${option}`} />
                   </FormControl>
                   <FormLabel className="font-normal">
-                    {isOptionObject(option) ? option.label : option}
+                    {typeof option === "object" ? `${option.label}` : `${option}`}
                   </FormLabel>
                 </FormItem>
               ))}
@@ -120,10 +116,10 @@ export function SelectWrapper<T extends FieldValues>({ name, label, control, cla
             <SelectContent>
               {options.map((option) => (
                 <SelectItem
-                  key={`${isOptionObject(option) ? option.value : option}`}
-                  value={isOptionObject(option) ? `${option.value}` : `${option}`}
+                  key={typeof option === "object" ? `${option.value}` : `${option}`}
+                  value={typeof option === "object" ? `${option.value}` : `${option}`}
                 >
-                  {isOptionObject(option) ? option.label : option}
+                  {typeof option === "object" ? `${option.label}` : `${option}`}
                 </SelectItem>
               ))}
             </SelectContent>
