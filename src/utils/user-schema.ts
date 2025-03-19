@@ -2,28 +2,28 @@ import { z } from "zod";
 
 export const personalDetailsSchema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters"),
-  gender: z.string().min(1, "Gender is required"),
+  gender: z.string().nonempty("Gender is required"),
   dob: z.date(),
-  maritalStatus: z.string().min(1, "Marital Status is required"),
+  maritalStatus: z.string().nonempty("Marital Status is required"),
 })
 
 export const contactDetailsSchema = z.object({
-  mobile: z.string(),
+  mobile: z.string().nonempty("Mobile number is required"),
   address: z.string().min(5, "Address must be at least 5 characters").optional().or(z.literal("")),
 })
 
 export const professionalDetailsSchema = z.object({
-  qualification: z.string().min(2, "Qualification must be at least 2 characters"),
-  work: z.string().min(2, "Work must be at least 2 characters"),
-  salary: z.number().min(0, "Salary cannot be negative"),
+  qualification: z.string().nonempty("Qualification is required"),
+  work: z.string().nonempty("Work is required"),
+  salary: z.coerce.number().min(10000, "Salary must be at least 10000"),
 })
 
 export const familyDetailsSchema = z.object({
   fatherName: z.string().min(2, "Father's name must be at least 2 characters"),
   motherName: z.string().min(2, "Mother's name must be at least 2 characters"),
-  noOfBrothers: z.number().min(0, "Cannot be negative").default(0),
-  noOfSisters: z.number().min(0, "Cannot be negative").default(0),
-  birthOrder: z.number().min(1, "Birth order must be at least 1").default(1),
+  noOfBrothers: z.coerce.number().min(0, "Cannot be negative").default(0),
+  noOfSisters: z.coerce.number().min(0, "Cannot be negative").default(0),
+  birthOrder: z.coerce.number().min(1, "Birth order must be at least 1").default(1),
   isFatherAlive: z.boolean(),
   isMotherAlive: z.boolean(),
 })
@@ -51,7 +51,7 @@ export const partnerPreferencesSchema = z.object({
   maxAge: z.coerce.number().min(18, "Maximum age must be at least 18").optional().or(z.literal("")),
   qualification: z.string().optional().or(z.literal("")),
   work: z.string().optional().or(z.literal("")),
-  salary: z.number().optional(),
+  salary: z.coerce.number().optional(),
   religion: z.string().optional().or(z.literal("")),
   caste: z.string().optional().or(z.literal("")),
   motherTongue: z.string().optional().or(z.literal("")),
@@ -79,7 +79,7 @@ export const partnerPreferencesSchema = z.object({
 )
 
 export const createUserSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z.string().nonempty("Email is required").email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   profileImg: z.string().optional(),
   ...personalDetailsSchema.shape,

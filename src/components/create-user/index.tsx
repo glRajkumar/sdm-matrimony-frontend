@@ -7,8 +7,8 @@ import { Loader } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { createUserSchema, type userInputT } from '@/utils/user-schema';
+import { defaultValues, fieldList } from './data';
 import { useRegisterImage } from '@/hooks/use-account';
-import { fieldList } from './data';
 
 import { SelectWrapper, InputWrapper, DatePickerWrapper } from '@/components/ui/form-wrapper';
 import { SelectImageWrapper } from './select-image-wrapper';
@@ -23,17 +23,7 @@ type props = {
 function CreateUser({ isPending, isAdmin, onSubmit }: props) {
   const methods = useForm<userInputT>({
     resolver: zodResolver(createUserSchema),
-    defaultValues: {
-      contactDetails: {},
-      proffessionalDetails: {},
-      familyDetails: {
-        noOfBrothers: 0,
-        noOfSisters: 0,
-        birthOrder: 1,
-      },
-      vedicHoroscope: {},
-      otherDetails: {},
-    }
+    defaultValues: { ...defaultValues },
   })
 
   const { isPending: isPending1, mutateAsync: mutateRegisterImage } = useRegisterImage()
@@ -110,6 +100,7 @@ function CreateUser({ isPending, isAdmin, onSubmit }: props) {
                           key={field.name}
                           control={methods.control}
                           {...field}
+                          defaultValue={undefined}
                         />
                       )
                     })

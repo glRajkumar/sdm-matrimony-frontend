@@ -9,7 +9,15 @@ type BaseField = {
 }
 
 type TextField = BaseField & {
-  type: "text" | "email" | "password" | "tel" | "number" | "file" | "time"
+  type: "text" | "email" | "password" | "tel" | "file" // | "time"
+}
+
+type NumberField = BaseField & {
+  type: "number"
+  min?: number
+  max?: number
+  step?: number
+  defaultValue?: number
 }
 
 type SelectField = BaseField & {
@@ -17,7 +25,11 @@ type SelectField = BaseField & {
   options: optionsT
 }
 
-type Field = TextField | SelectField
+type DateField = BaseField & {
+  type: "date"
+}
+
+type Field = TextField | NumberField | SelectField | DateField
 
 type FieldSection = {
   lable: string
@@ -62,7 +74,7 @@ export const fieldList: FieldSection[] = [
       {
         name: "dob",
         label: "Date of Birth",
-        type: "text",
+        type: "date",
       },
       {
         name: "maritalStatus",
@@ -103,7 +115,10 @@ export const fieldList: FieldSection[] = [
       {
         name: "proffessionalDetails.salary",
         label: "Salary per Month (in ₹)",
-        type: "number"
+        type: "number",
+        defaultValue: 10000,
+        step: 1000,
+        min: 10000,
       }
     ]
   },
@@ -123,17 +138,26 @@ export const fieldList: FieldSection[] = [
       {
         name: "familyDetails.noOfBrothers",
         label: "Number of Brothers",
-        type: "number"
+        type: "number",
+        defaultValue: 0,
+        step: 1,
+        min: 0,
       },
       {
         name: "familyDetails.noOfSisters",
         label: "Number of Sisters",
-        type: "number"
+        type: "number",
+        defaultValue: 0,
+        step: 1,
+        min: 0,
       },
       {
         name: "familyDetails.birthOrder",
         label: "Birth Order",
-        type: "number"
+        type: "number",
+        defaultValue: 1,
+        step: 1,
+        min: 1,
       }
     ]
   },
@@ -163,16 +187,16 @@ export const fieldList: FieldSection[] = [
         label: "Dasha Period",
         type: "text"
       },
-      {
-        name: "vedicHoroscope.placeOfBirth",
-        label: "Place of Birth",
-        type: "text"
-      },
-      {
-        name: "vedicHoroscope.timeOfBirth",
-        label: "Time of Birth",
-        type: "time"
-      }
+      // {
+      //   name: "vedicHoroscope.placeOfBirth",
+      //   label: "Place of Birth",
+      //   type: "text"
+      // },
+      // {
+      //   name: "vedicHoroscope.timeOfBirth",
+      //   label: "Time of Birth",
+      //   type: "time"
+      // }
     ]
   },
   {
@@ -219,12 +243,16 @@ export const fieldList: FieldSection[] = [
       {
         name: "partnerPreferences.minAge",
         label: "Minimum Age",
-        type: "number"
+        type: "number",
+        step: 1,
+        min: 18,
       },
       {
         name: "partnerPreferences.maxAge",
         label: "Maximum Age",
-        type: "number"
+        type: "number",
+        step: 1,
+        min: 18,
       },
       {
         name: "partnerPreferences.qualification",
@@ -239,7 +267,9 @@ export const fieldList: FieldSection[] = [
       {
         name: "partnerPreferences.salary",
         label: "Salary per Month (in ₹)",
-        type: "number"
+        type: "number",
+        step: 1000,
+        min: 10000,
       },
       {
         name: "partnerPreferences.religion",
@@ -278,3 +308,31 @@ export const fieldList: FieldSection[] = [
     ]
   }
 ]
+
+const setNestedValue = (currentObj: any, path: string, value: any) => {
+  const parts = path.split('.')
+
+  for (let i = 0; i < parts.length - 1; i++) {
+    currentObj[parts[i]] = currentObj[parts[i]] || {}
+    currentObj = currentObj[parts[i]]
+  }
+
+  currentObj[parts[parts.length - 1]] = value
+}
+
+export const defaultValues: userInputT = fieldList.reduce((acc, curr) => {
+  curr.list.forEach((item) => {
+    if (item.type === "date") {
+      const date = new Date()
+      date.setFullYear(date.getFullYear() - 18)
+      setNestedValue(acc, item.name, date)
+    }
+    else if (item.type === "number") {
+      setNestedValue(acc, item.name, item.defaultValue ?? "")
+    }
+    else {
+      setNestedValue(acc, item.name, "")
+    }
+  })
+  return acc
+}, {} as userInputT)
