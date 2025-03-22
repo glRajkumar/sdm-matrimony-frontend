@@ -11,6 +11,7 @@ import { Calendar } from "./calendar";
 import { Textarea } from "./textarea";
 import { Button } from "./button";
 import { Input } from "./input";
+import { Combobox } from "./combobox";
 
 type BaseWrapperProps<T extends FieldValues> = {
   name: Path<T>
@@ -195,6 +196,42 @@ export function DatePickerWrapper<T extends FieldValues>({ name, label, control,
               />
             </PopoverContent>
           </Popover>
+
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  )
+}
+
+type ComboboxWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
+  options: optionsT
+  placeholder?: string
+  emptyMessage?: string
+}
+
+export function ComboboxWrapper<T extends FieldValues>({ name, label, control, className, options, placeholder, emptyMessage }: ComboboxWrapperProps<T>) {
+  return (
+    <FormField
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <FormItem className={className}>
+          {label && <FormLabel>{label}</FormLabel>}
+
+          <FormControl>
+            <Combobox
+              options={options}
+              placeholder={placeholder}
+              emptyMessage={emptyMessage}
+              value={`${field.value}`}
+              onValueChange={(value) => {
+                if (value === 'true') field.onChange(true)
+                else if (value === 'false') field.onChange(false)
+                else field.onChange(value)
+              }}
+            />
+          </FormControl>
 
           <FormMessage />
         </FormItem>

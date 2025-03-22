@@ -10,7 +10,7 @@ import { createUserSchema, type userInputT } from '@/utils/user-schema';
 import { defaultValues, fieldList } from './data';
 import { useRegisterImage } from '@/hooks/use-account';
 
-import { SelectWrapper, InputWrapper, DatePickerWrapper } from '@/components/ui/form-wrapper';
+import { ComboboxWrapper, SelectWrapper, InputWrapper, DatePickerWrapper } from '@/components/ui/form-wrapper';
 import { SelectImageWrapper } from './select-image-wrapper';
 import { Button } from '@/components/ui/button';
 
@@ -69,6 +69,16 @@ function CreateUser({ isPending, isAdmin, onSubmit }: props) {
                       if (field.type === "select") {
                         return (
                           <SelectWrapper
+                            key={field.name}
+                            control={methods.control}
+                            {...field}
+                          />
+                        )
+                      }
+
+                      if (field.type === "combobox") {
+                        return (
+                          <ComboboxWrapper
                             key={field.name}
                             control={methods.control}
                             {...field}

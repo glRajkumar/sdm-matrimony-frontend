@@ -25,11 +25,16 @@ type SelectField = BaseField & {
   options: optionsT
 }
 
+type ComboboxField = BaseField & {
+  type: "combobox"
+  options: optionsT
+}
+
 type DateField = BaseField & {
   type: "date"
 }
 
-type Field = TextField | NumberField | SelectField | DateField
+export type Field = TextField | NumberField | SelectField | DateField | ComboboxField
 
 type FieldSection = {
   lable: string
@@ -167,19 +172,19 @@ export const fieldList: FieldSection[] = [
       {
         name: "vedicHoroscope.nakshatra",
         label: "Nakshatra",
-        type: "select",
+        type: "combobox",
         options: nakshatra,
       },
       {
         name: "vedicHoroscope.rasi",
         label: "Rasi",
-        type: "select",
+        type: "combobox",
         options: raasi,
       },
       {
         name: "vedicHoroscope.lagna",
         label: "Lagna",
-        type: "select",
+        type: "combobox",
         options: raasi,
       },
       {
@@ -220,19 +225,19 @@ export const fieldList: FieldSection[] = [
       {
         name: "otherDetails.motherTongue",
         label: "Mother Tongue",
-        type: "select",
+        type: "combobox",
         options: languages,
       },
       {
         name: "otherDetails.religion",
         label: "Religion",
-        type: "select",
+        type: "combobox",
         options: religions,
       },
       {
         name: "otherDetails.caste",
         label: "Caste",
-        type: "select",
+        type: "combobox",
         options: castes,
       }
     ]
@@ -274,19 +279,19 @@ export const fieldList: FieldSection[] = [
       {
         name: "partnerPreferences.religion",
         label: "Religion",
-        type: "select",
+        type: "combobox",
         options: religions,
       },
       {
         name: "partnerPreferences.caste",
         label: "Caste",
-        type: "select",
+        type: "combobox",
         options: castes,
       },
       {
         name: "partnerPreferences.motherTongue",
         label: "Mother Tongue",
-        type: "select",
+        type: "combobox",
         options: languages,
       },
       {

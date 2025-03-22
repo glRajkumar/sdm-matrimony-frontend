@@ -10,7 +10,7 @@ import { castes, languages, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { SelectWrapper, InputWrapper } from "@/components/ui/form-wrapper";
+import { ComboboxWrapper, InputWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
@@ -65,7 +65,7 @@ function Edit({ user }: { user: userT }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <SelectWrapper
+            <ComboboxWrapper
               control={form.control}
               name="motherTongue"
               label="Mother Tongue"
@@ -91,7 +91,7 @@ function Edit({ user }: { user: userT }) {
               label="Complexion"
             />
 
-            <SelectWrapper
+            <ComboboxWrapper
               control={form.control}
               name="religion"
               label="Religion"
@@ -99,7 +99,7 @@ function Edit({ user }: { user: userT }) {
               placeholder="Select religion"
             />
 
-            <SelectWrapper
+            <ComboboxWrapper
               control={form.control}
               name="caste"
               label="Caste"

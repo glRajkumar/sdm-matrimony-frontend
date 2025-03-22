@@ -10,7 +10,7 @@ import { castes, languages, maritalStatus, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { InputWrapper, SelectWrapper, TextareaWrapper } from "@/components/ui/form-wrapper";
+import { ComboboxWrapper, InputWrapper, SelectWrapper, TextareaWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from '@/components/ui/input';
@@ -89,7 +89,7 @@ function Edit({ user }: { user: userT }) {
               />
             </div>
 
-            <SelectWrapper
+            <ComboboxWrapper
               control={form.control}
               name="religion"
               label="Religion"
@@ -97,7 +97,7 @@ function Edit({ user }: { user: userT }) {
               placeholder="Select religion"
             />
 
-            <SelectWrapper
+            <ComboboxWrapper
               control={form.control}
               name="caste"
               label="Caste"
@@ -133,7 +133,7 @@ function Edit({ user }: { user: userT }) {
               <Input value={`₹ ${user?.partnerPreferences?.salary || "-"}`} disabled className="mt-1" />
             </div>
 
-            <SelectWrapper
+            <ComboboxWrapper
               control={form.control}
               name="motherTongue"
               label="Mother Tongue"
