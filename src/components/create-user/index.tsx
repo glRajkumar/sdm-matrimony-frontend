@@ -5,9 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formatISO } from 'date-fns';
 import { Loader } from 'lucide-react';
 import { toast } from 'sonner';
+import { z } from "zod";
 
-import { createUserSchema, type userInputT } from '@/utils/user-schema';
 import { defaultValues, fieldList } from './data';
+import { createUserSchema } from '@/utils/user-schema';
 import { useRegisterImage } from '@/hooks/use-account';
 
 import FieldWrapper from './field-wrapper';
@@ -19,10 +20,14 @@ type props = {
   isAdmin?: boolean
 }
 
+const schema = createUserSchema.extend({
+  profileImg: z.instanceof(File, { message: "Profile image is required" })
+})
+
 function CreateUser({ isPending, isAdmin, onSubmit }: props) {
-  const methods = useForm<userInputT>({
-    resolver: zodResolver(createUserSchema),
-    defaultValues: { ...defaultValues },
+  const methods = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: { ...defaultValues, profileImg: undefined },
   })
 
   const { isPending: isPending1, mutateAsync: mutateRegisterImage } = useRegisterImage()

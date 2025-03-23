@@ -22,7 +22,7 @@ type BaseWrapperProps<T extends FieldValues> = {
 
 type InputWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & React.InputHTMLAttributes<HTMLInputElement>
 
-export function InputWrapper<T extends FieldValues>({ name, label, control, className, type = "text", ...props }: InputWrapperProps<T>) {
+export function InputWrapper<T extends FieldValues>({ name, label, control, className, type = "text", placeholder, ...props }: InputWrapperProps<T>) {
   return (
     <FormField
       name={name}
@@ -32,7 +32,7 @@ export function InputWrapper<T extends FieldValues>({ name, label, control, clas
           {label && <FormLabel>{label}</FormLabel>}
 
           <FormControl>
-            <Input type={type} {...props} {...field} />
+            <Input type={type} placeholder={placeholder || `Enter ${label}`} {...props} {...field} />
           </FormControl>
 
           <FormMessage />
@@ -45,7 +45,7 @@ export function InputWrapper<T extends FieldValues>({ name, label, control, clas
 
 type TextareaWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & React.TextareaHTMLAttributes<HTMLTextAreaElement>
 
-export function TextareaWrapper<T extends FieldValues>({ name, label, control, className, ...rest }: TextareaWrapperProps<T>) {
+export function TextareaWrapper<T extends FieldValues>({ name, label, control, className, placeholder, ...rest }: TextareaWrapperProps<T>) {
   return (
     <FormField
       name={name}
@@ -55,7 +55,7 @@ export function TextareaWrapper<T extends FieldValues>({ name, label, control, c
           {label && <FormLabel>{label}</FormLabel>}
 
           <FormControl>
-            <Textarea {...rest} {...field} />
+            <Textarea placeholder={placeholder || `Enter ${label}`} {...rest} {...field} />
           </FormControl>
 
           <FormMessage />
@@ -74,7 +74,7 @@ export function RadioWrapper<T extends FieldValues>({ name, label, control, clas
       name={name}
       control={control}
       render={({ field }) => (
-        <FormItem className={className}>
+        <FormItem className={cn("relative", className)}>
           {label && <FormLabel>{label}</FormLabel>}
 
           <FormControl>
@@ -189,10 +189,11 @@ export function DatePickerWrapper<T extends FieldValues>({ name, label, control,
 
             <PopoverContent className="w-auto p-0" align="start">
               <Calendar
+                initialFocus
                 mode="single"
                 selected={field.value}
                 onSelect={field.onChange}
-                initialFocus
+                defaultMonth={field.value}
                 {...calendarProps}
               />
             </PopoverContent>
@@ -217,13 +218,13 @@ export function ComboboxWrapper<T extends FieldValues>({ name, label, control, c
       name={name}
       control={control}
       render={({ field }) => (
-        <FormItem className={className}>
+        <FormItem className={cn("relative", className)}>
           {label && <FormLabel>{label}</FormLabel>}
 
           <FormControl>
             <Combobox
               options={options}
-              placeholder={placeholder}
+              placeholder={placeholder || `Select ${label}`}
               emptyMessage={emptyMessage}
               value={`${field.value}`}
               onValueChange={(value) => {
