@@ -11,6 +11,7 @@ export function signup(data: any) {
 
 export function registerImage(data: any) {
   return sendApiReq({
+    isAuthendicated: false,
     method: "post",
     url: endPoints.registerImage,
     data,
@@ -29,12 +30,14 @@ export function login(data: any) {
 
 export function checkApprovalStatus() {
   return sendApiReq({
+    isAuthendicated: false,
     url: endPoints.checkApprovalStatus,
   })
 }
 
 export function forgotPass(data: any) {
   return sendApiReq({
+    isAuthendicated: false,
     method: "post",
     url: endPoints.forgotPass,
     data,
@@ -43,6 +46,7 @@ export function forgotPass(data: any) {
 
 export function resetPass(data: any) {
   return sendApiReq({
+    isAuthendicated: false,
     method: "post",
     url: endPoints.resetPass,
     data,
