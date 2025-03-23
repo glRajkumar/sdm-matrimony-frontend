@@ -17,7 +17,10 @@ function Page() {
 
   return (
     <div className="grid grid-cols-[300px_1fr] gap-4">
-      <Filters onSave={onSave} />
+      <Filters
+        hasFilters={Object.keys(filterData).length > 0}
+        onSave={onSave}
+      />
 
       <List
         type="full"
