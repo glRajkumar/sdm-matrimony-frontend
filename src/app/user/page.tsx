@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { useUsersList } from "@/hooks/use-user";
 
-import Filters from "./filters";
+import FilterSideBar from "./filter-sidebar";
 import List from "./list";
 
 function Page() {
@@ -16,8 +16,8 @@ function Page() {
   }
 
   return (
-    <div className="grid grid-cols-[300px_1fr] gap-4">
-      <Filters
+    <div className="md:grid grid-cols-[1fr] md:grid-cols-[300px_1fr] md:gap-4">
+      <FilterSideBar
         hasFilters={Object.keys(filterData).length > 0}
         onSave={onSave}
       />

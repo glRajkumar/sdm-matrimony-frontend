@@ -155,119 +155,117 @@ function Filters({ onSave, hasFilters }: props) {
   }
 
   return (
-    <div className="p-6 border-r relative">
-      <div className='sticky top-20'>
-        <div className='df justify-between mb-2'>
-          <h5 className='text-sm font-medium'>
-            Filters{" "}
-            {
-              hasFilters && <span className='text-xs font-normal'>
-                (Applied)
-              </span>
-            }
-          </h5>
-
+    <>
+      <div className='df md:justify-between md:mb-4'>
+        <h5 className='text-sm font-medium'>
+          Filters{" "}
           {
-            hasFilters &&
-            <Button
-              size="sm"
-              variant="secondary"
-              className='h-6 text-xs font-normal hover:bg-input'
-              onClick={onReset}
-            >
-              Reset
-            </Button>
+            hasFilters && <span className='text-xs font-normal'>
+              (Applied)
+            </span>
           }
-        </div>
+        </h5>
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="dfc max-h-[calc(100vh-10rem)]"
+        {
+          hasFilters &&
+          <Button
+            size="sm"
+            variant="secondary"
+            className='h-6 text-xs font-normal hover:bg-input'
+            onClick={onReset}
           >
-            <div className="scroll-y -mx-6 px-6 py-4 space-y-4 border-y">
-              <SelectWrapper
-                name="salaryRange"
-                label="Salary Range"
-                control={form.control}
-                options={salaryRange}
-              />
+            Reset
+          </Button>
+        }
+      </div>
 
-              <div className='mb-0 -mt-1 text-xs text-center'>Or</div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="dfc max-h-[calc(100vh-10rem)]"
+        >
+          <div className="scroll-y -mx-4 md:-mx-6 px-4 md:px-6 py-4 space-y-4 border-y">
+            <SelectWrapper
+              name="salaryRange"
+              label="Salary Range"
+              control={form.control}
+              options={salaryRange}
+            />
+
+            <div className='mb-0 -mt-1 text-xs text-center'>Or</div>
+
+            <InputWrapper
+              name="minSalary"
+              label="Min Salary"
+              control={form.control}
+              className='mb-8'
+            />
+
+            <SelectWrapper
+              name="ageRange"
+              label="Age Range"
+              control={form.control}
+              options={ageRange}
+            />
+
+            <div className='mb-2 -mt-1 text-xs text-center'>Or</div>
+
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              <InputWrapper
+                name="minAge"
+                label="Min Age"
+                control={form.control}
+              />
 
               <InputWrapper
-                name="minSalary"
-                label="Min Salary"
+                name="maxAge"
+                label="Max Age"
                 control={form.control}
-                className='mb-8'
               />
-
-              <SelectWrapper
-                name="ageRange"
-                label="Age Range"
-                control={form.control}
-                options={ageRange}
-              />
-
-              <div className='mb-2 -mt-1 text-xs text-center'>Or</div>
-
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                <InputWrapper
-                  name="minAge"
-                  label="Min Age"
-                  control={form.control}
-                />
-
-                <InputWrapper
-                  name="maxAge"
-                  label="Max Age"
-                  control={form.control}
-                />
-              </div>
-
-              {
-                list.map((item) => (
-                  item.type === 'select' ? (
-                    <SelectWrapper
-                      {...item}
-                      key={item.name}
-                      control={form.control}
-                    />
-                  ) : (
-                    <ComboboxWrapper
-                      {...item}
-                      key={item.name}
-                      control={form.control}
-                    />
-                  )
-                ))
-              }
             </div>
 
-            <div className="df mt-2">
-              {
-                !isLoading &&
-                <Button
-                  type="button"
-                  variant="link"
-                  className='p-0 font-normal'
-                  onClick={onApply}
-                >
-                  Apply Your Preferences
-                </Button>
-              }
+            {
+              list.map((item) => (
+                item.type === 'select' ? (
+                  <SelectWrapper
+                    {...item}
+                    key={item.name}
+                    control={form.control}
+                  />
+                ) : (
+                  <ComboboxWrapper
+                    {...item}
+                    key={item.name}
+                    control={form.control}
+                  />
+                )
+              ))
+            }
+          </div>
 
+          <div className="df mt-2">
+            {
+              !isLoading &&
               <Button
-                type="submit"
-                className='ml-auto'
+                type="button"
+                variant="link"
+                className='p-0 font-normal'
+                onClick={onApply}
               >
-                Save
+                Apply Your Preferences
               </Button>
-            </div>
-          </form>
-        </Form>
-      </div>
-    </div>
+            }
+
+            <Button
+              type="submit"
+              className='ml-auto'
+            >
+              Save
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </>
   )
 }
 
