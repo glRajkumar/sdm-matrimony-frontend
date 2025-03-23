@@ -81,7 +81,7 @@ export const partnerPreferencesSchema = z.object({
 export const createUserSchema = z.object({
   email: z.string().nonempty("Email is required").email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
-  profileImg: z.string().optional(),
+  profileImg: z.union([z.string(), z.instanceof(File)]).optional(),
   ...personalDetailsSchema.shape,
   contactDetails: contactDetailsSchema,
   proffessionalDetails: professionalDetailsSchema,

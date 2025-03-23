@@ -1,11 +1,12 @@
 import { Path } from 'react-hook-form';
 
-import { gender, maritalStatus, languages, religions, castes, nakshatra, raasi } from '@/utils';
+import { gender, maritalStatus, languages, religions, castes, nakshatra, raasi, aliveOptions } from '@/utils';
 import { userInputT } from '@/utils/user-schema';
 
 type BaseField = {
   name: Path<userInputT>
   label: string
+  defaultValue?: primitiveT
 }
 
 type TextField = BaseField & {
@@ -17,16 +18,10 @@ type NumberField = BaseField & {
   min?: number
   max?: number
   step?: number
-  defaultValue?: number
 }
 
 type SelectField = BaseField & {
-  type: "select"
-  options: optionsT
-}
-
-type ComboboxField = BaseField & {
-  type: "combobox"
+  type: "select" | "radio" | "combobox"
   options: optionsT
 }
 
@@ -34,7 +29,7 @@ type DateField = BaseField & {
   type: "date"
 }
 
-export type Field = TextField | NumberField | SelectField | DateField | ComboboxField
+export type Field = TextField | NumberField | SelectField | DateField
 
 type FieldSection = {
   lable: string
@@ -86,6 +81,7 @@ export const fieldList: FieldSection[] = [
         label: "Marital Status",
         type: "select",
         options: maritalStatus,
+        defaultValue: "Single",
       }
     ]
   },
@@ -139,6 +135,20 @@ export const fieldList: FieldSection[] = [
         name: "familyDetails.motherName",
         label: "Mother's Name",
         type: "text"
+      },
+      {
+        name: "familyDetails.isFatherAlive",
+        label: "",
+        type: "radio",
+        options: aliveOptions,
+        defaultValue: true,
+      },
+      {
+        name: "familyDetails.isMotherAlive",
+        label: "",
+        type: "radio",
+        options: aliveOptions,
+        defaultValue: true,
       },
       {
         name: "familyDetails.noOfBrothers",
@@ -309,6 +319,7 @@ export const fieldList: FieldSection[] = [
         label: "Marital Status",
         type: "select",
         options: maritalStatus,
+        defaultValue: "Single",
       }
     ]
   }
@@ -336,7 +347,7 @@ export const defaultValues: userInputT = fieldList.reduce((acc, curr) => {
       setNestedValue(acc, item.name, item.defaultValue ?? "")
     }
     else {
-      setNestedValue(acc, item.name, "")
+      setNestedValue(acc, item.name, item?.defaultValue ?? "")
     }
   })
   return acc

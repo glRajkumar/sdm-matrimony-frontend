@@ -9,9 +9,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 import { Calendar } from "./calendar";
 import { Textarea } from "./textarea";
+import { Combobox } from "./combobox";
 import { Button } from "./button";
 import { Input } from "./input";
-import { Combobox } from "./combobox";
 
 type BaseWrapperProps<T extends FieldValues> = {
   name: Path<T>
@@ -33,6 +33,29 @@ export function InputWrapper<T extends FieldValues>({ name, label, control, clas
 
           <FormControl>
             <Input type={type} {...props} {...field} />
+          </FormControl>
+
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  )
+}
+
+
+type TextareaWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & React.TextareaHTMLAttributes<HTMLTextAreaElement>
+
+export function TextareaWrapper<T extends FieldValues>({ name, label, control, className, ...rest }: TextareaWrapperProps<T>) {
+  return (
+    <FormField
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <FormItem className={className}>
+          {label && <FormLabel>{label}</FormLabel>}
+
+          <FormControl>
+            <Textarea {...rest} {...field} />
           </FormControl>
 
           <FormMessage />
@@ -125,28 +148,6 @@ export function SelectWrapper<T extends FieldValues>({ name, label, control, cla
               ))}
             </SelectContent>
           </Select>
-
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-}
-
-type TextareaWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & React.TextareaHTMLAttributes<HTMLTextAreaElement>
-
-export function TextareaWrapper<T extends FieldValues>({ name, label, control, className, ...rest }: TextareaWrapperProps<T>) {
-  return (
-    <FormField
-      name={name}
-      control={control}
-      render={({ field }) => (
-        <FormItem className={className}>
-          {label && <FormLabel>{label}</FormLabel>}
-
-          <FormControl>
-            <Textarea {...rest} {...field} />
-          </FormControl>
 
           <FormMessage />
         </FormItem>

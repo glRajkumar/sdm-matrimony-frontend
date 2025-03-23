@@ -10,8 +10,7 @@ import { createUserSchema, type userInputT } from '@/utils/user-schema';
 import { defaultValues, fieldList } from './data';
 import { useRegisterImage } from '@/hooks/use-account';
 
-import { ComboboxWrapper, SelectWrapper, InputWrapper, DatePickerWrapper } from '@/components/ui/form-wrapper';
-import { SelectImageWrapper } from './select-image-wrapper';
+import FieldWrapper from './field-wrapper';
 import { Button } from '@/components/ui/button';
 
 type props = {
@@ -65,55 +64,13 @@ function CreateUser({ isPending, isAdmin, onSubmit }: props) {
 
                 <div className='grid md:grid-cols-2 items-start gap-4'>
                   {
-                    field.list.map(field => {
-                      if (field.type === "select") {
-                        return (
-                          <SelectWrapper
-                            key={field.name}
-                            control={methods.control}
-                            {...field}
-                          />
-                        )
-                      }
-
-                      if (field.type === "combobox") {
-                        return (
-                          <ComboboxWrapper
-                            key={field.name}
-                            control={methods.control}
-                            {...field}
-                          />
-                        )
-                      }
-
-                      if (field?.name === "dob") {
-                        return (
-                          <DatePickerWrapper
-                            key={field.name}
-                            control={methods.control}
-                            {...field}
-                          />
-                        )
-                      }
-
-                      if (field?.type === "file") {
-                        return (
-                          <SelectImageWrapper
-                            key={field.name}
-                            {...field}
-                          />
-                        )
-                      }
-
-                      return (
-                        <InputWrapper
-                          key={field.name}
-                          control={methods.control}
-                          {...field}
-                          defaultValue={undefined}
-                        />
-                      )
-                    })
+                    field.list.map(field => (
+                      <FieldWrapper
+                        key={field.name}
+                        control={methods.control}
+                        {...field}
+                      />
+                    ))
                   }
                 </div>
               </div>
