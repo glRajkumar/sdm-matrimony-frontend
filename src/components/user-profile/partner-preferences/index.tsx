@@ -43,16 +43,16 @@ function PartnerPreferences({ user, canEdit }: props) {
             <p className="font-medium">{user?.partnerPreferences?.maritalStatus}</p>
           </div>
           <div>
-            <span className="text-sm text-muted-foreground">Qualification</span>
-            <p className="font-medium">{user?.partnerPreferences?.qualification}</p>
+            <span className="text-sm text-muted-foreground">Minimum Qualification</span>
+            <p className="font-medium">{user?.partnerPreferences?.minQualification}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Profession</span>
-            <p className="font-medium">{user?.partnerPreferences?.work}</p>
+            <p className="font-medium">{user?.partnerPreferences?.profession}</p>
           </div>
           <div>
-            <span className="text-sm text-muted-foreground">Expected Salary</span>
-            <p className="font-medium">₹{user?.partnerPreferences?.salary} per annum</p>
+            <span className="text-sm text-muted-foreground">Minimum Salary</span>
+            <p className="font-medium">₹{user?.partnerPreferences?.minSalary} per month</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Mother Tongue</span>

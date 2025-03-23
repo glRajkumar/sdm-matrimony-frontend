@@ -1,7 +1,11 @@
 import { Path } from 'react-hook-form';
 
-import { gender, maritalStatus, languages, religions, castes, nakshatra, raasi, aliveOptions } from '@/utils';
-import { userInputT } from '@/utils/user-schema';
+import type { userInputT } from '@/utils/user-schema';
+
+import {
+  gender, maritalStatus, languages, religions, castes,
+  nakshatra, raasi, aliveOptions, educationLevels, professions
+} from '@/utils';
 
 type BaseField = {
   name: Path<userInputT>
@@ -104,13 +108,25 @@ export const fieldList: FieldSection[] = [
     lable: "Professional Details",
     list: [
       {
-        name: "proffessionalDetails.qualification",
-        label: "Qualification",
+        name: "proffessionalDetails.highestQualification",
+        label: "Highest Qualification",
+        type: "combobox",
+        options: educationLevels,
+      },
+      {
+        name: "proffessionalDetails.qualifications",
+        label: "Qualifications",
         type: "text"
       },
       {
-        name: "proffessionalDetails.work",
-        label: "Work",
+        name: "proffessionalDetails.profession",
+        label: "Profession",
+        type: "combobox",
+        options: professions,
+      },
+      {
+        name: "proffessionalDetails.companyName",
+        label: "Company Name",
         type: "text"
       },
       {
@@ -270,18 +286,20 @@ export const fieldList: FieldSection[] = [
         min: 18,
       },
       {
-        name: "partnerPreferences.qualification",
-        label: "Qualification",
-        type: "text"
+        name: "partnerPreferences.minQualification",
+        label: "Minimum Qualification",
+        type: "combobox",
+        options: educationLevels,
       },
       {
-        name: "partnerPreferences.work",
-        label: "Work",
-        type: "text"
+        name: "partnerPreferences.profession",
+        label: "Profession",
+        type: "combobox",
+        options: professions,
       },
       {
-        name: "partnerPreferences.salary",
-        label: "Salary per Month (in ₹)",
+        name: "partnerPreferences.minSalary",
+        label: "Minimum Salary (in ₹)",
         type: "number",
         step: 1000,
         min: 10000,

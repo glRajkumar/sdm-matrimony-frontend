@@ -12,8 +12,8 @@ const sikhCastes = ["Jat Sikh", "Khatri", "Ramgarhia", "Arora", "Mazhabi"] as co
 export const castes = [...hinduCastes, ...muslimCastes, ...christianCastes, ...sikhCastes] as const
 
 export const languages = ["Hindi", "English", "Bengali", "Tamil", "Telugu", "Marathi", "Gujarati", "Punjabi", "Malayalam", "Kannada", "Odia", "Urdu"] as const
+export const professions = ["Software Engineer", "Doctor", "Lawyer", "Business", "Government Job", "Teacher", "Banking", "Self-Employed", "Student", "Engineer", "Manager", "Accountant", "Designer", "Writer", "Artist", "Musician", "Chef", "Photographer", "Videographer", "Journalist", "Editor", "Scientist", "Technician", "Driver"] as const
 export const educationLevels = ["High School", "Diploma", "Bachelor's", "Master's", "PhD", "Doctor"] as const
-export const occupations = ["Software Engineer", "Doctor", "Lawyer", "Business", "Government Job", "Teacher", "Banking", "Self-Employed"] as const
 
 export const nakshatra = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishta', 'Shatabhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'] as const
 export const planets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'] as const

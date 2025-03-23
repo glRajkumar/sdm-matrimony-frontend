@@ -46,9 +46,11 @@ type userT = {
     address: string
   }
   proffessionalDetails: {
-    qualification: string
+    highestQualification: string
+    qualifications: string
+    companyName: string
+    profession: string
     salary: number
-    work: string
   }
   familyDetails: {
     fatherName: string
@@ -80,9 +82,9 @@ type userT = {
     maxAge: number
     religion: string
     caste: string
-    salary: number
-    qualification: string
-    work: string
+    minSalary: number
+    minQualification: string
+    profession: string
     motherTongue: string
     location: string
     expectation: string

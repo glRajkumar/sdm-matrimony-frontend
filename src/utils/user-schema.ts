@@ -13,8 +13,10 @@ export const contactDetailsSchema = z.object({
 })
 
 export const professionalDetailsSchema = z.object({
-  qualification: z.string().nonempty("Qualification is required"),
-  work: z.string().nonempty("Work is required"),
+  highestQualification: z.string().nonempty("Highest Qualification is required"),
+  qualifications: z.string().nonempty("Qualifications is required"),
+  companyName: z.string().nonempty("Company Name is required"),
+  profession: z.string().nonempty("Profession is required"),
   salary: z.coerce.number().min(10000, "Salary must be at least 10000"),
 })
 
@@ -49,9 +51,9 @@ export const otherDetailsSchema = z.object({
 export const partnerPreferencesSchema = z.object({
   minAge: z.coerce.number().min(18, "Minimum age must be at least 18").optional().or(z.literal("")),
   maxAge: z.coerce.number().min(18, "Maximum age must be at least 18").optional().or(z.literal("")),
-  qualification: z.string().optional().or(z.literal("")),
-  work: z.string().optional().or(z.literal("")),
-  salary: z.coerce.number().optional(),
+  minQualification: z.string().optional().or(z.literal("")),
+  profession: z.string().optional().or(z.literal("")),
+  minSalary: z.coerce.number().optional().or(z.literal("")),
   religion: z.string().optional().or(z.literal("")),
   caste: z.string().optional().or(z.literal("")),
   motherTongue: z.string().optional().or(z.literal("")),

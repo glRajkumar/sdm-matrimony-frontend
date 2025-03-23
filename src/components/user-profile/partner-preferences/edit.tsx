@@ -6,7 +6,7 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 
 import { partnerPreferencesSchema, type partnerPreferencesT } from '@/utils/user-schema';
-import { castes, languages, maritalStatus, religions } from '@/utils';
+import { castes, educationLevels, languages, maritalStatus, professions, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -27,8 +27,9 @@ function Edit({ user }: { user: userT }) {
       maxAge: user?.partnerPreferences?.maxAge || "",
       religion: user?.partnerPreferences?.religion || "",
       caste: user?.partnerPreferences?.caste || "",
-      qualification: user?.partnerPreferences?.qualification || "",
-      work: user?.partnerPreferences?.work || "",
+      minQualification: user?.partnerPreferences?.minQualification || "",
+      profession: user?.partnerPreferences?.profession || "",
+      minSalary: user?.partnerPreferences?.minSalary || "",
       motherTongue: user?.partnerPreferences?.motherTongue || "",
       location: user?.partnerPreferences?.location || "",
       expectation: user?.partnerPreferences?.expectation || "",
@@ -113,16 +114,18 @@ function Edit({ user }: { user: userT }) {
               placeholder="Select marital status"
             />
 
-            <InputWrapper
+            <ComboboxWrapper
               control={form.control}
-              name="qualification"
-              label="Qualification"
+              name="minQualification"
+              label="Minimum Qualification"
+              options={educationLevels}
             />
 
-            <InputWrapper
+            <ComboboxWrapper
               control={form.control}
-              name="work"
+              name="profession"
               label="Profession"
+              options={professions}
             />
 
             <div className="pt-2">
@@ -130,7 +133,7 @@ function Edit({ user }: { user: userT }) {
                 <Label>Expected Salary</Label>
                 <p className="text-sm text-muted-foreground">(Not editable)</p>
               </div>
-              <Input value={`₹ ${user?.partnerPreferences?.salary || "-"}`} disabled className="mt-1" />
+              <Input value={`₹ ${user?.partnerPreferences?.minSalary || "-"}`} disabled className="mt-1" />
             </div>
 
             <ComboboxWrapper

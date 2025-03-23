@@ -6,10 +6,11 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 
 import { professionalDetailsSchema, type professionalDetailsT } from '@/utils/user-schema';
+import { educationLevels, professions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { InputWrapper } from '@/components/ui/form-wrapper';
+import { ComboboxWrapper, InputWrapper } from '@/components/ui/form-wrapper';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from '@/components/ui/label';
@@ -22,8 +23,11 @@ function Edit({ user }: { user: userT }) {
   const form = useForm<professionalDetailsT>({
     resolver: zodResolver(professionalDetailsSchema),
     defaultValues: {
-      qualification: user?.proffessionalDetails?.qualification || "",
-      work: user?.proffessionalDetails?.work || "",
+      highestQualification: user?.proffessionalDetails?.highestQualification || "",
+      qualifications: user?.proffessionalDetails?.qualifications || "",
+      companyName: user?.proffessionalDetails?.companyName || "",
+      profession: user?.proffessionalDetails?.profession || "",
+      salary: user?.proffessionalDetails?.salary || 0,
     },
   })
 
@@ -62,16 +66,30 @@ function Edit({ user }: { user: userT }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <InputWrapper
+            <ComboboxWrapper
               control={form.control}
-              name="qualification"
-              label="Qualification"
+              name="highestQualification"
+              label="Highest Qualification"
+              options={educationLevels}
             />
 
             <InputWrapper
               control={form.control}
-              name="work"
-              label="Work"
+              name="qualifications"
+              label="Qualifications"
+            />
+
+            <ComboboxWrapper
+              control={form.control}
+              name="profession"
+              label="Profession"
+              options={professions}
+            />
+
+            <InputWrapper
+              control={form.control}
+              name="companyName"
+              label="Company Name"
             />
 
             <div className="pt-2">

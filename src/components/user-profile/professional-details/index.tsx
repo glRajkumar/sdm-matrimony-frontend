@@ -25,12 +25,20 @@ function ProfessionalDetails({ user, canEdit }: props) {
       <CardContent>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <span className="text-sm text-muted-foreground">Qualification</span>
-            <p className="font-medium">{user?.proffessionalDetails?.qualification}</p>
+            <span className="text-sm text-muted-foreground">Highest Qualification</span>
+            <p className="font-medium">{user?.proffessionalDetails?.highestQualification}</p>
           </div>
           <div>
-            <span className="text-sm text-muted-foreground">Work</span>
-            <p className="font-medium">{user?.proffessionalDetails?.work}</p>
+            <span className="text-sm text-muted-foreground">Qualifications</span>
+            <p className="font-medium">{user?.proffessionalDetails?.qualifications}</p>
+          </div>
+          <div>
+            <span className="text-sm text-muted-foreground">Profession</span>
+            <p className="font-medium">{user?.proffessionalDetails?.profession}</p>
+          </div>
+          <div>
+            <span className="text-sm text-muted-foreground">Company Name</span>
+            <p className="font-medium">{user?.proffessionalDetails?.companyName}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Annual Salary</span>
