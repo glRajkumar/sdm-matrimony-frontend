@@ -7,6 +7,13 @@ export function getUsersList(params: any = {}) {
   })
 }
 
+export function getMarriedUsers(params: any = {}) {
+  return sendApiReq({
+    url: endPoints.getMarriedUsers,
+    params,
+  })
+}
+
 export function createUsers(data: Partial<userT>[]) {
   return sendApiReq({
     url: endPoints.getUsersList,
@@ -23,3 +30,10 @@ export function updateUserDetails(data: Partial<userT>) {
   })
 }
 
+export function userMarriedTo(data: { _id: string, marriedTo: string }) {
+  return sendApiReq({
+    url: endPoints.marriedTo,
+    method: "post",
+    data,
+  })
+}

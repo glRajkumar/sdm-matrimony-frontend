@@ -23,4 +23,6 @@ export const endPoints = {
 
   getUsersList: "/admin/users",
   updateUserDetails: "/admin/user",
+  getMarriedUsers: "/admin/users/married",
+  marriedTo: "/admin/user/married-to",
 }

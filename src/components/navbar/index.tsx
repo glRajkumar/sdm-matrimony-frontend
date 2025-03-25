@@ -10,6 +10,10 @@ const adminLinks = [
     lable: "Create user",
     href: "create-user",
   },
+  {
+    lable: "Married users",
+    href: "married",
+  },
 ]
 
 const userLinks = [

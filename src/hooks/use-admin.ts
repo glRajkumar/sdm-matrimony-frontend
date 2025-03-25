@@ -1,8 +1,12 @@
 "use client";
 
 import { useMutation, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import { createUsers, getUsersList, updateUserDetails } from "@/actions";
 import { toast } from "sonner";
+
+import {
+  createUsers, getMarriedUsers, getUsersList,
+  updateUserDetails, userMarriedTo,
+} from "@/actions";
 
 export type userListProps = {
   approvalStatus?: approvalStatusT | approvalStatusT[]
@@ -38,11 +42,41 @@ export function useUsersList({ approvalStatus, isBlocked, isDeleted }: userListP
   })
 }
 
+type marriedUserT = Partial<userT> & { marriedTo: Partial<userT> }
+export function useMarriedUsers() {
+  const limit = 50
+
+  return useInfiniteQuery<marriedUserT[], Error, marriedUserT[]>({
+    queryKey: ["married-users"],
+    queryFn: ({ pageParam }) => {
+      return getMarriedUsers({
+        skip: (pageParam as number || 0) * limit,
+        limit,
+      })
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
+    select: data => data?.pages?.flat() as any,
+  })
+}
+
 export function useCreateUsersMutate() {
   return useMutation({
     mutationFn: createUsers,
     onSuccess() {
       toast("New user(s) created successfully")
+    },
+    onError(error) {
+      toast(error?.message || "Something went wrong!!!")
+    }
+  })
+}
+
+export function useUserMarriedToMutate() {
+  return useMutation({
+    mutationFn: userMarriedTo,
+    onSuccess() {
+      toast("User marriage details updated successfully")
     },
     onError(error) {
       toast(error?.message || "Something went wrong!!!")
