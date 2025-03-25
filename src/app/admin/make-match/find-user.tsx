@@ -12,10 +12,12 @@ import { InputWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
 
 type props = {
+  selected: string
+  setSelected: (user: Partial<userT>) => void
   gender: genderT
 }
 
-function FindUser({ gender }: props) {
+function FindUser({ gender, selected, setSelected }: props) {
   const schema = z.object({
     _id: z.string().optional(),
     email: z.string().optional(),
@@ -89,7 +91,7 @@ function FindUser({ gender }: props) {
     <Card className="shadow-md relative">
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
-          <span>{gender} Search</span>
+          Search {gender}
         </CardTitle>
       </CardHeader>
 
@@ -128,11 +130,12 @@ function FindUser({ gender }: props) {
             <div className="mt-6">
               <h3 className="font-medium mb-2">Results ({users.length})</h3>
 
-              <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
+              <div className="space-y-2 max-h-[400px] pr-6 -mr-6 overflow-y-auto">
                 {users.map((user) => (
                   <div
                     key={user._id}
-                    className="df items-start mb-2 border rounded-md overflow-hidden"
+                    className={`df items-start mb-2 border rounded-md overflow-hidden cursor-pointer ${selected === user._id ? "border-primary" : ""}`}
+                    onClick={() => setSelected(user)}
                   >
                     <img
                       className="w-full sm:w-32 h-32 object-cover"
