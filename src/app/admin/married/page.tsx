@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Loader } from "lucide-react";
 
 import { useMarriedUsers } from "@/hooks/use-admin";
@@ -9,6 +10,7 @@ import UserCard from "./user-card";
 
 function MarriedPage() {
   const { data: users, isLoading, isFetching, fetchNextPage, hasNextPage } = useMarriedUsers()
+  const navigate = useRouter()
 
   if (isLoading) return (
     <div className='dc h-[calc(100vh-4rem)]'>
@@ -26,7 +28,11 @@ function MarriedPage() {
     <div className="p-6">
       {
         !isLoading && users?.map(({ marriedTo, ...user }) => (
-          <div key={user._id} className="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto relative">
+          <div
+            key={user._id}
+            className="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto relative cursor-pointer"
+            onClick={() => navigate.push(`/admin/married/${user._id}_${marriedTo._id}`)}
+          >
             <UserCard {...user} />
             <span className="w-0.5 h-full md:h-0.5 md:w-full absolute top-0 left-1/2 -translate-x-1/2 md:top-1/2 md:left-0 md:translate-x-0 md:-translate-y-1/2 z-[-1] bg-border" />
             <UserCard {...marriedTo} />
