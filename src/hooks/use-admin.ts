@@ -1,10 +1,10 @@
 "use client";
 
-import { useMutation, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useInfiniteQuery, useQueryClient, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import {
-  createUsers, getMarriedUsers, getUsersList,
+  createUsers, findUser, getMarriedUsers, getUsersList,
   updateUserDetails, userMarriedTo,
 } from "@/actions";
 
@@ -57,6 +57,14 @@ export function useMarriedUsers() {
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
+  })
+}
+
+export function useFindUser(params: any) {
+  return useQuery<Partial<userT>[]>({
+    queryKey: ["find-user", params],
+    queryFn: () => findUser(params),
+    enabled: !!params && Object.keys(params).length > 1,
   })
 }
 

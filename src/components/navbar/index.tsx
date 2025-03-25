@@ -14,6 +14,10 @@ const adminLinks = [
     lable: "Married users",
     href: "married",
   },
+  {
+    lable: "Make Match",
+    href: "make-match",
+  },
 ]
 
 const userLinks = [

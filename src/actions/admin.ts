@@ -14,6 +14,13 @@ export function getMarriedUsers(params: any = {}) {
   })
 }
 
+export function findUser(params: any = {}) {
+  return sendApiReq({
+    url: endPoints.findUser,
+    params,
+  })
+}
+
 export function createUsers(data: Partial<userT>[]) {
   return sendApiReq({
     url: endPoints.getUsersList,

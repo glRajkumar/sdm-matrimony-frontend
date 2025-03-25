@@ -25,4 +25,5 @@ export const endPoints = {
   updateUserDetails: "/admin/user",
   getMarriedUsers: "/admin/users/married",
   marriedTo: "/admin/user/married-to",
+  findUser: "/admin/user/find",
 }
