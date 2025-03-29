@@ -56,7 +56,7 @@ function ProfileSidebar({ user, canEdit }: props) {
             </div>
 
             <h2 className="text-2xl font-bold">{user?.fullName}</h2>
-            <p className="text-muted-foreground">{user?.proffessionalDetails?.work}</p>
+            <p className="text-muted-foreground">{user?.proffessionalDetails?.companyName}</p>
           </div>
         </CardContent>
       </Card>
