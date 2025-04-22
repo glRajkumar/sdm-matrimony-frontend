@@ -60,7 +60,6 @@ const getHandleClasses = (direction: ResizeDirection): string => {
 function Extractor() {
   const [croppedImages, setCroppedImages] = useState<CroppedImage[]>([])
   const [selectedCrop, setSelectedCrop] = useState<number | null>(null)
-  const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 })
   const [dragging, setDragging] = useState(false)
   const [image, setImage] = useState<HTMLImageElement | null>(null)
 
@@ -194,37 +193,37 @@ function Extractor() {
     e.stopPropagation()
     e.preventDefault()
 
-    const updatedCrops = crops.map(crop =>
+    setCrops(prevCrops => prevCrops.map(crop =>
       crop.id === id ? { ...crop, dragging: true } : crop
-    )
-
-    setCrops(updatedCrops)
+    ))
     setSelectedCrop(id)
 
     const container = imageContainerRef.current
     if (!container) return
 
     const containerRect = container.getBoundingClientRect()
-    setLastMousePos({ x: e.clientX, y: e.clientY })
+
+    const cropElement = e.currentTarget
+    const cropRect = cropElement.getBoundingClientRect()
+    const offsetX = e.clientX - cropRect.left
+    const offsetY = e.clientY - cropRect.top
 
     const handleMouseMove = (moveEvent: MouseEvent): void => {
       moveEvent.preventDefault()
 
-      const currentX = moveEvent.clientX
-      const currentY = moveEvent.clientY
+      const newLeft = moveEvent.clientX - containerRect.left - offsetX
+      const newTop = moveEvent.clientY - containerRect.top - offsetY
 
-      const dx = ((currentX - lastMousePos.x) / containerRect.width) * 100
-      const dy = ((currentY - lastMousePos.y) / containerRect.height) * 100
-
-      setLastMousePos({ x: currentX, y: currentY })
+      const newX = (newLeft / containerRect.width) * 100
+      const newY = (newTop / containerRect.height) * 100
 
       setCrops(prevCrops =>
         prevCrops.map(crop => {
           if (crop.id === id) {
-            let newX = Math.max(0, Math.min(100 - crop.width, crop.x + dx))
-            let newY = Math.max(0, Math.min(100 - crop.height, crop.y + dy))
+            const boundedX = Math.max(0, Math.min(100 - crop.width, newX))
+            const boundedY = Math.max(0, Math.min(100 - crop.height, newY))
 
-            return { ...crop, x: newX, y: newY }
+            return { ...crop, x: boundedX, y: boundedY }
           }
           return crop
         })
@@ -254,54 +253,52 @@ function Extractor() {
     if (!container) return
 
     const containerRect = container.getBoundingClientRect()
-    setLastMousePos({ x: e.clientX, y: e.clientY })
-
     const cropToResize = crops.find(crop => crop.id === id)
     if (!cropToResize) return
+
+    const initialCrop = { ...cropToResize }
+
+    const initialMouseX = e.clientX
+    const initialMouseY = e.clientY
 
     const handleMouseMove = (moveEvent: MouseEvent): void => {
       moveEvent.preventDefault()
 
-      const currentX = moveEvent.clientX
-      const currentY = moveEvent.clientY
-
-      const dx = ((currentX - lastMousePos.x) / containerRect.width) * 100
-      const dy = ((currentY - lastMousePos.y) / containerRect.height) * 100
-
-      setLastMousePos({ x: currentX, y: currentY })
+      const dx = ((moveEvent.clientX - initialMouseX) / containerRect.width) * 100
+      const dy = ((moveEvent.clientY - initialMouseY) / containerRect.height) * 100
 
       setCrops(prevCrops =>
         prevCrops.map(crop => {
           if (crop.id === id) {
-            let newX = crop.x
-            let newY = crop.y
-            let newWidth = crop.width
-            let newHeight = crop.height
+            let newX = initialCrop.x
+            let newY = initialCrop.y
+            let newWidth = initialCrop.width
+            let newHeight = initialCrop.height
 
-            if (direction === 'ne' || direction === 'se' || direction === 'e') {
-              // Right edge - adjust width
-              newWidth = Math.max(10, Math.min(100 - crop.x, crop.width + dx))
+            if (direction.includes('e')) {
+              // East/right edge - adjust width only
+              newWidth = Math.max(10, Math.min(100 - initialCrop.x, initialCrop.width + dx))
             }
 
-            if (direction === 'nw' || direction === 'sw' || direction === 'w') {
-              // Left edge - adjust x and width
-              const maxDx = crop.width - 10 // Ensure minimum width
-              const boundedDx = Math.max(-crop.x, Math.min(maxDx, dx))
-              newX = crop.x + boundedDx
-              newWidth = crop.width - boundedDx
+            if (direction.includes('w')) {
+              // West/left edge - adjust x and width
+              const maxDx = initialCrop.width - 10
+              const boundedDx = Math.max(-initialCrop.x, Math.min(maxDx, dx))
+              newX = initialCrop.x + boundedDx
+              newWidth = initialCrop.width - boundedDx
             }
 
-            if (direction === 'nw' || direction === 'ne' || direction === 'n') {
-              // Top edge - adjust y and height
-              const maxDy = crop.height - 10 // Ensure minimum height
-              const boundedDy = Math.max(-crop.y, Math.min(maxDy, dy))
-              newY = crop.y + boundedDy
-              newHeight = crop.height - boundedDy
+            if (direction.includes('n')) {
+              // North/top edge - adjust y and height
+              const maxDy = initialCrop.height - 10
+              const boundedDy = Math.max(-initialCrop.y, Math.min(maxDy, dy))
+              newY = initialCrop.y + boundedDy
+              newHeight = initialCrop.height - boundedDy
             }
 
-            if (direction === 'sw' || direction === 'se' || direction === 's') {
-              // Bottom edge - adjust height
-              newHeight = Math.max(10, Math.min(100 - crop.y, crop.height + dy))
+            if (direction.includes('s')) {
+              // South/bottom edge - adjust height only
+              newHeight = Math.max(10, Math.min(100 - initialCrop.y, initialCrop.height + dy))
             }
 
             return { ...crop, x: newX, y: newY, width: newWidth, height: newHeight }
@@ -352,10 +349,10 @@ function Extractor() {
       })
     }
 
-    mergeSections3And4(croppedResults, image)
+    setFinalCrops(croppedResults, image)
   }
 
-  const mergeSections3And4 = (results: CroppedImage[], image: HTMLImageElement): void => {
+  const setFinalCrops = (results: CroppedImage[], image: HTMLImageElement): void => {
     const section3 = results[2]
     const section4 = results[3]
 
