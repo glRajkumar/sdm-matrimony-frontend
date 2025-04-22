@@ -18,6 +18,10 @@ const adminLinks = [
     lable: "Make Match",
     href: "make-match",
   },
+  {
+    lable: "Image Extractor",
+    href: "image-extractor",
+  },
 ]
 
 const userLinks = [
