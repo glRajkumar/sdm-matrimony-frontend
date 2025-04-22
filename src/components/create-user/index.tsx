@@ -10,6 +10,7 @@ import { z } from "zod";
 import { defaultValues, fieldList } from './data';
 import { createUserSchema } from '@/utils/user-schema';
 import { useRegisterImage } from '@/hooks/use-account';
+import { cn } from '@/lib/utils';
 
 import FieldWrapper from './field-wrapper';
 import { Button } from '@/components/ui/button';
@@ -18,13 +19,14 @@ type props = {
   isPending: boolean
   onSubmit: (p: Partial<userT>) => void
   isAdmin?: boolean
+  className?: string
 }
 
 const schema = createUserSchema.extend({
   profileImg: z.instanceof(File, { message: "Profile image is required" })
 })
 
-function CreateUser({ isPending, isAdmin, onSubmit }: props) {
+function CreateUser({ isPending, isAdmin, className, onSubmit }: props) {
   const methods = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues, profileImg: undefined },
@@ -58,38 +60,42 @@ function CreateUser({ isPending, isAdmin, onSubmit }: props) {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(handleSubmit)} id='signup-form'>
-        <div className='-mr-8 pl-1 pr-8 pb-4 max-h-[50vh] overflow-y-auto divide-y'>
-          {
-            fieldList.map(field => (
-              <div key={field.lable} className='py-8'>
-                <h4 className="mb-2 text-sm font-semibold text-gray-500">
-                  {field.lable}
-                </h4>
+      <form
+        id='signup-form'
+        onSubmit={methods.handleSubmit(handleSubmit)}
+        className={cn('-mr-8 pl-1 pr-8 max-h-[50vh] overflow-y-auto divide-y relative isolate', className)}
+      >
+        {
+          fieldList.map(field => (
+            <div key={field.lable} className='py-8'>
+              <h4 className="mb-2 text-sm font-semibold text-gray-500">
+                {field.lable}
+              </h4>
 
-                <div className='grid md:grid-cols-2 items-start gap-4'>
-                  {
-                    field.list.map(field => (
-                      <FieldWrapper
-                        key={field.name}
-                        control={methods.control}
-                        {...field}
-                      />
-                    ))
-                  }
-                </div>
+              <div className='grid md:grid-cols-2 items-start gap-4'>
+                {
+                  field.list.map(field => (
+                    <FieldWrapper
+                      key={field.name}
+                      control={methods.control}
+                      {...field}
+                    />
+                  ))
+                }
               </div>
-            ))
-          }
-        </div>
+            </div>
+          ))
+        }
 
-        <Button
-          type="submit"
-          className="mt-6 w-full bg-pink-500 hover:bg-pink-600"
-        >
-          {(isPending || isPending1) && <Loader className="animate-spin" />}
-          {isAdmin ? "Create User" : "Sign Up"}
-        </Button>
+        <div className='py-2 sticky -bottom-px z-[1] bg-white'>
+          <Button
+            type="submit"
+            className="w-full bg-pink-500 hover:bg-pink-600"
+          >
+            {(isPending || isPending1) && <Loader className="animate-spin" />}
+            {isAdmin ? "Create User" : "Sign Up"}
+          </Button>
+        </div>
       </form>
     </FormProvider>
   )

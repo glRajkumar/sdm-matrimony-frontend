@@ -3,6 +3,8 @@
 import { useState, useRef, ChangeEvent, DragEvent, MouseEvent, useEffect } from 'react';
 import { Upload, Move } from 'lucide-react';
 
+import { useExtractImgMutate } from '@/hooks/use-admin';
+
 import { Button } from '@/components/ui/button';
 
 interface CropArea {
@@ -72,6 +74,8 @@ function Extractor() {
 
   const imageContainerRef = useRef<HTMLDivElement | null>(null)
   const imageRef = useRef<HTMLImageElement | null>(null)
+
+  const { mutate, isPending } = useExtractImgMutate()
 
   useEffect(() => {
     if (selectedCrop === null) return
@@ -405,9 +409,10 @@ function Extractor() {
 
       croppedImages.forEach((img, index) => {
         const blob = dataURLtoBlob(img.dataUrl)
-        formData.append(`image-${index + 1}`, blob, `cropped-image-${index + 1}.png`)
+        formData.append("images", blob, `cropped-image-${index + 1}.png`)
       })
 
+      mutate(formData)
     } catch (error) {
       console.error('Error uploading images:', error)
     }
@@ -452,6 +457,7 @@ function Extractor() {
             <Button
               size="sm"
               onClick={() => cropImage(image)}
+              disabled={isPending}
             >
               Crop Image
             </Button>
@@ -460,6 +466,7 @@ function Extractor() {
               size="sm"
               variant="destructive"
               onClick={resetCrops}
+              disabled={isPending}
             >
               Reset Crops
             </Button>
@@ -468,6 +475,7 @@ function Extractor() {
               size="sm"
               className='bg-blue-500 hover:bg-blue-600'
               onClick={() => setImage(null)}
+              disabled={isPending}
             >
               New Image
             </Button>
@@ -478,6 +486,7 @@ function Extractor() {
                   size="sm"
                   onClick={sendToBackend}
                   className='ml-auto bg-green-600 hover:bg-green-700'
+                  disabled={isPending}
                 >
                   Proceed
                 </Button>

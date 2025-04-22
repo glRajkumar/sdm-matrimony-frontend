@@ -4,7 +4,7 @@ import { useMutation, useInfiniteQuery, useQueryClient, useQuery } from "@tansta
 import { toast } from "sonner";
 
 import {
-  createUsers, findUser, getMarriedUsers, getUsersList,
+  createUsers, extractImg, findUser, getMarriedUsers, getUsersList,
   updateUserDetails, userMarriedTo,
 } from "@/actions";
 
@@ -100,6 +100,18 @@ export function useUpdateUserMutate() {
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["user-list"] })
       toast("Applicant details successfully")
+    },
+    onError(error) {
+      toast(error?.message || "Something went wrong!!!")
+    }
+  })
+}
+
+export function useExtractImgMutate() {
+  return useMutation({
+    mutationFn: extractImg,
+    onSuccess() {
+      toast("Images extracted successfully")
     },
     onError(error) {
       toast(error?.message || "Something went wrong!!!")

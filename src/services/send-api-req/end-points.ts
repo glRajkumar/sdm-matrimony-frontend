@@ -26,4 +26,5 @@ export const endPoints = {
   getMarriedUsers: "/admin/users/married",
   marriedTo: "/admin/user/married-to",
   findUser: "/admin/user/find",
+  extractImg: "/extractor",
 }

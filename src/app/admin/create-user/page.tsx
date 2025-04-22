@@ -25,6 +25,7 @@ function Page() {
       isAdmin
       isPending={isPending}
       onSubmit={onSubmit}
+      className='max-h-[70vh]'
     />
   )
 }

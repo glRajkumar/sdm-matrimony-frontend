@@ -44,3 +44,11 @@ export function userMarriedTo(data: { _id: string, marriedTo: string }) {
     data,
   })
 }
+
+export function extractImg(data: FormData) {
+  return sendApiReq({
+    url: endPoints.extractImg,
+    method: "post",
+    data,
+  })
+}
