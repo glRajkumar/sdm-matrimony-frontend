@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, ChangeEvent, DragEvent, MouseEvent } from 'react';
-import { Upload, Save, Move } from 'lucide-react';
+import { Upload, Move } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
@@ -74,23 +74,6 @@ function Extractor() {
   const imageContainerRef = useRef<HTMLDivElement | null>(null)
   const imageRef = useRef<HTMLImageElement | null>(null)
 
-  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>): void => {
-    const file = e.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e: ProgressEvent<FileReader>): void => {
-        const img = new Image()
-        img.onload = (): void => {
-          setImage(img)
-          setCroppedImages([])
-          resetCrops()
-        }
-        img.src = e.target?.result as string
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
   const resetCrops = (): void => {
     setCrops([
       { id: 1, x: 2.7, y: 22, width: 61.4, height: 53.9, dragging: false },
@@ -99,6 +82,26 @@ function Extractor() {
       { id: 4, x: 62.1, y: 76.7, width: 35, height: 16.2, dragging: false }
     ])
     setSelectedCrop(null)
+  }
+
+  const onFileLoad = (file: File) => {
+    const reader = new FileReader()
+    reader.onload = (e: ProgressEvent<FileReader>): void => {
+      const img = new Image()
+      img.onload = (): void => {
+        setImage(img)
+        cropImage(img)
+      }
+      img.src = e.target?.result as string
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>): void => {
+    const file = e.target.files?.[0]
+    if (file) {
+      onFileLoad(file)
+    }
   }
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>): void => {
@@ -116,17 +119,7 @@ function Extractor() {
 
     const file = e.dataTransfer.files?.[0]
     if (file && file.type.match('image.*')) {
-      const reader = new FileReader()
-      reader.onload = (e: ProgressEvent<FileReader>): void => {
-        const img = new Image()
-        img.onload = (): void => {
-          setImage(img)
-          setCroppedImages([])
-          resetCrops()
-        }
-        img.src = e.target?.result as string
-      }
-      reader.readAsDataURL(file)
+      onFileLoad(file)
     }
   }
 
@@ -255,7 +248,7 @@ function Extractor() {
     document.addEventListener('mouseup', handleMouseUp)
   }
 
-  const cropImage = (): void => {
+  const cropImage = (image: HTMLImageElement): void => {
     if (!image) return
 
     const croppedResults: CroppedImage[] = []
@@ -287,16 +280,10 @@ function Extractor() {
       })
     }
 
-    if (croppedResults.length >= 4) {
-      mergeSections3And4(croppedResults)
-    } else {
-      setCroppedImages(croppedResults)
-    }
+    mergeSections3And4(croppedResults, image)
   }
 
-  const mergeSections3And4 = (results: CroppedImage[]): void => {
-    if (results.length < 4 || !image) return
-
+  const mergeSections3And4 = (results: CroppedImage[], image: HTMLImageElement): void => {
     const section3 = results[2]
     const section4 = results[3]
 
@@ -365,6 +352,7 @@ function Extractor() {
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
+          onClick={() => document.getElementById('image-upload')?.click()}
         >
           <Upload className="h-12 w-12 text-gray-400 mb-4" />
           <p className="text-lg text-gray-500 mb-4">Drag and drop an image here, or click to select</p>
@@ -374,10 +362,14 @@ function Extractor() {
             onChange={handleImageUpload}
             className="hidden"
             id="image-upload"
+            onClick={e => e.stopPropagation()}
           />
 
           <Button asChild>
-            <label htmlFor="image-upload">
+            <label
+              htmlFor="image-upload"
+              onClick={e => e.stopPropagation()}
+            >
               <Upload className="h-4 w-4" />
               Select Image
             </label>
@@ -390,7 +382,7 @@ function Extractor() {
           <div className="df my-4">
             <Button
               size="sm"
-              onClick={cropImage}
+              onClick={() => cropImage(image)}
             >
               Crop Image
             </Button>
@@ -410,13 +402,25 @@ function Extractor() {
             >
               New Image
             </Button>
+
+            {
+              croppedImages.length > 0 && (
+                <Button
+                  size="sm"
+                  onClick={sendToBackend}
+                  className='ml-auto bg-green-600 hover:bg-green-700'
+                >
+                  Proceed
+                </Button>
+              )
+            }
           </div>
 
           <div className="flex flex-col md:flex-row gap-6">
             <div className="md:w-1/2 flex flex-col">
               <div
                 ref={imageContainerRef}
-                className="relative border rounded-lg overflow-hidden mb-4"
+                className="relative border rounded-lg overflow-hidden mb-4 isolate"
               >
                 <img
                   ref={imageRef}
@@ -567,17 +571,6 @@ function Extractor() {
 
             {croppedImages.length > 0 && (
               <div className="md:w-1/2">
-                <div className="df mb-4 ">
-                  <h3 className="font-medium">Cropped Sections</h3>
-
-                  <Button
-                    onClick={sendToBackend}
-                  >
-                    <Save className="h-4 w-4" />
-                    Send to Server
-                  </Button>
-                </div>
-
                 <div className="space-y-4">
                   {
                     croppedImages.map((cropped, index) => (
