@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, ChangeEvent, DragEvent, MouseEvent } from 'react';
+import { useState, useRef, ChangeEvent, DragEvent, MouseEvent, useEffect } from 'react';
 import { Upload, Move } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -74,6 +74,64 @@ function Extractor() {
   const imageContainerRef = useRef<HTMLDivElement | null>(null)
   const imageRef = useRef<HTMLImageElement | null>(null)
 
+  useEffect(() => {
+    if (selectedCrop === null) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return
+
+      e.preventDefault()
+
+      const step = e.shiftKey ? 1 : 0.5
+
+      setCrops(prevCrops =>
+        prevCrops.map(crop => {
+          if (crop.id !== selectedCrop) return crop;
+
+          let newCrop = { ...crop };
+
+          if (e.ctrlKey || e.metaKey) {
+            switch (e.key) {
+              case 'ArrowRight':
+                newCrop.width = Math.min(100 - crop.x, crop.width + step);
+                break;
+              case 'ArrowLeft':
+                newCrop.width = Math.max(10, crop.width - step);
+                break;
+              case 'ArrowDown':
+                newCrop.height = Math.min(100 - crop.y, crop.height + step);
+                break;
+              case 'ArrowUp':
+                newCrop.height = Math.max(10, crop.height - step);
+                break;
+            }
+          } else {
+            switch (e.key) {
+              case 'ArrowRight':
+                newCrop.x = Math.min(100 - crop.width, crop.x + step);
+                break;
+              case 'ArrowLeft':
+                newCrop.x = Math.max(0, crop.x - step);
+                break;
+              case 'ArrowDown':
+                newCrop.y = Math.min(100 - crop.height, crop.y + step);
+                break;
+              case 'ArrowUp':
+                newCrop.y = Math.max(0, crop.y - step);
+                break;
+            }
+          }
+
+          return newCrop;
+        })
+      );
+    };
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedCrop])
+
   const resetCrops = (): void => {
     setCrops([
       { id: 1, x: 2.7, y: 22, width: 61.4, height: 53.9, dragging: false },
@@ -123,8 +181,18 @@ function Extractor() {
     }
   }
 
+  const handleImageContainerClick = (e: MouseEvent<HTMLDivElement>): void => {
+    if (
+      e.target === imageContainerRef.current ||
+      e.target === imageRef.current
+    ) {
+      setSelectedCrop(null);
+    }
+  }
+
   const startDrag = (e: MouseEvent<HTMLDivElement>, id: number): void => {
     e.stopPropagation()
+    e.preventDefault()
 
     const updatedCrops = crops.map(crop =>
       crop.id === id ? { ...crop, dragging: true } : crop
@@ -140,6 +208,8 @@ function Extractor() {
     setLastMousePos({ x: e.clientX, y: e.clientY })
 
     const handleMouseMove = (moveEvent: MouseEvent): void => {
+      moveEvent.preventDefault()
+
       const currentX = moveEvent.clientX
       const currentY = moveEvent.clientY
 
@@ -190,6 +260,8 @@ function Extractor() {
     if (!cropToResize) return
 
     const handleMouseMove = (moveEvent: MouseEvent): void => {
+      moveEvent.preventDefault()
+
       const currentX = moveEvent.clientX
       const currentY = moveEvent.clientY
 
@@ -421,18 +493,25 @@ function Extractor() {
               <div
                 ref={imageContainerRef}
                 className="relative border rounded-lg overflow-hidden mb-4 isolate"
+                onClick={handleImageContainerClick}
+                onMouseDown={(e) => {
+                  if (e.target === imageRef.current) {
+                    e.preventDefault()
+                  }
+                }}
               >
                 <img
                   ref={imageRef}
                   src={image.src}
                   alt="Original"
-                  className="w-full h-auto"
+                  className="w-full h-auto select-none"
+                  draggable="false"
                 />
 
                 {crops.map((crop) => (
                   <div
                     key={crop.id}
-                    className={`absolute border-2 ${selectedCrop === crop.id ? 'border-blue-500' : 'border-red-500'} cursor-move`}
+                    className={`absolute border-2 ${selectedCrop === crop.id ? 'border-blue-500' : 'border-red-500'} cursor-move select-none`}
                     style={{
                       left: `${crop.x}%`,
                       top: `${crop.y}%`,
@@ -440,7 +519,10 @@ function Extractor() {
                       height: `${crop.height}%`,
                       zIndex: selectedCrop === crop.id ? 20 : 10
                     }}
-                    onClick={() => setSelectedCrop(crop.id)}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedCrop(crop.id)
+                    }}
                     onMouseDown={(e) => startDrag(e, crop.id)}
                   >
                     <div className="absolute top-1 left-1 bg-black bg-opacity-50 text-white px-2 py-1 text-xs rounded">
@@ -490,8 +572,6 @@ function Extractor() {
 
               {selectedCrop && (
                 <div className="mb-6 bg-white p-4 rounded-lg shadow">
-                  <h3 className="font-medium mb-4">Crop Controls</h3>
-
                   <div className="mb-4">
                     <h4 className="text-sm font-medium mb-2">Selected Area {crops.find(c => c.id === selectedCrop)?.id}</h4>
                     <div className="grid grid-cols-2 gap-3">
