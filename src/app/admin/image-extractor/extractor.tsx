@@ -4,6 +4,7 @@ import { useState, useRef, ChangeEvent, DragEvent, MouseEvent, useEffect } from 
 import { Upload, Move, Download, Eraser, Circle, Undo2 } from 'lucide-react';
 
 import { useExtractImgMutate } from '@/hooks/use-admin';
+import { dataT } from './type';
 
 import { Button } from '@/components/ui/button';
 
@@ -59,7 +60,12 @@ const getHandleClasses = (direction: ResizeDirection): string => {
   return `${baseClasses} ${positionClasses[direction]}`
 }
 
-function Extractor() {
+
+type props = {
+  updateStep: (step: number, data: dataT | null) => void;
+}
+
+function Extractor({ updateStep }: props) {
   const [croppedImages, setCroppedImages] = useState<CroppedImage[]>([])
   const [selectedCrop, setSelectedCrop] = useState<number | null>(null)
   const [dragging, setDragging] = useState(false)
@@ -73,7 +79,7 @@ function Extractor() {
   ])
 
   const [maskSettings, setMaskSettings] = useState({
-    size: 20,
+    size: 30,
     color: 'rgb(252,238,193)',
     type: 'rectangle',
   })
@@ -242,6 +248,15 @@ function Extractor() {
     link.href = canvasRef.current.toDataURL('image/png')
     link.click()
   }
+
+  const croppedImageDownload = (dataUrl: string, index: number): void => {
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = `cropped-image-${index + 1}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const resetCrops = (): void => {
     setCrops([
@@ -520,7 +535,18 @@ function Extractor() {
         formData.append("images", blob, `cropped-image-${index + 1}.png`)
       })
 
-      mutate(formData)
+      if (canvasRef.current) {
+        const imageData = canvasRef.current.toDataURL('image/png')
+        const fetchResponse = await fetch(imageData)
+        const blob = await fetchResponse.blob()
+        formData.append("images", blob, "imasge4.png")
+      }
+
+      mutate(formData, {
+        onSuccess(res) {
+          updateStep(1, { image, uploaded: res })
+        }
+      })
     } catch (error) {
       console.error('Error uploading images:', error)
     }
@@ -529,33 +555,35 @@ function Extractor() {
   return (
     <div className="p-6">
       {!image && (
-        <div
-          className={`border-2 border-dashed rounded-lg p-12 w-full max-w-2xl flex flex-col items-center justify-center cursor-pointer ${dragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}`}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          onClick={() => document.getElementById('image-upload')?.click()}
-        >
-          <Upload className="h-12 w-12 text-gray-400 mb-4" />
-          <p className="text-lg text-gray-500 mb-4">Drag and drop an image here, or click to select</p>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="hidden"
-            id="image-upload"
-            onClick={e => e.stopPropagation()}
-          />
-
-          <Button asChild>
-            <label
-              htmlFor="image-upload"
+        <div className='dc h-[80vh]'>
+          <div
+            className={`dc flex-col gap-0 p-12 w-full max-w-2xl border-2 border-dashed rounded-lg cursor-pointer ${dragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'} hover:border-solid hover:shadow`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            onClick={() => document.getElementById('image-upload')?.click()}
+          >
+            <Upload className="h-12 w-12 text-gray-400 mb-4" />
+            <p className="text-lg text-gray-500 mb-4">Drag and drop an image here, or click to select</p>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+              id="image-upload"
               onClick={e => e.stopPropagation()}
-            >
-              <Upload className="h-4 w-4" />
-              Select Image
-            </label>
-          </Button>
+            />
+
+            <Button asChild>
+              <label
+                htmlFor="image-upload"
+                onClick={e => e.stopPropagation()}
+              >
+                <Upload className="h-4 w-4" />
+                Select Image
+              </label>
+            </Button>
+          </div>
         </div>
       )}
 
@@ -771,6 +799,13 @@ function Extractor() {
                       <div key={index} className="border rounded-lg overflow-hidden relative bg-white">
                         <div className="p-2 bg-gray-100 flex justify-between items-center border-b">
                           <span className="font-medium">Section {index + 1}</span>
+                          <button
+                            onClick={() => croppedImageDownload(cropped.dataUrl, index)}
+                            className="dc p-1 bg-blue-500 hover:bg-blue-600 text-white rounded-full cursor-pointer"
+                            title="Download"
+                          >
+                            <Download className="h-4 w-4" />
+                          </button>
                         </div>
                         <div className="p-2">
                           <img
@@ -794,7 +829,7 @@ function Extractor() {
                   <button
                     onClick={handleUndo}
                     disabled={currentHistory <= 0}
-                    className="dc p-2 bg-gray-200 rounded disabled:opacity-50"
+                    className="dc p-2 bg-gray-200 rounded disabled:opacity-50 cursor-pointer"
                   >
                     <Undo2 size={16} />
                     <span className='sr-only'>Undo</span>
@@ -802,7 +837,7 @@ function Extractor() {
 
                   <button
                     onClick={downloadImage}
-                    className="dc p-2 bg-green-600 text-white rounded hover:bg-green-700"
+                    className="dc p-2 bg-green-600 text-white rounded hover:bg-green-700 cursor-pointer"
                   >
                     <Download size={16} />
                     <span className='sr-only'>Download</span>

@@ -1,37 +1,23 @@
 "use client";
+
 import { useState } from 'react';
 
-import { useCreateUsersMutate } from '@/hooks/use-admin';
+import { dataT } from './type';
 
-import CreateUser from '@/components/create-user';
 import Extractor from "./extractor";
+import SaveUser from './save-user';
 
 function Page() {
-  const [key, setKey] = useState(0)
+  const [data, setData] = useState<dataT>({ image: null, uploaded: [] })
+  const [step, setStep] = useState(0)
 
-  const { isPending, mutate } = useCreateUsersMutate()
-
-  function onSubmit(user: Partial<userT>) {
-    mutate([user], {
-      onSuccess() {
-        setKey(p => p + 1)
-      }
-    })
+  function updateStep(step: number, data: dataT | null = null) {
+    setStep(step)
+    setData(data || { image: null, uploaded: [] })
   }
 
-  return (
-    <section className="grid md:grid-cols-2 gap-4">
-      <Extractor />
-
-      <CreateUser
-        key={key}
-        isAdmin
-        isPending={isPending}
-        onSubmit={onSubmit}
-        className='p-6 mt-8 mr-8 max-h-[80vh] border rounded-lg'
-      />
-    </section>
-  )
+  if (step === 0) return <Extractor updateStep={updateStep} />
+  return <SaveUser data={data} updateStep={updateStep} />
 }
 
 export default Page
