@@ -544,7 +544,7 @@ function Extractor({ updateStep }: props) {
 
       mutate(formData, {
         onSuccess(res) {
-          updateStep(1, { image, uploaded: res })
+          updateStep(1, { image, uploaded: res?.imagePaths })
         }
       })
     } catch (error) {

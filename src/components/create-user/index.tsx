@@ -20,12 +20,29 @@ type props = {
   onSubmit: (p: Partial<userT>) => void
   isAdmin?: boolean
   className?: string
+  extractedData?: string[]
 }
 
-function CreateUser({ isPending, isAdmin, className, onSubmit }: props) {
+function getDefaultExtractedData(uploaded: string[]) {
+  const profileImg = uploaded[1]
+  const images = [uploaded[uploaded.length - 1]]
+  const vedicHoroscopePic = uploaded[uploaded.length - 2]
+
+  return {
+    ...defaultValues,
+    profileImg,
+    images,
+    vedicHoroscope: {
+      ...defaultValues.vedicHoroscope,
+      vedicHoroscopePic,
+    },
+  }
+}
+
+function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: props) {
   const methods = useForm<z.infer<typeof createUserSchema>>({
     resolver: zodResolver(createUserSchema),
-    defaultValues: { ...defaultValues },
+    defaultValues: extractedData ? getDefaultExtractedData(extractedData) : { ...defaultValues },
   })
 
   const { isPending: isPending1, mutateAsync: mutateRegisterImage } = useRegisterImage()
