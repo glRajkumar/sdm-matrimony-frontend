@@ -14,7 +14,13 @@ type BaseField = {
 }
 
 type TextField = BaseField & {
-  type: "text" | "email" | "password" | "tel" | "file" // | "time"
+  type: "text" | "email" | "password" | "tel" // | "time"
+}
+
+type FileField = BaseField & {
+  type: "file"
+  multiple?: boolean
+  className?: string
 }
 
 type NumberField = BaseField & {
@@ -33,7 +39,7 @@ type DateField = BaseField & {
   type: "date"
 }
 
-export type Field = TextField | NumberField | SelectField | DateField
+export type Field = TextField | NumberField | SelectField | DateField | FileField
 
 type FieldSection = {
   lable: string
@@ -63,6 +69,12 @@ export const fieldList: FieldSection[] = [
         name: "profileImg",
         label: "Profile Image",
         type: "file",
+      },
+      {
+        name: "images",
+        label: "Additional Images",
+        type: "file",
+        multiple: true,
       },
       {
         name: "fullName",
@@ -218,16 +230,22 @@ export const fieldList: FieldSection[] = [
         label: "Dasha Period",
         type: "text"
       },
-      // {
-      //   name: "vedicHoroscope.placeOfBirth",
-      //   label: "Place of Birth",
-      //   type: "text"
-      // },
-      // {
-      //   name: "vedicHoroscope.timeOfBirth",
-      //   label: "Time of Birth",
-      //   type: "time"
-      // }
+      {
+        name: "vedicHoroscope.placeOfBirth",
+        label: "Place of Birth",
+        type: "text"
+      },
+      {
+        name: "vedicHoroscope.timeOfBirth",
+        label: "Time of Birth",
+        type: "text"
+      },
+      {
+        name: "vedicHoroscope.vedicHoroscopePic",
+        label: "Vedic Horoscope Picture",
+        type: "file",
+        className: "md:col-span-2"
+      },
     ]
   },
   {
@@ -363,6 +381,9 @@ export const defaultValues: userInputT = fieldList.reduce((acc, curr) => {
     }
     else if (item.type === "number") {
       setNestedValue(acc, item.name, item.defaultValue ?? "")
+    }
+    else if (item.type === "file") {
+      setNestedValue(acc, item.name, item.multiple ? [] : undefined)
     }
     else {
       setNestedValue(acc, item.name, item?.defaultValue ?? "")

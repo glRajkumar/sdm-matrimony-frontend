@@ -22,32 +22,39 @@ type props = {
   className?: string
 }
 
-const schema = createUserSchema.extend({
-  profileImg: z.any(),
-})
-
 function CreateUser({ isPending, isAdmin, className, onSubmit }: props) {
-  const methods = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: { ...defaultValues, profileImg: undefined },
+  const methods = useForm<z.infer<typeof createUserSchema>>({
+    resolver: zodResolver(createUserSchema),
+    defaultValues: { ...defaultValues },
   })
 
   const { isPending: isPending1, mutateAsync: mutateRegisterImage } = useRegisterImage()
 
-  const handleSubmit = async (data: any) => {
+  async function uploadPic(image: File | string) {
+    if (typeof image === "string") return image
+    const formData = new FormData()
+    formData.append('image', image)
+    const { url } = await mutateRegisterImage(formData)
+    return url
+  }
+
+  const handleSubmit = async (data: z.infer<typeof createUserSchema>) => {
     const { profileImg, ...rest } = data
     if (!rest.email && !rest?.contactDetails?.mobile) return toast('Either email or mobile is required')
     if (!profileImg) return toast('Profile image is required')
 
     try {
-      let url = typeof profileImg === "string" ? profileImg : ""
+      let url = await uploadPic(profileImg)
 
-      if (!url) {
-        const formData = new FormData()
-        formData.append('image', profileImg)
+      const images = [url]
 
-        const { url: urlRes } = await mutateRegisterImage(formData)
-        url = urlRes
+      if (data?.images?.length) {
+        const urls = await Promise.all(data.images.map(uploadPic))
+        images.push(...urls)
+      }
+
+      if (data.vedicHoroscope.vedicHoroscopePic) {
+        data.vedicHoroscope.vedicHoroscopePic = await uploadPic(data.vedicHoroscope.vedicHoroscopePic)
       }
 
       const payload = {
@@ -55,9 +62,10 @@ function CreateUser({ isPending, isAdmin, className, onSubmit }: props) {
         dob: formatISO(data?.dob),
         role: "user",
         profileImg: url,
-        images: [url],
+        images,
       }
-      onSubmit(payload)
+
+      onSubmit(payload as Partial<userT>)
 
     } catch (error) {
       toast('Failed to register')

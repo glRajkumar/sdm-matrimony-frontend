@@ -37,6 +37,7 @@ export const vedicHoroscopeSchema = z.object({
   dashaPeriod: z.string().optional().or(z.literal("")),
   placeOfBirth: z.string().optional().or(z.literal("")),
   timeOfBirth: z.string().optional().or(z.literal("")),
+  vedicHoroscopePic: z.optional(z.union([z.string(), z.instanceof(File)])),
 })
 
 export const otherDetailsSchema = z.object({
@@ -83,7 +84,8 @@ export const partnerPreferencesSchema = z.object({
 export const createUserSchema = z.object({
   email: z.string().email("Invalid email address").optional().or(z.literal("")),
   password: z.string().min(8, "Password must be at least 8 characters"),
-  profileImg: z.string().optional(),
+  profileImg: z.optional(z.union([z.string(), z.instanceof(File)])),
+  images: z.array(z.union([z.string(), z.instanceof(File)])).optional(),
   ...personalDetailsSchema.shape,
   contactDetails: contactDetailsSchema,
   proffessionalDetails: professionalDetailsSchema,

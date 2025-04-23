@@ -2,7 +2,7 @@ import type { Control } from 'react-hook-form';
 import type { Field } from './data';
 
 import { ComboboxWrapper, SelectWrapper, InputWrapper, DatePickerWrapper, RadioWrapper } from '@/components/ui/form-wrapper';
-import { SelectImageWrapper } from './select-image-wrapper';
+import { SelectImageWrapper, SelectMultiImageWrapper } from './select-image-wrapper';
 
 type FieldWrapperProps = Field & {
   control: Control<any>
@@ -11,6 +11,10 @@ type FieldWrapperProps = Field & {
 function FieldWrapper({ control, type, ...props }: FieldWrapperProps) {
   if (type === "date") {
     return <DatePickerWrapper control={control} {...props} />
+  }
+
+  if (type === "file" && "multiple" in props) {
+    return <SelectMultiImageWrapper {...props} />
   }
 
   if (type === "file") {
