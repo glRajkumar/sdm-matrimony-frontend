@@ -27,46 +27,46 @@ function PartnerPreferences({ user, canEdit }: props) {
           <div>
             <span className="text-sm text-muted-foreground">Age Range</span>
             <p className="font-medium">
-              {user?.partnerPreferences?.minAge} - {user?.partnerPreferences?.maxAge} years
+              Min: {user?.partnerPreferences?.minAge || "---"} | Max: {user?.partnerPreferences?.maxAge || "---"}
             </p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Religion</span>
-            <p className="font-medium">{user?.partnerPreferences?.religion}</p>
+            <p className="font-medium">{user?.partnerPreferences?.religion || "---"}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Caste</span>
-            <p className="font-medium">{user?.partnerPreferences?.caste}</p>
+            <p className="font-medium">{user?.partnerPreferences?.caste || "---"}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Marital Status</span>
-            <p className="font-medium">{user?.partnerPreferences?.maritalStatus}</p>
+            <p className="font-medium">{user?.partnerPreferences?.maritalStatus || "---"}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Minimum Qualification</span>
-            <p className="font-medium">{user?.partnerPreferences?.minQualification}</p>
+            <p className="font-medium">{user?.partnerPreferences?.minQualification || "---"}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Profession</span>
-            <p className="font-medium">{user?.partnerPreferences?.profession}</p>
+            <p className="font-medium">{user?.partnerPreferences?.profession || "---"}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Minimum Salary</span>
-            <p className="font-medium">₹{user?.partnerPreferences?.minSalary} per month</p>
+            <p className="font-medium">{user?.partnerPreferences?.minSalary ? `₹${user?.partnerPreferences?.minSalary} per month` : "---"}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Mother Tongue</span>
-            <p className="font-medium">{user?.partnerPreferences?.motherTongue}</p>
+            <p className="font-medium">{user?.partnerPreferences?.motherTongue || "---"}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Location</span>
-            <p className="font-medium">{user?.partnerPreferences?.location}</p>
+            <p className="font-medium">{user?.partnerPreferences?.location || "---"}</p>
           </div>
         </div>
 
         <div>
           <span className="text-sm text-muted-foreground">Expectations</span>
-          <p className="font-medium mt-1">{user?.partnerPreferences?.expectation}</p>
+          <p className="font-medium mt-1">{user?.partnerPreferences?.expectation || "---"}</p>
         </div>
       </CardContent>
     </Card>

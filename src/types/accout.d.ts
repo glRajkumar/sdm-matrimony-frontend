@@ -68,6 +68,7 @@ type userT = {
     dashaPeriod: string
     raasiChart: chartT
     navamsaChart: chartT
+    vedicHoroscopePic: string
   }
   otherDetails: {
     motherTongue: string
