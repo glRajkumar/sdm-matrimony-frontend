@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, ChangeEvent, DragEvent, MouseEvent, useEffect } from 'react';
-import { Upload, Move } from 'lucide-react';
+import { Upload, Move, Download, Eraser, Circle, Undo2 } from 'lucide-react';
 
 import { useExtractImgMutate } from '@/hooks/use-admin';
 
@@ -72,6 +72,17 @@ function Extractor() {
     { id: 4, x: 62.1, y: 76.7, width: 35, height: 16.2, dragging: false }
   ])
 
+  const [maskSettings, setMaskSettings] = useState({
+    size: 20,
+    color: 'rgb(252,238,193)',
+    type: 'rectangle',
+  })
+  const [currentHistory, setCurrentHistory] = useState(-1)
+  const [isDrawing, setIsDrawing] = useState(false)
+  const [history, setHistory] = useState<string[]>([])
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   const imageContainerRef = useRef<HTMLDivElement | null>(null)
   const imageRef = useRef<HTMLImageElement | null>(null)
 
@@ -134,6 +145,103 @@ function Extractor() {
 
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [selectedCrop])
+
+  useEffect(() => {
+    if (!image || !canvasRef.current) return
+
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')
+
+    canvas.width = image.width
+    canvas.height = image.height
+
+    ctx?.drawImage(image, 0, 0)
+
+    saveState()
+  }, [image])
+
+  const saveState = () => {
+    if (!canvasRef.current) return
+
+    const canvas = canvasRef.current
+    const imageData = canvas.toDataURL('image/png')
+
+    const newHistory = [...history.slice(0, currentHistory + 1), imageData]
+    setHistory(newHistory)
+    setCurrentHistory(newHistory.length - 1)
+  }
+
+  const handleUndo = () => {
+    if (currentHistory <= 0) return
+
+    const prevState = history[currentHistory - 1]
+    setCurrentHistory(currentHistory - 1)
+
+    if (prevState && canvasRef.current) {
+      const img = new Image()
+      img.onload = () => {
+        const canvas = canvasRef.current
+        if (canvas) {
+          const ctx = canvas.getContext('2d')
+          ctx?.clearRect(0, 0, canvas.width, canvas.height)
+          ctx?.drawImage(img, 0, 0)
+        }
+      }
+      img.src = prevState
+    }
+  }
+
+  const startDrawing = (e: React.MouseEvent) => {
+    if (!canvasRef.current) return
+    setIsDrawing(true)
+    draw(e)
+  }
+
+  const draw = (e: React.MouseEvent) => {
+    if (!isDrawing || !canvasRef.current) return
+
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    const rect = canvas.getBoundingClientRect()
+
+    const scaleX = canvas.width / rect.width
+    const scaleY = canvas.height / rect.height
+    const x = (e.clientX - rect.left) * scaleX
+    const y = (e.clientY - rect.top) * scaleY
+
+    ctx.fillStyle = maskSettings.color
+
+    if (maskSettings.type === 'rectangle') {
+      ctx.fillRect(
+        x - maskSettings.size / 2,
+        y - maskSettings.size / 2,
+        maskSettings.size,
+        maskSettings.size
+      )
+    } else if (maskSettings.type === 'circle') {
+      ctx.beginPath()
+      ctx.arc(x, y, maskSettings.size / 2, 0, Math.PI * 2)
+      ctx.fill()
+    }
+  }
+
+  const stopDrawing = () => {
+    if (isDrawing) {
+      setIsDrawing(false)
+      saveState()
+    }
+  }
+
+  const downloadImage = () => {
+    if (!canvasRef.current) return
+
+    const link = document.createElement('a')
+    link.download = 'masked-image.png'
+    link.href = canvasRef.current.toDataURL('image/png')
+    link.click()
+  }
 
   const resetCrops = (): void => {
     setCrops([
@@ -677,6 +785,82 @@ function Extractor() {
                 </div>
               </div>
             )}
+
+            <div className="md:w-1/2">
+              <div className="border rounded overflow-auto">
+                <div className='df px-4 py-2 border-b'>
+                  <h6 className='flex-1'>Mask Image</h6>
+
+                  <button
+                    onClick={handleUndo}
+                    disabled={currentHistory <= 0}
+                    className="dc p-2 bg-gray-200 rounded disabled:opacity-50"
+                  >
+                    <Undo2 size={16} />
+                    <span className='sr-only'>Undo</span>
+                  </button>
+
+                  <button
+                    onClick={downloadImage}
+                    className="dc p-2 bg-green-600 text-white rounded hover:bg-green-700"
+                  >
+                    <Download size={16} />
+                    <span className='sr-only'>Download</span>
+                  </button>
+                </div>
+
+                <div className="p-4 relative">
+                  <canvas
+                    ref={canvasRef}
+                    onMouseDown={startDrawing}
+                    onMouseMove={draw}
+                    onMouseUp={stopDrawing}
+                    onMouseLeave={stopDrawing}
+                    className="object-contain"
+                    style={{
+                      cursor: isDrawing ? 'none' : 'crosshair',
+                      height: '640px'
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2 mt-6 bg-white p-4 rounded-lg shadow">
+                <div className="flex flex-col mb-2">
+                  <label className="text-sm text-gray-600">Mask Type</label>
+                  <div className="flex gap-2 mt-1">
+                    <button
+                      className={`flex-1 p-2 border rounded-l ${maskSettings.type === 'rectangle' ? 'bg-blue-100 border-blue-500' : 'bg-white'}`}
+                      onClick={() => setMaskSettings({ ...maskSettings, type: 'rectangle' })}
+                    >
+                      <Eraser size={16} className="mx-auto" />
+                    </button>
+                    <button
+                      className={`flex-1 p-2 border rounded-r ${maskSettings.type === 'circle' ? 'bg-blue-100 border-blue-500' : 'bg-white'}`}
+                      onClick={() => setMaskSettings({ ...maskSettings, type: 'circle' })}
+                    >
+                      <Circle size={16} className="mx-auto" />
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <div className='df justify-between'>
+                    <label className="text-sm text-gray-600">Mask Size</label>
+                    <p className="text-xs text-gray-500 text-center">{maskSettings.size}px</p>
+                  </div>
+
+                  <input
+                    type="range"
+                    min="5"
+                    max="100"
+                    value={maskSettings.size}
+                    onChange={(e) => setMaskSettings({ ...maskSettings, size: parseInt(e.target.value) })}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
