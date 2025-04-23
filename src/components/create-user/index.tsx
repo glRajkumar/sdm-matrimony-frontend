@@ -23,7 +23,7 @@ type props = {
 }
 
 const schema = createUserSchema.extend({
-  profileImg: z.instanceof(File, { message: "Profile image is required" })
+  profileImg: z.any(),
 })
 
 function CreateUser({ isPending, isAdmin, className, onSubmit }: props) {
@@ -36,13 +36,19 @@ function CreateUser({ isPending, isAdmin, className, onSubmit }: props) {
 
   const handleSubmit = async (data: any) => {
     const { profileImg, ...rest } = data
+    if (!rest.email && !rest?.contactDetails?.mobile) return toast('Either email or mobile is required')
     if (!profileImg) return toast('Profile image is required')
 
     try {
-      const formData = new FormData()
-      formData.append('image', profileImg)
+      let url = typeof profileImg === "string" ? profileImg : ""
 
-      const { url } = await mutateRegisterImage(formData)
+      if (!url) {
+        const formData = new FormData()
+        formData.append('image', profileImg)
+
+        const { url: urlRes } = await mutateRegisterImage(formData)
+        url = urlRes
+      }
 
       const payload = {
         ...rest,

@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { Loader } from "lucide-react";
 
+import { validateIdentifier } from "@/utils";
 import { useForgotPass } from "@/hooks/use-account";
 
 import { Button } from "@/components/ui/button";
@@ -31,15 +32,11 @@ function Page({ role = "user" }: props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-6">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">Email or Mobile Number</Label>
         <Input
           id="email"
           {...register("email", {
-            required: "Email is required",
-            pattern: {
-              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: "Email is invalid",
-            },
+            validate: validateIdentifier,
           })}
         />
         {

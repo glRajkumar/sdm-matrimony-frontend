@@ -8,7 +8,7 @@ export const personalDetailsSchema = z.object({
 })
 
 export const contactDetailsSchema = z.object({
-  mobile: z.string().nonempty("Mobile number is required"),
+  mobile: z.string().optional().or(z.literal("")),
   address: z.string().min(5, "Address must be at least 5 characters").optional().or(z.literal("")),
 })
 
@@ -81,7 +81,7 @@ export const partnerPreferencesSchema = z.object({
 )
 
 export const createUserSchema = z.object({
-  email: z.string().nonempty("Email is required").email("Invalid email address"),
+  email: z.string().email("Invalid email address").optional().or(z.literal("")),
   password: z.string().min(8, "Password must be at least 8 characters"),
   profileImg: z.string().optional(),
   ...personalDetailsSchema.shape,
