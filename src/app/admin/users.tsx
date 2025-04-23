@@ -90,7 +90,7 @@ function Users({ approvalStatus, isBlocked, isDeleted }: userListProps) {
 
       <DataTable
         table={table}
-        className='my-4 [&_th:nth-child(-n+2)]:min-w-80'
+        className='my-4 [&_th:nth-child(-n+3)]:min-w-60'
       />
 
       {
