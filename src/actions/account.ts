@@ -30,8 +30,8 @@ export function login(data: any) {
 
 export function checkApprovalStatus() {
   return sendApiReq({
-    isAuthendicated: false,
     url: endPoints.checkApprovalStatus,
+    withCredentials: true,
   })
 }
 

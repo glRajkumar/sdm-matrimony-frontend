@@ -74,14 +74,14 @@ const list: listProps[] = [
     options: educationLevels
   },
   {
-    name: 'profession',
-    label: 'Profession',
-    options: professions
-  },
-  {
     name: 'sector',
     label: 'Sector',
     options: proffessionalSectors
+  },
+  {
+    name: 'profession',
+    label: 'Profession',
+    options: professions
   },
   {
     name: 'maritalStatus',
