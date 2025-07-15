@@ -26,7 +26,7 @@ export const professionalDetailsSchema = z.object({
       data.salary === 0,
     {
       path: ["salary"],
-      message: "Salary must be 0 when unemployed",
+      error: "Salary must be 0 when unemployed",
     }
   )
   .refine(
@@ -36,7 +36,7 @@ export const professionalDetailsSchema = z.object({
         : data.salary >= 10000,
     {
       path: ["salary"],
-      message: "Salary must be at least 10000",
+      error: "Salary must be at least 10000",
     }
   )
   .refine(
@@ -44,7 +44,7 @@ export const professionalDetailsSchema = z.object({
       data.sector === "Unemployed" || data.profession !== "Unemployed",
     {
       path: ["profession"],
-      message: "Profession cannot be Unemployed if sector is not Unemployed",
+      error: "Profession cannot be Unemployed if sector is not Unemployed",
     }
   )
   .refine(
@@ -54,7 +54,7 @@ export const professionalDetailsSchema = z.object({
         !!data.companyName?.trim(),
     {
       path: ["companyName"],
-      message: "Company Name is required"
+      error: "Company Name is required"
     }
   )
 
@@ -106,7 +106,7 @@ export const partnerPreferencesSchema = z.object({
       ? data.minAge < data.maxAge
       : true,
   {
-    message: "Minimum age must be less than maximum age",
+    error: "Minimum age must be less than maximum age",
     path: ["minAge"],
   }
 ).refine(
@@ -115,13 +115,13 @@ export const partnerPreferencesSchema = z.object({
       ? data.minAge !== data.maxAge
       : true,
   {
-    message: "Minimum age and maximum age should not be equal",
+    error: "Minimum age and maximum age should not be equal",
     path: ["minAge"],
   }
 )
 
 export const createUserSchema = z.object({
-  email: z.string().email("Invalid email address").optional().or(z.literal("")),
+  email: z.email("Invalid email address").optional().or(z.literal("")),
   password: z.string().min(8, "Password must be at least 8 characters"),
   profileImg: z.optional(z.union([z.string(), z.instanceof(File)])),
   images: z.array(z.union([z.string(), z.instanceof(File)])).optional(),
