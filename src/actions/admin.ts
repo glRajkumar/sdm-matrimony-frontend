@@ -37,7 +37,7 @@ export function updateUserDetails(data: Partial<userT>) {
   })
 }
 
-export function userMarriedTo(data: { _id: string, marriedTo: string }) {
+export function userMarriedTo(data: { _id: string, marriedTo: string, marriedOn: string }) {
   return sendApiReq({
     url: endPoints.marriedTo,
     method: "post",
