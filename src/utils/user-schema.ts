@@ -15,10 +15,48 @@ export const contactDetailsSchema = z.object({
 export const professionalDetailsSchema = z.object({
   highestQualification: z.string().nonempty("Highest Qualification is required"),
   qualifications: z.string().nonempty("Qualifications is required"),
-  companyName: z.string().nonempty("Company Name is required"),
+  companyName: z.string().optional(),
   profession: z.string().nonempty("Profession is required"),
-  salary: z.coerce.number().min(10000, "Salary must be at least 10000"),
+  sector: z.string().nonempty("Sector is required"),
+  salary: z.coerce.number(),
 })
+  .refine(
+    (data) =>
+      !(data.profession === "Unemployed" && data.sector === "Unemployed") ||
+      data.salary === 0,
+    {
+      path: ["salary"],
+      message: "Salary must be 0 when unemployed",
+    }
+  )
+  .refine(
+    (data) =>
+      data.profession === "Unemployed" && data.sector === "Unemployed"
+        ? true
+        : data.salary >= 10000,
+    {
+      path: ["salary"],
+      message: "Salary must be at least 10000",
+    }
+  )
+  .refine(
+    (data) =>
+      data.sector === "Unemployed" || data.profession !== "Unemployed",
+    {
+      path: ["profession"],
+      message: "Profession cannot be Unemployed if sector is not Unemployed",
+    }
+  )
+  .refine(
+    (data) =>
+      data.profession === "Unemployed" && data.sector === "Unemployed"
+        ? true :
+        !!data.companyName?.trim(),
+    {
+      path: ["companyName"],
+      message: "Company Name is required"
+    }
+  )
 
 export const familyDetailsSchema = z.object({
   fatherName: z.string().min(2, "Father's name must be at least 2 characters"),
@@ -53,6 +91,7 @@ export const partnerPreferencesSchema = z.object({
   minAge: z.coerce.number().min(18, "Minimum age must be at least 18").optional().or(z.literal("")),
   maxAge: z.coerce.number().min(18, "Maximum age must be at least 18").optional().or(z.literal("")),
   minQualification: z.string().optional().or(z.literal("")),
+  sector: z.string().optional().or(z.literal("")),
   profession: z.string().optional().or(z.literal("")),
   minSalary: z.coerce.number().optional().or(z.literal("")),
   religion: z.string().optional().or(z.literal("")),

@@ -6,7 +6,7 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 
 import { partnerPreferencesSchema, type partnerPreferencesT } from '@/utils/user-schema';
-import { castes, educationLevels, languages, maritalStatus, professions, religions } from '@/utils';
+import { castes, educationLevels, languages, maritalStatus, professions, proffessionalSectors, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -28,6 +28,7 @@ function Edit({ user }: { user: userT }) {
       religion: user?.partnerPreferences?.religion || "",
       caste: user?.partnerPreferences?.caste || "",
       minQualification: user?.partnerPreferences?.minQualification || "",
+      sector: user?.partnerPreferences?.sector || "",
       profession: user?.partnerPreferences?.profession || "",
       minSalary: user?.partnerPreferences?.minSalary || "",
       motherTongue: user?.partnerPreferences?.motherTongue || "",
@@ -119,6 +120,13 @@ function Edit({ user }: { user: userT }) {
               name="minQualification"
               label="Minimum Qualification"
               options={educationLevels}
+            />
+
+            <ComboboxWrapper
+              control={form.control}
+              name="sector"
+              label="Sector"
+              options={proffessionalSectors}
             />
 
             <ComboboxWrapper

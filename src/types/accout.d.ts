@@ -50,6 +50,7 @@ type userT = {
     qualifications: string
     companyName: string
     profession: string
+    sector: string
     salary: number
   }
   familyDetails: {
@@ -86,6 +87,7 @@ type userT = {
     minSalary: number
     minQualification: string
     profession: string
+    sector: string
     motherTongue: string
     location: string
     expectation: string

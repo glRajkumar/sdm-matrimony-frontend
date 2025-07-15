@@ -47,6 +47,10 @@ function PartnerPreferences({ user, canEdit }: props) {
             <p className="font-medium">{user?.partnerPreferences?.minQualification || "---"}</p>
           </div>
           <div>
+            <span className="text-sm text-muted-foreground">Sector</span>
+            <p className="font-medium">{user?.partnerPreferences?.sector || "---"}</p>
+          </div>
+          <div>
             <span className="text-sm text-muted-foreground">Profession</span>
             <p className="font-medium">{user?.partnerPreferences?.profession || "---"}</p>
           </div>

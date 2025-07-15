@@ -4,7 +4,8 @@ import { z } from 'zod';
 
 import {
   maritalStatus, raasi, ageRange, salaryRange,
-  educationLevels, professions, languages, religions, castes
+  educationLevels, professions, languages, religions, castes,
+  proffessionalSectors
 } from '@/utils';
 
 import { useUserDetails } from '@/hooks/use-user';
@@ -22,6 +23,7 @@ interface props {
 const schema = z.object({
   minQualification: z.string().optional(),
   profession: z.string().optional(),
+  sector: z.string().optional(),
 
   salaryRange: z.string().optional(),
   minSalary: z.coerce.number().optional().or(z.string()),
@@ -41,6 +43,7 @@ const schema = z.object({
 const defaultValues: z.infer<typeof schema> = {
   minQualification: '',
   profession: '',
+  sector: '',
 
   salaryRange: '',
   minSalary: '',
@@ -74,6 +77,11 @@ const list: listProps[] = [
     name: 'profession',
     label: 'Profession',
     options: professions
+  },
+  {
+    name: 'sector',
+    label: 'Sector',
+    options: proffessionalSectors
   },
   {
     name: 'maritalStatus',
@@ -126,6 +134,7 @@ function Filters({ onSave, hasFilters }: props) {
     const pyload = {
       minQualification: user?.proffessionalDetails?.highestQualification,
       profession: user?.proffessionalDetails?.profession,
+      sector: user?.proffessionalDetails?.sector,
 
       salaryRange: "",
       minSalary: user?.proffessionalDetails?.salary,

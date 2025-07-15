@@ -4,7 +4,8 @@ import type { userInputT } from '@/utils/user-schema';
 
 import {
   gender, maritalStatus, languages, religions, castes,
-  nakshatra, raasi, aliveOptions, educationLevels, professions
+  nakshatra, raasi, aliveOptions, educationLevels, professions,
+  proffessionalSectors,
 } from '@/utils';
 
 type BaseField = {
@@ -131,6 +132,12 @@ export const fieldList: FieldSection[] = [
         type: "text"
       },
       {
+        name: "proffessionalDetails.sector",
+        label: "Sector",
+        type: "combobox",
+        options: proffessionalSectors,
+      },
+      {
         name: "proffessionalDetails.profession",
         label: "Profession",
         type: "combobox",
@@ -145,9 +152,9 @@ export const fieldList: FieldSection[] = [
         name: "proffessionalDetails.salary",
         label: "Salary per Month (in ₹)",
         type: "number",
-        defaultValue: 10000,
+        defaultValue: 0,
         step: 1000,
-        min: 10000,
+        min: 0,
       }
     ]
   },
@@ -308,6 +315,12 @@ export const fieldList: FieldSection[] = [
         label: "Minimum Qualification",
         type: "combobox",
         options: educationLevels,
+      },
+      {
+        name: "partnerPreferences.sector",
+        label: "Sector",
+        type: "combobox",
+        options: proffessionalSectors,
       },
       {
         name: "partnerPreferences.profession",

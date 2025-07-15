@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 
 import FieldWrapper from './field-wrapper';
 import { Button } from '@/components/ui/button';
+import { useEffect } from 'react';
 
 type props = {
   isPending: boolean
@@ -46,6 +47,21 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
   })
 
   const { isPending: isPending1, mutateAsync: mutateRegisterImage } = useRegisterImage()
+
+  const sector = methods.watch("proffessionalDetails.sector")
+
+  useEffect(() => {
+    if (sector === "Unemployed") {
+      methods.setValue("proffessionalDetails.salary", 0)
+      methods.setValue("proffessionalDetails.profession", "Unemployed")
+      methods.setValue("proffessionalDetails.companyName", "")
+      methods.clearErrors([
+        "proffessionalDetails.salary",
+        "proffessionalDetails.profession",
+        "proffessionalDetails.companyName",
+      ])
+    }
+  }, [sector])
 
   async function uploadPic(image: File | string) {
     if (typeof image === "string") return image

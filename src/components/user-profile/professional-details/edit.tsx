@@ -6,7 +6,7 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 
 import { professionalDetailsSchema, type professionalDetailsT } from '@/utils/user-schema';
-import { educationLevels, professions } from '@/utils';
+import { educationLevels, professions, proffessionalSectors } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -27,6 +27,7 @@ function Edit({ user }: { user: userT }) {
       qualifications: user?.proffessionalDetails?.qualifications || "",
       companyName: user?.proffessionalDetails?.companyName || "",
       profession: user?.proffessionalDetails?.profession || "",
+      sector: user?.proffessionalDetails?.sector || "",
       salary: user?.proffessionalDetails?.salary || 0,
     },
   })
@@ -77,6 +78,13 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="qualifications"
               label="Qualifications"
+            />
+
+            <ComboboxWrapper
+              control={form.control}
+              name="sector"
+              label="Sector"
+              options={proffessionalSectors}
             />
 
             <ComboboxWrapper

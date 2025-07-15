@@ -33,6 +33,10 @@ function ProfessionalDetails({ user, canEdit }: props) {
             <p className="font-medium">{user?.proffessionalDetails?.qualifications || "---"}</p>
           </div>
           <div>
+            <span className="text-sm text-muted-foreground">Sector</span>
+            <p className="font-medium">{user?.proffessionalDetails?.sector || "---"}</p>
+          </div>
+          <div>
             <span className="text-sm text-muted-foreground">Profession</span>
             <p className="font-medium">{user?.proffessionalDetails?.profession || "---"}</p>
           </div>
