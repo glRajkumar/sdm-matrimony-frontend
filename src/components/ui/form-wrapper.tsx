@@ -189,7 +189,7 @@ export function DatePickerWrapper<T extends FieldValues>({ name, label, control,
 
             <PopoverContent className="w-auto p-0" align="start">
               <Calendar
-                initialFocus
+                autoFocus
                 mode="single"
                 selected={field.value}
                 onSelect={field.onChange}
