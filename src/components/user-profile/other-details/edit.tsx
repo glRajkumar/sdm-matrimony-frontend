@@ -18,7 +18,7 @@ function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
-  const form = useForm<otherDetailsT>({
+  const form = useForm({
     resolver: zodResolver(otherDetailsSchema),
     defaultValues: {
       motherTongue: user?.otherDetails?.motherTongue || "",

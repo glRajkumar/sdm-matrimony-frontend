@@ -20,7 +20,7 @@ function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
-  const form = useForm<professionalDetailsT>({
+  const form = useForm({
     resolver: zodResolver(professionalDetailsSchema),
     defaultValues: {
       highestQualification: user?.proffessionalDetails?.highestQualification || "",

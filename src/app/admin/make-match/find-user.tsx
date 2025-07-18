@@ -50,7 +50,7 @@ function FindUser({ gender, selected, setSelected }: props) {
 
   const [filters, setFilters] = useState<formT>({})
 
-  const methods = useForm<formT>({
+  const methods = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       _id: "",

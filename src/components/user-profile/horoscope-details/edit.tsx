@@ -22,7 +22,7 @@ function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
-  const form = useForm<vedicHoroscopeT>({
+  const form = useForm({
     resolver: zodResolver(vedicHoroscopeSchema),
     defaultValues: {
       nakshatra: user?.vedicHoroscope?.nakshatra || "",

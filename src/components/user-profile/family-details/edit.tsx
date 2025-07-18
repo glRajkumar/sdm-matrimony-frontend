@@ -18,7 +18,7 @@ function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
-  const form = useForm<familyDetailsT>({
+  const form = useForm({
     resolver: zodResolver(familyDetailsSchema),
     defaultValues: {
       fatherName: user?.familyDetails?.fatherName || "",

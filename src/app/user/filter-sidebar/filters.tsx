@@ -120,7 +120,7 @@ function Filters({ onSave, hasFilters }: props) {
   const userId = useUserStore(s => s?._id)
   const { data: user, isLoading } = useUserDetails(userId)
 
-  const form = useForm<z.infer<typeof schema>>({
+  const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
   })

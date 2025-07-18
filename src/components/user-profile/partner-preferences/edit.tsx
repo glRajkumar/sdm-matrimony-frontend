@@ -20,7 +20,7 @@ function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 
-  const form = useForm<partnerPreferencesT>({
+  const form = useForm({
     resolver: zodResolver(partnerPreferencesSchema),
     defaultValues: {
       minAge: user?.partnerPreferences?.minAge || "",

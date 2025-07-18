@@ -41,7 +41,7 @@ function getDefaultExtractedData(uploaded: string[]) {
 }
 
 function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: props) {
-  const methods = useForm<z.infer<typeof createUserSchema>>({
+  const methods = useForm({
     resolver: zodResolver(createUserSchema),
     defaultValues: extractedData ? getDefaultExtractedData(extractedData) : { ...defaultValues },
   })
