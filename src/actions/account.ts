@@ -55,6 +55,7 @@ export function resetPass(data: any) {
 
 export function logout() {
   return sendApiReq({
+    withCredentials: true,
     url: endPoints.logout,
     method: "POST",
     data: {}
