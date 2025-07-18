@@ -1,4 +1,4 @@
-import ResetPass from '../../reset-pass/page';
+import ResetPass from '@/components/auth/reset-pass';
 
 function Page() {
   return <ResetPass role="admin" />

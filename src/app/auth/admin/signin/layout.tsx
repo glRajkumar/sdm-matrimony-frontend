@@ -1,4 +1,4 @@
-import SigninLayout from '../../signin/layout';
+import SigninLayout from '@/components/auth/signin/layout';
 
 function Layout({ children }: readOnlyChildren) {
   return (

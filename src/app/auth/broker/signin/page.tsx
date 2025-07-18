@@ -1,4 +1,4 @@
-import Signin from '../../signin/page';
+import Signin from '@/components/auth/signin';
 
 function Page() {
   return <Signin role="broker" />

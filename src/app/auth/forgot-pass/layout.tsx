@@ -1,30 +1,10 @@
-import Link from "next/link";
-import { HeartIcon } from 'lucide-react';
+import ForgotPassLayout from '@/components/auth/forgot-pass/layout';
 
-import { CardDescription, CardTitle } from "@/components/ui/card";
-
-function Layout({ children, role = "user" }: readOnlyChildren & { role?: rolesT }) {
-  const base = role === "user" ? "/auth" : `/auth/${role}`
-
+function Layout({ children }: readOnlyChildren) {
   return (
-    <>
-      <div className="flex flex-col items-center space-y-2 mb-6">
-        <HeartIcon className="h-12 w-12 text-pink-500" />
-        <CardTitle>Forgot Password</CardTitle>
-        <CardDescription>Recover your account</CardDescription>
-      </div>
-
+    <ForgotPassLayout>
       {children}
-
-      <div className="mt-6 text-center">
-        <p className="text-sm text-gray-600">
-          Remember your password?{" "}
-          <Link className="font-medium text-pink-600 hover:underline" href={`${base}/signin`}>
-            Sign in
-          </Link>
-        </p>
-      </div>
-    </>
+    </ForgotPassLayout>
   )
 }
 

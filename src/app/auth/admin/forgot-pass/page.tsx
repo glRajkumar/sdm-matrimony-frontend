@@ -1,4 +1,4 @@
-import ForgotPass from '../../forgot-pass/page';
+import ForgotPass from '@/components/auth/forgot-pass';
 
 function Page() {
   return <ForgotPass role="admin" />

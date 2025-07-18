@@ -1,4 +1,4 @@
-import ResetPassLayout from '../../reset-pass/layout';
+import ResetPassLayout from '@/components/auth/reset-pass/layout';
 
 function Layout({ children }: readOnlyChildren) {
   return (

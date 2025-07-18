@@ -1,4 +1,4 @@
-import ForgotPassLayout from '../../forgot-pass/layout';
+import ForgotPassLayout from '@/components/auth/forgot-pass/layout';
 
 function Layout({ children }: readOnlyChildren) {
   return (
