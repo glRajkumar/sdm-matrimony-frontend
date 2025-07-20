@@ -27,7 +27,7 @@ function Nav() {
               </Link>
             </Button>
 
-            <Button className="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white px-6">
+            <Button asChild className="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white px-6">
               <Link href="/auth/signin">
                 Sign In
               </Link>

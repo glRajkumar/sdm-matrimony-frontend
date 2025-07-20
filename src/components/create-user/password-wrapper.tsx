@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 
 export function PasswordWrapper() {
   const [showPassword, setShowPassword] = useState(false)
-  const { control, getValues, setValue } = useFormContext()
+  const { control, getValues, setValue, clearErrors } = useFormContext()
 
   const pathname = usePathname()
   const isAdmin = pathname.includes("admin")
@@ -24,6 +24,7 @@ export function PasswordWrapper() {
 
     const password = `${fullName.replace(/\s/g, "").slice(0, 4)}_${format(new Date(dob), "ddMMyy")}`
     setValue("password", password)
+    clearErrors("password")
   }
 
   return (
