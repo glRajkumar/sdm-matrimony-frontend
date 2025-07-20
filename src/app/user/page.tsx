@@ -16,7 +16,7 @@ function Page() {
   }
 
   return (
-    <div className="md:grid grid-cols-[1fr] md:grid-cols-[300px_1fr] md:gap-4">
+    <div className="md:grid grid-cols-[1fr] md:grid-cols-[300px_1fr] md:gap-4 relative">
       <FilterSideBar
         hasFilters={Object.keys(filterData).length > 0}
         onSave={onSave}

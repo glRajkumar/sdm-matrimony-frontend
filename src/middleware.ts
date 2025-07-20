@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get(tokenEnums.refreshToken)?.value
 
-  if (pathname.startsWith("/auth") || pathname === "/") {
+  if (pathname.startsWith("/auth") || (pathname === "/" && !token)) {
     return NextResponse.next()
   }
 

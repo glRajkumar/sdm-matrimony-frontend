@@ -1,3 +1,4 @@
+import { Heart } from 'lucide-react';
 import Link from 'next/link';
 import Menu from './menu';
 
@@ -37,9 +38,9 @@ const userLinks = [
 
 function Navbar({ isAdmin }: props) {
   return (
-    <nav className="df gap-4 py-4 px-6 shadow-md sticky top-0 bg-white z-[1]">
-      <Link href="/" className="mr-auto text-xl font-bold text-gray-800">
-        Logo
+    <nav className="df gap-4 py-3 px-6 shadow-md sticky top-0 bg-white z-[1]">
+      <Link href="/" className="mr-auto p-2 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full">
+        <Heart className="size-6 text-white" />
       </Link>
 
       {

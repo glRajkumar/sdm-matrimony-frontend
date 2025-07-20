@@ -11,7 +11,7 @@ function Footer() {
                 <Heart className="h-6 w-6 text-white" />
               </div>
               <span className="text-2xl font-bold">
-                Sri DurgaDevi Matrimony
+                Sri Durga Devi Matrimony
               </span>
             </div>
 

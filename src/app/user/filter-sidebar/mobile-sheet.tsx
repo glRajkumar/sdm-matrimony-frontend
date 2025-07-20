@@ -22,7 +22,7 @@ function MobileSheet({ hasFilters, onSave }: props) {
       <SheetTrigger asChild>
         <Button
           variant="outline"
-          className="md:hidden mt-8 ml-4 -mb-2"
+          className="md:hidden mt-8 ml-4 -mb-2 sticky top-20 z-[1]"
         >
           <Menu /> Filters
         </Button>
