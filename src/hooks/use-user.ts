@@ -105,7 +105,7 @@ export function useRemoveLiked() {
   return useMutation({
     mutationFn: removeLiked,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["likes-list", "disliked"] })
+      queryClient.invalidateQueries({ queryKey: ["likes-list", "liked"] })
       queryClient.invalidateQueries({ queryKey: ["user-list", "approved"] })
       toast.success("User removed from liked list successfully")
     },
