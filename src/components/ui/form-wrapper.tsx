@@ -21,7 +21,6 @@ type BaseWrapperProps<T extends FieldValues> = {
 }
 
 type InputWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & React.InputHTMLAttributes<HTMLInputElement>
-
 export function InputWrapper<T extends FieldValues>({ name, label, control, className, type = "text", placeholder, ...props }: InputWrapperProps<T>) {
   return (
     <FormField
@@ -42,9 +41,7 @@ export function InputWrapper<T extends FieldValues>({ name, label, control, clas
   )
 }
 
-
 type TextareaWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & React.TextareaHTMLAttributes<HTMLTextAreaElement>
-
 export function TextareaWrapper<T extends FieldValues>({ name, label, control, className, placeholder, ...rest }: TextareaWrapperProps<T>) {
   return (
     <FormField
@@ -191,6 +188,7 @@ export function DatePickerWrapper<T extends FieldValues>({ name, label, control,
               <Calendar
                 autoFocus
                 mode="single"
+                captionLayout="dropdown"
                 selected={field.value}
                 onSelect={field.onChange}
                 defaultMonth={field.value}
@@ -211,7 +209,6 @@ type ComboboxWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
   placeholder?: string
   emptyMessage?: string
 }
-
 export function ComboboxWrapper<T extends FieldValues>({ name, label, control, className, options, placeholder, emptyMessage }: ComboboxWrapperProps<T>) {
   return (
     <FormField

@@ -388,9 +388,9 @@ const setNestedValue = (currentObj: any, path: string, value: any) => {
 export const defaultValues: userInputT = fieldList.reduce((acc, curr) => {
   curr.list.forEach((item) => {
     if (item.type === "date") {
-      const date = new Date()
-      date.setFullYear(date.getFullYear() - 18)
-      setNestedValue(acc, item.name, date)
+      // const date = new Date()
+      // date.setFullYear(date.getFullYear() - 18)
+      setNestedValue(acc, item.name, undefined) // date
     }
     else if (item.type === "number") {
       setNestedValue(acc, item.name, item.defaultValue ?? "")

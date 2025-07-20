@@ -97,6 +97,7 @@ function Confirm({ male, female, onConfirm }: props) {
             className="w-full md:w-60"
             btnProps={{ id: "marriedOn" }}
             calendarProps={{
+              captionLayout: "dropdown",
               disabled(date) {
                 return date > new Date()
               },
