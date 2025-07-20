@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get(tokenEnums.refreshToken)?.value
 
-  if (pathname.startsWith("/auth")) {
+  if (pathname.startsWith("/auth") || pathname === "/") {
     return NextResponse.next()
   }
 
@@ -46,5 +46,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|imgs).*)'],
 }

@@ -1,0 +1,42 @@
+import { Heart } from "lucide-react"
+import Link from "next/link"
+
+import { Button } from "@/components/ui/button"
+
+function Nav() {
+  return (
+    <nav className="bg-card/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="df h-16">
+          <div className="bg-gradient-to-r from-rose-400 to-pink-500 p-2 rounded-full">
+            <Heart className="h-6 w-6 text-white" />
+          </div>
+
+          <span className="hidden sm:block text-2xl font-bold bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">
+            Sri DurgaDevi Matrimony
+          </span>
+
+          <Link href="#contact" className="hidden md:block md:ml-auto md:mr-4 text-gray-700 hover:text-rose-500 transition-colors font-medium">
+            Contact
+          </Link>
+
+          <div className="df gap-4 ml-auto md:ml-0">
+            <Button variant="outline" asChild>
+              <Link href="/auth/signup">
+                Sign Up
+              </Link>
+            </Button>
+
+            <Button className="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white px-6">
+              <Link href="/auth/signin">
+                Sign In
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  )
+}
+
+export default Nav
