@@ -93,7 +93,7 @@ function ProfileSidebar({ user, canEdit }: props) {
             }
 
             {
-              canEdit &&
+              canEdit && user?.images?.length < 8 &&
               <AddImageDialog _id={user._id} />
             }
           </div>

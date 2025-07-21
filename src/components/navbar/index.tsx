@@ -39,8 +39,11 @@ const userLinks = [
 function Navbar({ isAdmin }: props) {
   return (
     <nav className="df gap-4 py-3 px-6 shadow-md sticky top-0 bg-white z-[1]">
-      <Link href="/" className="mr-auto p-2 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full">
-        <Heart className="size-6 text-white" />
+      <Link href="/" className="df mr-auto">
+        <span className='p-2 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full'>
+          <Heart className="size-6 text-white" />
+        </span>
+        <span className='text-lg font-medium'>SDM</span>
       </Link>
 
       {

@@ -30,14 +30,19 @@ function ImageView({ image, images, profileImg, setAsProfilePic }: props) {
       </DialogHeader>
 
       <DialogContent>
-        <Carousel>
+        <Carousel className="w-[calc(100vw-5rem)] sm:w-[458px]">
           <CarouselContent>
             {
               images.map(img => (
                 <CarouselItem key={img}>
                   <div>
                     <div className="relative w-full h-80">
-                      <Image src={img} alt="Gallery image" fill className="object-contain" />
+                      <Image
+                        fill
+                        src={img}
+                        alt="Gallery image"
+                        className="object-contain"
+                      />
                     </div>
 
                     {
