@@ -14,9 +14,8 @@ export function useSignup() {
   return useMutation({
     mutationFn: signup,
     onSuccess(_, variables) {
-      const base = variables?.role === "user" ? "/auth" : `/auth/${variables?.role}`
       toast('Account created successfully')
-      router.push(`${base}/signin`)
+      router.push(`/auth/${variables?.role || "user"}/signin`)
     },
     onError(error) {
       toast('Signup failed', {
@@ -76,10 +75,9 @@ export function useForgotPass() {
 
   return useMutation({
     mutationFn: forgotPass,
-    onSuccess(res, variables) {
-      const base = variables?.role === "user" ? "/auth" : `/auth/${variables?.role}`
+    onSuccess(_, variables) {
       toast('Check your email')
-      router.replace(`${base}/reset-pass`)
+      router.replace(`/auth/${variables?.role || "user"}/reset-pass`)
     },
     onError(error) {
       toast('Failed to send password reset link', {
@@ -95,9 +93,8 @@ export function useResetPass() {
   return useMutation({
     mutationFn: resetPass,
     onSuccess(_, variables) {
-      const base = variables?.role === "user" ? "/auth" : `/auth/${variables?.role}`
       toast('Password reset successfully')
-      router.replace(`${base}/signin`)
+      router.replace(`/auth/${variables?.role || "user"}/signin`)
     },
     onError(error) {
       toast('Password reset failed', {
@@ -112,10 +109,9 @@ export function useLogout() {
   const role = useUserStore(s => s.role)
 
   function onSuccess() {
-    const base = role === "user" ? "/auth" : `/auth/${role}`
     removeToken()
     toast('Logged out successfully')
-    router.replace(`${base}/signin`)
+    router.replace(`/auth/${role || "user"}/signin`)
   }
 
   return useMutation({

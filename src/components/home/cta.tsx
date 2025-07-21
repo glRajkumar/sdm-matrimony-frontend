@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 
 function Cta() {
@@ -11,8 +13,12 @@ function Cta() {
           </p>
 
           <div className="dc">
-            <Button size="lg" className="bg-white text-rose-500 hover:bg-rose-50 px-8 py-3 text-lg font-semibold">
-              Start Your Journey
+            <Button
+              asChild
+              size="lg"
+              className="bg-white text-rose-500 hover:bg-rose-50 px-8 py-3 text-lg font-semibold"
+            >
+              <Link href="/auth/user/signup">Start Your Journey</Link>
             </Button>
           </div>
         </div>

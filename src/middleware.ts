@@ -11,15 +11,14 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!token) {
-    return NextResponse.redirect(new URL('/auth/signin', request.url))
+    return NextResponse.redirect(new URL('/auth/user/signin', request.url))
   }
 
   try {
     const payload = await decodeJwt(token)
 
     if (typeof payload.exp === 'number' && Date.now() >= payload.exp * 1000) {
-      const base = payload.role === "user" ? "/auth" : `/auth/${payload.role}`
-      return NextResponse.redirect(new URL(`${base}/signin`, request.url))
+      return NextResponse.redirect(new URL(`/auth/${payload.role}/signin`, request.url))
     }
 
     if (payload.role === "user" && payload.approvalStatus !== "approved") {
@@ -30,10 +29,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL(`/auth/unauthorized`, request.url))
     }
 
-    if (pathname.startsWith("/broker") && payload.role !== "broker") {
-      return NextResponse.redirect(new URL(`/auth/unauthorized`, request.url))
-    }
-
     if (pathname === "/") {
       return NextResponse.redirect(new URL(`/${payload.role}`, request.url))
     }
@@ -41,7 +36,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
 
   } catch (error) {
-    return NextResponse.redirect(new URL('/auth/signin', request.url))
+    return NextResponse.redirect(new URL('/auth/user/signin', request.url))
   }
 }
 

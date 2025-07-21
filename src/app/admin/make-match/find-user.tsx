@@ -30,17 +30,17 @@ function FindUser({ gender, selected, setSelected }: props) {
   type filterT = Path<formT>
 
   const list: { name: filterT, label: string }[] = [
+    // {
+    //   name: "_id",
+    //   label: "ID",
+    // },
     {
-      name: "_id",
-      label: "ID",
+      name: "fullName",
+      label: "Full Name",
     },
     {
       name: "email",
       label: "Email",
-    },
-    {
-      name: "fullName",
-      label: "Full Name",
     },
     {
       name: "contactDetails.mobile",

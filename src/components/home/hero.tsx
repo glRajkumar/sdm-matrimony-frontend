@@ -1,4 +1,5 @@
 import { Heart } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
@@ -30,8 +31,9 @@ function Hero() {
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white px-8 py-3 text-lg"
+                asChild
               >
-                Get Started Today
+                <Link href="/auth/user/signup">Get Started Today</Link>
               </Button>
             </div>
 

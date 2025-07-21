@@ -61,7 +61,7 @@ export function PasswordWrapper() {
               size="sm"
               type="button"
               variant="secondary"
-              className="size-8 p-0 absolute right-0 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 border"
+              className="size-8 p-0 absolute right-0.5 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 border"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword

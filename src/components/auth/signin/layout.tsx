@@ -4,8 +4,6 @@ import Link from "next/link";
 import { CardDescription, CardTitle } from "@/components/ui/card";
 
 function Layout({ children, role = "user" }: readOnlyChildren & { role?: rolesT }) {
-  const base = role === "user" ? "/auth" : `/auth/${role}`
-
   return (
     <>
       <div className="flex flex-col items-center space-y-2 mb-6">
@@ -17,7 +15,7 @@ function Layout({ children, role = "user" }: readOnlyChildren & { role?: rolesT 
       {children}
 
       <div className="mt-4 text-center">
-        <Link className="text-sm text-pink-600 hover:underline" href={`${base}/forgot-pass`}>
+        <Link className="text-sm text-pink-600 hover:underline" href={`/auth/${role}/forgot-pass`}>
           Forgot password?
         </Link>
       </div>
@@ -25,7 +23,7 @@ function Layout({ children, role = "user" }: readOnlyChildren & { role?: rolesT 
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">
           Don't have an account?{" "}
-          <Link className="font-medium text-pink-600 hover:underline" href={`${base}/signup`}>
+          <Link className="font-medium text-pink-600 hover:underline" href={`/auth/${role}/signup`}>
             Sign up
           </Link>
         </p>
