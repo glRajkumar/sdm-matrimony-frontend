@@ -26,6 +26,7 @@ type Props = {
   options: optionsT
   placeholder?: string
   emptyMessage?: string
+  canCreateNew?: boolean
   onValueChange?: (value: string) => void
 }
 
@@ -34,14 +35,16 @@ function Combobox({
   options,
   placeholder = "",
   emptyMessage = "",
+  canCreateNew = false,
   onValueChange = () => { },
 }: Props) {
   const { ref, width } = useElementWidth<HTMLButtonElement>()
 
+  const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
 
   const found = value ?
-    options?.find((option) => typeof option === "object" ? option.value === value : option === value)
+    options?.find((option) => typeof option === "object" ? option.value === value : option === value) || value
     : ""
 
   return (
@@ -66,11 +69,56 @@ function Combobox({
       </PopoverTrigger>
 
       <PopoverContent className="p-0" style={{ width: width ? `${width}px` : "auto" }}>
-        <Command>
-          <CommandInput placeholder={placeholder} />
+        <Command
+          filter={(value, search) => {
+            if (value.includes(search)) return 1
+            return 0
+          }}
+        >
+          <CommandInput
+            value={query}
+            placeholder={placeholder}
+            onValueChange={setQuery}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && canCreateNew) {
+                onValueChange(query)
+                setQuery('')
+                setOpen(false)
+              }
+            }}
+          />
 
           <CommandList>
-            <CommandEmpty>{emptyMessage || "No options found"}</CommandEmpty>
+            <CommandEmpty
+              className={canCreateNew ? "p-1 cursor-pointer" : ""}
+              onClick={() => {
+                if (canCreateNew) {
+                  onValueChange(query)
+                  setQuery('')
+                  setOpen(false)
+                }
+              }}
+              role={canCreateNew ? "option" : "presentation"}
+            >
+              {
+                canCreateNew && query ?
+                  <div
+                    className='df px-4 py-1.5 focus:bg-accent hover:bg-accent outline-none rounded'
+                    tabIndex={1}
+                    role="option"
+                    data-slot="command-item"
+                    data-value={query}
+                  >
+                    <p className="text-sm font-normal">Create: </p>
+                    <p className='truncate font-medium text-primary'>
+                      {query}
+                    </p>
+                  </div>
+                  :
+                  emptyMessage || "No options found"
+              }
+            </CommandEmpty>
+
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
