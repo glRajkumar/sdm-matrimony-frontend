@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronsUpDown, Plus } from "lucide-react"
 
 import { useElementWidth } from "@/hooks/use-element"
 import { cn } from "@/lib/utils"
@@ -43,9 +43,14 @@ function Combobox({
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
 
-  const found = value ?
-    options?.find((option) => typeof option === "object" ? option.value === value : option === value) || value
-    : ""
+  const found = value ? options?.find((option) => typeof option === "object" ? option.value === value : option === value) || value : ""
+
+  const filteredOptions = options.filter((option) => {
+    const searchValue = typeof option === "object" ? `${option.label}` : `${option}`
+    return searchValue?.toLowerCase().includes(query.toLowerCase())
+  })
+
+  const showCreateOption = canCreateNew && query && query !== value && !options?.find((option) => typeof option === "object" ? option.value === query : option === query)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -59,11 +64,13 @@ function Combobox({
             "text-muted-foreground": !value
           })}
         >
-          {
-            value
-              ? typeof found === "object" ? found.label : found
-              : placeholder
-          }
+          <span className="truncate">
+            {
+              value
+                ? typeof found === "object" ? found.label : found
+                : placeholder
+            }
+          </span>
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -71,6 +78,7 @@ function Combobox({
       <PopoverContent className="p-0" style={{ width: width ? `${width}px` : "auto" }}>
         <Command
           filter={(value, search) => {
+            if (value.startsWith('__create__')) return 1
             if (value.includes(search)) return 1
             return 0
           }}
@@ -85,42 +93,20 @@ function Combobox({
                 setQuery('')
                 setOpen(false)
               }
+              if (e.shiftKey && (e.key === "Home" || e.key === "End")) {
+                e.stopPropagation()
+                return
+              }
             }}
           />
 
           <CommandList>
-            <CommandEmpty
-              className={canCreateNew ? "p-1 cursor-pointer" : ""}
-              onClick={() => {
-                if (canCreateNew) {
-                  onValueChange(query)
-                  setQuery('')
-                  setOpen(false)
-                }
-              }}
-              role={canCreateNew ? "option" : "presentation"}
-            >
-              {
-                canCreateNew && query ?
-                  <div
-                    className='df px-4 py-1.5 focus:bg-accent hover:bg-accent outline-none rounded'
-                    tabIndex={1}
-                    role="option"
-                    data-slot="command-item"
-                    data-value={query}
-                  >
-                    <p className="text-sm font-normal">Create: </p>
-                    <p className='truncate font-medium text-primary'>
-                      {query}
-                    </p>
-                  </div>
-                  :
-                  emptyMessage || "No options found"
-              }
+            <CommandEmpty>
+              {!canCreateNew && (emptyMessage || "No options found")}
             </CommandEmpty>
 
             <CommandGroup>
-              {options.map((option) => (
+              {filteredOptions.map((option) => (
                 <CommandItem
                   key={typeof option === "object" ? `${option.value}` : `${option}`}
                   value={typeof option === "object" ? `${option.value}` : `${option}`}
@@ -138,6 +124,20 @@ function Combobox({
                   {typeof option === "object" ? option.label : option}
                 </CommandItem>
               ))}
+
+              {showCreateOption &&
+                <CommandItem
+                  value={`__create__${query}`}
+                  onSelect={() => {
+                    onValueChange(query)
+                    setQuery('')
+                    setOpen(false)
+                  }}
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  {query}
+                </CommandItem>
+              }
             </CommandGroup>
           </CommandList>
         </Command>
