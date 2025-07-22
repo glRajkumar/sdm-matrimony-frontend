@@ -15,7 +15,7 @@ type BaseField = {
 }
 
 type TextField = BaseField & {
-  type: "text" | "email" | "password" | "tel" // | "time"
+  type: "text" | "email" | "password" | "tel" | "time"
 }
 
 type FileField = BaseField & {
@@ -32,15 +32,21 @@ type NumberField = BaseField & {
 }
 
 type SelectField = BaseField & {
-  type: "select" | "radio" | "combobox"
+  type: "select" | "radio"
   options: optionsT
+}
+
+type ComboboxField = BaseField & {
+  type: "combobox"
+  options: optionsT
+  canCreateNew?: boolean
 }
 
 type DateField = BaseField & {
   type: "date"
 }
 
-export type Field = TextField | NumberField | SelectField | DateField | FileField
+export type Field = TextField | NumberField | SelectField | DateField | FileField | ComboboxField
 
 type FieldSection = {
   lable: string
@@ -142,6 +148,7 @@ export const fieldList: FieldSection[] = [
         label: "Profession",
         type: "combobox",
         options: professions,
+        canCreateNew: true,
       },
       {
         name: "proffessionalDetails.companyName",
@@ -245,7 +252,7 @@ export const fieldList: FieldSection[] = [
       {
         name: "vedicHoroscope.timeOfBirth",
         label: "Time of Birth",
-        type: "text"
+        type: "time"
       },
       {
         name: "vedicHoroscope.vedicHoroscopePic",
@@ -278,18 +285,21 @@ export const fieldList: FieldSection[] = [
         label: "Mother Tongue",
         type: "combobox",
         options: languages,
+        canCreateNew: true,
       },
       {
         name: "otherDetails.religion",
         label: "Religion",
         type: "combobox",
         options: religions,
+        canCreateNew: true,
       },
       {
         name: "otherDetails.caste",
         label: "Caste",
         type: "combobox",
         options: castes,
+        canCreateNew: true,
       }
     ]
   },
@@ -327,6 +337,7 @@ export const fieldList: FieldSection[] = [
         label: "Profession",
         type: "combobox",
         options: professions,
+        canCreateNew: true,
       },
       {
         name: "partnerPreferences.minSalary",
@@ -340,18 +351,21 @@ export const fieldList: FieldSection[] = [
         label: "Religion",
         type: "combobox",
         options: religions,
+        canCreateNew: true,
       },
       {
         name: "partnerPreferences.caste",
         label: "Caste",
         type: "combobox",
         options: castes,
+        canCreateNew: true,
       },
       {
         name: "partnerPreferences.motherTongue",
         label: "Mother Tongue",
         type: "combobox",
         options: languages,
+        canCreateNew: true,
       },
       {
         name: "partnerPreferences.location",

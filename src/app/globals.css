@@ -177,6 +177,10 @@
   body {
     scroll-behavior: smooth;
   }
+
+  input[type="time"] {
+    @apply appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none;
+  }
 }
 
 @layer components {
