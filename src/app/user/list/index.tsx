@@ -48,7 +48,7 @@ function List({ type, users, isLoading, isFetching, hasNextPage, fetchNextPage }
   )
 
   return (
-    <section className="px-2 sm:px-4 py-8 max-w-3xl mx-auto">
+    <section className="px-2 sm:px-4 py-8 w-full max-w-2xl mx-auto">
       {
         users?.map(user => (
           <UserCard

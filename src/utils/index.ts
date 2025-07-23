@@ -1,3 +1,5 @@
+import { differenceInYears, parseISO } from 'date-fns';
+
 export * from "./enums";
 
 function detectInputType(value: string) {
@@ -29,4 +31,9 @@ export function validateIdentifier(value: string) {
   }
 
   return "Please enter a valid email or mobile number"
+}
+
+export function getAge(dob: string): number {
+  const birthDate = parseISO(dob)
+  return differenceInYears(new Date(), birthDate)
 }

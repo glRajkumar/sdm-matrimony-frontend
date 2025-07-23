@@ -1,7 +1,9 @@
 "use client";
 
-import { Heart, Eye, Briefcase, User, Calendar, ThumbsDown, HeartOff } from "lucide-react";
+import { Heart, Eye, Briefcase, Calendar, HeartOff, UsersRound, Gem, GraduationCap } from "lucide-react";
 import Link from "next/link";
+
+import { getAge } from "@/utils";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ToolTipWrapper } from "@/components/ui/tooltip";
@@ -18,19 +20,19 @@ type props = {
 } & Partial<userT>
 
 function UserCard({
-  _id, profileImg, fullName, maritalStatus,
-  proffessionalDetails, otherDetails,
-  type = "full", isLiked, isDisliked,
+  _id, profileImg, fullName, maritalStatus, dob,
+  otherDetails, proffessionalDetails,
+  type = "full", isLiked,
   onView = () => { },
   onAdd = () => { },
   onRemove = () => { },
 }: props) {
   return (
-    <Card className="mb-6 p-0 overflow-hidden transition-all duration-300 hover:shadow-md">
-      <div className="flex flex-col sm:flex-row">
-        <div className="relative w-full sm:w-auto">
+    <Card className="mb-6 p-0 overflow-hidden transition-all duration-300 hover:shadow-md @container/card">
+      <div className="flex flex-col @lg/card:flex-row">
+        <div className="relative w-full @lg/card:w-auto">
           <img
-            className="w-full sm:w-60 h-60 object-cover"
+            className="w-full @lg/card:w-60 h-60 object-cover"
             src={profileImg || "/imgs/user.jpg"}
             alt={fullName || "Profile Image"}
           />
@@ -48,30 +50,44 @@ function UserCard({
           )} */}
         </div>
 
-        <CardContent className="flex-1 p-4">
-          <h3 className="text-lg font-semibold mb-1">{fullName}</h3>
+        <CardContent className="flex-1 px-4 py-3">
+          <h3 className="text-lg font-semibold mb-1 line-clamp-1">{fullName}</h3>
 
           <div className="grid gap-2 text-sm text-muted-foreground mb-4">
-            {otherDetails?.caste && (
-              <div className="df">
-                <User className="h-4 w-4 opacity-70" />
-                <span>{otherDetails.caste}</span>
-              </div>
-            )}
+            <div className="df">
+              <Calendar className="h-4 w-4 opacity-70" />
+              <span className="@xl/card:w-24">Age</span>
+              <span className="@xl/card:w-4">:</span>
+              <span className="font-medium">{dob ? getAge(dob) : ""} Yrs</span>
+            </div>
 
-            {proffessionalDetails?.salary && (
-              <div className="df">
-                <Briefcase className="h-4 w-4 opacity-70" />
-                <span>₹ {proffessionalDetails.salary.toLocaleString()} / per month</span>
-              </div>
-            )}
+            <div className="df">
+              <UsersRound className="h-4 w-4 opacity-70" />
+              <span className="@xl/card:w-24">Caste</span>
+              <span className="@xl/card:w-4">:</span>
+              <span className="font-medium">{otherDetails?.caste}</span>
+            </div>
 
-            {maritalStatus && (
-              <div className="df">
-                <Calendar className="h-4 w-4 opacity-70" />
-                <span>{maritalStatus}</span>
-              </div>
-            )}
+            <div className="df">
+              <GraduationCap className="h-4 w-4 opacity-70" />
+              <span className="@xl/card:w-24">Qualification</span>
+              <span className="@xl/card:w-4">:</span>
+              <span className="font-medium">{proffessionalDetails?.highestQualification}</span>
+            </div>
+
+            <div className="df">
+              <Briefcase className="h-4 w-4 opacity-70" />
+              <span className="@xl/card:w-24">Profession</span>
+              <span className="@xl/card:w-4">:</span>
+              <span className="font-medium">{proffessionalDetails?.profession}</span>
+            </div>
+
+            <div className="df">
+              <Gem className="h-4 w-4 opacity-70" />
+              <span className="@xl/card:w-24">Marital Status</span>
+              <span className="@xl/card:w-4">:</span>
+              <span className="font-medium">{maritalStatus}</span>
+            </div>
           </div>
 
           <CardFooter className="df flex-wrap p-0">
