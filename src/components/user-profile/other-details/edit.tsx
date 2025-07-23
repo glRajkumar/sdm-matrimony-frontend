@@ -71,6 +71,7 @@ function Edit({ user }: { user: userT }) {
               label="Mother Tongue"
               options={languages}
               placeholder="Select mother tongue"
+              canCreateNew
             />
 
             <InputWrapper
@@ -97,6 +98,7 @@ function Edit({ user }: { user: userT }) {
               label="Religion"
               options={religions}
               placeholder="Select religion"
+              canCreateNew
             />
 
             <ComboboxWrapper
@@ -105,6 +107,7 @@ function Edit({ user }: { user: userT }) {
               label="Caste"
               options={castes}
               placeholder="Select caste"
+              canCreateNew
             />
 
             <div className="flex justify-end space-x-2 pt-2">

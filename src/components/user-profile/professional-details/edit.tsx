@@ -92,6 +92,7 @@ function Edit({ user }: { user: userT }) {
               name="profession"
               label="Profession"
               options={professions}
+              canCreateNew
             />
 
             <InputWrapper

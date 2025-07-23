@@ -43,6 +43,10 @@ function HoroscopeDetails({ user, canEdit }: props) {
             <span className="text-sm text-muted-foreground">Dasha Period</span>
             <p className="font-medium">{user?.vedicHoroscope?.dashaPeriod || "---"}</p>
           </div>
+          <div>
+            <span className="text-sm text-muted-foreground">Dosham</span>
+            <p className="font-medium">{user?.vedicHoroscope?.dosham || "---"}</p>
+          </div>
         </div>
 
         {

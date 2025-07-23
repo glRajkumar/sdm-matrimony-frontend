@@ -97,6 +97,7 @@ function Edit({ user }: { user: userT }) {
               label="Religion"
               options={religions}
               placeholder="Select religion"
+              canCreateNew
             />
 
             <ComboboxWrapper
@@ -105,6 +106,7 @@ function Edit({ user }: { user: userT }) {
               label="Caste"
               options={castes}
               placeholder="Select caste"
+              canCreateNew
             />
 
             <SelectWrapper
@@ -134,6 +136,7 @@ function Edit({ user }: { user: userT }) {
               name="profession"
               label="Profession"
               options={professions}
+              canCreateNew
             />
 
             <div className="pt-2">

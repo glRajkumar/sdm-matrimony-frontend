@@ -52,6 +52,7 @@ function Navbar({ isAdmin }: props) {
             <Link
               key={link.href}
               href={`/admin/${link.href}`}
+              className='hover:text-pink-700'
             >
               {link.lable}
             </Link>
@@ -60,6 +61,7 @@ function Navbar({ isAdmin }: props) {
             <Link
               key={link.href}
               href={`/user/${link.href}`}
+              className='hover:text-pink-700'
             >
               {link.lable}
             </Link>

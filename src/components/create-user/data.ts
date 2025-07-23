@@ -255,10 +255,15 @@ export const fieldList: FieldSection[] = [
         type: "time"
       },
       {
+        name: "vedicHoroscope.dosham",
+        label: "Dosham",
+        type: "text"
+      },
+      {
         name: "vedicHoroscope.vedicHoroscopePic",
         label: "Vedic Horoscope Picture",
         type: "file",
-        className: "md:col-span-2"
+        // className: "md:col-span-2"
       },
     ]
   },

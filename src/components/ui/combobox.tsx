@@ -50,7 +50,7 @@ function Combobox({
     return searchValue?.toLowerCase().includes(query.toLowerCase())
   })
 
-  const showCreateOption = canCreateNew && query && query !== value && !options?.find((option) => typeof option === "object" ? option.value === query : option === query)
+  const showCreateOption = canCreateNew && query && query !== value && !options?.find((option) => typeof option === "object" ? option.label === query : option === query)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -77,11 +77,12 @@ function Combobox({
 
       <PopoverContent className="p-0" style={{ width: width ? `${width}px` : "auto" }}>
         <Command
-          filter={(value, search) => {
-            if (value.startsWith('__create__')) return 1
-            if (value.includes(search)) return 1
-            return 0
-          }}
+          shouldFilter={false}
+        // filter={(value, search) => {
+        //   if (value.startsWith('__create__')) return 1
+        //   if (value.includes(search)) return 1
+        //   return 0
+        // }}
         >
           <CommandInput
             value={query}

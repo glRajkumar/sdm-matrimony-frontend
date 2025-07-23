@@ -70,6 +70,7 @@ type userT = {
     raasiChart: chartT
     navamsaChart: chartT
     vedicHoroscopePic: string
+    dosham: string
   }
   otherDetails: {
     motherTongue: string

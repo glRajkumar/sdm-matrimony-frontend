@@ -76,6 +76,7 @@ export const vedicHoroscopeSchema = z.object({
   placeOfBirth: z.string().optional().or(z.literal("")),
   timeOfBirth: z.string().optional().or(z.literal("")),
   vedicHoroscopePic: z.optional(z.union([z.string(), z.instanceof(File)])),
+  dosham: z.string().optional().or(z.literal("")),
 })
 
 export const otherDetailsSchema = z.object({

@@ -126,6 +126,12 @@ function Edit({ user }: { user: userT }) {
               label="Dasha Period"
             />
 
+            <InputWrapper
+              control={form.control}
+              name="dosham"
+              label="Dosham"
+            />
+
             <div className="space-y-4">
               <div
                 className="space-y-2"

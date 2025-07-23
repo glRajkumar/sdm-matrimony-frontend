@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export function PasswordWrapper() {
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(true)
   const { control, getValues, setValue, clearErrors } = useFormContext()
 
   const pathname = usePathname()
