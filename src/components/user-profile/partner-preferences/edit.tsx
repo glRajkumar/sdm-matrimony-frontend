@@ -95,7 +95,7 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="religion"
               label="Religion"
-              options={religions}
+              options={["Any", ...religions]}
               placeholder="Select religion"
               canCreateNew
             />
@@ -104,7 +104,7 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="caste"
               label="Caste"
-              options={castes}
+              options={["Any", ...castes]}
               placeholder="Select caste"
               canCreateNew
             />
@@ -121,21 +121,21 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="minQualification"
               label="Minimum Qualification"
-              options={educationLevels}
+              options={["Any", ...educationLevels]}
             />
 
             <ComboboxWrapper
               control={form.control}
               name="sector"
               label="Sector"
-              options={proffessionalSectors}
+              options={["Any", ...proffessionalSectors]}
             />
 
             <ComboboxWrapper
               control={form.control}
               name="profession"
               label="Profession"
-              options={professions}
+              options={["Any", ...professions]}
               canCreateNew
             />
 

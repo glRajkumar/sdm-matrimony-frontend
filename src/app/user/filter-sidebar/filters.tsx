@@ -71,17 +71,17 @@ const list: listProps[] = [
   {
     name: 'minQualification',
     label: 'Min Qualification',
-    options: educationLevels
+    options: ["Any", ...educationLevels]
   },
   {
     name: 'sector',
     label: 'Sector',
-    options: proffessionalSectors
+    options: ["Any", ...proffessionalSectors]
   },
   {
     name: 'profession',
     label: 'Profession',
-    options: professions
+    options: ["Any", ...professions]
   },
   {
     name: 'maritalStatus',
@@ -92,27 +92,27 @@ const list: listProps[] = [
   {
     name: 'motherTongue',
     label: 'Mother Tongue',
-    options: languages
+    options: ["Any", ...languages]
   },
   {
     name: 'religion',
     label: 'Religion',
-    options: religions
+    options: ["Any", ...religions]
   },
   {
     name: 'caste',
     label: 'Caste',
-    options: castes
+    options: ["Any", ...castes]
   },
   {
     name: 'lagna',
     label: 'Lagna',
-    options: raasi
+    options: ["Any", ...raasi]
   },
   {
     name: 'rasi',
     label: 'Rasi',
-    options: raasi
+    options: ["Any", ...raasi]
   }
 ]
 
@@ -131,25 +131,19 @@ function Filters({ onSave, hasFilters }: props) {
   }
 
   function onApply() {
-    const pyload = {
-      minQualification: user?.proffessionalDetails?.highestQualification,
-      profession: user?.proffessionalDetails?.profession,
-      sector: user?.proffessionalDetails?.sector,
-
+    const pyload: any = {
+      ...user?.partnerPreferences,
       salaryRange: "",
-      minSalary: user?.proffessionalDetails?.salary,
-
       ageRange: "",
-      minAge: user?.partnerPreferences?.minAge,
-      maxAge: user?.partnerPreferences?.maxAge,
-
-      maritalStatus: user?.partnerPreferences?.maritalStatus,
-      motherTongue: user?.otherDetails?.motherTongue,
-      religion: user?.otherDetails?.religion,
-      caste: user?.otherDetails?.caste,
-      lagna: user?.vedicHoroscope?.lagna,
-      rasi: user?.vedicHoroscope?.rasi,
+      lagna: "",
+      rasi: "",
     }
+
+    Object.entries(pyload).forEach(([key, value]) => {
+      if (!value) {
+        pyload[key] = ""
+      }
+    })
 
     form.reset(pyload)
     onSave(pyload)
@@ -157,7 +151,9 @@ function Filters({ onSave, hasFilters }: props) {
 
   function onSubmit(data: z.infer<typeof schema>) {
     const filtered = Object.fromEntries(
-      Object.entries(data).filter(([_, value]) => Boolean(value))
+      Object.entries(data)
+        .filter(([_, value]) => Boolean(value) && value !== "Any")
+        .map(([key, value]) => [key, `${value}`?.split(" (")?.[0]])
     ) as Partial<typeof data>
 
     onSave(filtered)
@@ -246,6 +242,7 @@ function Filters({ onSave, hasFilters }: props) {
                     {...item}
                     key={item.name}
                     control={form.control}
+                    canCreateNew
                   />
                 )
               ))

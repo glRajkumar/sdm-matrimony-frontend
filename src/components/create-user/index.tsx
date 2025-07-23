@@ -90,6 +90,16 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
         data.vedicHoroscope.vedicHoroscopePic = await uploadPic(data.vedicHoroscope.vedicHoroscopePic)
       }
 
+      if (data.vedicHoroscope.nakshatra) {
+        data.vedicHoroscope.nakshatra = data.vedicHoroscope.nakshatra.split(" (")[0]
+      }
+      if (data.vedicHoroscope.rasi) {
+        data.vedicHoroscope.rasi = data.vedicHoroscope.rasi.split(" (")[0]
+      }
+      if (data.vedicHoroscope.lagna) {
+        data.vedicHoroscope.lagna = data.vedicHoroscope.lagna.split(" (")[0]
+      }
+
       const payload = {
         ...rest,
         dob: formatISO(data?.dob),

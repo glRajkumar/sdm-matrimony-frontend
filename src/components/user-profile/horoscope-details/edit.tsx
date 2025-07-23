@@ -100,7 +100,7 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="nakshatra"
               label="Nakshatra"
-              options={nakshatra}
+              options={["Don't wish to specify", ...nakshatra]}
               placeholder="Select a nakshatra"
             />
 
@@ -108,7 +108,7 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="rasi"
               label="Rasi"
-              options={raasi}
+              options={["Don't wish to specify", ...raasi]}
               placeholder="Select a rasi"
             />
 
@@ -116,7 +116,7 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="lagna"
               label="Lagna"
-              options={raasi}
+              options={["Don't wish to specify", ...raasi]}
               placeholder="Select a lagna"
             />
 

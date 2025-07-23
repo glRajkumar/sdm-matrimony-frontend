@@ -96,7 +96,7 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="religion"
               label="Religion"
-              options={religions}
+              options={["Don't wish to specify", ...religions]}
               placeholder="Select religion"
               canCreateNew
             />
@@ -105,7 +105,7 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="caste"
               label="Caste"
-              options={castes}
+              options={["Don't wish to specify", ...castes]}
               placeholder="Select caste"
               canCreateNew
             />
