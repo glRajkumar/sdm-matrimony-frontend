@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import EditProfileImageDialog from "./edit-profile-image-dialog";
 import AddImageDialog from "./add-image-dialog";
 import ImageView from "./image-view";
+import { deleteImage } from "@/actions";
 
 type props = {
   user: userT
@@ -26,6 +27,11 @@ function ProfileSidebar({ user, canEdit }: props) {
       images: user?.images?.filter(img => img !== imageUrl),
       ...(user?.profileImg === imageUrl && { profileImg: "" })
     })
+
+    const id = imageUrl.split("/").pop()?.split(".")[0]
+    if (id) {
+      deleteImage(id)
+    }
   }
 
   function setAsProfilePic(url: string) {
@@ -93,7 +99,7 @@ function ProfileSidebar({ user, canEdit }: props) {
             }
 
             {
-              canEdit && user?.images?.length < 8 &&
+              canEdit && user?.images?.length < 4 &&
               <AddImageDialog _id={user._id} />
             }
           </div>

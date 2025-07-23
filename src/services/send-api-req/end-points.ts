@@ -20,6 +20,7 @@ export const endPoints = {
   removeLiked: "/user/removeliked",
   updateProfile: "/user/profile",
   addImages: "/user/images",
+  deleteImage: "/user/image",
 
   getUsersList: "/admin/users",
   updateUserDetails: "/admin/user",

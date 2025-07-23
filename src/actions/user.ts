@@ -36,6 +36,13 @@ export function addImages(data: any) {
   })
 }
 
+export function deleteImage(_id: string) {
+  return sendApiReq({
+    url: `${endPoints.deleteImage}/${_id}`,
+    method: "DELETE",
+  })
+}
+
 export function addLiked(data: any) {
   return sendApiReq({
     url: endPoints.addLiked,
