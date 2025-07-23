@@ -1,4 +1,6 @@
 
+import { nakshatraMap, raasiMap } from "@/utils";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -8,6 +10,10 @@ import Edit from "./edit";
 type props = {
   user: userT
   canEdit: boolean
+}
+
+function getValue(val: string, map: Record<string, string>) {
+  return val ? val + (map[val] ? ` (${map[val]})` : "") : "---"
 }
 
 function HoroscopeDetails({ user, canEdit }: props) {
@@ -29,15 +35,15 @@ function HoroscopeDetails({ user, canEdit }: props) {
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div>
             <span className="text-sm text-muted-foreground">Nakshatra</span>
-            <p className="font-medium">{user?.vedicHoroscope?.nakshatra || "---"}</p>
+            <p className="font-medium">{getValue(user?.vedicHoroscope?.nakshatra, nakshatraMap)}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Rasi</span>
-            <p className="font-medium">{user?.vedicHoroscope?.rasi || "---"}</p>
+            <p className="font-medium">{getValue(user?.vedicHoroscope?.rasi, raasiMap)}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Lagna</span>
-            <p className="font-medium">{user?.vedicHoroscope?.lagna || "---"}</p>
+            <p className="font-medium">{getValue(user?.vedicHoroscope?.lagna, raasiMap)}</p>
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Dasha Period</span>

@@ -89,6 +89,63 @@ export const raasi = [
   'Aquarius (கும்பம்)', 'Pisces (மீனம்)'
 ] as const;
 
+export const nakshatraMap = {
+  Ashwini: 'அசுவினி',
+  Bharani: 'பரணி',
+  Krittika: 'கிருத்திகை',
+  Rohini: 'ரோஹிணி',
+  Mrigashira: 'மிருகசீரிடம்',
+  Ardra: 'திருவாதிரை',
+  Punarvasu: 'புனர்பூசம்',
+  Pushya: 'பூசம்',
+  Ashlesha: 'ஆயில்யம்',
+  Magha: 'மகம்',
+  'Purva Phalguni': 'பூரம்',
+  'Uttara Phalguni': 'உத்திரம்',
+  Hasta: 'ஹஸ்தம்',
+  Chitra: 'சித்திரை',
+  Swati: 'சுவாதி',
+  Vishakha: 'விசாகம்',
+  Anuradha: 'அனுஷம்',
+  Jyeshtha: 'கேட்டை',
+  Mula: 'மூலம்',
+  'Purva Ashadha': 'பூராடம்',
+  'Uttara Ashadha': 'உத்திராடம்',
+  Shravana: 'திரோண',
+  Dhanishta: 'அவிட்டம்',
+  Shatabhisha: 'சதயம்',
+  'Purva Bhadrapada': 'பூரட்டாதி',
+  'Uttara Bhadrapada': 'உத்திரட்டாதி',
+  Revati: 'ரேவதி'
+} as const;
+
+export const planetsMap = {
+  Sun: 'சூரியன்',
+  Moon: 'சந்திரன்',
+  Mars: 'செவ்வாய்',
+  Mercury: 'புதன்',
+  Jupiter: 'குரு',
+  Venus: 'சுக்ரன்',
+  Saturn: 'சனி',
+  Rahu: 'ராகு',
+  Ketu: 'கேது'
+} as const;
+
+export const raasiMap = {
+  Aries: 'மேஷம்',
+  Taurus: 'ரிஷபம்',
+  Gemini: 'மிதுனம்',
+  Cancer: 'கடகம்',
+  Leo: 'சிம்மம்',
+  Virgo: 'கன்னி',
+  Libra: 'துலாம்',
+  Scorpio: 'விருச்சிகம்',
+  Sagittarius: 'தனுசு',
+  Capricorn: 'மகரம்',
+  Aquarius: 'கும்பம்',
+  Pisces: 'மீனம்'
+} as const;
+
 export const ageRange = [
   { label: 'Below 25', value: 'below_25' },
   { label: '25 to 30', value: '25_30' },
