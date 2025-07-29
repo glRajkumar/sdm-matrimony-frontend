@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked, addImages, updateProfile } from "@/actions";
+import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked, addImages, updateProfile, getPartnerPreferences } from "@/actions";
 import { useRouter } from "next/navigation";
 
 export function useUsersList(filters?: objT) {
@@ -20,6 +20,7 @@ export function useUsersList(filters?: objT) {
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
+    enabled: !!filters,
   })
 }
 
@@ -45,6 +46,14 @@ export function useUserDetails(_id: string) {
   return useQuery<Partial<userT>>({
     queryKey: ["user-details", _id],
     queryFn: () => getUserDetails(_id),
+    enabled: !!_id,
+  })
+}
+
+export function usePartnerPreferences(_id: string) {
+  return useQuery<Pick<userT, "partnerPreferences">>({
+    queryKey: ["partner-preferences", _id],
+    queryFn: getPartnerPreferences,
     enabled: !!_id,
   })
 }

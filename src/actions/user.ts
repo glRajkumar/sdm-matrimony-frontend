@@ -20,6 +20,12 @@ export function getUserDetails(_id: string) {
   })
 }
 
+export function getPartnerPreferences() {
+  return sendApiReq({
+    url: endPoints.getPartnerPreferences,
+  })
+}
+
 export function updateProfile(data: any) {
   return sendApiReq({
     url: endPoints.updateProfile,
