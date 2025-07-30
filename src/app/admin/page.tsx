@@ -5,10 +5,10 @@ import Users from "./users";
 function Page() {
   return (
     <section className="px-2 sm:px-4 py-8">
-      <Tabs defaultValue="pending">
+      <Tabs defaultValue="approved">
         <TabsList className="w-full mb-4 border-b bg-transparent rounded-none">
           {
-            ["pending", "approved", "rejected", "blocked", "deleted"].map((tab) => (
+            ["approved", "rejected", "blocked", "deleted"].map((tab) => (
               <TabsTrigger
                 key={tab}
                 className="px-4 pb-2 -mb-1.5 capitalize border-0 border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none"
@@ -19,10 +19,6 @@ function Page() {
             ))
           }
         </TabsList>
-
-        <TabsContent value="pending">
-          <Users approvalStatus="pending" />
-        </TabsContent>
 
         <TabsContent value="approved">
           <Users approvalStatus="approved" />
