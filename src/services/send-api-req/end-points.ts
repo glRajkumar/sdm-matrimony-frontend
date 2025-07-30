@@ -29,4 +29,7 @@ export const endPoints = {
   marriedTo: "/admin/user/married-to",
   findUser: "/admin/user/find",
   extractImg: "/extractor",
+
+  createOrder: "/payment/create-order",
+  verifyPayment: "/payment/verify",
 }
