@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -8,7 +9,7 @@ import {
   proffessionalSectors
 } from '@/utils';
 
-import { useUserDetails } from '@/hooks/use-user';
+import { usePartnerPreferences } from '@/hooks/use-user';
 import useUserStore from '@/store/user';
 
 import { InputWrapper, ComboboxWrapper, SelectWrapper } from '@/components/ui/form-wrapper';
@@ -116,14 +117,40 @@ const list: listProps[] = [
   }
 ]
 
+function getPayload(userPartnerPreferences: Pick<userT, "partnerPreferences">) {
+  const payload: any = {
+    ...userPartnerPreferences,
+    salaryRange: "",
+    ageRange: "",
+    lagna: "",
+    rasi: "",
+  }
+
+  Object.entries(payload).forEach(([key, value]) => {
+    if (!value) {
+      payload[key] = ""
+    }
+  })
+
+  return payload
+}
+
 function Filters({ onSave, hasFilters }: props) {
   const userId = useUserStore(s => s?._id)
-  const { data: user, isLoading } = useUserDetails(userId)
+  const { data: user, isLoading } = usePartnerPreferences(userId)
 
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
   })
+
+  useEffect(() => {
+    if (user) {
+      const payload: any = getPayload(user)
+      form.reset(payload)
+      onSave(payload)
+    }
+  }, [user])
 
   function onReset() {
     form.reset({ ...defaultValues })
@@ -131,22 +158,10 @@ function Filters({ onSave, hasFilters }: props) {
   }
 
   function onApply() {
-    const pyload: any = {
-      ...user?.partnerPreferences,
-      salaryRange: "",
-      ageRange: "",
-      lagna: "",
-      rasi: "",
-    }
-
-    Object.entries(pyload).forEach(([key, value]) => {
-      if (!value) {
-        pyload[key] = ""
-      }
-    })
-
-    form.reset(pyload)
-    onSave(pyload)
+    if (!user) return
+    const payload: any = getPayload(user)
+    form.reset(payload)
+    onSave(payload)
   }
 
   function onSubmit(data: z.infer<typeof schema>) {

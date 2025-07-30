@@ -8,7 +8,7 @@ import FilterSideBar from "./filter-sidebar";
 import List from "./list";
 
 function Page() {
-  const [filterData, setFilterData] = useState<objT>({})
+  const [filterData, setFilterData] = useState<objT | undefined>(undefined)
   const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage } = useUsersList(filterData)
 
   function onSave(filterData: objT) {
@@ -18,7 +18,7 @@ function Page() {
   return (
     <div className="md:grid grid-cols-[1fr] md:grid-cols-[300px_1fr] md:gap-4 relative">
       <FilterSideBar
-        hasFilters={Object.keys(filterData).length > 0}
+        hasFilters={filterData ? Object.keys(filterData).length > 0 : false}
         onSave={onSave}
       />
 

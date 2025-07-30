@@ -16,6 +16,7 @@ export const endPoints = {
   getMatches: "/user/matches",
   getLikesList: "/user/likes-list",
   getUserDetails: "/user/profile",
+  getPartnerPreferences: "/user/partner-preferences",
   addLiked: "/user/addliked",
   removeLiked: "/user/removeliked",
   updateProfile: "/user/profile",
@@ -28,4 +29,7 @@ export const endPoints = {
   marriedTo: "/admin/user/married-to",
   findUser: "/admin/user/find",
   extractImg: "/extractor",
+
+  createOrder: "/payment/create-order",
+  verifyPayment: "/payment/verify",
 }
