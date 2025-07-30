@@ -1,10 +1,10 @@
 import { sendApiReq, endPoints } from "@/services";
 
-export function createOrder(amount: number) {
+export function createOrder(data: any) {
   return sendApiReq({
     url: endPoints.createOrder,
     method: "post",
-    data: { amount },
+    data,
   })
 }
 

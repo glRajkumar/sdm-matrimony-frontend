@@ -1,16 +1,88 @@
 "use client";
 
+import { useState } from "react"
+import { Check, Heart, Users, Clock, Star, Crown, Gem, Loader } from "lucide-react"
+
 import { useCreateOrder, useVerifyPayment } from "@/hooks/use-payment";
 
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Separator } from "@/components/ui/separator"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+
+type PlansT = "basic" | "gold" | "diamond" | "platinum"
+
+const planPrices: Record<PlansT, number> = {
+  basic: 3_000,
+  gold: 5_500,
+  diamond: 8_500,
+  platinum: 11_000,
+}
+
+const planDetails = {
+  basic: {
+    name: "Basic",
+    duration: "3 months",
+    icon: Clock,
+    color: "text-blue-600",
+    bgColor: "bg-blue-50",
+    features: ["Access to 50 profiles", "View personal information", "Phone numbers & contact details"],
+  },
+  gold: {
+    name: "Gold",
+    duration: "6 months",
+    icon: Star,
+    color: "text-yellow-600",
+    bgColor: "bg-yellow-50",
+    features: ["Access to 50 profiles", "View personal information", "Phone numbers & contact details"],
+  },
+  diamond: {
+    name: "Diamond",
+    duration: "9 months",
+    icon: Gem,
+    color: "text-purple-600",
+    bgColor: "bg-purple-50",
+    features: ["Access to 50 profiles", "View personal information", "Phone numbers & contact details"],
+  },
+  platinum: {
+    name: "Platinum",
+    duration: "12 months",
+    icon: Crown,
+    color: "text-orange-600",
+    bgColor: "bg-orange-50",
+    features: ["Access to 50 profiles", "View personal information", "Phone numbers & contact details"],
+  },
+}
+
 function Page() {
+  const [noOfProfilesCanView, setNoOfProfilesCanView] = useState(50)
+  const [assistedMonths, setAssistedMonths] = useState(1)
+  const [subscribedTo, setSubscribedTo] = useState<PlansT>("basic")
+  const [isAssisted, setIsAssisted] = useState(false)
+
   const { mutateAsync: createOrderMutate, isPending: isCreateOrderPending } = useCreateOrder()
   const { mutate: verifyPaymentMutate, isPending: isVerifyPaymentPending } = useVerifyPayment()
 
-  const amount = 5000
+  const getProfileOptions = () => {
+    const options = []
+    for (let i = 50; i <= 250; i += 50) {
+      options.push({ value: i, label: `${i}` })
+    }
+    options.push({ value: 999, label: "Unlimited" })
+    return options
+  }
 
   const handlePayment = async () => {
-    const data = await createOrderMutate(amount)
-    console.log(data)
+    const payload = {
+      subscribedTo,
+      noOfProfilesCanView,
+      isAssisted,
+      assistedMonths,
+    }
+    const data = await createOrderMutate(payload)
 
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
@@ -19,16 +91,234 @@ function Page() {
       name: 'Sri Durgadevi Matrimony',
       description: 'Unlock user informations',
       order_id: data.id,
-      handler: verifyPaymentMutate,
+      notes: payload,
+      handler: (res: any) => {
+        verifyPaymentMutate({
+          amount: data.amount,
+          ...payload,
+          paymentId: res.razorpay_payment_id,
+          orderId: data.id,
+          razorpayPaymentSignature: res.razorpay_signature,
+        })
+      },
     }
 
     const rzp = new (window as any).Razorpay(options)
     rzp.open()
   }
 
+  function getProfileLabel(option: { value: number; label: string }) {
+    if (option.value === 50) return "Basic --- 50 profiles"
+    if (option.value === 999) return "Unlimited profiles" + " (+₹20,000)"
+    return `+${option.value - 50} profiles (+₹${((option.value - 50) / 50) * 1_000})`
+  }
+
+  let finalAmount = planPrices[subscribedTo]
+
+  if (noOfProfilesCanView > 50) {
+    if (noOfProfilesCanView === 999) {
+      // Unlimited
+      finalAmount += 20_000
+    } else {
+      finalAmount += ((noOfProfilesCanView - 50) / 50) * 1_000
+    }
+  }
+
+  if (isAssisted) {
+    finalAmount += assistedMonths * 10_000
+  }
+
   return (
-    <div>
-      <button onClick={handlePayment}>Pay ₹{amount}</button>
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-50 px-8 py-20">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Heart className="h-8 w-8 text-pink-500" />
+            <h1 className="text-3xl font-bold text-gray-900">Find Your Perfect Match</h1>
+          </div>
+          <p className="text-gray-600 text-lg">Choose the plan that's right for your journey to love</p>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="h-5 w-5" />
+                  Select Your Plan
+                </CardTitle>
+                <CardDescription>
+                  Choose from our carefully crafted plans designed to help you find your soulmate
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <RadioGroup value={subscribedTo} onValueChange={(value) => setSubscribedTo(value as PlansT)}>
+                  <div className="grid gap-4">
+                    {Object.entries(planDetails).map(([key, plan]) => {
+                      const Icon = plan.icon
+                      const isSelected = subscribedTo === key
+                      return (
+                        <div
+                          key={key}
+                          className={`relative rounded-xl border transition-all cursor-pointer ${isSelected
+                            ? "border-pink-500 bg-gradient-to-r from-pink-50 to-pink-50 shadow-md"
+                            : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                            }`}
+                        >
+                          <Label htmlFor={key} className="cursor-pointer block">
+                            <div className="p-6">
+                              <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-3">
+                                  <div className={`p-3 rounded-full ${plan.bgColor}`}>
+                                    <Icon className={`h-6 w-6 ${plan.color}`} />
+                                  </div>
+                                  <div>
+                                    <h3 className="font-semibold text-xl text-gray-900">{plan.name}</h3>
+                                    <p className="text-sm text-gray-500">{plan.duration}</p>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <div className="text-2xl font-bold text-gray-900">
+                                    ₹{planPrices[key as PlansT].toLocaleString()}
+                                  </div>
+                                  <RadioGroupItem value={key} id={key} className="mt-2" />
+                                </div>
+                              </div>
+                              <div className="space-y-2">
+                                {plan.features.map((feature, index) => (
+                                  <div key={index} className="flex items-center gap-2 text-gray-600">
+                                    <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
+                                    <span className="text-sm">{feature}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </Label>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </RadioGroup>
+
+                <div className="mt-6 space-y-4">
+                  <Separator />
+                  <div>
+                    <Label className="text-base font-medium">Additional Profile Access</Label>
+                    <p className="text-sm text-gray-600 mb-3">
+                      Expand your reach with more profile views (₹1,000 per additional 50 profiles)
+                    </p>
+                    <Select
+                      value={noOfProfilesCanView.toString()}
+                      onValueChange={(value) => setNoOfProfilesCanView(Number.parseInt(value))}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {getProfileOptions().map((option) => (
+                          <SelectItem key={option.value} value={option.value.toString()}>
+                            {getProfileLabel(option)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="text-sm text-gray-600">Get personalized assistance from our relationship experts</div>
+
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="assisted" checked={isAssisted} onCheckedChange={(value) => setIsAssisted(value as boolean)} />
+                      <Label htmlFor="assisted" className="text-base font-medium">
+                        Assisted Services (₹10,000/month)
+                      </Label>
+                    </div>
+
+                    {isAssisted && (
+                      <div className="ml-6">
+                        <Label className="text-sm font-medium">Duration (months)</Label>
+                        <Select
+                          value={assistedMonths.toString()}
+                          onValueChange={(value) => setAssistedMonths(Number.parseInt(value))}
+                        >
+                          <SelectTrigger className="w-32 mt-1">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[1, 2, 3, 4, 5, 6].map((month) => (
+                              <SelectItem key={month} value={month.toString()}>
+                                {month} month{month > 1 ? "s" : ""}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div>
+            <Card className="sticky top-28">
+              <CardHeader>
+                <CardTitle>Order Summary</CardTitle>
+              </CardHeader>
+
+              <CardContent className="space-y-4">
+                <div className="flex justify-between">
+                  <p>{planDetails[subscribedTo].name} Plan <span className="text-sm capitalize text-gray-500">( {planDetails[subscribedTo].duration} )</span></p>
+                  <span className="font-semibold">₹{planPrices[subscribedTo].toLocaleString()}</span>
+                </div>
+
+                {noOfProfilesCanView > 50 && (
+                  <div className="flex justify-between text-sm">
+                    <span>
+                      Additional Profiles:
+                      {noOfProfilesCanView === 999 ? " Unlimited" : ` +${noOfProfilesCanView - 50}`}
+                    </span>
+                    <span className="font-semibold">+ ₹{(noOfProfilesCanView === 999 ? 20_000 : ((noOfProfilesCanView - 50) / 50) * 1_000).toLocaleString()}</span>
+                  </div>
+                )}
+
+                {isAssisted && (
+                  <div className="flex justify-between text-sm">
+                    <span>
+                      Assisted Services ({assistedMonths} month{assistedMonths > 1 ? "s" : ""})
+                    </span>
+                    <span className="font-semibold">+ ₹{(assistedMonths * 10_000).toLocaleString()}</span>
+                  </div>
+                )}
+
+                <Separator />
+
+                <div className="flex justify-between font-semibold text-lg">
+                  <span>Total Amount</span>
+                  <span className="text-pink-600 font-bold">₹{finalAmount.toLocaleString()}</span>
+                </div>
+
+                <div className="text-xs text-gray-500 space-y-1">
+                  <p>• Profile access: {noOfProfilesCanView === 999 ? "Unlimited" : noOfProfilesCanView} profiles</p>
+                  {isAssisted && <p>• Assisted services included</p>}
+                </div>
+              </CardContent>
+
+              <CardFooter>
+                <Button
+                  size="lg"
+                  className="w-full bg-pink-600 hover:bg-pink-700"
+                  onClick={handlePayment}
+                  disabled={isCreateOrderPending || isVerifyPaymentPending}
+                >
+                  {(isCreateOrderPending || isVerifyPaymentPending) && <Loader className="animate-spin" />}
+                  Proceed to Payment - ₹{finalAmount.toLocaleString()}
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
