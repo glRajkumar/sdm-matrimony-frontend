@@ -7,25 +7,16 @@ type approvalStatusT = 'pending' | 'approved' | 'rejected'
 
 type maritalStatusT = 'Single' | 'Divorced' | 'Widowed'
 
-type planetT = {
-  planet: string
-  degree: number
-  sign: string
-}
+type subscribedToT = "basic" | "gold" | "diamond" | "platinum"
 
-type chartT = {
-  house1: planetT[]
-  house2: planetT[]
-  house3: planetT[]
-  house4: planetT[]
-  house5: planetT[]
-  house6: planetT[]
-  house7: planetT[]
-  house8: planetT[]
-  house9: planetT[]
-  house10: planetT[]
-  house11: planetT[]
-  house12: planetT[]
+type currentPlanT = {
+  _id: string
+  amount: number
+  subscribedTo: subscribedToT
+  expiryDate: string
+  noOfProfilesCanView: number
+  isAssisted: boolean
+  assistedMonths: number
 }
 
 type userT = {
@@ -67,8 +58,6 @@ type userT = {
     rasi: string
     lagna: string
     dashaPeriod: string
-    raasiChart: chartT
-    navamsaChart: chartT
     vedicHoroscopePic: string
     dosham: string
   }
@@ -96,4 +85,5 @@ type userT = {
   }
   isBlocked: boolean
   isDeleted: boolean
+  currentPlan: currentPlanT
 }

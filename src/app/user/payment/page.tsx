@@ -1,66 +1,31 @@
 "use client";
 
-import { useState } from "react"
-import { Check, Heart, Users, Clock, Star, Crown, Gem, Loader } from "lucide-react"
+import { useState } from "react";
+import { Check, Heart, Users, Loader } from "lucide-react";
 
-import { useCreateOrder, useVerifyPayment } from "@/hooks/use-payment";
+import { useCreateOrder, useVerifyPayment } from "@/hooks/use-payment";;
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Separator } from "@/components/ui/separator"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
-type PlansT = "basic" | "gold" | "diamond" | "platinum"
+import { PlanBadge, planDetails } from "@/components/common/plan-badge";
 
-const planPrices: Record<PlansT, number> = {
+const planPrices: Record<subscribedToT, number> = {
   basic: 3_000,
   gold: 5_500,
   diamond: 8_500,
   platinum: 11_000,
 }
 
-const planDetails = {
-  basic: {
-    name: "Basic",
-    duration: "3 months",
-    icon: Clock,
-    color: "text-blue-600",
-    bgColor: "bg-blue-50",
-    features: ["Access to 50 profiles", "View personal information", "Phone numbers & contact details"],
-  },
-  gold: {
-    name: "Gold",
-    duration: "6 months",
-    icon: Star,
-    color: "text-yellow-600",
-    bgColor: "bg-yellow-50",
-    features: ["Access to 50 profiles", "View personal information", "Phone numbers & contact details"],
-  },
-  diamond: {
-    name: "Diamond",
-    duration: "9 months",
-    icon: Gem,
-    color: "text-purple-600",
-    bgColor: "bg-purple-50",
-    features: ["Access to 50 profiles", "View personal information", "Phone numbers & contact details"],
-  },
-  platinum: {
-    name: "Platinum",
-    duration: "12 months",
-    icon: Crown,
-    color: "text-orange-600",
-    bgColor: "bg-orange-50",
-    features: ["Access to 50 profiles", "View personal information", "Phone numbers & contact details"],
-  },
-}
-
 function Page() {
   const [noOfProfilesCanView, setNoOfProfilesCanView] = useState(50)
   const [assistedMonths, setAssistedMonths] = useState(1)
-  const [subscribedTo, setSubscribedTo] = useState<PlansT>("basic")
+  const [subscribedTo, setSubscribedTo] = useState<subscribedToT>("basic")
   const [isAssisted, setIsAssisted] = useState(false)
 
   const { mutateAsync: createOrderMutate, isPending: isCreateOrderPending } = useCreateOrder()
@@ -152,10 +117,9 @@ function Page() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <RadioGroup value={subscribedTo} onValueChange={(value) => setSubscribedTo(value as PlansT)}>
+                <RadioGroup value={subscribedTo} onValueChange={(value) => setSubscribedTo(value as subscribedToT)}>
                   <div className="grid gap-4">
                     {Object.entries(planDetails).map(([key, plan]) => {
-                      const Icon = plan.icon
                       const isSelected = subscribedTo === key
                       return (
                         <div
@@ -169,23 +133,29 @@ function Page() {
                             <div className="p-6">
                               <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-3">
-                                  <div className={`p-3 rounded-full ${plan.bgColor}`}>
-                                    <Icon className={`h-6 w-6 ${plan.color}`} />
-                                  </div>
+                                  <PlanBadge
+                                    className="p-3 rounded-full [&>svg]:size-6"
+                                    subscribedTo={key as subscribedToT}
+                                  />
                                   <div>
                                     <h3 className="font-semibold text-xl text-gray-900">{plan.name}</h3>
                                     <p className="text-sm text-gray-500">{plan.duration}</p>
                                   </div>
                                 </div>
+
                                 <div className="text-right">
                                   <div className="text-2xl font-bold text-gray-900">
-                                    ₹{planPrices[key as PlansT].toLocaleString()}
+                                    ₹{planPrices[key as subscribedToT].toLocaleString()}
                                   </div>
                                   <RadioGroupItem value={key} id={key} className="mt-2" />
                                 </div>
                               </div>
                               <div className="space-y-2">
-                                {plan.features.map((feature, index) => (
+                                {[
+                                  "Access to 50 profiles",
+                                  "View personal information",
+                                  "Phone numbers & contact details"
+                                ].map((feature, index) => (
                                   <div key={index} className="flex items-center gap-2 text-gray-600">
                                     <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                                     <span className="text-sm">{feature}</span>

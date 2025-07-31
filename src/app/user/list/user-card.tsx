@@ -10,6 +10,8 @@ import { ToolTipWrapper } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+import { PlanBadge } from "@/components/common/plan-badge";
+
 type props = {
   type?: "liked" | "disliked" | "full"
   isLiked?: boolean
@@ -21,12 +23,13 @@ type props = {
 
 function UserCard({
   _id, profileImg, fullName, maritalStatus, dob,
-  otherDetails, proffessionalDetails,
+  otherDetails, proffessionalDetails, currentPlan,
   type = "full", isLiked,
   onView = () => { },
   onAdd = () => { },
   onRemove = () => { },
 }: props) {
+  const hasPlan = currentPlan && new Date(currentPlan.expiryDate).getTime() > new Date().getTime()
   return (
     <Card className="mb-6 p-0 overflow-hidden transition-all duration-300 hover:shadow-md @container/card">
       <div className="flex flex-col @lg/card:flex-row">
@@ -48,6 +51,11 @@ function UserCard({
               Disliked
             </Badge>
           )} */}
+
+          <PlanBadge
+            subscribedTo={hasPlan ? "platinum" : "basic"}
+            className="p-2 absolute bottom-2 left-2 rounded-full [&>svg]:size-4 opacity-90"
+          />
         </div>
 
         <CardContent className="flex-1 px-4 py-3">
