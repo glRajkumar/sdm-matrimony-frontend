@@ -2,7 +2,7 @@ import { Loader } from "lucide-react";
 
 function Layout({ children }: readOnlyChildren) {
   return (
-    <div>
+    <div className="dc flex-col">
       <h1>Account verification in progress...</h1>
       <Loader className="animate-spin" />
       {children}

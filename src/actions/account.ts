@@ -64,7 +64,6 @@ export function verifyAccount(data: any) {
 
 export function resendVerifyEmail(data: any) {
   return sendApiReq({
-    isAuthendicated: false,
     method: "post",
     url: endPoints.resendVerifyEmail,
     data,

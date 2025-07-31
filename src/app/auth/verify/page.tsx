@@ -1,23 +1,23 @@
-import { redirect } from 'next/navigation';
+"use client";
 
-import { verifyAccount } from '@/actions';
-import { decodeJwt } from '@/server/utils';
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
-type props = {
-  searchParams: Promise<{ [key: string]: string }>
-}
+import { useVerifyAccount } from "@/hooks/use-account";
 
-async function Page({ searchParams }: props) {
-  const { token } = await searchParams
+function Page() {
+  const searchParams = useSearchParams()
+  const token = searchParams.get("token")
 
-  if (!token) return redirect("/")
+  const { mutate } = useVerifyAccount()
 
-  const user = await decodeJwt(token)
-  const userId = user?._id as string || ""
-  if (!userId) return redirect("/")
+  useEffect(() => {
+    if (!token) return
 
-  await verifyAccount({ token })
-  return redirect(`/${user?.role || "user"}`)
+    mutate({ token })
+  }, [token])
+
+  return null
 }
 
 export default Page
