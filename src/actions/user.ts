@@ -26,6 +26,12 @@ export function getPartnerPreferences() {
   })
 }
 
+export function getUnlockedProfiles() {
+  return sendApiReq({
+    url: endPoints.getUnlockedProfiles,
+  })
+}
+
 export function updateProfile(data: any) {
   return sendApiReq({
     url: endPoints.updateProfile,
@@ -60,6 +66,14 @@ export function addLiked(data: any) {
 export function removeLiked(data: any) {
   return sendApiReq({
     url: endPoints.removeLiked,
+    method: "POST",
+    data,
+  })
+}
+
+export function unlockProfile(data: { _id: string }) {
+  return sendApiReq({
+    url: endPoints.unlockProfile,
     method: "POST",
     data,
   })

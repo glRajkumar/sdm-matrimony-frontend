@@ -32,4 +32,7 @@ export const endPoints = {
 
   createOrder: "/payment/create-order",
   verifyPayment: "/payment/verify",
+
+  unlockProfile: "/user/unlock",
+  getUnlockedProfiles: "/user/unlocked",
 }
