@@ -1,43 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { Lock } from "lucide-react";
-
-import { useUnlockProfile } from "@/hooks/use-user";
 
 import { Button } from "@/components/ui/button";
 
 type props = {
   user: userT
   type: "mobile" | "address"
+  isPending: boolean
+  unlockBtnClk: () => void
 }
 
-function UpgradeBtn({ user, type }: props) {
-  const { mutate, isPending } = useUnlockProfile()
-  const router = useRouter()
-
-  const handleUnlockClick = async () => {
-    if (user?.currentPlan) {
-      mutate({ _id: user._id })
-
-    } else {
-      toast("Unlock Contact Details", {
-        description: "Payment required to view contact information. Proceed to payment?",
-        action: (
-          <Button
-            size="sm"
-            onClick={() => router.push("/payment")}
-            className="ml-2"
-          >
-            Pay Now
-          </Button>
-        ),
-        duration: 6000,
-      })
-    }
-  }
-
+function UpgradeBtn({ user, type, isPending, unlockBtnClk }: props) {
   if (user?.contactDetails) {
     return (
       <p className="font-medium">{user?.contactDetails?.[type] || "---"}</p>
@@ -48,7 +22,7 @@ function UpgradeBtn({ user, type }: props) {
     <Button
       size="sm"
       variant="outline"
-      onClick={handleUnlockClick}
+      onClick={unlockBtnClk}
       disabled={isPending}
       className="flex h-7 text-xs mt-1"
     >
