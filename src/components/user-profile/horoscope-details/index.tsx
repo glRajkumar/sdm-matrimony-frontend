@@ -2,11 +2,9 @@
 import { nakshatraMap, raasiMap } from "@/utils";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// import ChartDisplay from "./chart-display";
-import Edit from "./edit";
 import VerdicPic from "./verdic-pic";
+import Edit from "./edit";
 
 type props = {
   user: userT
@@ -60,19 +58,6 @@ function HoroscopeDetails({ user, canEdit }: props) {
           <span className="text-sm text-muted-foreground">Vedic Horoscope Picture</span>
           <VerdicPic user={user} />
         </div>
-
-        {/* <Tabs defaultValue="raasi">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="raasi">Raasi Chart</TabsTrigger>
-            <TabsTrigger value="navamsa">Navamsa Chart</TabsTrigger>
-          </TabsList>
-          <TabsContent value="raasi" className="mt-4">
-            <ChartDisplay chart={user?.vedicHoroscope?.raasiChart} />
-          </TabsContent>
-          <TabsContent value="navamsa" className="mt-4">
-            <ChartDisplay chart={user?.vedicHoroscope?.navamsaChart} />
-          </TabsContent>
-        </Tabs> */}
       </CardContent>
     </Card>
   )
