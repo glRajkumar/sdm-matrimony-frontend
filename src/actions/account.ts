@@ -53,6 +53,23 @@ export function resetPass(data: any) {
   })
 }
 
+export function verifyAccount(data: any) {
+  return sendApiReq({
+    isAuthendicated: false,
+    method: "post",
+    url: endPoints.verifyAccount,
+    data,
+  })
+}
+
+export function resendVerifyEmail(data: any) {
+  return sendApiReq({
+    method: "post",
+    url: endPoints.resendVerifyEmail,
+    data,
+  })
+}
+
 export function logout() {
   return sendApiReq({
     withCredentials: true,

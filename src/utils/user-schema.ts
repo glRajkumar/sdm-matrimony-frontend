@@ -33,10 +33,10 @@ export const professionalDetailsSchema = z.object({
     (data) =>
       data.profession === "Unemployed" && data.sector === "Unemployed"
         ? true
-        : data.salary >= 10000,
+        : data.salary >= 5000,
     {
       path: ["salary"],
-      error: "Salary must be at least 10000",
+      error: "Salary must be at least 5000",
     }
   )
   .refine(

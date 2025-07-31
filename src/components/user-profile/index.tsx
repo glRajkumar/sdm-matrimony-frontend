@@ -5,6 +5,7 @@ import PartnerPreferences from "./partner-preferences";
 import HoroscopeDetails from "./horoscope-details";
 import PersonalDetails from "./personal-details";
 import ProfileSidebar from "./profile-sidebar";
+import ContactDetails from "./contact-details";
 import FamilyDetails from "./family-details";
 import OtherDetails from "./other-details";
 
@@ -30,6 +31,7 @@ function UserProfile({ user, canEdit }: props) {
           <TabsContent value="personal" className="space-y-6">
             <PersonalDetails user={user} canEdit={canEdit} />
             <ProfessionalDetails user={user} canEdit={canEdit} />
+            <ContactDetails user={user} />
             <OtherDetails user={user} canEdit={canEdit} />
           </TabsContent>
 

@@ -30,10 +30,10 @@ const userLinks = [
     lable: "Liked",
     href: "liked",
   },
-  // {
-  //   lable: "Disliked",
-  //   href: "disliked",
-  // },
+  {
+    lable: "Unlocked",
+    href: "unlocked",
+  },
 ]
 
 function Navbar({ isAdmin }: props) {

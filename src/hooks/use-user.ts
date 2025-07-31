@@ -1,8 +1,8 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked, addImages, updateProfile, getPartnerPreferences } from "@/actions";
-import { useRouter } from "next/navigation";
+import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked, addImages, updateProfile, getPartnerPreferences, getUnlockedProfiles, unlockProfile } from "@/actions";
 
 export function useUsersList(filters?: objT) {
   const limit = 50
@@ -47,6 +47,13 @@ export function useUserDetails(_id: string) {
     queryKey: ["user-details", _id],
     queryFn: () => getUserDetails(_id),
     enabled: !!_id,
+  })
+}
+
+export function useUnlockedProfiles() {
+  return useQuery<Partial<userT>[]>({
+    queryKey: ["unlocked-profiles"],
+    queryFn: getUnlockedProfiles,
   })
 }
 
@@ -120,6 +127,23 @@ export function useRemoveLiked() {
     },
     onError: (error) => {
       toast.error(error?.message || "Failed to remove user from liked list")
+    },
+  })
+}
+
+export function useUnlockProfile() {
+  const queryClient = useQueryClient()
+  const router = useRouter()
+
+  return useMutation({
+    mutationFn: unlockProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["unlocked-profiles"] })
+      toast.success("Profile unlocked successfully")
+      router.refresh()
+    },
+    onError: (error) => {
+      toast.error(error?.message || "Failed to unlock profile")
     },
   })
 }

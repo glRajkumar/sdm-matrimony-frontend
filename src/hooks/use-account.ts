@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { checkApprovalStatus, forgotPass, login, logout, registerImage, resetPass, signup, } from "@/actions";
+import { checkApprovalStatus, forgotPass, login, logout, registerImage, resendVerifyEmail, resetPass, signup, verifyAccount, } from "@/actions";
 import { removeToken, setToken } from "@/actions/token";
 import useUserStore from "@/store/user";
 
@@ -98,6 +98,38 @@ export function useResetPass() {
     },
     onError(error) {
       toast('Password reset failed', {
+        description: error.message
+      })
+    },
+  })
+}
+
+export function useVerifyAccount() {
+  const router = useRouter()
+
+  return useMutation({
+    mutationFn: verifyAccount,
+    onSuccess(res) {
+      toast('Account verified successfully')
+      router.replace(`/auth/${res?.role || "user"}/signin`)
+    },
+    onError(error) {
+      toast('Account verification failed', {
+        description: error.message
+      })
+      router.replace("/")
+    },
+  })
+}
+
+export function useResendVerifyEmail() {
+  return useMutation({
+    mutationFn: resendVerifyEmail,
+    onSuccess() {
+      toast('Verification email sent successfully')
+    },
+    onError(error) {
+      toast('Failed to send verification email', {
         description: error.message
       })
     },

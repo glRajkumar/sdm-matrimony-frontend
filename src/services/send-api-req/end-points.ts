@@ -13,6 +13,9 @@ export const endPoints = {
   logout: "/account/logout",
   me: "/account/me",
 
+  resendVerifyEmail: "/account/resend-verify-email",
+  verifyAccount: "/account/verify",
+
   getMatches: "/user/matches",
   getLikesList: "/user/likes-list",
   getUserDetails: "/user/profile",
@@ -32,4 +35,7 @@ export const endPoints = {
 
   createOrder: "/payment/create-order",
   verifyPayment: "/payment/verify",
+
+  unlockProfile: "/user/unlock",
+  getUnlockedProfiles: "/user/unlocked",
 }

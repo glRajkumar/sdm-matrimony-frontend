@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Eye, Briefcase, Calendar, HeartOff, UsersRound, Gem, GraduationCap } from "lucide-react";
+import { Heart, Eye, Briefcase, Calendar, HeartOff, UsersRound, Gem, GraduationCap, ShieldUser } from "lucide-react";
 import Link from "next/link";
 
 import { getAge } from "@/utils";
@@ -9,6 +9,8 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ToolTipWrapper } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+
+import { PlanBadge } from "@/components/common/plan-badge";
 
 type props = {
   type?: "liked" | "disliked" | "full"
@@ -21,12 +23,13 @@ type props = {
 
 function UserCard({
   _id, profileImg, fullName, maritalStatus, dob,
-  otherDetails, proffessionalDetails,
-  type = "full", isLiked,
+  otherDetails, proffessionalDetails, currentPlan,
+  type = "full", isLiked, isVerified,
   onView = () => { },
   onAdd = () => { },
   onRemove = () => { },
 }: props) {
+  const hasPlan = currentPlan && new Date(currentPlan.expiryDate).getTime() > new Date().getTime()
   return (
     <Card className="mb-6 p-0 overflow-hidden transition-all duration-300 hover:shadow-md @container/card">
       <div className="flex flex-col @lg/card:flex-row">
@@ -48,9 +51,19 @@ function UserCard({
               Disliked
             </Badge>
           )} */}
+
+          <PlanBadge
+            subscribedTo={hasPlan ? "platinum" : "basic"}
+            className="p-2 absolute bottom-2 left-2 rounded-full [&>svg]:size-4 opacity-90"
+          />
         </div>
 
-        <CardContent className="flex-1 px-4 py-3">
+        <CardContent className="flex-1 px-4 py-3 relative">
+          {isVerified && (
+            <Badge variant="secondary" className="p-1.5 absolute top-2 right-2 rounded-full bg-green-100 [&>svg]:size-4.5 opacity-90 border border-green-300">
+              <ShieldUser className="text-green-500" />
+            </Badge>
+          )}
           <h3 className="text-lg font-semibold mb-1 line-clamp-1">{fullName}</h3>
 
           <div className="grid gap-2 text-sm text-muted-foreground mb-4">

@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 // import ChartDisplay from "./chart-display";
 import Edit from "./edit";
+import VerdicPic from "./verdic-pic";
 
 type props = {
   user: userT
@@ -55,19 +56,10 @@ function HoroscopeDetails({ user, canEdit }: props) {
           </div>
         </div>
 
-        {
-          user?.vedicHoroscope?.vedicHoroscopePic &&
-          <div>
-            <span className="text-sm text-muted-foreground">Vedic Horoscope Picture</span>
-            <div className="dc p-4 rounded border">
-              <img
-                src={user?.vedicHoroscope?.vedicHoroscopePic}
-                alt="Vedic Horoscope"
-                className="h-80"
-              />
-            </div>
-          </div>
-        }
+        <div>
+          <span className="text-sm text-muted-foreground">Vedic Horoscope Picture</span>
+          <VerdicPic user={user} />
+        </div>
 
         {/* <Tabs defaultValue="raasi">
           <TabsList className="grid w-full grid-cols-2">

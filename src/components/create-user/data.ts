@@ -349,7 +349,7 @@ export const fieldList: FieldSection[] = [
         label: "Minimum Salary (in ₹)",
         type: "number",
         step: 1000,
-        min: 10000,
+        min: 5000,
       },
       {
         name: "partnerPreferences.religion",

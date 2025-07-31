@@ -171,8 +171,8 @@ export const acceptedImagesTypes = {
 } as const
 
 export const tokenEnums = {
-  accessToken: "access_token",
-  refreshToken: "refresh_token",
+  accessToken: "accessToken",
+  refreshToken: "refreshToken",
 } as const
 
 export const tokenValidity = {
