@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Eye, Briefcase, Calendar, HeartOff, UsersRound, Gem, GraduationCap } from "lucide-react";
+import { Heart, Eye, Briefcase, Calendar, HeartOff, UsersRound, Gem, GraduationCap, ShieldUser } from "lucide-react";
 import Link from "next/link";
 
 import { getAge } from "@/utils";
@@ -24,7 +24,7 @@ type props = {
 function UserCard({
   _id, profileImg, fullName, maritalStatus, dob,
   otherDetails, proffessionalDetails, currentPlan,
-  type = "full", isLiked,
+  type = "full", isLiked, isVerified,
   onView = () => { },
   onAdd = () => { },
   onRemove = () => { },
@@ -58,7 +58,12 @@ function UserCard({
           />
         </div>
 
-        <CardContent className="flex-1 px-4 py-3">
+        <CardContent className="flex-1 px-4 py-3 relative">
+          {isVerified && (
+            <Badge variant="secondary" className="p-1.5 absolute top-2 right-2 rounded-full bg-green-100 [&>svg]:size-4.5 opacity-90 border border-green-300">
+              <ShieldUser className="text-green-500" />
+            </Badge>
+          )}
           <h3 className="text-lg font-semibold mb-1 line-clamp-1">{fullName}</h3>
 
           <div className="grid gap-2 text-sm text-muted-foreground mb-4">

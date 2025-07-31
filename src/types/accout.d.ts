@@ -85,5 +85,6 @@ type userT = {
   }
   isBlocked: boolean
   isDeleted: boolean
+  isVerified: boolean
   currentPlan: currentPlanT
 }
