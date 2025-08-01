@@ -52,17 +52,24 @@ function UserCard({
             </Badge>
           )} */}
 
-          <PlanBadge
-            subscribedTo={hasPlan ? "platinum" : "basic"}
-            className="p-2 absolute bottom-2 left-2 rounded-full [&>svg]:size-4 opacity-90"
-          />
+          <ToolTipWrapper description={`${hasPlan ? "Paid" : "Free"} User`}>
+            <PlanBadge
+              subscribedTo={hasPlan ? "platinum" : "basic"}
+              className="p-2 absolute bottom-2 left-2 rounded-full [&>svg]:size-4 opacity-90"
+            />
+          </ToolTipWrapper>
         </div>
 
         <CardContent className="flex-1 px-4 py-3 relative">
           {isVerified && (
-            <Badge variant="secondary" className="p-1.5 absolute top-2 right-2 rounded-full bg-green-100 [&>svg]:size-4.5 opacity-90 border border-green-300">
-              <ShieldUser className="text-green-500" />
-            </Badge>
+            <ToolTipWrapper description="Verified User">
+              <Badge
+                variant="secondary"
+                className="p-1.5 absolute top-2 right-2 rounded-full bg-green-100 [&>svg]:size-4.5 opacity-90 border border-green-300"
+              >
+                <ShieldUser className="text-green-500" />
+              </Badge>
+            </ToolTipWrapper>
           )}
           <h3 className="text-lg font-semibold mb-1 line-clamp-1">{fullName}</h3>
 

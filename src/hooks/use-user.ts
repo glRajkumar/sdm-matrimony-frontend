@@ -2,7 +2,11 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tansta
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { addLiked, getLikesList, getMatches, getUserDetails, removeLiked, addImages, updateProfile, getPartnerPreferences, getUnlockedProfiles, unlockProfile } from "@/actions";
+import {
+  addLiked, getLikesList, getMatches, getUserDetails, removeLiked,
+  addImages, updateProfile, getPartnerPreferences, getUnlockedProfiles,
+  unlockProfile, getAccountInfo
+} from "@/actions";
 
 export function useUsersList(filters?: objT) {
   const limit = 50
@@ -54,6 +58,14 @@ export function useUnlockedProfiles() {
   return useQuery<Partial<userT>[]>({
     queryKey: ["unlocked-profiles"],
     queryFn: getUnlockedProfiles,
+  })
+}
+
+type accountInfoT = Pick<userT, "email" | "isVerified" | "currentPlan"> & { unlockedCount: number }
+export function useAccountInfo() {
+  return useQuery<accountInfoT>({
+    queryKey: ["account-info"],
+    queryFn: getAccountInfo,
   })
 }
 

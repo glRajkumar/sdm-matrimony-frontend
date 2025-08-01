@@ -40,11 +40,19 @@ function Menu() {
 
         {
           role === "user" &&
-          <DropdownMenuItem asChild>
-            <Link href={`/user/profile/${user_id}`}>
-              Profile
-            </Link>
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuItem asChild>
+              <Link href={`/user/profile/${user_id}`}>
+                Profile
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild>
+              <Link href="/user/account">
+                Account
+              </Link>
+            </DropdownMenuItem>
+          </>
         }
 
         <DropdownMenuItem onClick={() => mutate()}>

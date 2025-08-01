@@ -1,10 +1,13 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { checkApprovalStatus, forgotPass, login, logout, registerImage, resendVerifyEmail, resetPass, signup, verifyAccount, } from "@/actions";
+import {
+  checkApprovalStatus, forgotPass, login, logout, registerImage,
+  resendVerifyEmail, resetPass, signup, verifyAccount
+} from "@/actions";
 import { removeToken, setToken } from "@/actions/token";
 import useUserStore from "@/store/user";
 
@@ -105,6 +108,7 @@ export function useResetPass() {
 }
 
 export function useVerifyAccount() {
+  const queryClient = useQueryClient()
   const router = useRouter()
 
   return useMutation({
@@ -112,6 +116,7 @@ export function useVerifyAccount() {
     onSuccess(res) {
       toast('Account verified successfully')
       router.replace(`/auth/${res?.role || "user"}/signin`)
+      queryClient.invalidateQueries({ queryKey: ["account-info"] })
     },
     onError(error) {
       toast('Account verification failed', {

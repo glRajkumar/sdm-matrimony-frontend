@@ -32,6 +32,12 @@ export function getUnlockedProfiles() {
   })
 }
 
+export function getAccountInfo() {
+  return sendApiReq({
+    url: endPoints.getAccountInfo,
+  })
+}
+
 export function updateProfile(data: any) {
   return sendApiReq({
     url: endPoints.updateProfile,
