@@ -7,6 +7,8 @@ export interface User {
   fullName: string;
   gender: string;
   role: string;
+  mobile: string;
+  isVerified: boolean;
 }
 
 interface Actions {
@@ -19,6 +21,8 @@ const useUserStore = create<User & Actions>()(persist(set => ({
   fullName: "",
   gender: "",
   role: "",
+  mobile: "",
+  isVerified: false,
 
   updateUser: (payload) => set({ ...payload }),
 }),

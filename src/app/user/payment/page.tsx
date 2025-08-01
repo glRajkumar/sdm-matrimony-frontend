@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check, Heart, Users, Loader } from "lucide-react";
 
 import { useCreateOrder, useVerifyPayment } from "@/hooks/use-payment";;
+import useUserStore from "@/store/user";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -13,16 +14,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
-import { PlanBadge, planDetails } from "@/components/common/plan-badge";
-
-const planPrices: Record<subscribedToT, number> = {
-  basic: 3_000,
-  gold: 5_500,
-  diamond: 8_500,
-  platinum: 11_000,
-}
+import { PlanBadge, planDetails, planPrices } from "@/components/common/plan-badge";
 
 function Page() {
+  const contact = useUserStore(s => s.mobile)
+  const email = useUserStore(s => s.email)
+  const name = useUserStore(s => s.fullName)
+
   const [noOfProfilesCanView, setNoOfProfilesCanView] = useState(50)
   const [assistedMonths, setAssistedMonths] = useState(1)
   const [subscribedTo, setSubscribedTo] = useState<subscribedToT>("basic")
@@ -40,6 +38,7 @@ function Page() {
     return options
   }
 
+  console.log({ email, name, contact })
   const handlePayment = async () => {
     const payload = {
       subscribedTo,
@@ -57,9 +56,14 @@ function Page() {
       description: 'Unlock user informations',
       order_id: data.id,
       notes: payload,
+      prefill: {
+        name,
+        email,
+        contact: contact ? "+91" + contact : "",
+      },
       handler: (res: any) => {
         verifyPaymentMutate({
-          amount: data.amount,
+          amount: data.amount / 100,
           ...payload,
           paymentId: res.razorpay_payment_id,
           orderId: data.id,
