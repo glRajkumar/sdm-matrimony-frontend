@@ -120,7 +120,10 @@ function Page() {
         {
           isLoading
             ? <div className="dc h-60"><Loader className="size-6 animate-spin" /></div>
-            : <PlanDetails currentPlan={accountInfo?.currentPlan} />
+            : <PlanDetails
+              currentPlan={accountInfo?.currentPlan}
+              unlockedCount={accountInfo?.unlockedCount || 0}
+            />
         }
       </CardWrapper>
     </div>

@@ -1,4 +1,4 @@
-import { Heart, Phone, MapPin } from "lucide-react";
+import { Heart, Phone, MapPin, Mail } from "lucide-react";
 
 function Footer() {
   return (
@@ -29,6 +29,13 @@ function Footer() {
                   <a href="tel:+919791155234" className="hover:text-white">+91 9791155234</a>
                   <span>|</span>
                   <a href="tel:+918667042132" className="hover:text-white">+91 8667042132</a>
+                </div>
+              </div>
+
+              <div className="df gap-4">
+                <Mail className="h-5 w-5 text-rose-400" />
+                <div className="df flex-wrap text-gray-400">
+                  <a href="mailto:admin@sdmatrimony.com" className="hover:text-white">admin@sdmatrimony.com</a>
                 </div>
               </div>
 

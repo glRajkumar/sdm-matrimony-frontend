@@ -9,6 +9,7 @@ import { format } from "date-fns";
 
 type props = {
   currentPlan: currentPlanT | undefined
+  unlockedCount: number
 }
 
 function FreePlan() {
@@ -68,7 +69,7 @@ function FreePlan() {
   )
 }
 
-function PlanDetails({ currentPlan }: props) {
+function PlanDetails({ currentPlan, unlockedCount }: props) {
   if (!currentPlan) return <FreePlan />
 
   const currentPlanDetails = planDetails[currentPlan.subscribedTo]
@@ -178,6 +179,12 @@ function PlanDetails({ currentPlan }: props) {
 
           <div className="text-2xl font-bold text-green-800 text-right">₹{currentPlan.amount.toLocaleString()}</div>
         </div>
+      </div>
+
+      <Separator />
+
+      <div className="text-sm text-center">
+        {unlockedCount} profiles unlocked. To view unlocked profiles, <Link className="text-pink-500 hover:text-pink-600" href="/user/unlocked">click here</Link>
       </div>
     </>
   )
