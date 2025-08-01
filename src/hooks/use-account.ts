@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import {
   checkApprovalStatus, forgotPass, login, logout, registerImage,
-  resendVerifyEmail, resetPass, signup, verifyAccount
+  resendVerifyEmail, resetPass, signup, updatePassword, verifyAccount
 } from "@/actions";
 import { removeToken, setToken } from "@/actions/token";
 import useUserStore from "@/store/user";
@@ -135,6 +135,20 @@ export function useResendVerifyEmail() {
     },
     onError(error) {
       toast('Failed to send verification email', {
+        description: error.message
+      })
+    },
+  })
+}
+
+export function useUpdatePassword() {
+  return useMutation({
+    mutationFn: updatePassword,
+    onSuccess() {
+      toast('Password updated successfully')
+    },
+    onError(error) {
+      toast('Failed to update password', {
         description: error.message
       })
     },

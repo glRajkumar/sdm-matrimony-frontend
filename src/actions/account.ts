@@ -70,6 +70,14 @@ export function resendVerifyEmail(data: any) {
   })
 }
 
+export function updatePassword(data: { oldPassword: string, newPassword: string }) {
+  return sendApiReq({
+    url: endPoints.updatePassword,
+    method: "POST",
+    data,
+  })
+}
+
 export function logout() {
   return sendApiReq({
     withCredentials: true,

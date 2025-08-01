@@ -10,6 +10,7 @@ export const endPoints = {
   resetPass: "/account/reset-pass",
   registerImage: "/account/register-image",
   checkApprovalStatus: "/account/check-approval-status",
+  updatePassword: "/account/update-password",
   logout: "/account/logout",
   me: "/account/me",
 

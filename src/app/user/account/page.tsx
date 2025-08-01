@@ -24,6 +24,10 @@ function Page() {
   const { data: accountInfo, isLoading } = useAccountInfo()
   const { mutate: resendVerifyEmailMutate, isPending: isPending1 } = useResendVerifyEmail()
 
+  function updatePass() {
+    setShowPasswordForm(p => !p)
+  }
+
   return (
     <div className="max-w-2xl mx-auto space-y-10 py-20">
       <CardWrapper Icon={Mail} title="Account Information" description="Manage your account details and security settings">
@@ -95,7 +99,7 @@ function Page() {
             <Button
               size="sm"
               variant="outline"
-              onClick={() => setShowPasswordForm(!showPasswordForm)}
+              onClick={updatePass}
             >
               {showPasswordForm ? "Cancel" : "Change Password"}
             </Button>
@@ -103,7 +107,7 @@ function Page() {
 
           {
             showPasswordForm &&
-            <UpdatePass />
+            <UpdatePass onSuccess={updatePass} />
           }
         </div>
       </CardWrapper>
