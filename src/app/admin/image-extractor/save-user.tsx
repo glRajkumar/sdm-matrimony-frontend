@@ -22,7 +22,7 @@ function SaveUser({ data, updateStep }: props) {
   }
 
   return (
-    <section className="grid md:grid-cols-2 gap-4 p-6">
+    <section className="p-6">
       <div className='df justify-end py-2 md:col-span-2'>
         <Button
           size="sm"
@@ -33,25 +33,29 @@ function SaveUser({ data, updateStep }: props) {
         </Button>
       </div>
 
-      {
-        data?.image &&
-        <div className='p-2 border rounded'>
-          <img
-            src={data?.image.src}
-            alt="Original"
-            className="w-full h-auto select-none"
-            draggable="false"
-          />
-        </div>
-      }
+      <div className='grid md:grid-cols-2 gap-4'>
+        {
+          data?.image &&
+          <div className='max-h-[80vh] overflow-y-auto'>
+            <div className='p-2 border rounded'>
+              <img
+                src={data?.image.src}
+                alt="Original"
+                className="w-full h-auto select-none"
+                draggable="false"
+              />
+            </div>
+          </div>
+        }
 
-      <CreateUser
-        isAdmin
-        isPending={isPending}
-        extractedData={data?.uploaded || []}
-        onSubmit={onSubmit}
-        className='p-6 mr-8 max-h-[80vh] border rounded-lg'
-      />
+        <CreateUser
+          isAdmin
+          isPending={isPending}
+          extractedData={data?.uploaded || []}
+          onSubmit={onSubmit}
+          className='p-6 mr-8 max-h-[80vh] border rounded-lg'
+        />
+      </div>
     </section>
   )
 }

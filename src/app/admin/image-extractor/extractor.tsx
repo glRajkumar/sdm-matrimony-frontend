@@ -794,7 +794,7 @@ function Extractor({ updateStep }: props) {
             {croppedImages.length > 0 && (
               <div className="md:w-1/2">
                 <div className="space-y-4">
-                  {
+                  {/* {
                     croppedImages.map((cropped, index) => (
                       <div key={index} className="border rounded-lg overflow-hidden relative bg-white">
                         <div className="p-2 bg-gray-100 flex justify-between items-center border-b">
@@ -816,7 +816,49 @@ function Extractor({ updateStep }: props) {
                         </div>
                       </div>
                     ))
-                  }
+                  } */}
+
+                  <div className="border rounded-lg overflow-hidden relative bg-white">
+                    <div className="p-2 bg-gray-100 flex justify-between items-center border-b">
+                      <span className="font-medium">Profile Image</span>
+                      <button
+                        onClick={() => croppedImageDownload(croppedImages[1].dataUrl, 1)}
+                        className="dc p-1 bg-blue-500 hover:bg-blue-600 text-white rounded-full cursor-pointer"
+                        title="Download"
+                      >
+                        <Download className="h-4 w-4" />
+                      </button>
+                    </div>
+
+                    <div className="dc p-2">
+                      <img
+                        src={croppedImages[1].dataUrl}
+                        alt="Cropped 1"
+                        className="w-40 h-40 rounded-full object-cover border-4 border-primary/20"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="border rounded-lg overflow-hidden relative bg-white">
+                    <div className="p-2 bg-gray-100 flex justify-between items-center border-b">
+                      <span className="font-medium">Verdict Image</span>
+                      <button
+                        onClick={() => croppedImageDownload(croppedImages[2].dataUrl, 2)}
+                        className="dc p-1 bg-blue-500 hover:bg-blue-600 text-white rounded-full cursor-pointer"
+                        title="Download"
+                      >
+                        <Download className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div className="p-2">
+                      <img
+                        src={croppedImages[2].dataUrl}
+                        alt="Cropped 2"
+                        className="w-full h-auto"
+                      />
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}
