@@ -100,9 +100,12 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
         data.vedicHoroscope.lagna = data.vedicHoroscope.lagna.split(" (")[0]
       }
 
+      const dob = new Date(data?.dob)
+      dob.setUTCHours(0, 0, 0, 0)
+
       const payload = {
         ...rest,
-        dob: formatISO(data?.dob),
+        dob: formatISO(dob),
         role: "user",
         profileImg: url,
         images,
