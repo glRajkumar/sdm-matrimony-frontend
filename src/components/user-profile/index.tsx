@@ -31,7 +31,7 @@ function UserProfile({ user, canEdit }: props) {
           <TabsContent value="personal" className="space-y-6">
             <PersonalDetails user={user} canEdit={canEdit} />
             <ProfessionalDetails user={user} canEdit={canEdit} />
-            <ContactDetails user={user} />
+            <ContactDetails user={user} canEdit={canEdit} />
             <OtherDetails user={user} canEdit={canEdit} />
           </TabsContent>
 

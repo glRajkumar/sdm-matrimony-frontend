@@ -40,10 +40,6 @@ function PersonalDetails({ user, canEdit }: props) {
             <span className="text-sm text-muted-foreground">Marital Status</span>
             <p className="font-medium">{user?.maritalStatus || "---"}</p>
           </div>
-          <div>
-            <span className="text-sm text-muted-foreground">Address</span>
-            <p className="font-medium">{user?.contactDetails?.address || "---"}</p>
-          </div>
         </div>
       </CardContent>
     </Card>

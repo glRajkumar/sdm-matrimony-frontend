@@ -6,12 +6,11 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { personalDetailsSchema } from '@/utils/user-schema';
-import { gender, maritalStatus } from '@/utils';
+import { contactDetailsSchema } from '@/utils/user-schema';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { DatePickerWrapper, InputWrapper, SelectWrapper } from "@/components/ui/form-wrapper";
+import { TextareaWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
@@ -20,22 +19,22 @@ function Edit({ user }: { user: userT }) {
   const [open, setOpen] = useState(false)
 
   const form = useForm({
-    resolver: zodResolver(personalDetailsSchema),
+    resolver: zodResolver(contactDetailsSchema),
     defaultValues: {
-      fullName: user.fullName,
-      gender: user.gender,
-      dob: new Date(user.dob),
-      maritalStatus: user.maritalStatus,
+      mobile: user?.contactDetails?.mobile,
+      address: user?.contactDetails?.address,
     },
   })
 
-  function onSubmit(values: z.infer<typeof personalDetailsSchema>) {
+  function onSubmit(values: z.infer<typeof contactDetailsSchema>) {
     const isAdmin = window.location.pathname.includes("admin")
     mutate(
       {
         ...(isAdmin && { _id: user._id }),
-        ...values,
-        dob: values.dob.toISOString(),
+        contactDetails: {
+          ...user.contactDetails,
+          ...values,
+        },
       },
       {
         onSuccess() {
@@ -56,38 +55,16 @@ function Edit({ user }: { user: userT }) {
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Personal Details</DialogTitle>
-          <DialogDescription>Make changes to your personal information here.</DialogDescription>
+          <DialogTitle>Edit Contact Details</DialogTitle>
+          <DialogDescription>Make changes to your contact information here.</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <InputWrapper
+            <TextareaWrapper
               control={form.control}
-              name="fullName"
-              label="Full Name"
-            />
-
-            <SelectWrapper
-              control={form.control}
-              name="gender"
-              label="Gender"
-              options={gender}
-              placeholder="Select gender"
-            />
-
-            <DatePickerWrapper
-              control={form.control}
-              name="dob"
-              label="Date of Birth"
-            />
-
-            <SelectWrapper
-              control={form.control}
-              name="maritalStatus"
-              label="Marital Status"
-              options={maritalStatus}
-              placeholder="Select marital status"
+              name="address"
+              label="Address"
             />
 
             <div className="flex justify-end space-x-2 pt-2">

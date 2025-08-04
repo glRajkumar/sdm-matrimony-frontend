@@ -4,19 +4,28 @@ import UseUnlock from "./use-unlock";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import UpgradeBtn from "./upgrade-btn";
+import Edit from "./edit";
 
 type props = {
   user: userT
+  canEdit: boolean
 }
 
-function ContactDetails({ user }: props) {
+function ContactDetails({ user, canEdit }: props) {
   const { isPending, unlockBtnClk } = UseUnlock()
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Contact Details</CardTitle>
-        <CardDescription>Information about your contact details</CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Contact Details</CardTitle>
+          <CardDescription>Information about your contact details</CardDescription>
+        </div>
+
+        {
+          canEdit &&
+          <Edit user={user} />
+        }
       </CardHeader>
 
       <CardContent>
