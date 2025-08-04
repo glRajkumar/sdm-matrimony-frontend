@@ -12,6 +12,7 @@ import { Textarea } from "./textarea";
 import { Combobox } from "./combobox";
 import { Button } from "./button";
 import { Input } from "./input";
+import { format } from "date-fns";
 
 type BaseWrapperProps<T extends FieldValues> = {
   name: Path<T>
@@ -155,14 +156,6 @@ export function SelectWrapper<T extends FieldValues>({ name, label, control, cla
 
 type DatePickerWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & Omit<React.ComponentProps<typeof Calendar>, "selected" | "onSelect">
 export function DatePickerWrapper<T extends FieldValues>({ name, label, control, className, ...calendarProps }: DatePickerWrapperProps<T>) {
-  function format(date: Date) {
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    })
-  }
-
   return (
     <FormField
       name={name}
@@ -178,7 +171,7 @@ export function DatePickerWrapper<T extends FieldValues>({ name, label, control,
                   variant={"outline"}
                   className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
                 >
-                  {field.value ? format(field.value) : <span>Pick a date</span>}
+                  {field.value ? format(field.value, "dd/MM/yyyy") : <span>Pick a date</span>}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>
               </FormControl>
