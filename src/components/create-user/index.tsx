@@ -105,7 +105,7 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
 
       const payload = {
         ...rest,
-        dob: formatISO(dob),
+        dob: formatISO(new Date(new Date(data.dob).setHours(0, 0, 0, 0))),
         role: "user",
         profileImg: url,
         images,

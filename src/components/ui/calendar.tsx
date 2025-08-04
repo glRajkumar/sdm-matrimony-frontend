@@ -29,6 +29,7 @@ function Calendar({
 
   return (
     <DayPicker
+      timeZone="UTC"
       showOutsideDays={showOutsideDays}
       className={cn(
         "bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",

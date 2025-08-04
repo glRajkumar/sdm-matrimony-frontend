@@ -32,13 +32,12 @@ function Edit({ user }: { user: userT }) {
 
   function onSubmit(values: z.infer<typeof personalDetailsSchema>) {
     const isAdmin = window.location.pathname.includes("admin")
-    const dob = new Date(values.dob)
-    dob.setUTCHours(0, 0, 0, 0)
+
     mutate(
       {
         ...(isAdmin && { _id: user._id }),
         ...values,
-        dob: formatISO(dob),
+        dob: formatISO(new Date(new Date(values.dob).setHours(0, 0, 0, 0))),
       },
       {
         onSuccess() {
