@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
+import { formatISO } from 'date-fns';
 import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,11 +32,13 @@ function Edit({ user }: { user: userT }) {
 
   function onSubmit(values: z.infer<typeof personalDetailsSchema>) {
     const isAdmin = window.location.pathname.includes("admin")
+    const dob = new Date(values.dob)
+    dob.setUTCHours(0, 0, 0, 0)
     mutate(
       {
         ...(isAdmin && { _id: user._id }),
         ...values,
-        dob: values.dob.toISOString(),
+        dob: formatISO(dob),
       },
       {
         onSuccess() {
