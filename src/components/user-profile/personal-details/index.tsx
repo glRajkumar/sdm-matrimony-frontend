@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Edit from "./edit";
-import { format } from "date-fns";
+import Dob from "./dob";
 
 type props = {
   user: userT
@@ -35,7 +35,7 @@ function PersonalDetails({ user, canEdit }: props) {
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Date of Birth</span>
-            <p className="font-medium">{format(new Date(user?.dob), "dd/MM/yyyy")}</p>
+            {user?.dob && <Dob dob={user?.dob} />}
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Marital Status</span>
