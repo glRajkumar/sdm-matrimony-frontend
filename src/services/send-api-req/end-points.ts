@@ -44,7 +44,7 @@ export const endPoints = {
   getAssistedSubscribedUsers: "/super-admin/users/assisted-subscribed",
   getAllPayments: "/super-admin/users/all-payments",
   getUsersByCreatedBy: "/super-admin/users/created-by",
-  getUsersStatsCreatedBy: "/super-admin/users-stats/created-by",
+  getUsersStatsCreatedBy: "/super-admin/users-stats/created-per-admin",
   getUsersStatsCreatedToday: "/super-admin/users-stats/created-today",
   getAdminsList: "/super-admin/admins",
   updateAdmin: "/super-admin/admin",

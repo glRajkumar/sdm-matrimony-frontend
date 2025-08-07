@@ -4,13 +4,13 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 
 import { useUpdateProfile } from "@/hooks/use-user";
+import { deleteImage } from "@/actions";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 import EditProfileImageDialog from "./edit-profile-image-dialog";
 import AddImageDialog from "./add-image-dialog";
 import ImageView from "./image-view";
-import { deleteImage } from "@/actions";
 
 type props = {
   user: userT
