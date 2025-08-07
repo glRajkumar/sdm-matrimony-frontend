@@ -1,18 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
+import MarriedPairLayout from "@/components/admin/married-pair/layout";
 
 function Layout({ children }: readOnlyChildren) {
   return (
-    <section className="p-6">
-      <Button asChild variant="outline" className="mb-6 mt-2">
-        <Link href="/admin"><ChevronLeft className="size-4" /> Go Back</Link>
-      </Button>
-
-      <div className="grid md:grid-cols-2 gap-6">
-        {children}
-      </div>
-    </section>
+    <MarriedPairLayout role="admin">
+      {children}
+    </MarriedPairLayout>
   )
 }
 

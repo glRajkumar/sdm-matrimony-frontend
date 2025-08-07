@@ -23,20 +23,16 @@ import { columns } from "./columns";
 import { Input } from '@/components/ui/input';
 import LoadMore from "@/components/common/load-more";
 
-function Users({ approvalStatus, isBlocked, isDeleted }: userListProps) {
+function Users(props: userListProps) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
 
   const [globalFilter, setGlobalFilter] = useState('')
 
-  const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage, } = useUsersList({
-    approvalStatus,
-    isBlocked,
-    isDeleted,
-  })
+  const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage, } = useUsersList(props)
 
-  const currentTab: any = approvalStatus || (isBlocked ? "blocked" : "deleted")
+  const currentTab: any = props.approvalStatus || (props.isBlocked ? "blocked" : "deleted")
 
   const table = useReactTable({
     data: users as any || [],
