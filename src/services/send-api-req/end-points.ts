@@ -27,6 +27,8 @@ export const endPoints = {
   updateProfile: "/user/profile",
   addImages: "/user/images",
   deleteImage: "/user/image",
+  unlockProfile: "/user/unlock",
+  getUnlockedProfiles: "/user/unlocked",
 
   getUsersList: "/admin/users",
   updateUserDetails: "/admin/user",
@@ -38,6 +40,12 @@ export const endPoints = {
   createOrder: "/payment/create-order",
   verifyPayment: "/payment/verify",
 
-  unlockProfile: "/user/unlock",
-  getUnlockedProfiles: "/user/unlocked",
+  getPaidUsers: "/super-admin/users/paid",
+  getAssistedSubscribedUsers: "/super-admin/users/assisted-subscribed",
+  getAllPayments: "/super-admin/users/all-payments",
+  getUsersByCreatedBy: "/super-admin/users/created-by",
+  getUsersStatsCreatedBy: "/super-admin/users-stats/created-by",
+  getUsersStatsCreatedToday: "/super-admin/users-stats/created-today",
+  getAdminsList: "/super-admin/admins",
+  updateAdmin: "/super-admin/admin",
 }

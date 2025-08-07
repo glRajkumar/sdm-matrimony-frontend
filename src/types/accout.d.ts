@@ -88,3 +88,16 @@ type userT = {
   isVerified: boolean
   currentPlan: currentPlanT
 }
+
+type adminT = {
+  _id: string
+  fullName: string
+  email: string
+  password: string
+  role: "admin"
+  contactDetails: {
+    mobile: string
+    address: string
+  }
+  isDeleted: boolean
+}
