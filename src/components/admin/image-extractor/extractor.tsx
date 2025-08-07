@@ -78,13 +78,13 @@ function Extractor({ updateStep }: props) {
     { id: 4, x: 62.1, y: 76.7, width: 35, height: 16.2, dragging: false }
   ])
 
-  const [maskSettings, setMaskSettings] = useState({
-    size: 30,
-    color: 'rgb(252,238,193)',
-    type: 'rectangle',
-  })
+  // const [maskSettings, setMaskSettings] = useState({
+  //   size: 30,
+  //   color: 'rgb(252,238,193)',
+  //   type: 'rectangle',
+  // })
   const [currentHistory, setCurrentHistory] = useState(-1)
-  const [isDrawing, setIsDrawing] = useState(false)
+  // const [isDrawing, setIsDrawing] = useState(false)
   const [history, setHistory] = useState<string[]>([])
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -177,77 +177,77 @@ function Extractor({ updateStep }: props) {
     setCurrentHistory(newHistory.length - 1)
   }
 
-  const handleUndo = () => {
-    if (currentHistory <= 0) return
+  // const handleUndo = () => {
+  //   if (currentHistory <= 0) return
 
-    const prevState = history[currentHistory - 1]
-    setCurrentHistory(currentHistory - 1)
+  //   const prevState = history[currentHistory - 1]
+  //   setCurrentHistory(currentHistory - 1)
 
-    if (prevState && canvasRef.current) {
-      const img = new Image()
-      img.onload = () => {
-        const canvas = canvasRef.current
-        if (canvas) {
-          const ctx = canvas.getContext('2d')
-          ctx?.clearRect(0, 0, canvas.width, canvas.height)
-          ctx?.drawImage(img, 0, 0)
-        }
-      }
-      img.src = prevState
-    }
-  }
+  //   if (prevState && canvasRef.current) {
+  //     const img = new Image()
+  //     img.onload = () => {
+  //       const canvas = canvasRef.current
+  //       if (canvas) {
+  //         const ctx = canvas.getContext('2d')
+  //         ctx?.clearRect(0, 0, canvas.width, canvas.height)
+  //         ctx?.drawImage(img, 0, 0)
+  //       }
+  //     }
+  //     img.src = prevState
+  //   }
+  // }
 
-  const startDrawing = (e: React.MouseEvent) => {
-    if (!canvasRef.current) return
-    setIsDrawing(true)
-    draw(e)
-  }
+  // const startDrawing = (e: React.MouseEvent) => {
+  //   if (!canvasRef.current) return
+  //   setIsDrawing(true)
+  //   draw(e)
+  // }
 
-  const draw = (e: React.MouseEvent) => {
-    if (!isDrawing || !canvasRef.current) return
+  // const draw = (e: React.MouseEvent) => {
+  //   if (!isDrawing || !canvasRef.current) return
 
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-    const rect = canvas.getBoundingClientRect()
+  //   const canvas = canvasRef.current
+  //   if (!canvas) return
+  //   const ctx = canvas.getContext('2d')
+  //   if (!ctx) return
+  //   const rect = canvas.getBoundingClientRect()
 
-    const scaleX = canvas.width / rect.width
-    const scaleY = canvas.height / rect.height
-    const x = (e.clientX - rect.left) * scaleX
-    const y = (e.clientY - rect.top) * scaleY
+  //   const scaleX = canvas.width / rect.width
+  //   const scaleY = canvas.height / rect.height
+  //   const x = (e.clientX - rect.left) * scaleX
+  //   const y = (e.clientY - rect.top) * scaleY
 
-    ctx.fillStyle = maskSettings.color
+  //   ctx.fillStyle = maskSettings.color
 
-    if (maskSettings.type === 'rectangle') {
-      ctx.fillRect(
-        x - maskSettings.size / 2,
-        y - maskSettings.size / 2,
-        maskSettings.size,
-        maskSettings.size
-      )
-    } else if (maskSettings.type === 'circle') {
-      ctx.beginPath()
-      ctx.arc(x, y, maskSettings.size / 2, 0, Math.PI * 2)
-      ctx.fill()
-    }
-  }
+  //   if (maskSettings.type === 'rectangle') {
+  //     ctx.fillRect(
+  //       x - maskSettings.size / 2,
+  //       y - maskSettings.size / 2,
+  //       maskSettings.size,
+  //       maskSettings.size
+  //     )
+  //   } else if (maskSettings.type === 'circle') {
+  //     ctx.beginPath()
+  //     ctx.arc(x, y, maskSettings.size / 2, 0, Math.PI * 2)
+  //     ctx.fill()
+  //   }
+  // }
 
-  const stopDrawing = () => {
-    if (isDrawing) {
-      setIsDrawing(false)
-      saveState()
-    }
-  }
+  // const stopDrawing = () => {
+  //   if (isDrawing) {
+  //     setIsDrawing(false)
+  //     saveState()
+  //   }
+  // }
 
-  const downloadImage = () => {
-    if (!canvasRef.current) return
+  // const downloadImage = () => {
+  //   if (!canvasRef.current) return
 
-    const link = document.createElement('a')
-    link.download = 'masked-image.png'
-    link.href = canvasRef.current.toDataURL('image/png')
-    link.click()
-  }
+  //   const link = document.createElement('a')
+  //   link.download = 'masked-image.png'
+  //   link.href = canvasRef.current.toDataURL('image/png')
+  //   link.click()
+  // }
 
   const croppedImageDownload = (dataUrl: string, index: number): void => {
     const link = document.createElement('a');
@@ -531,16 +531,17 @@ function Extractor({ updateStep }: props) {
       const formData = new FormData()
 
       croppedImages.forEach((img, index) => {
+        if (index === 0) return
         const blob = dataURLtoBlob(img.dataUrl)
         formData.append("images", blob, `cropped-image-${index + 1}.png`)
       })
 
-      if (canvasRef.current) {
-        const imageData = canvasRef.current.toDataURL('image/png')
-        const fetchResponse = await fetch(imageData)
-        const blob = await fetchResponse.blob()
-        formData.append("images", blob, "imasge4.png")
-      }
+      // if (canvasRef.current) {
+      //   const imageData = canvasRef.current.toDataURL('image/png')
+      //   const fetchResponse = await fetch(imageData)
+      //   const blob = await fetchResponse.blob()
+      //   formData.append("images", blob, "imasge4.png")
+      // }
 
       mutate(formData, {
         onSuccess(res) {
@@ -630,7 +631,7 @@ function Extractor({ updateStep }: props) {
             }
           </div>
 
-          <div className="flex flex-col md:flex-row gap-6">
+          <div className="flex flex-col md:flex-row gap-6 md:max-w-5xl mx-auto">
             <div className="md:w-1/2 flex flex-col">
               <div
                 ref={imageContainerRef}
@@ -863,7 +864,7 @@ function Extractor({ updateStep }: props) {
               </div>
             )}
 
-            <div className="md:w-1/2">
+            {/* <div className="md:w-1/2">
               <div className="border rounded overflow-auto">
                 <div className='df px-4 py-2 border-b'>
                   <h6 className='flex-1'>Mask Image</h6>
@@ -937,7 +938,7 @@ function Extractor({ updateStep }: props) {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

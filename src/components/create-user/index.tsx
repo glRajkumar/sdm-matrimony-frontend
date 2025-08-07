@@ -25,14 +25,14 @@ type props = {
 }
 
 function getDefaultExtractedData(uploaded: string[]) {
-  const profileImg = uploaded[1]
-  const images = [uploaded[uploaded.length - 1]]
-  const vedicHoroscopePic = uploaded[uploaded.length - 2]
+  const profileImg = uploaded[0]
+  // const images = [uploaded[uploaded.length - 1]]
+  const vedicHoroscopePic = uploaded[uploaded.length - 1]
 
   return {
     ...defaultValues,
     profileImg,
-    images,
+    // images,
     vedicHoroscope: {
       ...defaultValues.vedicHoroscope,
       vedicHoroscopePic,
