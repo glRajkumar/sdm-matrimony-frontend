@@ -25,7 +25,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL(`/auth/${payload.approvalStatus}`, request.url))
     }
 
-    if (pathname.startsWith("/admin") && payload.role !== "admin") {
+    if (pathname !== "/" && !pathname.startsWith(`/${payload.role}`)) {
       return NextResponse.redirect(new URL(`/auth/unauthorized`, request.url))
     }
 

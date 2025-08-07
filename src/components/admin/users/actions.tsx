@@ -15,9 +15,10 @@ import {
 type props = {
   _id: string
   currentTab: tab
+  role: rolesT
 }
 
-function Actions({ _id, currentTab }: props) {
+function Actions({ _id, currentTab, role }: props) {
   const { mutate } = useUpdateUserMutate()
 
   function updateStatus(approvalStatus: "approved" | "rejected") {
@@ -36,7 +37,7 @@ function Actions({ _id, currentTab }: props) {
 
       <DropdownMenuContent>
         <DropdownMenuItem asChild>
-          <Link href={`/admin/user/${_id}`}>
+          <Link href={`/${role}/user/${_id}`}>
             View
           </Link>
         </DropdownMenuItem>

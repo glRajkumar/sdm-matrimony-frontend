@@ -3,14 +3,15 @@ import Link from 'next/link';
 import Menu from './menu';
 
 type props = {
-  isAdmin?: boolean
+  role: rolesT
 }
 
-const adminLinks = [
-  {
-    lable: "Create user",
-    href: "create-user",
-  },
+type linkT = {
+  lable: string
+  href: string
+}
+
+const superAdminLinks: linkT[] = [
   {
     lable: "Married users",
     href: "married",
@@ -19,13 +20,20 @@ const adminLinks = [
     lable: "Make Match",
     href: "make-match",
   },
+]
+
+const adminLinks: linkT[] = [
+  {
+    lable: "Create user",
+    href: "create-user",
+  },
   {
     lable: "Image Extractor",
     href: "image-extractor",
   },
 ]
 
-const userLinks = [
+const userLinks: linkT[] = [
   {
     lable: "Liked",
     href: "liked",
@@ -36,10 +44,16 @@ const userLinks = [
   },
 ]
 
-function Navbar({ isAdmin }: props) {
+const list: Record<rolesT, linkT[]> = {
+  "super-admin": superAdminLinks,
+  admin: adminLinks,
+  user: userLinks,
+}
+
+function Navbar({ role = "user" }: props) {
   return (
     <nav className="df gap-4 py-3 px-6 shadow-md sticky top-0 bg-white z-[1]">
-      <Link href="/" className="df mr-auto">
+      <Link href={`/${role}`} className="df mr-auto">
         <span className='p-2 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full'>
           <Heart className="size-6 text-white" />
         </span>
@@ -47,25 +61,15 @@ function Navbar({ isAdmin }: props) {
       </Link>
 
       {
-        isAdmin
-          ? adminLinks.map(link => (
-            <Link
-              key={link.href}
-              href={`/admin/${link.href}`}
-              className='hover:text-pink-700'
-            >
-              {link.lable}
-            </Link>
-          ))
-          : userLinks.map(link => (
-            <Link
-              key={link.href}
-              href={`/user/${link.href}`}
-              className='hover:text-pink-700'
-            >
-              {link.lable}
-            </Link>
-          ))
+        list[role].map(link => (
+          <Link
+            key={link.href}
+            href={`/${role}/${link.href}`}
+            className='hover:text-pink-700'
+          >
+            {link.lable}
+          </Link>
+        ))
       }
 
       <Menu />

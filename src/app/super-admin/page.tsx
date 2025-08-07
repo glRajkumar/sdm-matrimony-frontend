@@ -21,19 +21,19 @@ function Page() {
         </TabsList>
 
         <TabsContent value="approved">
-          <Users approvalStatus="approved" />
+          <Users approvalStatus="approved" role="super-admin" />
         </TabsContent>
 
         <TabsContent value="rejected">
-          <Users approvalStatus="rejected" />
+          <Users approvalStatus="rejected" role="super-admin" />
         </TabsContent>
 
         <TabsContent value="blocked">
-          <Users isBlocked />
+          <Users isBlocked role="super-admin" />
         </TabsContent>
 
         <TabsContent value="deleted">
-          <Users isDeleted />
+          <Users isDeleted role="super-admin" />
         </TabsContent>
       </Tabs>
     </section>

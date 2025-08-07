@@ -23,7 +23,7 @@ import { columns } from "./columns";
 import { Input } from '@/components/ui/input';
 import LoadMore from "@/components/common/load-more";
 
-function Users(props: userListProps) {
+function Users({ role = "admin", ...props }: userListProps & { role?: rolesT }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
@@ -36,7 +36,7 @@ function Users(props: userListProps) {
 
   const table = useReactTable({
     data: users as any || [],
-    columns: columns(currentTab),
+    columns: columns(currentTab, role),
     state: {
       sorting,
       columnVisibility,

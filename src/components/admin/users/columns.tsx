@@ -7,7 +7,7 @@ import type { tab } from "./types";
 
 import Actions from "./actions";
 
-export const columns = (currentTab: tab): ColumnDef<Partial<userT>>[] => [
+export const columns = (currentTab: tab, role: rolesT): ColumnDef<Partial<userT>>[] => [
   {
     accessorKey: "fullName",
     header: ({ column }) => <ColumnSorter column={column} title="Name" />,
@@ -60,6 +60,7 @@ export const columns = (currentTab: tab): ColumnDef<Partial<userT>>[] => [
         <Actions
           _id={row?.original?._id || ""}
           currentTab={currentTab}
+          role={role}
         />
       )
     }
