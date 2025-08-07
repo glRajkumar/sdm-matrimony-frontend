@@ -12,8 +12,9 @@ export type userListProps = {
   approvalStatus?: approvalStatusT | approvalStatusT[]
   isBlocked?: boolean
   isDeleted?: boolean
+  createdBy?: string
 }
-export function useUsersList({ approvalStatus, isBlocked, isDeleted }: userListProps) {
+export function useUsersList({ approvalStatus, isBlocked, isDeleted, createdBy }: userListProps) {
   const limit = 50
   const payload: any = {}
 
@@ -25,6 +26,10 @@ export function useUsersList({ approvalStatus, isBlocked, isDeleted }: userListP
   }
   if (isDeleted) {
     payload["isDeleted"] = isDeleted
+  }
+
+  if (createdBy) {
+    payload["createdBy"] = createdBy
   }
 
   return useInfiniteQuery<Partial<userT>[], Error, Partial<userT>[]>({

@@ -1,5 +1,5 @@
 
-type rolesT = "user" | "broker" | "admin"
+type rolesT = "user" | "admin" | "super-admin"
 
 type genderT = 'Male' | 'Female' // | 'Other'
 
