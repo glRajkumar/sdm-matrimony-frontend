@@ -13,6 +13,10 @@ type linkT = {
 
 const superAdminLinks: linkT[] = [
   {
+    lable: "All users",
+    href: "users",
+  },
+  {
     lable: "Married users",
     href: "married",
   },

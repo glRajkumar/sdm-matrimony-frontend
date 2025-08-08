@@ -11,6 +11,7 @@ import {
 
 type userAndPlanT = currentPlanT & {
   user: Partial<userT>
+  assistedExpire: string
 }
 export function useGetPaidUsers() {
   const limit = 50
@@ -96,28 +97,13 @@ export function useGetAdmins() {
   })
 }
 
-export function useCreateAdmin() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: createAdmin,
-    onSuccess() {
-      toast("Admin created successfully")
-      queryClient.invalidateQueries({ queryKey: ["admins"] })
-    },
-    onError(error) {
-      toast(error?.message || "Something went wrong!!!")
-    }
-  })
-}
-
 export function useUpdateAdmin() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: updateAdmin,
-    onSuccess() {
-      toast("Admin updated successfully")
+    mutationFn: (data: any) => data._id ? updateAdmin(data) : createAdmin(data),
+    onSuccess(_, variables) {
+      toast(`Admin ${variables._id ? "updated" : "created"} successfully`)
       queryClient.invalidateQueries({ queryKey: ["admins"] })
     },
     onError(error) {
