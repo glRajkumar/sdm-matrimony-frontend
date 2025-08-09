@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
 type state = {
-  open: string;
-  data: any;
+  open: string
+  data: any
 }
 
 type actions = {

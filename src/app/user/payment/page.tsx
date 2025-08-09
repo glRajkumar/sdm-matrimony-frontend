@@ -38,7 +38,6 @@ function Page() {
     return options
   }
 
-  console.log({ email, name, contact })
   const handlePayment = async () => {
     const payload = {
       subscribedTo,

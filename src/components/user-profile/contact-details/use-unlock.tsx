@@ -2,16 +2,19 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { useUnlockProfile } from "@/hooks/use-user";
+import useUserStore from "@/store/user";
 
 import { Button } from "@/components/ui/button";
 
-function UseUnlock() {
+function useUnlock() {
+  const currentPlan = useUserStore(s => s.currentPlan)
+
   const { mutate, isPending } = useUnlockProfile()
   const router = useRouter()
 
-  function unlockBtnClk(user: userT) {
-    if (user?.currentPlan) {
-      mutate({ _id: user._id })
+  function unlockBtnClk(_id: string) {
+    if (currentPlan && new Date(currentPlan?.expiryDate).getTime() > new Date().getTime()) {
+      mutate({ _id })
 
     } else {
       toast("Unlock Contact Details", {
@@ -40,4 +43,4 @@ function UseUnlock() {
   }
 }
 
-export default UseUnlock
+export default useUnlock

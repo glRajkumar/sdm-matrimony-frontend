@@ -1,6 +1,6 @@
 "use client";
 
-import UseUnlock from "./use-unlock";
+import useUnlock from "./use-unlock";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import UpgradeBtn from "./upgrade-btn";
@@ -12,7 +12,7 @@ type props = {
 }
 
 function ContactDetails({ user, canEdit }: props) {
-  const { isPending, unlockBtnClk } = UseUnlock()
+  const { isPending, unlockBtnClk } = useUnlock()
 
   return (
     <Card>
@@ -36,7 +36,7 @@ function ContactDetails({ user, canEdit }: props) {
               user={user}
               type="mobile"
               isPending={isPending}
-              unlockBtnClk={() => unlockBtnClk(user)}
+              unlockBtnClk={() => unlockBtnClk(user._id)}
             />
           </div>
 
@@ -46,7 +46,7 @@ function ContactDetails({ user, canEdit }: props) {
               user={user}
               type="address"
               isPending={isPending}
-              unlockBtnClk={() => unlockBtnClk(user)}
+              unlockBtnClk={() => unlockBtnClk(user._id)}
             />
           </div>
         </div>

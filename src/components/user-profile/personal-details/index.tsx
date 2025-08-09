@@ -35,7 +35,7 @@ function PersonalDetails({ user, canEdit }: props) {
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Date of Birth</span>
-            {user?.dob && <Dob dob={user?.dob} />}
+            {user?.dob && <Dob user={user} />}
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Marital Status</span>

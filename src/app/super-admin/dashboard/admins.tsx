@@ -37,7 +37,7 @@ function Admins() {
         </CardAction>
       </CardHeader>
 
-      <CardContent className="max-h-80 py-4 overflow-y-auto">
+      <CardContent className="max-h-80 py-4 overflow-auto">
         {
           isLoading &&
           <Skeleton className="h-72" />
