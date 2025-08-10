@@ -18,7 +18,7 @@ function VerdicPic({ user }: props) {
       <Button
         size="sm"
         variant="outline"
-        onClick={() => unlockBtnClk(user)}
+        onClick={() => unlockBtnClk(user._id)}
         disabled={isPending}
         className="flex h-7 text-xs mt-1"
       >
