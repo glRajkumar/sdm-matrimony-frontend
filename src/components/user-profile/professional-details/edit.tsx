@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname } from 'next/navigation';
 import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 
@@ -12,13 +13,14 @@ import { useUpdateProfile } from '@/hooks/use-user';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ComboboxWrapper, InputWrapper } from '@/components/ui/form-wrapper';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from '@/components/ui/label';
 import { Form } from "@/components/ui/form";
 
 function Edit({ user }: { user: userT }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
+
+  const pathname = usePathname()
+  const isAdmin = pathname.includes("admin")
 
   const form = useForm({
     resolver: zodResolver(professionalDetailsSchema),
@@ -101,15 +103,16 @@ function Edit({ user }: { user: userT }) {
               label="Company Name"
             />
 
-            <div className="pt-2">
-              <div className="flex items-center space-x-2">
-                <Label>Annual Salary</Label>
-                <p className="text-sm text-muted-foreground">(Not editable)</p>
-              </div>
-              <Input
-                className="mt-1"
-                value={`₹${user?.proffessionalDetails?.salary}`}
-                disabled
+            <div className="pt-2 relative">
+              {!isAdmin && <p className="absolute top-1.5 right-0 text-sm text-muted-foreground">(Contact admin to update)</p>}
+              <InputWrapper
+                control={form.control}
+                type="number"
+                name="salary"
+                label="Monthly Salary"
+                disabled={!isAdmin}
+                min={0}
+                step={1000}
               />
             </div>
 

@@ -6,6 +6,10 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get(tokenEnums.refreshToken)?.value
 
+  if (pathname === "/auth/super-admin/signin") {
+    return NextResponse.redirect(new URL('/auth/admin/signin', request.url))
+  }
+
   if (pathname.startsWith("/auth") || (pathname === "/" && !token)) {
     return NextResponse.next()
   }
