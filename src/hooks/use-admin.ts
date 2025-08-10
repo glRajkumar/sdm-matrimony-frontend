@@ -77,10 +77,10 @@ export function useCreateUsersMutate() {
   return useMutation({
     mutationFn: createUsers,
     onSuccess() {
-      toast("New user(s) created successfully")
+      toast.success("New user(s) created successfully")
     },
     onError(error) {
-      toast(error?.message || "Something went wrong!!!")
+      toast.error(error?.message || "Something went wrong!!!")
     }
   })
 }

@@ -29,16 +29,16 @@ export const professionalDetailsSchema = z.object({
       error: "Salary must be 0 when unemployed",
     }
   )
-  .refine(
-    (data) =>
-      data.profession === "Unemployed" && data.sector === "Unemployed"
-        ? true
-        : data.salary >= 5000,
-    {
-      path: ["salary"],
-      error: "Salary must be at least 5000",
-    }
-  )
+  // .refine(
+  //   (data) =>
+  //     data.profession === "Unemployed" && data.sector === "Unemployed"
+  //       ? true
+  //       : data.salary >= 5000,
+  //   {
+  //     path: ["salary"],
+  //     error: "Salary must be at least 5000",
+  //   }
+  // )
   .refine(
     (data) =>
       data.sector === "Unemployed" || data.profession !== "Unemployed",

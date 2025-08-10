@@ -5,11 +5,12 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formatISO } from 'date-fns';
 import { Loader } from 'lucide-react';
+import { format } from "date-fns";
 import { toast } from 'sonner';
 import { z } from "zod";
 
 import { defaultValues, fieldList } from './data';
-import { createUserSchema } from '@/utils/user-schema';
+import { contactDetailsSchema, createUserSchema } from '@/utils/user-schema';
 import { useRegisterImage } from '@/hooks/use-account';
 import { cn } from '@/lib/utils';
 
@@ -40,9 +41,21 @@ function getDefaultExtractedData(uploaded: string[]) {
   }
 }
 
+function getSchema(isAdmin: boolean) {
+  return isAdmin
+    ? createUserSchema.extend({
+      email: z.string().optional(),
+      password: z.string().optional(),
+      contactDetails: contactDetailsSchema.extend({
+        mobile: z.string().regex(/^\d{10}$/, "Must be a valid 10-digit number"),
+      }),
+    })
+    : createUserSchema
+}
+
 function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: props) {
   const methods = useForm({
-    resolver: zodResolver(createUserSchema),
+    resolver: zodResolver(getSchema(!!isAdmin)),
     defaultValues: extractedData ? getDefaultExtractedData(extractedData) : { ...defaultValues },
   })
 
@@ -71,10 +84,12 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
     return url
   }
 
-  const handleSubmit = async (data: z.infer<typeof createUserSchema>) => {
+  const handleSubmit = async (data: z.infer<ReturnType<typeof getSchema>>) => {
     const { profileImg, ...rest } = data
-    if (!rest.email && !rest?.contactDetails?.mobile) return toast('Either email or mobile is required')
-    if (!profileImg) return toast('Profile image is required')
+    if (!isAdmin && !rest?.email && !rest?.contactDetails?.mobile) {
+      return toast.error('Either email or mobile is required')
+    }
+    if (!profileImg) return toast.error('Profile image is required')
 
     try {
       let url = await uploadPic(profileImg)
@@ -111,10 +126,14 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
         images,
       }
 
+      if (isAdmin) {
+        payload.password = `${rest.fullName.replace(/\s/g, "").slice(0, 4)}_${format(new Date(dob), "ddMMyy")}`
+      }
+
       onSubmit(payload as Partial<userT>)
 
     } catch (error) {
-      toast('Failed to register')
+      toast.error('Failed to register')
     }
   }
 
@@ -126,25 +145,27 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
         className={cn('-mr-8 pl-1 pr-8 max-h-[50vh] overflow-y-auto divide-y relative isolate', className)}
       >
         {
-          fieldList.map(field => (
-            <div key={field.lable} className='py-8'>
-              <h4 className="mb-2 text-sm font-semibold text-gray-500">
-                {field.lable}
-              </h4>
+          fieldList
+            .filter(field => isAdmin ? field.lable !== "Account Details" : true)
+            .map(field => (
+              <div key={field.lable} className='py-8'>
+                <h4 className="mb-2 text-sm font-semibold text-gray-500">
+                  {field.lable}
+                </h4>
 
-              <div className='grid md:grid-cols-2 items-start gap-4'>
-                {
-                  field.list.map(field => (
-                    <FieldWrapper
-                      key={field.name}
-                      control={methods.control}
-                      {...field}
-                    />
-                  ))
-                }
+                <div className='grid md:grid-cols-2 items-start gap-4'>
+                  {
+                    field.list.map(field => (
+                      <FieldWrapper
+                        key={field.name}
+                        control={methods.control}
+                        {...field}
+                      />
+                    ))
+                  }
+                </div>
               </div>
-            </div>
-          ))
+            ))
         }
 
         <div className='py-2 sticky -bottom-px z-[1] bg-white'>

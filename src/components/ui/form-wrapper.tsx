@@ -1,5 +1,9 @@
+"use client"
+
+import { useState } from 'react';
 import { Control, FieldValues, Path } from "react-hook-form";
 import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
 
 import { cn } from "@/lib/utils";
 
@@ -12,7 +16,6 @@ import { Textarea } from "./textarea";
 import { Combobox } from "./combobox";
 import { Button } from "./button";
 import { Input } from "./input";
-import { format } from "date-fns";
 
 type BaseWrapperProps<T extends FieldValues> = {
   name: Path<T>
@@ -156,6 +159,8 @@ export function SelectWrapper<T extends FieldValues>({ name, label, control, cla
 
 type DatePickerWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & Omit<React.ComponentProps<typeof Calendar>, "selected" | "onSelect">
 export function DatePickerWrapper<T extends FieldValues>({ name, label, control, className, ...calendarProps }: DatePickerWrapperProps<T>) {
+  const [open, setOpen] = useState(false)
+
   return (
     <FormField
       name={name}
@@ -164,7 +169,7 @@ export function DatePickerWrapper<T extends FieldValues>({ name, label, control,
         <FormItem className={className}>
           {label && <FormLabel>{label}</FormLabel>}
 
-          <Popover>
+          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
@@ -183,7 +188,10 @@ export function DatePickerWrapper<T extends FieldValues>({ name, label, control,
                 mode="single"
                 captionLayout="dropdown"
                 selected={field.value}
-                onSelect={field.onChange}
+                onSelect={(date: any) => {
+                  field.onChange(date)
+                  setOpen(false)
+                }}
                 defaultMonth={field.value}
                 {...calendarProps}
               />

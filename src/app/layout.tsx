@@ -21,6 +21,7 @@ function RootLayout({ children }: readOnlyChildren) {
         <Toaster
           position="top-right"
           closeButton
+          richColors
           style={{
             "--width": "300px",
             "--toast-close-button-start": "calc(100% - 2px)"
