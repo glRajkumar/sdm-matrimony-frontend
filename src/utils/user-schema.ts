@@ -83,7 +83,7 @@ export const otherDetailsSchema = z.object({
   motherTongue: z.string().optional().or(z.literal("")),
   houseType: z.string().optional().or(z.literal("")),
   religion: z.string().optional().or(z.literal("")),
-  height: z.string().optional().or(z.literal("")),
+  height: z.coerce.number().optional().or(z.literal("")),
   color: z.string().optional().or(z.literal("")),
   caste: z.string().optional().or(z.literal("")),
 })
