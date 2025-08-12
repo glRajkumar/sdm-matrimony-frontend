@@ -50,6 +50,7 @@ export const columns = (currentTab: tab, role: rolesT): ColumnDef<Partial<userT>
     id: "Salary",
     accessorKey: "proffessionalDetails.salary",
     header: ({ column }) => <ColumnSorter column={column} title="Salary" />,
+    cell: ({ row }) => <p className="normal-case">{row?.original?.proffessionalDetails?.salary?.toLocaleString() || "---"}</p>,
   },
   {
     id: "action",

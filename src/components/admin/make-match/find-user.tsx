@@ -21,9 +21,9 @@ function FindUser({ gender, selected, setSelected }: props) {
   const schema = z.object({
     _id: z.string().optional(),
     email: z.string().optional(),
-    fullName: z.string().optional(),
-    contactDetails: z.object({ mobile: z.string().optional() }).optional(),
+    mobile: z.string().optional(),
     gender: z.string().optional(),
+    fullName: z.string().optional(),
   })
 
   type formT = z.infer<typeof schema>
@@ -43,7 +43,7 @@ function FindUser({ gender, selected, setSelected }: props) {
       label: "Email",
     },
     {
-      name: "contactDetails.mobile",
+      name: "mobile",
       label: "Mobile Number",
     },
   ]
@@ -55,10 +55,8 @@ function FindUser({ gender, selected, setSelected }: props) {
     defaultValues: {
       _id: "",
       email: "",
+      mobile: "",
       fullName: "",
-      contactDetails: {
-        mobile: "",
-      },
       gender,
     },
   })
@@ -73,11 +71,7 @@ function FindUser({ gender, selected, setSelected }: props) {
     if (data._id) payload._id = data._id
     if (data.email) payload.email = data.email
     if (data.fullName) payload.fullName = data.fullName
-    if (data.contactDetails?.mobile) {
-      payload.contactDetails = {
-        mobile: data.contactDetails.mobile,
-      }
-    }
+    if (data.mobile) payload.mobile = data.mobile
 
     setFilters(payload)
   }

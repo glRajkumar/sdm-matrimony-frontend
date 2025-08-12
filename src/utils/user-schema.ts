@@ -8,7 +8,7 @@ export const personalDetailsSchema = z.object({
 })
 
 export const contactDetailsSchema = z.object({
-  mobile: z.string().optional().or(z.literal("")),
+  mobile: z.string().regex(/^\d{10}$/, "Must be a valid 10-digit number").optional().or(z.literal("")),
   address: z.string().min(5, "Address must be at least 5 characters").optional().or(z.literal("")),
 })
 

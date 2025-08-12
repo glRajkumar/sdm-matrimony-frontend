@@ -84,6 +84,7 @@ function Edit({ user }: { user: userT }) {
               control={form.control}
               name="height"
               label="Height"
+              type="number"
             />
 
             <InputWrapper
