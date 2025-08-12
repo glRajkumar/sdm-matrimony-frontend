@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { formatISO } from "date-fns";
 
 import { useUserMarriedToMutate } from "@/hooks/use-admin";
 
@@ -34,7 +33,7 @@ function Confirm({ male, female, onConfirm }: props) {
     mutate({
       _id: male?._id || "",
       marriedTo: female?._id || "",
-      marriedOn: formatISO(new Date(new Date(marriedOn).setHours(0, 0, 0, 0))),
+      marriedOn: new Date(new Date(marriedOn).setHours(0, 0, 0, 0)).toISOString(),
     })
 
     onConfirm()

@@ -7,6 +7,7 @@ import {
   addImages, updateProfile, getPartnerPreferences, getUnlockedProfiles,
   unlockProfile, getAccountInfo
 } from "@/actions";
+import { filterObj } from "@/utils";
 
 export function useUsersList(filters?: objT) {
   const limit = 50
@@ -15,7 +16,7 @@ export function useUsersList(filters?: objT) {
     queryKey: ["user-list", "approved", filters],
     queryFn: ({ pageParam }) => {
       return getMatches({
-        ...filters,
+        ...(filters && filterObj(filters)),
         limit,
         skip: (pageParam as number || 0) * limit,
         approvalStatus: "approved",

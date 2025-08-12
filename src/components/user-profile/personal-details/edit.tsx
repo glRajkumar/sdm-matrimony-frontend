@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formatISO } from 'date-fns';
 import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -37,7 +36,7 @@ function Edit({ user }: { user: userT }) {
       {
         ...(isAdmin && { _id: user._id }),
         ...values,
-        dob: formatISO(new Date(new Date(values.dob).setHours(0, 0, 0, 0))),
+        dob: new Date(new Date(values.dob).setHours(0, 0, 0, 0)).toISOString(),
       },
       {
         onSuccess() {

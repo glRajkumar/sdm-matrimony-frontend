@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formatISO } from 'date-fns';
 import { Loader } from 'lucide-react';
 import { format } from "date-fns";
 import { toast } from 'sonner';
@@ -12,6 +11,7 @@ import { z } from "zod";
 import { defaultValues, fieldList } from './data';
 import { contactDetailsSchema, createUserSchema } from '@/utils/user-schema';
 import { useRegisterImage } from '@/hooks/use-account';
+import { filterObj } from '@/utils';
 import { cn } from '@/lib/utils';
 
 import FieldWrapper from './field-wrapper';
@@ -115,22 +115,19 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
         data.vedicHoroscope.lagna = data.vedicHoroscope.lagna.split(" (")[0]
       }
 
-      const dob = new Date(data?.dob)
-      dob.setUTCHours(0, 0, 0, 0)
-
       const payload = {
         ...rest,
-        dob: formatISO(new Date(new Date(data.dob).setHours(0, 0, 0, 0))),
+        dob: new Date(new Date(data?.dob).setHours(0, 0, 0, 0)).toISOString(),
         role: "user",
         profileImg: url,
         images,
       }
 
       if (isAdmin) {
-        payload.password = `${rest.fullName.replace(/\s/g, "").slice(0, 4)}_${format(new Date(dob), "ddMMyy")}`
+        payload.password = `${rest.fullName.replace(/\s/g, "").slice(0, 4)}_${format(new Date(data?.dob), "ddMMyy")}`
       }
 
-      onSubmit(payload as Partial<userT>)
+      onSubmit(filterObj(payload) as Partial<userT>)
 
     } catch (error) {
       toast.error('Failed to register')
