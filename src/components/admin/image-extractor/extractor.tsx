@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, ChangeEvent, DragEvent, MouseEvent, useEffect } from 'react';
-import { Upload, Move, Download, Eraser, Circle, Undo2 } from 'lucide-react';
+import { Upload, Move, Download, } from 'lucide-react'; // Eraser, Circle, Undo2 
 
 import { useExtractImgMutate } from '@/hooks/use-admin';
 import { dataT } from './type';
@@ -59,7 +59,6 @@ const getHandleClasses = (direction: ResizeDirection): string => {
 
   return `${baseClasses} ${positionClasses[direction]}`
 }
-
 
 type props = {
   updateStep: (step: number, data: dataT | null) => void;
@@ -533,7 +532,8 @@ function Extractor({ updateStep }: props) {
       croppedImages.forEach((img, index) => {
         if (index === 0) return
         const blob = dataURLtoBlob(img.dataUrl)
-        formData.append("images", blob, `cropped-image-${index + 1}.png`)
+        const file = new File([blob], `cropped-image-${index + 1}.png`, { type: "image/png" })
+        formData.append("images", file)
       })
 
       // if (canvasRef.current) {
