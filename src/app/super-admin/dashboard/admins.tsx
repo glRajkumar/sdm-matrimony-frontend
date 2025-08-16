@@ -1,4 +1,5 @@
 import { RefreshCcw, Edit2, Plus } from "lucide-react";
+import Link from "next/link";
 
 import { useGetAdmins } from "@/hooks/use-super-admin";
 import useUIStore from "@/store/ui";
@@ -17,6 +18,15 @@ function Admins() {
       <CardHeader>
         <CardTitle>Admins</CardTitle>
         <CardAction>
+          <Button
+            size="sm"
+            variant="link"
+            className="mr-2"
+            asChild
+          >
+            <Link href="/super-admin/admins-users">Users</Link>
+          </Button>
+
           <Button
             size="sm"
             variant="outline"

@@ -23,7 +23,7 @@ import { columns } from "./columns";
 import { Input } from '@/components/ui/input';
 import LoadMore from "@/components/common/load-more";
 
-function Users({ role = "admin", ...props }: userListProps & { role?: rolesT }) {
+function Users({ role = "admin", loaderHt = "h-[calc(100vh-3rem)]", ...props }: userListProps & { role?: rolesT, loaderHt?: string }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
@@ -55,7 +55,7 @@ function Users({ role = "admin", ...props }: userListProps & { role?: rolesT }) 
   })
 
   if (isLoading) return (
-    <div className='dc h-[calc(100vh-3rem)]'>
+    <div className={`dc ${loaderHt}`}>
       <Loader className="animate-spin" />
     </div>
   )
