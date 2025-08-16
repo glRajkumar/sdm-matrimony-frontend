@@ -32,7 +32,7 @@ export function SelectImageWrapper({ name, label, rules, className }: props) {
 
   return (
     <div className={className}>
-      <Label htmlFor={`signup-${name}`} className='capitalize'>{label}</Label>
+      <Label htmlFor={`signup-${name}`} className='capitalize mb-2'>{label}</Label>
 
       <div
         {...getRootProps()}
@@ -86,7 +86,7 @@ export function SelectMultiImageWrapper({ name, label, rules, className }: props
 
   return (
     <div className={className}>
-      <Label htmlFor={`signup-${name}`} className="capitalize">{label}</Label>
+      <Label htmlFor={`signup-${name}`} className="capitalize mb-2">{label}</Label>
 
       <div className="df gap-4 p-2 overflow-x-auto border">
         {

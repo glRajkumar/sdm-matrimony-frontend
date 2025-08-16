@@ -142,5 +142,3 @@ export const sendApiReq = ({ isAuthendicated = true, headers = {}, ...others }: 
   responseIntercepter(instance)
   return instance({ ...others })
 }
-
-export const manualRefreshToken = refreshAccessToken

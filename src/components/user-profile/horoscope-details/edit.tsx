@@ -7,12 +7,13 @@ import { EditIcon, X } from 'lucide-react';
 import { useForm } from "react-hook-form";
 
 import { vedicHoroscopeSchema, type vedicHoroscopeT } from '@/utils/user-schema';
-import { acceptedImagesTypes, nakshatra, raasi } from '@/utils';
+import { acceptedImagesTypes } from '@/utils';
 import { useRegisterImage } from '@/hooks/use-account';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ComboboxWrapper, InputWrapper } from "@/components/ui/form-wrapper";
+import { SelectListWrapper } from '@/components/common/lists';
+import { InputWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -96,28 +97,28 @@ function Edit({ user }: { user: userT }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="nakshatra"
               label="Nakshatra"
-              options={["Don't wish to specify", ...nakshatra]}
-              placeholder="Select a nakshatra"
+              listName="nakshatra"
+              additionalOpts="Don't wish to specify"
             />
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="rasi"
               label="Rasi"
-              options={["Don't wish to specify", ...raasi]}
-              placeholder="Select a rasi"
+              listName="raasi"
+              additionalOpts="Don't wish to specify"
             />
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="lagna"
               label="Lagna"
-              options={["Don't wish to specify", ...raasi]}
-              placeholder="Select a lagna"
+              listName="raasi"
+              additionalOpts="Don't wish to specify"
             />
 
             <InputWrapper

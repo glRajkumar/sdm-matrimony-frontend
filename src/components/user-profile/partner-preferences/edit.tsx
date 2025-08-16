@@ -6,11 +6,12 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 
 import { partnerPreferencesSchema, type partnerPreferencesT } from '@/utils/user-schema';
-import { castes, educationLevels, languages, maritalStatus, professions, proffessionalSectors, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
+import { maritalStatus } from '@/utils';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ComboboxWrapper, InputWrapper, SelectWrapper, TextareaWrapper } from "@/components/ui/form-wrapper";
+import { InputWrapper, SelectWrapper, TextareaWrapper } from "@/components/ui/form-wrapper";
+import { SelectListWrapper } from '@/components/common/lists';
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from '@/components/ui/input';
@@ -91,21 +92,21 @@ function Edit({ user }: { user: userT }) {
               />
             </div>
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="religion"
               label="Religion"
-              options={["Any", ...religions]}
-              placeholder="Select religion"
+              listName="religions"
+              additionalOpts="Any"
               canCreateNew
             />
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="caste"
               label="Caste"
-              options={["Any", ...castes]}
-              placeholder="Select caste"
+              listName="castes"
+              additionalOpts="Any"
               canCreateNew
             />
 
@@ -117,25 +118,28 @@ function Edit({ user }: { user: userT }) {
               placeholder="Select marital status"
             />
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="minQualification"
               label="Minimum Qualification"
-              options={["Any", ...educationLevels]}
+              listName="educationLevels"
+              additionalOpts="Any"
             />
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="sector"
               label="Sector"
-              options={["Any", ...proffessionalSectors]}
+              listName="sectors"
+              additionalOpts="Any"
             />
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="profession"
               label="Profession"
-              options={["Any", ...professions]}
+              listName="professions"
+              additionalOpts="Any"
               canCreateNew
             />
 
@@ -147,12 +151,13 @@ function Edit({ user }: { user: userT }) {
               <Input value={`₹ ${user?.partnerPreferences?.minSalary || "-"}`} disabled className="mt-1" />
             </div>
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="motherTongue"
               label="Mother Tongue"
-              options={languages}
-              placeholder="Select mother tongue"
+              listName="languages"
+              additionalOpts="Any"
+              canCreateNew
             />
 
             <InputWrapper

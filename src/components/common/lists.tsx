@@ -7,29 +7,39 @@ import { useStatics } from "@/hooks/use-general";
 import { ComboboxWrapper } from "@/components/ui/form-wrapper";
 
 type props<T extends FieldValues> = {
+  name: Path<T>
+  label?: string
   control: Control<T>
+  listName: staticsNameT
+  placeholder?: string
+  canCreateNew?: boolean
+  additionalOpts?: string | string[]
 }
-export function SelectCastesWrapper<T extends FieldValues>({ control }: props<T>) {
-  const { data, isLoading } = useStatics("main-castes.json")
+export function SelectListWrapper<T extends FieldValues>({ name, label, control, placeholder, listName, canCreateNew, additionalOpts }: props<T>) {
+  const { data, isLoading } = useStatics(listName)
 
   return (
-    <ComboboxWrapper<T>
-      name={"caste" as Path<T>}
-      label="Caste"
+    <ComboboxWrapper
+      name={name}
+      label={label}
       control={control}
-      options={data || []}
+      options={isLoading ? [] : [
+        ...(additionalOpts ? typeof additionalOpts === "string" ? [additionalOpts] : additionalOpts : []),
+        ...(data || [])
+      ]}
       isLoading={isLoading}
-      placeholder="Select Caste"
+      placeholder={placeholder || `Select ${label}`}
+      canCreateNew={canCreateNew}
     />
   )
 }
 
 type props2<T extends FieldValues> = {
   control: Control<T>
-  choosed?: string
+  choosed: string
 }
 export function SelectSubCastesWrapper<T extends FieldValues>({ control, choosed = "" }: props2<T>) {
-  const { data, isLoading } = useStatics("caste-map.json")
+  const { data, isLoading } = useStatics("casteMap")
 
   return (
     <ComboboxWrapper<T>

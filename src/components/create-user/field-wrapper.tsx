@@ -1,8 +1,9 @@
 import type { Control } from 'react-hook-form';
 import type { Field } from './data';
 
-import { ComboboxWrapper, SelectWrapper, InputWrapper, DatePickerWrapper, RadioWrapper } from '@/components/ui/form-wrapper';
+import { SelectWrapper, InputWrapper, DatePickerWrapper, RadioWrapper } from '@/components/ui/form-wrapper';
 import { SelectImageWrapper, SelectMultiImageWrapper } from './select-image-wrapper';
+import { SelectListWrapper } from '../common/lists';
 import { PasswordWrapper } from './password-wrapper';
 
 type FieldWrapperProps = Field & {
@@ -26,8 +27,8 @@ function FieldWrapper({ control, type, ...props }: FieldWrapperProps) {
     return <SelectWrapper control={control} {...props} />
   }
 
-  if (type === "combobox" && "options" in props) {
-    return <ComboboxWrapper control={control} {...props} />
+  if (type === "combobox" && "listName" in props) {
+    return <SelectListWrapper control={control} {...props} />
   }
 
   if (type === "radio" && "options" in props) {

@@ -1,12 +1,7 @@
 import { Path } from 'react-hook-form';
 
 import type { userInputT } from '@/utils/user-schema';
-
-import {
-  gender, maritalStatus, languages, religions, castes,
-  nakshatra, raasi, aliveOptions, educationLevels, professions,
-  proffessionalSectors,
-} from '@/utils';
+import { gender, maritalStatus, aliveOptions } from '@/utils';
 
 type BaseField = {
   name: Path<userInputT>
@@ -38,8 +33,9 @@ type SelectField = BaseField & {
 
 type ComboboxField = BaseField & {
   type: "combobox"
-  options: optionsT
+  listName: staticsNameT
   canCreateNew?: boolean
+  additionalOpts?: string | string[]
 }
 
 type DateField = BaseField & {
@@ -130,7 +126,7 @@ export const fieldList: FieldSection[] = [
         name: "proffessionalDetails.highestQualification",
         label: "Highest Qualification",
         type: "combobox",
-        options: educationLevels,
+        listName: "educationLevels",
       },
       {
         name: "proffessionalDetails.qualifications",
@@ -141,13 +137,13 @@ export const fieldList: FieldSection[] = [
         name: "proffessionalDetails.sector",
         label: "Sector",
         type: "combobox",
-        options: proffessionalSectors,
+        listName: "sectors",
       },
       {
         name: "proffessionalDetails.profession",
         label: "Profession",
         type: "combobox",
-        options: professions,
+        listName: "professions",
         canCreateNew: true,
       },
       {
@@ -225,19 +221,22 @@ export const fieldList: FieldSection[] = [
         name: "vedicHoroscope.nakshatra",
         label: "Nakshatra",
         type: "combobox",
-        options: ["Don't wish to specify", ...nakshatra],
+        listName: "nakshatra",
+        additionalOpts: "Don't wish to specify",
       },
       {
         name: "vedicHoroscope.rasi",
         label: "Rasi",
         type: "combobox",
-        options: ["Don't wish to specify", ...raasi],
+        listName: "raasi",
+        additionalOpts: "Don't wish to specify",
       },
       {
         name: "vedicHoroscope.lagna",
         label: "Lagna",
         type: "combobox",
-        options: ["Don't wish to specify", ...raasi],
+        listName: "raasi",
+        additionalOpts: "Don't wish to specify",
       },
       {
         name: "vedicHoroscope.dashaPeriod",
@@ -289,21 +288,24 @@ export const fieldList: FieldSection[] = [
         name: "otherDetails.motherTongue",
         label: "Mother Tongue",
         type: "combobox",
-        options: ["Don't wish to specify", ...languages],
+        listName: "languages",
+        additionalOpts: "Don't wish to specify",
         canCreateNew: true,
       },
       {
         name: "otherDetails.religion",
         label: "Religion",
         type: "combobox",
-        options: ["Don't wish to specify", ...religions],
+        listName: "religions",
+        additionalOpts: "Don't wish to specify",
         canCreateNew: true,
       },
       {
         name: "otherDetails.caste",
         label: "Caste",
         type: "combobox",
-        options: ["Don't wish to specify", ...castes],
+        listName: "castes",
+        additionalOpts: "Don't wish to specify",
         canCreateNew: true,
       }
     ]
@@ -329,19 +331,22 @@ export const fieldList: FieldSection[] = [
         name: "partnerPreferences.minQualification",
         label: "Minimum Qualification",
         type: "combobox",
-        options: ["Any", ...educationLevels],
+        listName: "educationLevels",
+        additionalOpts: "Any",
       },
       {
         name: "partnerPreferences.sector",
         label: "Sector",
         type: "combobox",
-        options: ["Any", ...proffessionalSectors],
+        listName: "sectors",
+        additionalOpts: "Any",
       },
       {
         name: "partnerPreferences.profession",
         label: "Profession",
         type: "combobox",
-        options: ["Any", ...professions],
+        listName: "professions",
+        additionalOpts: "Any",
         canCreateNew: true,
       },
       {
@@ -355,21 +360,24 @@ export const fieldList: FieldSection[] = [
         name: "partnerPreferences.religion",
         label: "Religion",
         type: "combobox",
-        options: ["Any", ...religions],
+        listName: "religions",
+        additionalOpts: "Any",
         canCreateNew: true,
       },
       {
         name: "partnerPreferences.caste",
         label: "Caste",
         type: "combobox",
-        options: ["Any", ...castes],
+        listName: "castes",
+        additionalOpts: "Any",
         canCreateNew: true,
       },
       {
         name: "partnerPreferences.motherTongue",
         label: "Mother Tongue",
         type: "combobox",
-        options: ["Any", ...languages],
+        listName: "languages",
+        additionalOpts: "Any",
         canCreateNew: true,
       },
       {

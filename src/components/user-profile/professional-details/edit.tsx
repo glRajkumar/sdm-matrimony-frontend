@@ -7,11 +7,11 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 
 import { professionalDetailsSchema, type professionalDetailsT } from '@/utils/user-schema';
-import { educationLevels, professions, proffessionalSectors } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ComboboxWrapper, InputWrapper } from '@/components/ui/form-wrapper';
+import { SelectListWrapper } from '@/components/common/lists';
+import { InputWrapper } from '@/components/ui/form-wrapper';
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
@@ -69,11 +69,11 @@ function Edit({ user }: { user: userT }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="highestQualification"
               label="Highest Qualification"
-              options={educationLevels}
+              listName="educationLevels"
             />
 
             <InputWrapper
@@ -82,18 +82,18 @@ function Edit({ user }: { user: userT }) {
               label="Qualifications"
             />
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="sector"
               label="Sector"
-              options={proffessionalSectors}
+              listName="sectors"
             />
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="profession"
               label="Profession"
-              options={professions}
+              listName="professions"
               canCreateNew
             />
 

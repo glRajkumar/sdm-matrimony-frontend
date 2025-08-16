@@ -11,3 +11,5 @@ type optionsT = readonly (primitiveT | {
   label: string
   value: primitiveT
 })[]
+
+type staticsNameT = "castes" | "casteMap" | "educationLevels" | "professions" | "languages" | "religions" | "sectors" | "nakshatra" | "raasi"

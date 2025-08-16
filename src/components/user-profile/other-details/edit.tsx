@@ -6,11 +6,11 @@ import { EditIcon } from 'lucide-react';
 import { useForm } from "react-hook-form";
 
 import { otherDetailsSchema, type otherDetailsT } from '@/utils/user-schema';
-import { castes, languages, religions } from '@/utils';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ComboboxWrapper, InputWrapper } from "@/components/ui/form-wrapper";
+import { SelectListWrapper } from '@/components/common/lists';
+import { InputWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
@@ -65,12 +65,12 @@ function Edit({ user }: { user: userT }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="motherTongue"
               label="Mother Tongue"
-              options={languages}
-              placeholder="Select mother tongue"
+              listName="languages"
+              additionalOpts="Don't wish to specify"
               canCreateNew
             />
 
@@ -93,21 +93,21 @@ function Edit({ user }: { user: userT }) {
               label="Complexion"
             />
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="religion"
               label="Religion"
-              options={["Don't wish to specify", ...religions]}
-              placeholder="Select religion"
+              listName="religions"
+              additionalOpts="Don't wish to specify"
               canCreateNew
             />
 
-            <ComboboxWrapper
+            <SelectListWrapper
               control={form.control}
               name="caste"
               label="Caste"
-              options={["Don't wish to specify", ...castes]}
-              placeholder="Select caste"
+              listName="castes"
+              additionalOpts="Don't wish to specify"
               canCreateNew
             />
 

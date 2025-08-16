@@ -3,16 +3,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import {
-  maritalStatus, raasi, ageRange, salaryRange,
-  educationLevels, professions, languages, religions, castes,
-  proffessionalSectors
-} from '@/utils';
-
+import { maritalStatus, ageRange, salaryRange } from '@/utils';
 import { usePartnerPreferences } from '@/hooks/use-user';
 import useUserStore from '@/store/user';
 
-import { InputWrapper, ComboboxWrapper, SelectWrapper } from '@/components/ui/form-wrapper';
+import { InputWrapper, SelectWrapper } from '@/components/ui/form-wrapper';
+import { SelectListWrapper } from '@/components/common/lists';
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
@@ -64,56 +60,49 @@ const defaultValues: z.infer<typeof schema> = {
 type listProps = {
   name: keyof z.infer<typeof schema>
   label: string
-  options: optionsT
-  type?: 'select'
+  listName: staticsNameT
 }
 
 const list: listProps[] = [
   {
     name: 'minQualification',
     label: 'Min Qualification',
-    options: ["Any", ...educationLevels]
+    listName: "educationLevels",
   },
   {
     name: 'sector',
     label: 'Sector',
-    options: ["Any", ...proffessionalSectors]
+    listName: "sectors",
   },
   {
     name: 'profession',
     label: 'Profession',
-    options: ["Any", ...professions]
-  },
-  {
-    name: 'maritalStatus',
-    label: 'Marital Status',
-    options: maritalStatus,
-    type: 'select'
+    listName: "professions",
   },
   {
     name: 'motherTongue',
     label: 'Mother Tongue',
-    options: ["Any", ...languages]
+    listName: "languages",
   },
   {
     name: 'religion',
     label: 'Religion',
-    options: ["Any", ...religions]
+    listName: "religions",
   },
   {
     name: 'caste',
     label: 'Caste',
-    options: ["Any", ...castes]
+    listName: "castes",
   },
   {
     name: 'lagna',
     label: 'Lagna',
-    options: ["Any", ...raasi]
+    listName: "raasi",
   },
   {
     name: 'rasi',
     label: 'Rasi',
-    options: ["Any", ...raasi]
+    listName: "raasi",
   }
 ]
 
@@ -244,22 +233,22 @@ function Filters({ onSave, hasFilters }: props) {
               />
             </div>
 
+            <SelectWrapper
+              name="maritalStatus"
+              label="Marital Status"
+              control={form.control}
+              options={maritalStatus}
+            />
+
             {
               list.map((item) => (
-                item.type === 'select' ? (
-                  <SelectWrapper
-                    {...item}
-                    key={item.name}
-                    control={form.control}
-                  />
-                ) : (
-                  <ComboboxWrapper
-                    {...item}
-                    key={item.name}
-                    control={form.control}
-                    canCreateNew
-                  />
-                )
+                <SelectListWrapper
+                  {...item}
+                  key={item.name}
+                  control={form.control}
+                  additionalOpts="Any"
+                  canCreateNew
+                />
               ))
             }
           </div>
