@@ -11,7 +11,7 @@ import { maritalStatus } from '@/utils';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { InputWrapper, SelectWrapper, TextareaWrapper } from "@/components/ui/form-wrapper";
-import { SelectListWrapper } from '@/components/common/lists';
+import { SelectListWrapper, SelectSubCastesWrapper } from '@/components/common/lists';
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from '@/components/ui/input';
@@ -28,6 +28,7 @@ function Edit({ user }: { user: userT }) {
       maxAge: user?.partnerPreferences?.maxAge || "",
       religion: user?.partnerPreferences?.religion || "",
       caste: user?.partnerPreferences?.caste || "",
+      subCaste: user?.partnerPreferences?.subCaste || "",
       minQualification: user?.partnerPreferences?.minQualification || "",
       sector: user?.partnerPreferences?.sector || "",
       profession: user?.partnerPreferences?.profession || "",
@@ -38,6 +39,8 @@ function Edit({ user }: { user: userT }) {
       maritalStatus: user?.partnerPreferences?.maritalStatus || "",
     },
   })
+
+  const choosed = form.watch("caste")
 
   function onSubmit(values: partnerPreferencesT) {
     const isAdmin = window.location.pathname.includes("admin")
@@ -108,6 +111,13 @@ function Edit({ user }: { user: userT }) {
               listName="castes"
               additionalOpts="Any"
               canCreateNew
+            />
+
+            <SelectSubCastesWrapper
+              name="subCaste"
+              control={form.control}
+              choosed={choosed || ""}
+              additionalOpts="Any"
             />
 
             <SelectWrapper

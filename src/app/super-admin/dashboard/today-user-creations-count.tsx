@@ -42,6 +42,12 @@ function TodayUserCreationsCount() {
             </div>
           ))
         }
+
+        {
+          !isLoading && data?.length === 0 && (
+            <p className="dc h-60 text-center">No data found</p>
+          )
+        }
       </CardContent>
     </Card>
   )

@@ -5,6 +5,7 @@ import { SelectWrapper, InputWrapper, DatePickerWrapper, RadioWrapper } from '@/
 import { SelectImageWrapper, SelectMultiImageWrapper } from './select-image-wrapper';
 import { SelectListWrapper } from '../common/lists';
 import { PasswordWrapper } from './password-wrapper';
+import { SubCaste } from './sub-caste';
 
 type FieldWrapperProps = Field & {
   control: Control<any>
@@ -37,6 +38,10 @@ function FieldWrapper({ control, type, ...props }: FieldWrapperProps) {
 
   if (type === "password") {
     return <PasswordWrapper />
+  }
+
+  if (type === "subCaste") {
+    return <SubCaste {...props} />
   }
 
   return (

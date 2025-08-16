@@ -86,6 +86,7 @@ export const otherDetailsSchema = z.object({
   height: z.coerce.number().optional().or(z.literal("")),
   color: z.string().optional().or(z.literal("")),
   caste: z.string().optional().or(z.literal("")),
+  subCaste: z.string().optional().or(z.literal("")),
 })
 
 export const partnerPreferencesSchema = z.object({
@@ -97,6 +98,7 @@ export const partnerPreferencesSchema = z.object({
   minSalary: z.coerce.number().optional().or(z.literal("")),
   religion: z.string().optional().or(z.literal("")),
   caste: z.string().optional().or(z.literal("")),
+  subCaste: z.string().optional().or(z.literal("")),
   motherTongue: z.string().optional().or(z.literal("")),
   location: z.string().optional().or(z.literal("")),
   expectation: z.string().optional().or(z.literal("")),

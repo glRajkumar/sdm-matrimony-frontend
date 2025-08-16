@@ -24,7 +24,7 @@ function UserCard({
             {otherDetails?.caste && (
               <div className="df">
                 <User className="h-4 w-4 opacity-70" />
-                <span>{otherDetails.caste}</span>
+                <span>{otherDetails.caste} {otherDetails.subCaste ? `- ${otherDetails.subCaste}` : ""}</span>
               </div>
             )}
 

@@ -39,6 +39,10 @@ function PartnerPreferences({ user, canEdit }: props) {
             <p className="font-medium">{user?.partnerPreferences?.caste || "---"}</p>
           </div>
           <div>
+            <span className="text-sm text-muted-foreground">Sub / Other Caste</span>
+            <p className="font-medium">{user?.partnerPreferences?.subCaste || "---"}</p>
+          </div>
+          <div>
             <span className="text-sm text-muted-foreground">Marital Status</span>
             <p className="font-medium">{user?.partnerPreferences?.maritalStatus || "---"}</p>
           </div>
@@ -66,11 +70,10 @@ function PartnerPreferences({ user, canEdit }: props) {
             <span className="text-sm text-muted-foreground">Location</span>
             <p className="font-medium">{user?.partnerPreferences?.location || "---"}</p>
           </div>
-        </div>
-
-        <div>
-          <span className="text-sm text-muted-foreground">Expectations</span>
-          <p className="font-medium mt-1">{user?.partnerPreferences?.expectation || "---"}</p>
+          <div>
+            <span className="text-sm text-muted-foreground">Expectations</span>
+            <p className="font-medium mt-1">{user?.partnerPreferences?.expectation || "---"}</p>
+          </div>
         </div>
       </CardContent>
     </Card>

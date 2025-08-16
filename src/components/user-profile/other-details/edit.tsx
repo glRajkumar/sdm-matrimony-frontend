@@ -9,7 +9,7 @@ import { otherDetailsSchema, type otherDetailsT } from '@/utils/user-schema';
 import { useUpdateProfile } from '@/hooks/use-user';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { SelectListWrapper } from '@/components/common/lists';
+import { SelectListWrapper, SelectSubCastesWrapper } from '@/components/common/lists';
 import { InputWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -22,13 +22,16 @@ function Edit({ user }: { user: userT }) {
     resolver: zodResolver(otherDetailsSchema),
     defaultValues: {
       motherTongue: user?.otherDetails?.motherTongue || "",
-      houseType: user?.otherDetails?.houseType || "",
+      // houseType: user?.otherDetails?.houseType || "",
       religion: user?.otherDetails?.religion || "",
       height: user?.otherDetails?.height || "",
       color: user?.otherDetails?.color || "",
       caste: user?.otherDetails?.caste || "",
+      subCaste: user?.otherDetails?.subCaste || "",
     },
   })
+
+  const choosed = form.watch("caste")
 
   function onSubmit(values: otherDetailsT) {
     const isAdmin = window.location.pathname.includes("admin")
@@ -74,25 +77,6 @@ function Edit({ user }: { user: userT }) {
               canCreateNew
             />
 
-            <InputWrapper
-              control={form.control}
-              name="houseType"
-              label="House Type"
-            />
-
-            <InputWrapper
-              control={form.control}
-              name="height"
-              label="Height"
-              type="number"
-            />
-
-            <InputWrapper
-              control={form.control}
-              name="color"
-              label="Complexion"
-            />
-
             <SelectListWrapper
               control={form.control}
               name="religion"
@@ -109,6 +93,32 @@ function Edit({ user }: { user: userT }) {
               listName="castes"
               additionalOpts="Don't wish to specify"
               canCreateNew
+            />
+
+            <SelectSubCastesWrapper
+              name="subCaste"
+              control={form.control}
+              choosed={choosed || ""}
+              additionalOpts="Don't wish to specify"
+            />
+
+            {/* <InputWrapper
+              control={form.control}
+              name="houseType"
+              label="House Type"
+            /> */}
+
+            <InputWrapper
+              control={form.control}
+              name="height"
+              label="Height (in cm)"
+              type="number"
+            />
+
+            <InputWrapper
+              control={form.control}
+              name="color"
+              label="Color"
             />
 
             <div className="flex justify-end space-x-2 pt-2">

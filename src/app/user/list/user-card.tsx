@@ -85,7 +85,7 @@ function UserCard({
               <UsersRound className="h-4 w-4 opacity-70" />
               <span className="@xl/card:w-24">Caste</span>
               <span className="@xl/card:w-4">:</span>
-              <span className="font-medium">{otherDetails?.caste}</span>
+              <span className="font-medium">{otherDetails?.caste} {otherDetails?.subCaste ? `- ${otherDetails?.subCaste}` : ""}</span>
             </div>
 
             <div className="df">

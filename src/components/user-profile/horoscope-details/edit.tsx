@@ -60,8 +60,21 @@ function Edit({ user }: { user: userT }) {
   async function onSubmit(values: vedicHoroscopeT) {
     const isAdmin = window.location.pathname.includes("admin")
 
-    if (values.vedicHoroscopePic && typeof values.vedicHoroscopePic !== "string") {
-      values.vedicHoroscopePic = await uploadPic(values.vedicHoroscopePic)
+    const payload = {
+      ...values,
+    }
+    if (payload.vedicHoroscopePic && typeof payload.vedicHoroscopePic !== "string") {
+      payload.vedicHoroscopePic = await uploadPic(payload.vedicHoroscopePic)
+    }
+
+    if (payload.nakshatra) {
+      payload.nakshatra = payload.nakshatra.split(" (")[0]
+    }
+    if (payload.rasi) {
+      payload.rasi = payload.rasi.split(" (")[0]
+    }
+    if (payload.lagna) {
+      payload.lagna = payload.lagna.split(" (")[0]
     }
 
     mutate(
@@ -69,7 +82,7 @@ function Edit({ user }: { user: userT }) {
         ...(isAdmin && { _id: user._id }),
         vedicHoroscope: {
           ...user.vedicHoroscope,
-          ...values,
+          ...payload,
         },
       },
       {
@@ -172,7 +185,7 @@ function Edit({ user }: { user: userT }) {
               <Button
                 type="button"
                 variant="outline"
-                disabled={isPending}
+                disabled={isPending || isPending1}
                 onClick={() => setOpen(false)}
               >
                 Cancel
@@ -180,7 +193,7 @@ function Edit({ user }: { user: userT }) {
 
               <Button
                 type="submit"
-                disabled={isPending}
+                disabled={isPending || isPending1}
               >
                 Save Changes
               </Button>

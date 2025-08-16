@@ -42,7 +42,12 @@ type DateField = BaseField & {
   type: "date"
 }
 
-export type Field = TextField | NumberField | SelectField | DateField | FileField | ComboboxField
+type SubCasteField = Omit<BaseField, "label"> & {
+  type: "subCaste"
+  additionalOpts?: string | string[]
+}
+
+export type Field = TextField | NumberField | SelectField | DateField | FileField | ComboboxField | SubCasteField
 
 type FieldSection = {
   lable: string
@@ -279,11 +284,11 @@ export const fieldList: FieldSection[] = [
         label: "Color",
         type: "text"
       },
-      {
-        name: "otherDetails.houseType",
-        label: "House Type",
-        type: "text"
-      },
+      // {
+      //   name: "otherDetails.houseType",
+      //   label: "House Type",
+      //   type: "text"
+      // },
       {
         name: "otherDetails.motherTongue",
         label: "Mother Tongue",
@@ -307,6 +312,11 @@ export const fieldList: FieldSection[] = [
         listName: "castes",
         additionalOpts: "Don't wish to specify",
         canCreateNew: true,
+      },
+      {
+        name: "otherDetails.subCaste",
+        type: "subCaste",
+        additionalOpts: "Don't wish to specify",
       }
     ]
   },
@@ -365,6 +375,14 @@ export const fieldList: FieldSection[] = [
         canCreateNew: true,
       },
       {
+        name: "partnerPreferences.motherTongue",
+        label: "Mother Tongue",
+        type: "combobox",
+        listName: "languages",
+        additionalOpts: "Any",
+        canCreateNew: true,
+      },
+      {
         name: "partnerPreferences.caste",
         label: "Caste",
         type: "combobox",
@@ -373,12 +391,9 @@ export const fieldList: FieldSection[] = [
         canCreateNew: true,
       },
       {
-        name: "partnerPreferences.motherTongue",
-        label: "Mother Tongue",
-        type: "combobox",
-        listName: "languages",
+        name: "partnerPreferences.subCaste",
+        type: "subCaste",
         additionalOpts: "Any",
-        canCreateNew: true,
       },
       {
         name: "partnerPreferences.location",

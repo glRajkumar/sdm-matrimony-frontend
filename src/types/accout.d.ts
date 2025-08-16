@@ -68,12 +68,14 @@ type userT = {
     height: string
     color: string
     caste: string
+    subCaste: string
   }
   partnerPreferences: {
     minAge: number
     maxAge: number
     religion: string
     caste: string
+    subCaste: string
     minSalary: number
     minQualification: string
     profession: string
