@@ -13,9 +13,10 @@ export const endPoints = {
   updatePassword: "/account/update-password",
   logout: "/account/logout",
   me: "/account/me",
-
   resendVerifyEmail: "/account/resend-verify-email",
   verifyAccount: "/account/verify",
+
+  static: "/static",
 
   getMatches: "/user/matches",
   getLikesList: "/user/likes-list",

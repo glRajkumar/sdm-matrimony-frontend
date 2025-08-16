@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Check, ChevronsUpDown, Plus } from "lucide-react"
+import { Check, ChevronsUpDown, Loader2, Plus } from "lucide-react"
 
 import { useElementWidth } from "@/hooks/use-element"
 import { cn } from "@/lib/utils"
@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button"
 type Props = {
   value?: string
   options: optionsT
+  isLoading?: boolean
   placeholder?: string
   emptyMessage?: string
   canCreateNew?: boolean
@@ -32,7 +33,8 @@ type Props = {
 
 function Combobox({
   value = "",
-  options,
+  options = [],
+  isLoading = false,
   placeholder = "",
   emptyMessage = "",
   canCreateNew = false,
@@ -64,13 +66,21 @@ function Combobox({
             "text-muted-foreground": !value
           })}
         >
-          <span className="truncate">
-            {
-              value
-                ? typeof found === "object" ? found.label : found
-                : placeholder
-            }
-          </span>
+          {
+            isLoading
+              ? <>
+                <Loader2 className="size-4 animate-spin" />
+                <span>Loading...</span>
+              </>
+              :
+              <span className="truncate">
+                {
+                  value
+                    ? typeof found === "object" ? found.label : found
+                    : placeholder
+                }
+              </span>
+          }
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

@@ -207,11 +207,12 @@ export function DatePickerWrapper<T extends FieldValues>({ name, label, control,
 
 type ComboboxWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
   options: optionsT
+  isLoading?: boolean
   placeholder?: string
   canCreateNew?: boolean
   emptyMessage?: string
 }
-export function ComboboxWrapper<T extends FieldValues>({ name, label, control, className, options, canCreateNew, placeholder, emptyMessage }: ComboboxWrapperProps<T>) {
+export function ComboboxWrapper<T extends FieldValues>({ name, label, control, className, options, canCreateNew, placeholder, emptyMessage, isLoading }: ComboboxWrapperProps<T>) {
   return (
     <FormField
       name={name}
@@ -223,10 +224,11 @@ export function ComboboxWrapper<T extends FieldValues>({ name, label, control, c
           <FormControl>
             <Combobox
               options={options}
+              isLoading={isLoading}
               placeholder={placeholder || `Select ${label}`}
               emptyMessage={emptyMessage}
               canCreateNew={canCreateNew}
-              value={`${field.value}`}
+              value={`${field.value || ""}`}
               onValueChange={(value) => {
                 if (value === 'true') field.onChange(true)
                 else if (value === 'false') field.onChange(false)
