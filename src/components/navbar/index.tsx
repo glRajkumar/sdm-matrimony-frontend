@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import Menu from './menu';
 
@@ -58,8 +57,8 @@ function Navbar({ role = "user" }: props) {
   return (
     <nav className="df gap-4 py-3 px-6 shadow-md sticky top-0 bg-white z-[1]">
       <Link href={`/${role}`} className="df gap-0.5 mr-auto">
-        <Image
-          src="/logo.png"
+        <img
+          src="/logos/logo-512.webp"
           width={48}
           height={48}
           alt='SDM-logo'

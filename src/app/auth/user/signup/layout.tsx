@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { CardDescription, CardTitle } from "@/components/ui/card";
@@ -7,8 +6,8 @@ function Layout({ children }: readOnlyChildren) {
   return (
     <>
       <div className="flex flex-col items-center space-y-2 mb-6">
-        <Image
-          src="/logo.png"
+        <img
+          src="/logos/logo-512.webp"
           width={80}
           height={80}
           alt='SDM-logo'

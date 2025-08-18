@@ -64,7 +64,7 @@ const jsonLdOrg = {
   "name": "Sri DurgaDevi Matrimony",
   "alternateName": "Sri DurgaDevi Thirumana Thagaval Maiyam",
   "url": "https://sdmatrimony.com",
-  "logo": "https://sdmatrimony.com/logo.png",
+  "logo": "https://sdmatrimony.com/logos/logo-1024.png",
   "contactPoint": [
     {
       "@type": "ContactPoint",

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Check, Users, Loader } from "lucide-react";
-import Image from "next/image";
 
 import { useCreateOrder, useVerifyPayment } from "@/hooks/use-payment";;
 import useUserStore from "@/store/user";
@@ -102,8 +101,8 @@ function Page() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Image
-              src="/logo.png"
+            <img
+              src="/logos/logo-512.webp"
               width={80}
               height={80}
               alt='SDM-logo'

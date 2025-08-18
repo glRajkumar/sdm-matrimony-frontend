@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -8,8 +7,8 @@ function Nav() {
     <nav className="bg-card/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="df h-16">
-          <Image
-            src="/logo.png"
+          <img
+            src="/logos/logo-512.webp"
             width={48}
             height={48}
             alt='SDM-logo'
