@@ -37,6 +37,17 @@ export const columns = (currentTab: tab, role: rolesT): ColumnDef<Partial<userT>
     cell: ({ row }) => <p className="normal-case">{row?.original?.contactDetails?.mobile || "---"}</p>,
   },
   {
+    id: "Caste",
+    accessorKey: "otherDetails.caste",
+    header: ({ column }) => <ColumnSorter column={column} title="Caste" />,
+    filterFn: (row, id, value) => value?.includes(row?.getValue(id)),
+    cell: ({ row }) => (
+      <p>
+        {row?.original?.otherDetails?.caste || "---"} {row?.original?.otherDetails?.subCaste ? `- ${row?.original?.otherDetails?.subCaste}` : ""}
+      </p>
+    ),
+  },
+  {
     accessorKey: "gender",
     header: ({ column }) => <ColumnSorter column={column} title="Gender" />,
     filterFn: (row, id, value) => value?.includes(row?.getValue(id)),

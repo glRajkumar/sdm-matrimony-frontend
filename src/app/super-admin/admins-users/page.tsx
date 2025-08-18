@@ -25,7 +25,7 @@ function Page() {
         !isLoading && data && data?.map(ad => (
           <Collapsible key={ad?._id} className="mb-8 border shadow-sm rounded-md">
             <CollapsibleTrigger className="w-full px-4 py-3 text-left cursor-pointer border-b">
-              {ad?.fullName} {ad?.email}
+              <strong>{ad?.fullName}</strong> {ad?.email}
             </CollapsibleTrigger>
 
             <CollapsibleContent className="p-6 max-h-96 overflow-y-auto">

@@ -16,6 +16,7 @@ import {
 
 import { userListProps, useUsersList } from '@/hooks/use-admin';
 import { gender, maritalStatus } from '@/utils/enums';
+import { useStatics } from "@/hooks/use-general";
 
 import { ColumnToggle, DataTable, ColumnFacetedFilter } from "@/components/ui/data-table";
 import { columns } from "./columns";
@@ -31,6 +32,7 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-3rem)]", ...props }: 
   const [globalFilter, setGlobalFilter] = useState('')
 
   const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage, } = useUsersList(props)
+  const { data: castes, isLoading: isCasteLoading } = useStatics("castes")
 
   const currentTab: any = props.approvalStatus || (props.isBlocked ? "blocked" : "deleted")
 
@@ -54,7 +56,7 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-3rem)]", ...props }: 
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
-  if (isLoading) return (
+  if (isLoading || isCasteLoading) return (
     <div className={`dc ${loaderHt}`}>
       <Loader className="animate-spin" />
     </div>
@@ -81,12 +83,18 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-3rem)]", ...props }: 
           options={maritalStatus.map(status => ({ label: status, value: status }))}
         />
 
+        <ColumnFacetedFilter
+          column={table.getColumn("Caste")}
+          title="Caste"
+          options={castes?.map((status: string) => ({ label: status, value: status }))}
+        />
+
         <ColumnToggle table={table} />
       </div>
 
       <DataTable
         table={table}
-        className='my-4 [&_th:nth-child(-n+3)]:min-w-60'
+        className='my-4 [&_th:nth-child(-n+4)]:min-w-60'
       />
 
       {
