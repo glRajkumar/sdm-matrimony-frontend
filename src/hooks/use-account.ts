@@ -179,7 +179,9 @@ export function useUpdateEmail() {
   return useMutation({
     mutationFn: updateEmail,
     onSuccess(_, variables) {
-      toast('Email updated successfully')
+      toast('Email updated successfully', {
+        description: "Please check your email to verify this email"
+      })
       updateUser({ email: variables.email })
     },
     onError(error) {
