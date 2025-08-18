@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Heart, Users, Loader } from "lucide-react";
+import { Check, Users, Loader } from "lucide-react";
+import Image from "next/image";
 
 import { useCreateOrder, useVerifyPayment } from "@/hooks/use-payment";;
 import useUserStore from "@/store/user";
@@ -101,10 +102,16 @@ function Page() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="h-8 w-8 text-pink-500" />
+            <Image
+              src="/logo.png"
+              width={80}
+              height={80}
+              alt='SDM-logo'
+            />
             <h1 className="text-3xl font-bold text-gray-900">Find Your Perfect Match</h1>
           </div>
-          <p className="text-gray-600 text-lg">Choose the plan that's right for your journey to love</p>
+
+          <div className="text-gray-600 text-lg">Choose the plan that's right for your journey to love</div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
