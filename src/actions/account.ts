@@ -70,14 +70,6 @@ export function resendVerifyEmail(data: any) {
   })
 }
 
-export function updatePassword(data: { oldPassword: string, newPassword: string }) {
-  return sendApiReq({
-    url: endPoints.updatePassword,
-    method: "POST",
-    data,
-  })
-}
-
 export function logout() {
   return sendApiReq({
     withCredentials: true,
@@ -90,5 +82,29 @@ export function logout() {
 export function me() {
   return sendApiReq({
     url: endPoints.me,
+  })
+}
+
+export function updatePassword(data: { oldPassword: string, newPassword: string }) {
+  return sendApiReq({
+    url: endPoints.updatePassword,
+    method: "PUT",
+    data,
+  })
+}
+
+export function updateMobile(data: { mobile: string }) {
+  return sendApiReq({
+    url: endPoints.updateMobile,
+    method: "PUT",
+    data,
+  })
+}
+
+export function updateEmail(data: { email: string }) {
+  return sendApiReq({
+    url: endPoints.updateEmail,
+    method: "PUT",
+    data,
   })
 }

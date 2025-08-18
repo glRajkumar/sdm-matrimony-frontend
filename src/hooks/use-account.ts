@@ -6,7 +6,8 @@ import { toast } from "sonner";
 
 import {
   checkApprovalStatus, forgotPass, login, logout, registerImage,
-  resendVerifyEmail, resetPass, signup, updatePassword, verifyAccount
+  resendVerifyEmail, resetPass, signup, verifyAccount,
+  updateEmail, updateMobile, updatePassword,
 } from "@/actions";
 import { removeToken, setToken } from "@/actions/token";
 import useUserStore from "@/store/user";
@@ -149,6 +150,40 @@ export function useUpdatePassword() {
     },
     onError(error) {
       toast('Failed to update password', {
+        description: error.message
+      })
+    },
+  })
+}
+
+export function useUpdateMobile() {
+  const updateUser = useUserStore(s => s.updateUser)
+
+  return useMutation({
+    mutationFn: updateMobile,
+    onSuccess(_, variables) {
+      toast('Mobile number updated successfully')
+      updateUser({ mobile: variables.mobile })
+    },
+    onError(error) {
+      toast('Failed to update mobile number', {
+        description: error.message
+      })
+    },
+  })
+}
+
+export function useUpdateEmail() {
+  const updateUser = useUserStore(s => s.updateUser)
+
+  return useMutation({
+    mutationFn: updateEmail,
+    onSuccess(_, variables) {
+      toast('Email updated successfully')
+      updateUser({ email: variables.email })
+    },
+    onError(error) {
+      toast('Failed to update email', {
         description: error.message
       })
     },

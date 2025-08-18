@@ -18,7 +18,7 @@ export type User = {
 }
 
 interface Actions {
-  updateUser: (payload: User) => void
+  updateUser: (payload: Partial<User>) => void
   updateCurrentPlan: (payload: currentPlanT) => void
 }
 

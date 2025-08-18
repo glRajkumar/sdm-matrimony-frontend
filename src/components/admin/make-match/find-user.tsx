@@ -127,20 +127,21 @@ function FindUser({ gender, selected, setSelected }: props) {
               <div className="space-y-2 max-h-[400px] pr-6 -mr-6 overflow-y-auto">
                 {users.map((user) => (
                   <div
-                    key={user._id}
-                    className={`df items-start mb-2 border rounded-md overflow-hidden cursor-pointer ${selected === user._id ? "border-primary" : ""}`}
+                    key={user?._id}
+                    className={`df items-start mb-2 border rounded-md overflow-hidden cursor-pointer ${selected === user?._id ? "border-primary" : ""}`}
                     onClick={() => setSelected(user)}
                   >
                     <img
                       className="w-full sm:w-32 h-32 object-cover"
-                      src={user.profileImg || "/imgs/user.jpg"}
-                      alt={user.fullName || "Profile Image"}
+                      src={user?.profileImg || "/imgs/user.jpg"}
+                      alt={user?.fullName || "Profile Image"}
                     />
 
                     <div className="px-2 py-4">
-                      <p className="font-medium">{user.fullName}</p>
-                      <p className="text-muted-foreground">{user.email}</p>
-                      <p className="text-muted-foreground">{user.contactDetails?.mobile}</p>
+                      <p className="font-medium">{user?.fullName}</p>
+                      <p className="text-muted-foreground">{user?.email}</p>
+                      <p className="text-muted-foreground">{user?.contactDetails?.mobile}</p>
+                      <p className="text-muted-foreground">{user?.otherDetails?.caste} {user?.otherDetails?.subCaste ? `- ${user?.otherDetails?.subCaste}` : ""}</p>
                     </div>
                   </div>
                 ))}

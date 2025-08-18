@@ -10,11 +10,13 @@ export const endPoints = {
   resetPass: "/account/reset-pass",
   registerImage: "/account/register-image",
   checkApprovalStatus: "/account/check-approval-status",
-  updatePassword: "/account/update-password",
   logout: "/account/logout",
   me: "/account/me",
   resendVerifyEmail: "/account/resend-verify-email",
+  updatePassword: "/account/password",
   verifyAccount: "/account/verify",
+  updateMobile: "/account/mobile",
+  updateEmail: "/account/email",
 
   static: "/static",
 
