@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -8,9 +8,12 @@ function Nav() {
     <nav className="bg-card/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="df h-16">
-          <div className="bg-gradient-to-r from-rose-400 to-pink-500 p-2 rounded-full">
-            <Heart className="h-6 w-6 text-white" />
-          </div>
+          <Image
+            src="/logo.png"
+            width={48}
+            height={48}
+            alt='SDM-logo'
+          />
 
           <span className="hidden sm:block text-2xl font-bold bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">
             Sri Durga Devi Matrimony

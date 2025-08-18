@@ -82,12 +82,14 @@ function UserCreationsPerAdmin() {
 
               <ul className="mt-2 df flex-wrap">
                 {
-                  ad?.dates && groupData(ad?.dates, type).map(v => (
-                    <li key={v.key} className="df justify-between px-2 py-1 text-xs border rounded-full bg-muted/20">
-                      <p>{v.key} :</p>
-                      <p className="font-medium">{v.value}</p>
-                    </li>
-                  ))
+                  ad?.dates && groupData(ad?.dates, type)
+                    .sort((a, b) => a.key.localeCompare(b.key))
+                    .map(v => (
+                      <li key={v.key} className="df justify-between px-2 py-1 text-xs border rounded-full bg-muted/20">
+                        <p>{v.key} :</p>
+                        <p className="font-medium">{v.value}</p>
+                      </li>
+                    ))
                 }
               </ul>
             </div>
