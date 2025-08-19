@@ -1,21 +1,29 @@
-import { create } from 'zustand';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-type state = {
-  open: string
-  data: any
-}
+type State = {
+  data: any;
+  open: string;
+  remindVerification: boolean;
+};
 
-type actions = {
-  update: (v: Partial<state>) => void
-  close: () => void
-}
+type Actions = {
+  update: (v: Partial<State>) => void;
+  close: () => void;
+};
 
-const useUIStore = create<state & actions>()(set => ({
+const useUIStore = create<State & Actions>()(persist(set => ({
   open: "",
   data: null,
+  remindVerification: true,
 
-  update: val => set(val),
+  update: (val) => set(val),
   close: () => set({ open: "", data: null }),
-}))
+}),
+  {
+    name: "ui-store",
+    partialize: s => ({ remindVerification: s.remindVerification }),
+  }
+))
 
 export default useUIStore

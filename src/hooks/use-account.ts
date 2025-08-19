@@ -132,7 +132,9 @@ export function useResendVerifyEmail() {
   return useMutation({
     mutationFn: resendVerifyEmail,
     onSuccess() {
-      toast('Verification email sent successfully')
+      toast('Verification email sent successfully', {
+        description: "Please check your email"
+      })
     },
     onError(error) {
       toast('Failed to send verification email', {
@@ -182,7 +184,7 @@ export function useUpdateEmail() {
       toast('Email updated successfully', {
         description: "Please check your email to verify this email"
       })
-      updateUser({ email: variables.email })
+      updateUser({ email: variables.email, isVerified: false })
     },
     onError(error) {
       toast('Failed to update email', {

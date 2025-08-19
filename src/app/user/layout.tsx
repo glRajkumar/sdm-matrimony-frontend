@@ -1,3 +1,4 @@
+import VerifyCheck from "@/components/verify-check";
 import Navbar from "@/components/navbar";
 
 function Layout({ children }: readOnlyChildren) {
@@ -5,6 +6,8 @@ function Layout({ children }: readOnlyChildren) {
     <main>
       <Navbar role="user" />
       {children}
+
+      <VerifyCheck />
     </main>
   )
 }
