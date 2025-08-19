@@ -1,9 +1,9 @@
 "use client";
 
+import { Loader } from 'lucide-react';
 import Link from 'next/link';
 
-import { useLogout } from '@/hooks/use-account';
-import useUserStore from '@/store/user';
+import { useLogout, useUserDetailsMini } from '@/hooks/use-account';
 
 import {
   DropdownMenu,
@@ -37,24 +37,27 @@ const superAdminLinks = [
 ]
 
 function Menu() {
-  const userName = useUserStore(s => s.fullName)
-  const user_id = useUserStore(s => s._id)
-  const email = useUserStore(s => s.email)
-  const role = useUserStore(s => s.role)
+  const { data: user, isLoading } = useUserDetailsMini()
+  const userName = user?.fullName
+  const role = user?.role
 
   const { mutate } = useLogout()
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="dc size-8 p-0 rounded-full uppercase bg-primary text-primary-foreground hover:bg-primary/90">
-        {userName?.[0]}
+      <DropdownMenuTrigger
+        className="dc size-8 p-0 rounded-full uppercase bg-primary text-primary-foreground hover:bg-primary/90"
+        disabled={isLoading}
+      >
+        {isLoading && <Loader className="size-4 animate-spin" />}
+        {!isLoading && userName?.[0]}
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className='w-40' align="end">
         <DropdownMenuLabel asChild>
           <div>
             <p className="mb-1 text-sm font-medium leading-none line-clamp-1">{userName}</p>
-            <p className="text-xs leading-none text-muted-foreground line-clamp-1">{email}</p>
+            <p className="text-xs leading-none text-muted-foreground line-clamp-1">{user?.email}</p>
           </div>
         </DropdownMenuLabel>
 
@@ -64,7 +67,7 @@ function Menu() {
           role === "user" &&
           <>
             <DropdownMenuItem asChild>
-              <Link href={`/user/profile/${user_id}`}>
+              <Link href={`/user/profile/${user?._id}`}>
                 Profile
               </Link>
             </DropdownMenuItem>
@@ -78,7 +81,7 @@ function Menu() {
         }
 
         {
-          role === "admin" &&
+          !isLoading && role === "admin" &&
           adminLinks.map(link => (
             <DropdownMenuItem key={link.href} asChild>
               <Link href={`/admin/${link.href}`}>
@@ -89,7 +92,7 @@ function Menu() {
         }
 
         {
-          role === "super-admin" &&
+          !isLoading && role === "super-admin" &&
           superAdminLinks.map(link => (
             <DropdownMenuItem key={link.href} asChild>
               <Link href={`/super-admin/${link.href}`}>

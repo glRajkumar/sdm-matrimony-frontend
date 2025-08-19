@@ -1,16 +1,15 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import {
   checkApprovalStatus, forgotPass, login, logout, registerImage,
   resendVerifyEmail, resetPass, signup, verifyAccount,
-  updateEmail, updateMobile, updatePassword,
+  updateEmail, updateMobile, updatePassword, userDetailsMini,
 } from "@/actions";
 import { removeToken, setToken } from "@/actions/token";
-import useUserStore from "@/store/user";
 
 export function useSignup() {
   const router = useRouter()
@@ -36,17 +35,17 @@ export function useRegisterImage() {
 }
 
 export function useLogin() {
+  const queryClient = useQueryClient()
   const router = useRouter()
-  const updateUser = useUserStore(s => s.updateUser)
 
   return useMutation({
     mutationFn: login,
     onSuccess(res) {
       const { access_token: token, ...rest } = res
       setToken(token)
-      updateUser(rest)
       toast('Logged in successfully')
       router.replace("/")
+      queryClient.setQueryData(["user-details-mini"], rest)
     },
     onError(error) {
       toast('Login failed', {
@@ -57,16 +56,16 @@ export function useLogin() {
 }
 
 export function useCheckApprovalStatus() {
+  const queryClient = useQueryClient()
   const router = useRouter()
-  const updateUser = useUserStore(s => s.updateUser)
 
   return useMutation({
     mutationFn: checkApprovalStatus,
     onSuccess(res) {
       const { access_token: token, ...rest } = res
       setToken(token)
-      updateUser(rest)
       router.replace("/")
+      queryClient.setQueryData(["user-details-mini"], rest)
     },
     onError(error) {
       toast(error.message)
@@ -159,13 +158,13 @@ export function useUpdatePassword() {
 }
 
 export function useUpdateMobile() {
-  const updateUser = useUserStore(s => s.updateUser)
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: updateMobile,
-    onSuccess(_, variables) {
+    onSuccess() {
       toast('Mobile number updated successfully')
-      updateUser({ mobile: variables.mobile })
+      queryClient.invalidateQueries({ queryKey: ["user-details-mini"] })
     },
     onError(error) {
       toast('Failed to update mobile number', {
@@ -176,15 +175,15 @@ export function useUpdateMobile() {
 }
 
 export function useUpdateEmail() {
-  const updateUser = useUserStore(s => s.updateUser)
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: updateEmail,
-    onSuccess(_, variables) {
+    onSuccess() {
       toast('Email updated successfully', {
         description: "Please check your email to verify this email"
       })
-      updateUser({ email: variables.email, isVerified: false })
+      queryClient.invalidateQueries({ queryKey: ["user-details-mini"] })
     },
     onError(error) {
       toast('Failed to update email', {
@@ -195,13 +194,15 @@ export function useUpdateEmail() {
 }
 
 export function useLogout() {
+  const queryClient = useQueryClient()
   const router = useRouter()
-  const role = useUserStore(s => s.role)
 
   function onSuccess() {
+    const toUser = window.location.pathname.includes("user") ? "user" : "admin"
     removeToken()
+    queryClient.clear()
     toast('Logged out successfully')
-    router.replace(`/auth/${role || "user"}/signin`)
+    router.replace(`/auth/${toUser}/signin`)
   }
 
   return useMutation({
@@ -209,5 +210,17 @@ export function useLogout() {
     onSettled() {
       onSuccess()
     },
+  })
+}
+
+type miniT = Pick<userT, "_id" | "email" | "contactDetails" | "fullName" | "gender" | "isVerified"> & {
+  currentPlan: currentPlanT
+  unlockedCount: number
+  role: rolesT
+}
+export function useUserDetailsMini() {
+  return useQuery<miniT>({
+    queryKey: ["user-details-mini"],
+    queryFn: userDetailsMini,
   })
 }

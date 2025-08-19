@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Check, Users, Loader } from "lucide-react";
 
 import { useCreateOrder, useVerifyPayment } from "@/hooks/use-payment";;
-import useUserStore from "@/store/user";
+import { useUserDetailsMini } from "@/hooks/use-account";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -17,9 +17,7 @@ import { Label } from "@/components/ui/label";
 import { PlanBadge, planDetails, planPrices } from "@/components/common/plan-badge";
 
 function Page() {
-  const contact = useUserStore(s => s.mobile)
-  const email = useUserStore(s => s.email)
-  const name = useUserStore(s => s.fullName)
+  const { data: user, isLoading } = useUserDetailsMini()
 
   const [noOfProfilesCanView, setNoOfProfilesCanView] = useState(50)
   const [assistedMonths, setAssistedMonths] = useState(1)
@@ -47,6 +45,8 @@ function Page() {
     }
     const data = await createOrderMutate(payload)
 
+    const contact = user?.contactDetails?.mobile || ""
+
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
       amount: data.amount,
@@ -56,8 +56,8 @@ function Page() {
       order_id: data.id,
       notes: payload,
       prefill: {
-        name,
-        email,
+        name: user?.fullName || "",
+        email: user?.email || "",
         contact: contact ? "+91" + contact : "",
       },
       handler: (res: any) => {
@@ -288,7 +288,7 @@ function Page() {
                   size="lg"
                   className="w-full bg-pink-600 hover:bg-pink-700"
                   onClick={handlePayment}
-                  disabled={isCreateOrderPending || isVerifyPaymentPending}
+                  disabled={isCreateOrderPending || isVerifyPaymentPending || isLoading}
                 >
                   {(isCreateOrderPending || isVerifyPaymentPending) && <Loader className="animate-spin" />}
                   Proceed to Payment - ₹{finalAmount.toLocaleString()}

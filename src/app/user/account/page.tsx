@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckCircle, XCircle, Mail, Lock, CreditCard, Loader, User, Phone } from "lucide-react";
 
-import { useResendVerifyEmail, useUpdateEmail, useUpdateMobile } from "@/hooks/use-account";
-import { useAccountInfo } from "@/hooks/use-user";
-import useUserStore from "@/store/user";
+import { useResendVerifyEmail, useUpdateEmail, useUpdateMobile, useUserDetailsMini } from "@/hooks/use-account";
 
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -19,18 +17,22 @@ import PlanDetails from "./plan-details";
 import UpdatePass from "./update-pass";
 
 function Page() {
-  const mobile = useUserStore(s => s.mobile)
-  const email = useUserStore(s => s.email)
+  const { data: user, isLoading } = useUserDetailsMini()
 
   const [showPasswordForm, setShowPasswordForm] = useState(false)
-  const [newMobile, setNewMobile] = useState(mobile)
-  const [newEmail, setNewEmail] = useState(email)
+  const [mobile, setMobile] = useState(user?.contactDetails?.mobile || "")
+  const [email, setEmail] = useState(user?.email || "")
 
   const { mutate: resendVerifyEmailMutate, isPending: isPending1 } = useResendVerifyEmail()
   const { mutate: mobileMutate, isPending: isMobilePending } = useUpdateMobile()
   const { mutate: emailMutate, isPending: isEmailPending } = useUpdateEmail()
 
-  const { data: accountInfo, isLoading } = useAccountInfo()
+  useEffect(() => {
+    if (user) {
+      setEmail(user?.email || "")
+      setMobile(user?.contactDetails?.mobile || "")
+    }
+  }, [user])
 
   function updatePass() {
     setShowPasswordForm(p => !p)
@@ -51,10 +53,10 @@ function Page() {
                 ? <Loader className="h-4 w-4 animate-spin" />
                 :
                 <Badge
-                  variant={accountInfo?.isVerified ? "default" : "destructive"}
+                  variant={user?.isVerified ? "default" : "destructive"}
                   className="flex items-center gap-1"
                 >
-                  {accountInfo?.isVerified ? (
+                  {user?.isVerified ? (
                     <>
                       <CheckCircle className="h-3 w-3" />
                       Verified
@@ -73,28 +75,28 @@ function Page() {
             <Input
               id="email"
               type="email"
-              value={newEmail}
+              value={isLoading ? "Loading..." : email}
               className="flex-1"
-              onChange={e => setNewEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
             />
 
             <ConfirmUpdate
-              description={`email to ${newEmail}. You need to verify your new email agian even if you verified your old email.`}
-              disabled={!newEmail || email === newEmail}
+              description={`email to ${email}. You need to verify your new email agian even if you verified your old email.`}
+              disabled={!email || email === user?.email}
               isPending={isEmailPending}
-              onConfirm={() => emailMutate({ email: newEmail })}
+              onConfirm={() => emailMutate({ email: email })}
             />
           </div>
 
           {
-            !!email &&
             !isLoading &&
-            !accountInfo?.isVerified && (
+            !!user?.email &&
+            !user?.isVerified && (
               <Button
                 size="sm"
                 variant="outline"
                 className="mt-2 bg-transparent"
-                onClick={() => resendVerifyEmailMutate({ email })}
+                onClick={() => resendVerifyEmailMutate({ email: user?.email })}
                 disabled={isPending1}
               >
                 {isPending1 && <Loader className="h-4 w-4 animate-spin" />}
@@ -116,15 +118,15 @@ function Page() {
             <Input
               id="mobile"
               type="tel"
-              value={newMobile}
+              value={isLoading ? "Loading..." : mobile}
               className="flex-1"
-              onChange={e => setNewMobile(e.target.value)}
+              onChange={e => setMobile(e.target.value)}
             />
             <ConfirmUpdate
-              description={`mobile to ${newMobile}`}
-              disabled={!newMobile || newMobile === mobile}
+              description={`mobile to ${mobile}`}
+              disabled={!mobile || mobile === user?.contactDetails?.mobile}
               isPending={isMobilePending}
-              onConfirm={() => mobileMutate({ mobile: newMobile })}
+              onConfirm={() => mobileMutate({ mobile: mobile })}
             />
           </div>
         </div>
@@ -167,8 +169,8 @@ function Page() {
           isLoading
             ? <div className="dc h-60"><Loader className="size-6 animate-spin" /></div>
             : <PlanDetails
-              currentPlan={accountInfo?.currentPlan}
-              unlockedCount={accountInfo?.unlockedCount || 0}
+              currentPlan={user?.currentPlan}
+              unlockedCount={user?.unlockedCount || 0}
             />
         }
       </CardWrapper>

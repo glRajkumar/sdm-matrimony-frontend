@@ -1,18 +1,21 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import { useUserDetailsMini } from "@/hooks/use-account";
 import { useUnlockProfile } from "@/hooks/use-user";
-import useUserStore from "@/store/user";
 
 import { Button } from "@/components/ui/button";
 
 function useUnlock() {
-  const currentPlan = useUserStore(s => s.currentPlan)
+  const { data: user } = useUserDetailsMini()
 
   const { mutate, isPending } = useUnlockProfile()
   const router = useRouter()
-
+  console.log(user?.currentPlan)
   function unlockBtnClk(_id: string) {
+    const currentPlan = user?.currentPlan
     if (currentPlan && new Date(currentPlan?.expiryDate).getTime() > new Date().getTime()) {
       mutate({ _id })
 

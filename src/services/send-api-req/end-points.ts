@@ -11,7 +11,7 @@ export const endPoints = {
   registerImage: "/account/register-image",
   checkApprovalStatus: "/account/check-approval-status",
   logout: "/account/logout",
-  me: "/account/me",
+  userDetailsMini: "/account/user-deatils-mini",
   resendVerifyEmail: "/account/resend-verify-email",
   updatePassword: "/account/password",
   verifyAccount: "/account/verify",

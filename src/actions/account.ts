@@ -79,9 +79,9 @@ export function logout() {
   })
 }
 
-export function me() {
+export function userDetailsMini() {
   return sendApiReq({
-    url: endPoints.me,
+    url: endPoints.userDetailsMini,
   })
 }
 

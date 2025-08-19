@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import useUserStore from "@/store/user";
+import { useUserDetailsMini } from "@/hooks/use-account";
 import useUIStore from "@/store/ui";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -11,10 +11,15 @@ import VerifyReminder from "./verify-reminder";
 import AddEmail from "./add-email";
 
 function Inner() {
-  const isVerified = useUserStore(s => s.isVerified)
-  const email = useUserStore(s => s.email)
+  const { data: user, isLoading } = useUserDetailsMini()
 
-  const [open, setOpen] = useState(!email || !isVerified)
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    if (user && (!user?.email || !user?.isVerified)) {
+      setOpen(true)
+    }
+  }, [user])
 
   const onSuccess = () => setOpen(false)
 
@@ -22,16 +27,16 @@ function Inner() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md">
         {
-          !email &&
+          !isLoading && !user?.email &&
           <AddEmail
             onSuccess={onSuccess}
           />
         }
 
         {
-          !!email && !isVerified &&
+          !isLoading && !!user?.email && !user?.isVerified &&
           <VerifyReminder
-            email={email}
+            email={user?.email}
             onSuccess={onSuccess}
           />
         }

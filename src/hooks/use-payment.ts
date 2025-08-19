@@ -1,9 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { createOrder, verifyPayment } from "@/actions";
-import useUserStore from "@/store/user";
 
 export function useCreateOrder() {
   return useMutation({
@@ -15,14 +14,14 @@ export function useCreateOrder() {
 }
 
 export function useVerifyPayment() {
-  const updateCurrentPlan = useUserStore(s => s.updateCurrentPlan)
+  const queryClient = useQueryClient()
   const navigate = useRouter()
 
   return useMutation({
     mutationFn: verifyPayment,
-    onSuccess: (res) => {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-details-mini"] })
       toast.success("Payment verified successfully")
-      updateCurrentPlan(res)
       navigate.push("/user")
     },
     onError: (error) => {

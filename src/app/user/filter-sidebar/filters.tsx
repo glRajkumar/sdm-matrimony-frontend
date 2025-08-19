@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import { maritalStatus, ageRange, salaryRange } from '@/utils';
 import { usePartnerPreferences } from '@/hooks/use-user';
-import useUserStore from '@/store/user';
+import { useUserDetailsMini } from '@/hooks/use-account';
 
 import { InputWrapper, SelectWrapper } from '@/components/ui/form-wrapper';
 import { SelectListWrapper } from '@/components/common/lists';
@@ -125,8 +125,10 @@ function getPayload(userPartnerPreferences: Pick<userT, "partnerPreferences">) {
 }
 
 function Filters({ onSave, hasFilters }: props) {
-  const userId = useUserStore(s => s?._id)
-  const { data: user, isLoading } = usePartnerPreferences(userId)
+  const { data: userMini, isLoading: isLoadingMini } = useUserDetailsMini()
+  const { data: user, isLoading: isLoading2 } = usePartnerPreferences(isLoadingMini ? "" : userMini?._id || "")
+
+  const isLoading = isLoadingMini || isLoading2
 
   const form = useForm({
     resolver: zodResolver(schema),
