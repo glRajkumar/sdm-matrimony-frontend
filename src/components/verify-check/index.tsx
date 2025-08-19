@@ -22,19 +22,19 @@ function Inner() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md">
         {
-          // !email &&
+          !email &&
           <AddEmail
             onSuccess={onSuccess}
           />
         }
 
-        {/* {
+        {
           !!email && !isVerified &&
           <VerifyReminder
             email={email}
             onSuccess={onSuccess}
           />
-        } */}
+        }
       </DialogContent>
     </Dialog>
   )
