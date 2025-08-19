@@ -24,7 +24,7 @@ export const endPoints = {
   getLikesList: "/user/likes-list",
   getUserDetails: "/user/profile",
   getPartnerPreferences: "/user/partner-preferences",
-  getAccountInfo: "/user/account-info",
+  getCurrentPlan: "/user/current-plan",
   addLiked: "/user/addliked",
   removeLiked: "/user/removeliked",
   updateProfile: "/user/profile",

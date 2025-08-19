@@ -214,8 +214,7 @@ export function useLogout() {
 }
 
 type miniT = Pick<userT, "_id" | "email" | "contactDetails" | "fullName" | "gender" | "isVerified"> & {
-  currentPlan: currentPlanT
-  unlockedCount: number
+  currentPlan: Pick<currentPlanT, "subscribedTo" | "expiryDate">
   role: rolesT
 }
 export function useUserDetailsMini() {

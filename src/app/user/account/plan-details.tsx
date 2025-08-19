@@ -1,16 +1,13 @@
-import { CheckCircle, LockKeyhole } from "lucide-react";
+import { CheckCircle, Loader, LockKeyhole } from "lucide-react";
+import { format } from "date-fns";
+import Link from "next/link";
+
+import { useCurrentPlan } from "@/hooks/use-user";
 
 import { PlanBadge, planDetails, planPrices } from "@/components/common/plan-badge"
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { format } from "date-fns";
-
-type props = {
-  currentPlan: currentPlanT | undefined
-  unlockedCount: number
-}
+import { Badge } from "@/components/ui/badge";
 
 function FreePlan() {
   return (
@@ -69,7 +66,11 @@ function FreePlan() {
   )
 }
 
-function PlanDetails({ currentPlan, unlockedCount }: props) {
+function PlanDetails() {
+  const { data: currentPlan, isLoading } = useCurrentPlan()
+
+  if (isLoading) return <div className="dc h-60"><Loader className="size-6 animate-spin" /></div>
+
   if (!currentPlan) return <FreePlan />
 
   const currentPlanDetails = planDetails[currentPlan.subscribedTo]
@@ -184,7 +185,7 @@ function PlanDetails({ currentPlan, unlockedCount }: props) {
       <Separator />
 
       <div className="text-sm text-center">
-        {unlockedCount} profiles unlocked. To view unlocked profiles, <Link className="text-pink-500 hover:text-pink-600" href="/user/unlocked">click here</Link>
+        {currentPlan?.unlockedCount} profiles unlocked. To view unlocked profiles, <Link className="text-pink-500 hover:text-pink-600" href="/user/unlocked">click here</Link>
       </div>
     </>
   )

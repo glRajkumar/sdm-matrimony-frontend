@@ -32,9 +32,9 @@ export function getUnlockedProfiles() {
   })
 }
 
-export function getAccountInfo() {
+export function getCurrentPlan() {
   return sendApiReq({
-    url: endPoints.getAccountInfo,
+    url: endPoints.getCurrentPlan,
   })
 }
 

@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import {
   addLiked, getLikesList, getMatches, getUserDetails, removeLiked,
   addImages, updateProfile, getPartnerPreferences, getUnlockedProfiles,
-  unlockProfile, getAccountInfo
+  unlockProfile, getCurrentPlan
 } from "@/actions";
 import { filterObj } from "@/utils";
 
@@ -62,11 +62,11 @@ export function useUnlockedProfiles() {
   })
 }
 
-type accountInfoT = Pick<userT, "email" | "isVerified" | "currentPlan"> & { unlockedCount: number }
-export function useAccountInfo() {
-  return useQuery<accountInfoT>({
-    queryKey: ["account-info"],
-    queryFn: getAccountInfo,
+type planT = currentPlanT & { unlockedCount: number }
+export function useCurrentPlan() {
+  return useQuery<planT>({
+    queryKey: ["current-plan"],
+    queryFn: getCurrentPlan,
   })
 }
 
