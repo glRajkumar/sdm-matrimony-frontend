@@ -23,9 +23,18 @@ function Inner() {
 
   const onSuccess = () => setOpen(false)
 
+  function onOpenChange(v: boolean) {
+    if (!!user?.email) {
+      setOpen(v)
+    }
+  }
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-md">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        className="sm:max-w-md"
+        showCloseButton={!!user?.email}
+      >
         {
           !isLoading && !user?.email &&
           <AddEmail
