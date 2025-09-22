@@ -13,7 +13,7 @@ function useUnlock() {
 
   const { mutate, isPending } = useUnlockProfile()
   const router = useRouter()
-  console.log(user?.currentPlan)
+
   function unlockBtnClk(_id: string) {
     const currentPlan = user?.currentPlan
     if (currentPlan && new Date(currentPlan?.expiryDate).getTime() > new Date().getTime()) {

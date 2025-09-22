@@ -17,6 +17,7 @@ type currentPlanT = {
   noOfProfilesCanView: number
   isAssisted: boolean
   assistedMonths: number
+  createdAt: string
 }
 
 type userT = {
