@@ -1,3 +1,4 @@
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "sonner";
 import Script from "next/script";
 
@@ -105,6 +106,8 @@ function RootLayout({ children }: readOnlyChildren) {
         <Script id="ld-json-org" type="application/ld+json">
           {JSON.stringify(jsonLdOrg)}
         </Script>
+
+        <SpeedInsights />
       </body>
     </html >
   );
