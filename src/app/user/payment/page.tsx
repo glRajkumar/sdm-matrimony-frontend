@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
 import { PlanBadge, planDetails, planPrices } from "@/components/common/plan-badge";
+import Script from "next/script";
 
 function Page() {
   const { data: user, isLoading } = useUserDetailsMini()
@@ -298,6 +299,11 @@ function Page() {
           </div>
         </div>
       </div>
+
+      <Script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        strategy="beforeInteractive"
+      />
     </div>
   )
 }
