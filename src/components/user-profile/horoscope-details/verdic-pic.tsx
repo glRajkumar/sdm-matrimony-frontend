@@ -2,17 +2,15 @@
 
 import { Lock } from "lucide-react";
 
-import UseUnlock from "../contact-details/use-unlock";
-
 import { Button } from "@/components/ui/button";
 
 type props = {
   user: userT
+  isPending: boolean
+  unlockBtnClk: (id: string) => void
 }
 
-function VerdicPic({ user }: props) {
-  const { isPending, unlockBtnClk } = UseUnlock()
-
+function VerdicPic({ user, isPending, unlockBtnClk }: props) {
   if (!user?.contactDetails) {
     return (
       <Button

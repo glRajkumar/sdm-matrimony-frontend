@@ -5,16 +5,16 @@ import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type props = {
-  user: userT
-  type: "mobile" | "address"
   isPending: boolean
   unlockBtnClk: () => void
+  unlocked: boolean
+  value: string
 }
 
-function UpgradeBtn({ user, type, isPending, unlockBtnClk }: props) {
-  if (user?.contactDetails) {
+function UpgradeBtn({ unlocked, value, isPending, unlockBtnClk }: props) {
+  if (unlocked) {
     return (
-      <p className="font-medium">{user?.contactDetails?.[type] || "---"}</p>
+      <p className="font-medium">{value || "---"}</p>
     )
   }
 

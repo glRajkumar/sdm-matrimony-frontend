@@ -33,8 +33,8 @@ function ContactDetails({ user, canEdit }: props) {
           <div>
             <span className="text-sm text-muted-foreground">Phone Number</span>
             <UpgradeBtn
-              user={user}
-              type="mobile"
+              value={user?.contactDetails?.mobile}
+              unlocked={!!user?.contactDetails}
               isPending={isPending}
               unlockBtnClk={() => unlockBtnClk(user._id)}
             />
@@ -43,8 +43,8 @@ function ContactDetails({ user, canEdit }: props) {
           <div>
             <span className="text-sm text-muted-foreground">Address</span>
             <UpgradeBtn
-              user={user}
-              type="address"
+              value={user?.contactDetails?.address}
+              unlocked={!!user?.contactDetails}
               isPending={isPending}
               unlockBtnClk={() => unlockBtnClk(user._id)}
             />

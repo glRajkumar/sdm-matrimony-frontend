@@ -1,8 +1,11 @@
+"use client";
 
 import { nakshatraMap, raasiMap } from "@/utils";
+import useUnlock from "../contact-details/use-unlock";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+import UpgradeBtn from "../contact-details/upgrade-btn";
 import VerdicPic from "./verdic-pic";
 import Edit from "./edit";
 
@@ -16,6 +19,8 @@ function getValue(val: string, map: Record<string, string>) {
 }
 
 function HoroscopeDetails({ user, canEdit }: props) {
+  const { isPending, unlockBtnClk } = useUnlock()
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -34,15 +39,30 @@ function HoroscopeDetails({ user, canEdit }: props) {
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div>
             <span className="text-sm text-muted-foreground">Nakshatra</span>
-            <p className="font-medium">{getValue(user?.vedicHoroscope?.nakshatra, nakshatraMap)}</p>
+            <UpgradeBtn
+              value={getValue(user?.vedicHoroscope?.nakshatra, nakshatraMap)}
+              unlocked={!!user?.contactDetails}
+              isPending={isPending}
+              unlockBtnClk={() => unlockBtnClk(user._id)}
+            />
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Rasi</span>
-            <p className="font-medium">{getValue(user?.vedicHoroscope?.rasi, raasiMap)}</p>
+            <UpgradeBtn
+              value={getValue(user?.vedicHoroscope?.rasi, raasiMap)}
+              unlocked={!!user?.contactDetails}
+              isPending={isPending}
+              unlockBtnClk={() => unlockBtnClk(user._id)}
+            />
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Lagna</span>
-            <p className="font-medium">{getValue(user?.vedicHoroscope?.lagna, raasiMap)}</p>
+            <UpgradeBtn
+              value={getValue(user?.vedicHoroscope?.lagna, raasiMap)}
+              unlocked={!!user?.contactDetails}
+              isPending={isPending}
+              unlockBtnClk={() => unlockBtnClk(user._id)}
+            />
           </div>
           <div>
             <span className="text-sm text-muted-foreground">Dasha Period</span>
@@ -56,7 +76,11 @@ function HoroscopeDetails({ user, canEdit }: props) {
 
         <div>
           <span className="text-sm text-muted-foreground">Vedic Horoscope Picture</span>
-          <VerdicPic user={user} />
+          <VerdicPic
+            user={user}
+            isPending={isPending}
+            unlockBtnClk={unlockBtnClk}
+          />
         </div>
       </CardContent>
     </Card>
