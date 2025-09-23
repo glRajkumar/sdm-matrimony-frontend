@@ -1,4 +1,5 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
 import Script from "next/script";
 
@@ -108,6 +109,7 @@ function RootLayout({ children }: readOnlyChildren) {
         </Script>
 
         <SpeedInsights />
+        <Analytics />
       </body>
     </html >
   );
