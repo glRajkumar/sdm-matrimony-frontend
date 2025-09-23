@@ -71,7 +71,7 @@ export function useCurrentPlan() {
 }
 
 export function usePartnerPreferences(_id: string) {
-  return useQuery<Pick<userT, "partnerPreferences">>({
+  return useQuery<Pick<userT, "partnerPreferences"> & { dob: string }>({
     queryKey: ["partner-preferences", _id],
     queryFn: getPartnerPreferences,
     enabled: !!_id,

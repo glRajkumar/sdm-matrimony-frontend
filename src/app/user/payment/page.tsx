@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Users, Loader } from "lucide-react";
+import Script from "next/script";
 
 import { useCreateOrder, useVerifyPayment } from "@/hooks/use-payment";;
 import { useUserDetailsMini } from "@/hooks/use-account";
@@ -15,7 +16,26 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
 import { PlanBadge, planDetails, planPrices, profilesCount } from "@/components/common/plan-badge";
-import Script from "next/script";
+
+const ensureRazorpay = (): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    if (typeof window === "undefined") {
+      reject("Window is not available")
+      return
+    }
+
+    if ((window as any).Razorpay) {
+      resolve()
+      return
+    }
+
+    const script = document.createElement("script")
+    script.src = "https://checkout.razorpay.com/v1/checkout.js"
+    script.onload = () => resolve()
+    script.onerror = () => reject("Failed to load Razorpay SDK")
+    document.body.appendChild(script)
+  })
+}
 
 function Page() {
   const { data: user, isLoading } = useUserDetailsMini()
@@ -78,6 +98,8 @@ function Page() {
         })
       },
     }
+
+    await ensureRazorpay()
 
     const rzp = new (window as any).Razorpay(options)
     rzp.open()
@@ -318,7 +340,7 @@ function Page() {
 
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
       />
     </div>
   )
