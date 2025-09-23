@@ -19,10 +19,17 @@ type planDetailsT = {
 }
 
 export const planPrices: Record<subscribedToT, number> = {
-  basic: 3_000,
-  gold: 5_500,
-  diamond: 8_500,
-  platinum: 11_000,
+  basic: 2_500,
+  gold: 3_500,
+  diamond: 5_000,
+  platinum: 6_000,
+}
+
+export const profilesCount: Record<subscribedToT, number> = {
+  basic: 30,
+  gold: 50,
+  diamond: 70,
+  platinum: 90,
 }
 
 export const planDetails: Record<subscribedToT, planDetailsT> = {

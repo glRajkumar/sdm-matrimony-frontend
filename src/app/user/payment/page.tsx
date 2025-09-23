@@ -14,13 +14,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
-import { PlanBadge, planDetails, planPrices } from "@/components/common/plan-badge";
+import { PlanBadge, planDetails, planPrices, profilesCount } from "@/components/common/plan-badge";
 import Script from "next/script";
 
 function Page() {
   const { data: user, isLoading } = useUserDetailsMini()
 
-  const [noOfProfilesCanView, setNoOfProfilesCanView] = useState(50)
+  const [additionalProfilesCount, setAdditionalProfilesCount] = useState(50)
+  const [addAdditionalProfiles, setAddAdditionalProfiles] = useState(false)
   const [assistedMonths, setAssistedMonths] = useState(1)
   const [subscribedTo, setSubscribedTo] = useState<subscribedToT>("basic")
   const [isAssisted, setIsAssisted] = useState(false)
@@ -38,6 +39,12 @@ function Page() {
   }
 
   const handlePayment = async () => {
+    const noOfProfilesCanView = !addAdditionalProfiles
+      ? profilesCount[subscribedTo]
+      : additionalProfilesCount === 999
+        ? additionalProfilesCount
+        : additionalProfilesCount + profilesCount[subscribedTo]
+
     const payload = {
       subscribedTo,
       noOfProfilesCanView,
@@ -52,7 +59,7 @@ function Page() {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
       amount: data.amount,
       currency: data.currency,
-      name: 'Sri Durgadevi Matrimony',
+      name: 'SD Matrimony',
       description: 'Unlock user informations',
       order_id: data.id,
       notes: payload,
@@ -77,19 +84,18 @@ function Page() {
   }
 
   function getProfileLabel(option: { value: number; label: string }) {
-    if (option.value === 50) return "Basic --- 50 profiles"
     if (option.value === 999) return "Unlimited profiles" + " (+₹20,000)"
-    return `+${option.value - 50} profiles (+₹${((option.value - 50) / 50) * 1_000})`
+    return `+${option.value} profiles (+₹${(option.value / 50) * 1_000})`
   }
 
   let finalAmount = planPrices[subscribedTo]
 
-  if (noOfProfilesCanView > 50) {
-    if (noOfProfilesCanView === 999) {
+  if (addAdditionalProfiles) {
+    if (additionalProfilesCount === 999) {
       // Unlimited
       finalAmount += 20_000
     } else {
-      finalAmount += ((noOfProfilesCanView - 50) / 50) * 1_000
+      finalAmount += (additionalProfilesCount / 50) * 1_000
     }
   }
 
@@ -162,9 +168,9 @@ function Page() {
                               </div>
                               <div className="space-y-2">
                                 {[
-                                  "Access to 50 profiles",
-                                  "View personal information",
-                                  "Phone numbers & contact details"
+                                  `Unlock personal information of ${profilesCount[key as subscribedToT]} profiles`,
+                                  // "View user information",
+                                  // "Phone numbers & contact details"
                                 ].map((feature, index) => (
                                   <div key={index} className="flex items-center gap-2 text-gray-600">
                                     <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
@@ -180,18 +186,30 @@ function Page() {
                   </div>
                 </RadioGroup>
 
-                <div className="mt-6 space-y-4">
-                  <Separator />
-                  <div>
-                    <Label className="text-base font-medium">Additional Profile Access</Label>
-                    <p className="text-sm text-gray-600 mb-3">
-                      Expand your reach with more profile views (₹1,000 per additional 50 profiles)
-                    </p>
+                <Separator className="my-6" />
+
+                <div className="mb-1 text-sm text-gray-600">
+                  Expand your reach with more profile views (₹1,000 per additional 50 profiles)
+                </div>
+
+                <div className="df flex-wrap">
+                  <Checkbox
+                    id="additional-profile-access"
+                    checked={addAdditionalProfiles}
+                    onCheckedChange={(value) => setAddAdditionalProfiles(value as boolean)}
+                  />
+
+                  <Label htmlFor="additional-profile-access" className="mr-auto text-base font-medium shrink-0">
+                    Additional Profile Access
+                  </Label>
+
+                  {
+                    addAdditionalProfiles &&
                     <Select
-                      value={noOfProfilesCanView.toString()}
-                      onValueChange={(value) => setNoOfProfilesCanView(Number.parseInt(value))}
+                      value={additionalProfilesCount.toString()}
+                      onValueChange={(value) => setAdditionalProfilesCount(Number.parseInt(value))}
                     >
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-60" size="sm">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -202,39 +220,41 @@ function Page() {
                         ))}
                       </SelectContent>
                     </Select>
-                  </div>
+                  }
+                </div>
 
-                  <div className="space-y-3">
-                    <div className="text-sm text-gray-600">Get personalized assistance from our relationship experts</div>
+                <div className="mb-6">
+                </div>
 
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="assisted" checked={isAssisted} onCheckedChange={(value) => setIsAssisted(value as boolean)} />
-                      <Label htmlFor="assisted" className="text-base font-medium">
-                        Assisted Services (₹10,000/month)
-                      </Label>
-                    </div>
+                <div className="mb-1 text-sm text-gray-600">Get personalized assistance from our relationship experts (₹10,000 per month)</div>
 
-                    {isAssisted && (
-                      <div className="ml-6">
-                        <Label className="text-sm font-medium">Duration (months)</Label>
-                        <Select
-                          value={assistedMonths.toString()}
-                          onValueChange={(value) => setAssistedMonths(Number.parseInt(value))}
-                        >
-                          <SelectTrigger className="w-32 mt-1">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {[1, 2, 3, 4, 5, 6].map((month) => (
-                              <SelectItem key={month} value={month.toString()}>
-                                {month} month{month > 1 ? "s" : ""}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    )}
-                  </div>
+                <div className="df flex-wrap">
+                  <Checkbox id="assisted" checked={isAssisted} onCheckedChange={(value) => setIsAssisted(value as boolean)} />
+                  <Label htmlFor="assisted" className="mr-auto text-base font-medium shrink-0">
+                    Assisted Services
+                  </Label>
+
+                  {isAssisted && (
+                    <Select
+                      value={assistedMonths.toString()}
+                      onValueChange={(value) => setAssistedMonths(Number.parseInt(value))}
+                    >
+                      <SelectTrigger className="w-48" size="sm">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[1, 2, 3, 4, 5, 6].map((month) => (
+                          <SelectItem key={month} value={month.toString()}>
+                            {month} month{month > 1 ? "s" : ""} (+₹{Number(month * 10_000).toLocaleString()})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                </div>
+
+                <div className="mt-8 text-xs text-gray-500">
+                  Note: Assisted services expire is different from plan expiry. For example, if you buy a 3 month plan with 2 months assisted services, then your plan will expire in 3 months but assisted services will expire in 2 months.
                 </div>
               </CardContent>
             </Card>
@@ -248,25 +268,21 @@ function Page() {
 
               <CardContent className="space-y-4">
                 <div className="flex justify-between">
-                  <p>{planDetails[subscribedTo].name} Plan <span className="text-sm capitalize text-gray-500">( {planDetails[subscribedTo].duration} )</span></p>
+                  <p>{planDetails[subscribedTo].name} Plan <span className="text-xs capitalize text-gray-500">( {planDetails[subscribedTo].duration} - {profilesCount[subscribedTo]} profiles )</span></p>
                   <span className="font-semibold">₹{planPrices[subscribedTo].toLocaleString()}</span>
                 </div>
 
-                {noOfProfilesCanView > 50 && (
+                {
+                  addAdditionalProfiles &&
                   <div className="flex justify-between text-sm">
-                    <span>
-                      Additional Profiles:
-                      {noOfProfilesCanView === 999 ? " Unlimited" : ` +${noOfProfilesCanView - 50}`}
-                    </span>
-                    <span className="font-semibold">+ ₹{(noOfProfilesCanView === 999 ? 20_000 : ((noOfProfilesCanView - 50) / 50) * 1_000).toLocaleString()}</span>
+                    <p>Additional Profiles <span className="text-xs capitalize text-gray-500">( {additionalProfilesCount === 999 ? " Unlimited" : ` +${additionalProfilesCount}`} )</span></p>
+                    <span className="font-semibold">+ ₹{(additionalProfilesCount === 999 ? 20_000 : (additionalProfilesCount / 50) * 1_000).toLocaleString()}</span>
                   </div>
-                )}
+                }
 
                 {isAssisted && (
                   <div className="flex justify-between text-sm">
-                    <span>
-                      Assisted Services ({assistedMonths} month{assistedMonths > 1 ? "s" : ""})
-                    </span>
+                    <p>Assisted Services <span className="text-xs capitalize text-gray-500">( {assistedMonths} month{assistedMonths > 1 ? "s" : ""} )</span></p>
                     <span className="font-semibold">+ ₹{(assistedMonths * 10_000).toLocaleString()}</span>
                   </div>
                 )}
@@ -279,8 +295,8 @@ function Page() {
                 </div>
 
                 <div className="text-xs text-gray-500 space-y-1">
-                  <p>• Profile access: {noOfProfilesCanView === 999 ? "Unlimited" : noOfProfilesCanView} profiles</p>
-                  {isAssisted && <p>• Assisted services included</p>}
+                  <p>• Profile access : {addAdditionalProfiles ? additionalProfilesCount === 999 ? "Unlimited" : additionalProfilesCount + profilesCount[subscribedTo] : profilesCount[subscribedTo]} profiles</p>
+                  <p>• Assisted services : {isAssisted ? `${assistedMonths} month${assistedMonths > 1 ? "s" : ""}` : "Not opted"}</p>
                 </div>
               </CardContent>
 
