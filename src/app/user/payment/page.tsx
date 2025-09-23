@@ -57,7 +57,7 @@ function Page() {
 
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
-      amount: data.amount,
+      amount: 1000,
       currency: data.currency,
       name: 'SD Matrimony',
       description: 'Unlock user informations',
