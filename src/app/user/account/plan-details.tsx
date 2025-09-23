@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { useCurrentPlan } from "@/hooks/use-user";
 
-import { PlanBadge, planDetails, planPrices } from "@/components/common/plan-badge"
+import { PlanBadge, planDetails, planPrices, profilesCount } from "@/components/common/plan-badge"
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -81,6 +81,7 @@ function PlanDetails() {
 
   const currentPlanDetails = planDetails[currentPlan?.subscribedTo]
   const assistedExpire = currentPlan?.assistedMonths ? getAssistExpire(currentPlan?.createdAt, currentPlan?.assistedMonths) : new Date()
+  const addedProfiles = currentPlan?.noOfProfilesCanView === 999 ? 999 : currentPlan?.noOfProfilesCanView - profilesCount[currentPlan?.subscribedTo]
   const isPlanValid = currentPlan?.expiryDate ? new Date(currentPlan?.expiryDate).getTime() > Date.now() : true
 
   return (
@@ -131,7 +132,11 @@ function PlanDetails() {
           </div>
 
           <div className="space-y-2">
-            {["Access to 50 profiles", "View personal information", "Phone numbers & contact details"].map(
+            {[
+              `Unlock personal information of ${profilesCount[currentPlan?.subscribedTo]} profiles`,
+              // "View personal information",
+              // "Phone numbers & contact details"
+            ].map(
               (feature, index) => (
                 <div key={index} className="flex items-center gap-2 text-gray-600">
                   <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
@@ -144,18 +149,46 @@ function PlanDetails() {
       </div>
 
       {
-        (currentPlan?.noOfProfilesCanView > 50 || currentPlan?.isAssisted) &&
+        (addedProfiles >= 50 || currentPlan?.isAssisted) &&
         <div className="space-y-4">
           <h4 className="font-medium">Additional Services</h4>
 
           {
-            currentPlan?.noOfProfilesCanView > 50 &&
+            addedProfiles >= 50 &&
             <div className="p-4 rounded-lg border bg-muted/30">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                  <span className="font-medium">Additional Profile Access</span>
-                </div>
+              <p className="df mb-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span className="mr-auto font-medium">Additional Profile Access</span>
+
+                {
+                  isPlanValid
+                    ? <Badge variant="outline">
+                      Active
+                    </Badge>
+                    : <Badge variant="destructive">
+                      Expired
+                    </Badge>
+                }
+              </p>
+
+              <p className="text-sm text-muted-foreground mb-2">
+                Extended access to view more profiles beyond the chosen plan
+              </p>
+
+              <p className="df text-sm">
+                <span>{currentPlan?.noOfProfilesCanView === 999 ? "Unlimited" : `+${addedProfiles}`} profiles</span>
+                {currentPlan?.noOfProfilesCanView !== 999 && <span className=" text-gray-500">(Total {currentPlan?.noOfProfilesCanView} profiles)</span>}
+                <span className="ml-auto text-lg font-semibold">₹{(currentPlan?.noOfProfilesCanView === 999 ? 20_000 : (addedProfiles / 50) * 1_000).toLocaleString()}</span>
+              </p>
+            </div>
+          }
+
+          {
+            currentPlan?.isAssisted &&
+            <div className="p-4 rounded-lg border bg-muted/30">
+              <p className="df mb-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span className="mr-auto font-medium">Assisted Services</span>
 
                 {
                   assistedExpire?.getTime() > Date.now()
@@ -166,41 +199,17 @@ function PlanDetails() {
                       Expired
                     </Badge>
                 }
-              </div>
-              <p className="text-sm text-muted-foreground mb-2">
-                Extended access to view more profiles beyond the basic 50
               </p>
-              <div className="text-sm">
-                <p className="font-medium">Current Access: </p>
-                <p className="df justify-between">
-                  <span>{currentPlan?.noOfProfilesCanView === 999 ? "Unlimited" : `Basic 50 + ${currentPlan?.noOfProfilesCanView - 50}`} profiles</span>
-                  <span className="text-lg font-semibold">₹{(currentPlan?.noOfProfilesCanView === 999 ? 20_000 : ((currentPlan?.noOfProfilesCanView - 50) / 50) * 1_000).toLocaleString()}</span>
-                </p>
-              </div>
-            </div>
-          }
-
-          {
-            currentPlan?.isAssisted &&
-            <div className="p-4 rounded-lg border bg-muted/30">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                  <span className="font-medium">Assisted Services</span>
-                </div>
-                <Badge variant="outline">Active</Badge>
-              </div>
 
               <p className="text-sm text-muted-foreground mb-2">
                 Personalized assistance from our relationship experts
               </p>
-              <div className="text-sm">
-                <p className="font-medium">Duration: </p>
-                <p className="df justify-between">
-                  <span>{currentPlan?.assistedMonths} months (Expiring on: {format(assistedExpire, "dd MMM yyyy")})</span>
-                  <span className="text-lg font-semibold">₹{(currentPlan?.assistedMonths * 10_000).toLocaleString()}</span>
-                </p>
-              </div>
+
+              <p className="df text-sm">
+                <span>{currentPlan?.assistedMonths} months</span>
+                <span className="mr-auto text-gray-500">(Expiring on: {format(assistedExpire, "dd MMM yyyy")})</span>
+                <span className="text-lg font-semibold">₹{(currentPlan?.assistedMonths * 10_000).toLocaleString()}</span>
+              </p>
             </div>
           }
         </div>
