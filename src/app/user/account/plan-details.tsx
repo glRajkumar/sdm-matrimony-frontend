@@ -77,7 +77,7 @@ function PlanDetails() {
 
   if (isLoading) return <div className="dc h-60"><Loader className="size-6 animate-spin" /></div>
 
-  if (!currentPlan) return <FreePlan />
+  if (!currentPlan || !currentPlan?.subscribedTo) return <FreePlan />
 
   const currentPlanDetails = planDetails[currentPlan?.subscribedTo]
   const assistedExpire = currentPlan?.assistedMonths ? getAssistExpire(currentPlan?.createdAt, currentPlan?.assistedMonths) : new Date()
