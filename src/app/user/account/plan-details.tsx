@@ -108,14 +108,14 @@ function PlanDetails() {
                 className="p-3 rounded-full [&>svg]:size-6"
               />
               <div>
-                <h3 className={`font-semibold text-xl ${currentPlanDetails.textColor}`}>
-                  {currentPlanDetails.name} Plan
+                <h3 className={`font-semibold text-xl ${currentPlanDetails?.textColor}`}>
+                  {currentPlanDetails?.name} Plan
                 </h3>
-                <p className="text-sm text-muted-foreground">{currentPlanDetails.duration}</p>
+                <p className="text-sm text-muted-foreground">{currentPlanDetails?.duration}</p>
               </div>
             </div>
             <div className="text-right">
-              <div className={`text-2xl font-bold ${currentPlanDetails.textColor}`}>
+              <div className={`text-2xl font-bold ${currentPlanDetails?.textColor}`}>
                 ₹{planPrices[currentPlan?.subscribedTo].toLocaleString()}
               </div>
 
