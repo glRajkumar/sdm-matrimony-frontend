@@ -116,7 +116,7 @@ function PlanDetails() {
             </div>
             <div className="text-right">
               <div className={`text-2xl font-bold ${currentPlanDetails?.textColor}`}>
-                ₹{planPrices[currentPlan?.subscribedTo].toLocaleString()}
+                ₹{planPrices[currentPlan?.subscribedTo]?.toLocaleString()}
               </div>
 
               {
@@ -178,7 +178,7 @@ function PlanDetails() {
               <p className="df text-sm">
                 <span>{currentPlan?.noOfProfilesCanView === 999 ? "Unlimited" : `+${addedProfiles}`} profiles</span>
                 {currentPlan?.noOfProfilesCanView !== 999 && <span className=" text-gray-500">(Total {currentPlan?.noOfProfilesCanView} profiles)</span>}
-                <span className="ml-auto text-lg font-semibold">₹{(currentPlan?.noOfProfilesCanView === 999 ? 20_000 : (addedProfiles / 50) * 1_000).toLocaleString()}</span>
+                <span className="ml-auto text-lg font-semibold">₹{(currentPlan?.noOfProfilesCanView === 999 ? 20_000 : (addedProfiles / 50) * 1_000)?.toLocaleString()}</span>
               </p>
             </div>
           }
@@ -208,7 +208,7 @@ function PlanDetails() {
               <p className="df text-sm">
                 <span>{currentPlan?.assistedMonths} months</span>
                 <span className="mr-auto text-gray-500">(Expiring on: {format(assistedExpire, "dd MMM yyyy")})</span>
-                <span className="text-lg font-semibold">₹{(currentPlan?.assistedMonths * 10_000).toLocaleString()}</span>
+                <span className="text-lg font-semibold">₹{(currentPlan?.assistedMonths * 10_000)?.toLocaleString()}</span>
               </p>
             </div>
           }
@@ -224,7 +224,7 @@ function PlanDetails() {
             <p className="text-sm font-semibold text-green-600">Valid until {format(currentPlan?.expiryDate, "dd MMM yyyy")}</p>
           </div>
 
-          <div className="text-2xl font-bold text-green-800 text-right">₹{currentPlan?.amount.toLocaleString()}</div>
+          <div className="text-2xl font-bold text-green-800 text-right">₹{currentPlan?.amount?.toLocaleString()}</div>
         </div>
       </div>
 
