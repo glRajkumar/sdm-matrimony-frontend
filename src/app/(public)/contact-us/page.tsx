@@ -1,3 +1,16 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact Us - SD Matrimony",
+  description: "Get in touch with SD Matrimony for any queries or support.",
+  keywords: ["Contact Us", "Support"],
+  openGraph: {
+    title: "Contact Us",
+    description: "Reach out to us for questions or support regarding our matrimony services.",
+    url: "/contact-us",
+    type: "website",
+  },
+}
 
 function Page() {
   return (

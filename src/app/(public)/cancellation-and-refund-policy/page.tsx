@@ -1,3 +1,16 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Cancellation & Refund Policy - SD Matrimony",
+  description: "Know the cancellation and refund policy for memberships and services at SD Matrimony.",
+  keywords: ["Cancellation Policy", "Refund Policy", "Matrimony"],
+  openGraph: {
+    title: "Cancellation & Refund Policy",
+    description: "Check our cancellation and refund rules for our matrimony services.",
+    url: "/cancellation-and-refund-policy",
+    type: "website",
+  },
+}
 
 function Page() {
   return (

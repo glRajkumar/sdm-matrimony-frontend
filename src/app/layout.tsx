@@ -11,14 +11,14 @@ import "./globals.css";
 import ClientWrapper from "@/components/common/client-wrapper";
 
 export const metadata: Metadata = {
-  title: "Sri DurgaDevi Matrimony | Find Your Perfect Match",
+  title: "SD Matrimony | Find Your Perfect Match",
   description: "Connecting hearts, creating families. Your trusted partner in finding true love.",
-  keywords: ["Matrimony", "Marriage Bureau", "Chennai Matrimony", "Tamil Matrimony", "SDM"],
+  keywords: ["Matrimony", "Marriage Bureau", "Chennai Matrimony", "Tamil Matrimony", "SDM", "SD Matrimony", "Sri Durga Devi Matrimony", "SHRI DURGADEVI THIRUMANA THAGAVAL MAIYAM"],
   authors: [{ name: "Sri DurgaDevi Matrimony", url: "https://sdmatrimony.com" }],
-  applicationName: "SDMatrimony",
+  applicationName: "SD Matrimony",
   manifest: "/manifest.json",
   openGraph: {
-    title: "Sri DurgaDevi Matrimony",
+    title: "SD Matrimony",
     description: "Connecting hearts, creating families. Your trusted partner in finding true love.",
     url: "https://sdmatrimony.com",
     siteName: "SDMatrimony",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
         url: "/imgs/og_image.png",
         width: 1200,
         height: 630,
-        alt: "Sri DurgaDevi Matrimony"
+        alt: "SD Matrimony"
       }
     ],
     locale: "en_IN",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sri DurgaDevi Matrimony",
+    title: "SD Matrimony",
     description: "Find your perfect match with SDMatrimony.",
     images: ["/imgs/og_image.png"],
   },
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
 const jsonLdOrg = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Sri DurgaDevi Matrimony",
+  "name": "SD Matrimony",
   "alternateName": "Sri DurgaDevi Thirumana Thagaval Maiyam",
   "url": "https://sdmatrimony.com",
   "logo": "https://sdmatrimony.com/logos/logo-1024.png",

@@ -1,3 +1,16 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Shipping & Delivery Policy - SD Matrimony",
+  description: "Our platform provides digital matrimony services; no physical shipping is involved.",
+  keywords: ["Shipping Policy", "Delivery Policy", "Matrimony"],
+  openGraph: {
+    title: "Shipping & Delivery Policy",
+    description: "Learn about our digital services and no-physical-shipping policy.",
+    url: "/shipping-and-delivery-policy",
+    type: "website",
+  },
+}
 
 function Page() {
   return (

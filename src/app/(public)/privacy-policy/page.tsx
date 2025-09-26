@@ -1,3 +1,16 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy - SD Matrimony",
+  description: "Understand how SD Matrimony collects and protects your personal information.",
+  keywords: ["Privacy Policy", "Matrimony"],
+  openGraph: {
+    title: "Privacy Policy - SD Matrimony",
+    description: "Learn about our privacy practices for users of our matrimony platform.",
+    url: "/privacy-policy",
+    type: "website",
+  },
+}
 
 function Page() {
   return (

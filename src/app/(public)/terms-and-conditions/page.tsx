@@ -1,3 +1,16 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions - SD Matrimony",
+  description: "Read the Terms & Conditions for using SD Matrimony services.",
+  keywords: ["Terms and Conditions", "Matrimony"],
+  openGraph: {
+    title: "Terms & Conditions - SD Matrimony",
+    description: "Read the Terms & Conditions for using our matrimony platform.",
+    url: "/terms-and-conditions",
+    type: "website",
+  },
+}
 
 function Page() {
   return (
