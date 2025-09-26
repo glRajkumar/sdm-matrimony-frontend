@@ -44,8 +44,8 @@ export function useLogin() {
       const { access_token: token, ...rest } = res
       setToken(token)
       toast('Logged in successfully')
-      router.replace("/")
       queryClient.setQueryData(["user-details-mini"], rest)
+      router.replace("/" + rest?.role || "user")
     },
     onError(error) {
       toast('Login failed', {

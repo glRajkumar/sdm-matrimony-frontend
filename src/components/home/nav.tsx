@@ -15,7 +15,7 @@ function Nav() {
           />
 
           <span className="hidden sm:block text-2xl font-bold bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">
-            Sri Durga Devi Matrimony
+            SD Matrimony
           </span>
 
           <Link href="#contact" className="hidden md:block md:ml-auto md:mr-4 text-gray-700 hover:text-rose-500 transition-colors font-medium">

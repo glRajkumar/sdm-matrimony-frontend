@@ -10,12 +10,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth/admin/signin', request.url))
   }
 
-  if (pathname.startsWith("/auth") || (pathname === "/" && !token)) {
+  const protecteds = ["/user", "/admin", "/super-admin"]
+  if (!protecteds.some(e => pathname.startsWith(e)) || (pathname === "/" && !token)) {
     return NextResponse.next()
   }
 
   if (!token) {
-    return NextResponse.redirect(new URL('/auth/user/signin', request.url))
+    const base = pathname.includes("admin") ? "admin" : "user"
+    return NextResponse.redirect(new URL(`/auth/${base}/signin`, request.url))
   }
 
   try {
