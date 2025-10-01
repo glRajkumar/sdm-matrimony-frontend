@@ -1,4 +1,5 @@
 import { Heart, Phone, MapPin, Mail } from "lucide-react";
+import Link from "next/link";
 
 function Footer() {
   return (
@@ -50,9 +51,15 @@ function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center">
-          <p className="text-gray-400">
+        <div className="text-gray-400 border-t border-gray-800 mt-12 pt-8 text-center">
+          <p className="mb-1">
             © {new Date().getFullYear()} SD Matrimony. All rights reserved. Made with ❤️ for finding love.
+          </p>
+
+          <p className="df justify-center gap-4">
+            <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
+            <span>|</span>
+            <Link href="/terms-and-conditions" className="hover:text-white">Term & Conditions</Link>
           </p>
         </div>
       </div>

@@ -21,7 +21,7 @@ function Page() {
       </header>
 
       <section>
-        <p>For the purpose of these Terms and Conditions, the terms <strong className="font-semibold">"we"</strong>, <strong className="font-semibold">"us"</strong>, <strong className="font-semibold">"our"</strong> refer to <strong className="font-semibold">SHRI DURGADEVI THIRUMANA THAGAVAL MAIYAM (SD Matrimony)</strong>, whose registered/operational office is No. 1, Sri Laxmi Nagar, 3rd Main Street, Alwarthirunagar, Mettukuppam, Chennai, Tiruvallur, TAMIL NADU 600087. The terms <strong className="font-semibold">"you"</strong>, <strong className="font-semibold">"your"</strong>, <strong className="font-semibold">"user"</strong>, <strong className="font-semibold">"visitor"</strong> refer to any natural or legal person who visits our website or purchases our services.</p>
+        <p>For the purpose of these Terms and Conditions, the terms <strong className="font-semibold">"we"</strong>, <strong className="font-semibold">"us"</strong>, <strong className="font-semibold">"our"</strong> refer to <strong className="font-semibold">SHRI DURGADEVI THIRUMANA THAGAVAL MAIYAM (SD Matrimony)</strong>, whose registered/operational office is No. 1, Sri Laxmi Nagar, 3rd Main Street, Alwarthirunagar, Mettukuppam, Chennai, 600087. The terms <strong className="font-semibold">"you"</strong>, <strong className="font-semibold">"your"</strong>, <strong className="font-semibold">"user"</strong>, <strong className="font-semibold">"visitor"</strong> refer to any natural or legal person who visits our website or purchases our services.</p>
 
         <h3>General Terms</h3>
         <ul>

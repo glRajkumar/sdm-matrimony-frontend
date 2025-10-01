@@ -26,8 +26,8 @@ function Page() {
         <h3>Merchant Details</h3>
         <p><strong className="font-semibold">Legal Entity Name:</strong> SHRI DURGADEVI THIRUMANA THAGAVAL MAIYAM</p>
         <p><strong className="font-semibold">Also Known As:</strong> SD Matrimony, Sri Durga Devi Matrimony</p>
-        <p><strong className="font-semibold">Registered Address:</strong> No. 1, Sri Laxmi Nagar, 3rd Main Street, Alwarthirunagar, Mettukuppam, Chennai, Tiruvallur, Tamilnadu, 600087.</p>
-        <p><strong className="font-semibold">Operational Address:</strong> No. 1, Sri Laxmi Nagar, 3rd Main Street, Alwarthirunagar, Mettukuppam, Chennai, Tiruvallur, Tamilnadu, 600087.</p>
+        <p><strong className="font-semibold">Registered Address:</strong> No. 1, Sri Laxmi Nagar, 3rd Main Street, Alwarthirunagar, Mettukuppam, Chennai, 600087.</p>
+        <p><strong className="font-semibold">Operational Address:</strong> No. 1, Sri Laxmi Nagar, 3rd Main Street, Alwarthirunagar, Mettukuppam, Chennai, 600087.</p>
 
         <h3>Contact Information</h3>
         <p><strong className="font-semibold">Telephone No:</strong> <a href="tel:+919791155234">9791155234</a> or <a href="tel:+918667042132">8667042132</a></p>
