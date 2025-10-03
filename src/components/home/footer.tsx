@@ -59,7 +59,9 @@ function Footer() {
           <p className="df justify-center gap-4">
             <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
             <span>|</span>
-            <Link href="/terms-and-conditions" className="hover:text-white">Term & Conditions</Link>
+            <Link href="/terms-and-conditions" className="hover:text-white">Terms & Conditions</Link>
+            <span>|</span>
+            <Link href="/cancellation-and-refund-policy" className="hover:text-white">Refund Policy</Link>
           </p>
         </div>
       </div>
