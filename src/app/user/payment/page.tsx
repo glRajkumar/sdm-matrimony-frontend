@@ -4,8 +4,7 @@ import { useState } from "react";
 import { Check, Users, Loader } from "lucide-react";
 import Script from "next/script";
 
-import { useCreateOrder, useVerifyPayment } from "@/hooks/use-payment";;
-import { useUserDetailsMini } from "@/hooks/use-account";
+import { useCreateOrder, useVerifyPayment } from "@/hooks/use-payment";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -17,29 +16,7 @@ import { Label } from "@/components/ui/label";
 
 import { PlanBadge, planDetails, planPrices, profilesCount } from "@/components/common/plan-badge";
 
-const ensureRazorpay = (): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    if (typeof window === "undefined") {
-      reject("Window is not available")
-      return
-    }
-
-    if ((window as any).Razorpay) {
-      resolve()
-      return
-    }
-
-    const script = document.createElement("script")
-    script.src = "https://checkout.razorpay.com/v1/checkout.js"
-    script.onload = () => resolve()
-    script.onerror = () => reject("Failed to load Razorpay SDK")
-    document.body.appendChild(script)
-  })
-}
-
 function Page() {
-  const { data: user, isLoading } = useUserDetailsMini()
-
   const [additionalProfilesCount, setAdditionalProfilesCount] = useState(50)
   const [addAdditionalProfiles, setAddAdditionalProfiles] = useState(false)
   const [assistedMonths, setAssistedMonths] = useState(1)
@@ -73,36 +50,22 @@ function Page() {
     }
     const data = await createOrderMutate(payload)
 
-    const contact = user?.contactDetails?.mobile || ""
-
-    const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
-      amount: data.amount,
-      currency: data.currency,
-      name: 'SD Matrimony',
-      description: 'Unlock user informations',
-      order_id: data.id,
-      notes: payload,
-      prefill: {
-        name: user?.fullName || "",
-        email: user?.email || "",
-        contact: contact ? "+91" + contact : "",
-      },
-      handler: (res: any) => {
-        verifyPaymentMutate({
-          amount: data.amount / 100,
-          ...payload,
-          paymentId: res.razorpay_payment_id,
-          orderId: data.id,
-          razorpayPaymentSignature: res.razorpay_signature,
-        })
-      },
+    if ((window as any)?.PhonePeCheckout) {
+      (window as any)?.PhonePeCheckout?.transact?.({
+        tokenUrl: data?.redirectUrl,
+        type: "IFRAME",
+        callback(res: string) {
+          if (res === "CONCLUDED") {
+            verifyPaymentMutate({
+              ...payload,
+              amount: data.amount,
+              orderId: data.orderId,
+              merchantOrderId: data.merchantOrderId,
+            })
+          }
+        },
+      })
     }
-
-    await ensureRazorpay()
-
-    const rzp = new (window as any).Razorpay(options)
-    rzp.open()
   }
 
   function getProfileLabel(option: { value: number; label: string }) {
@@ -327,7 +290,7 @@ function Page() {
                   size="lg"
                   className="w-full bg-pink-600 hover:bg-pink-700"
                   onClick={handlePayment}
-                  disabled={isCreateOrderPending || isVerifyPaymentPending || isLoading}
+                  disabled={isCreateOrderPending || isVerifyPaymentPending}
                 >
                   {(isCreateOrderPending || isVerifyPaymentPending) && <Loader className="animate-spin" />}
                   Proceed to Payment - ₹{finalAmount.toLocaleString()}
@@ -338,9 +301,13 @@ function Page() {
         </div>
       </div>
 
-      <Script
+      {/* <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
         strategy="afterInteractive"
+      /> */}
+
+      <Script
+        src="https://mercury.phonepe.com/web/bundle/checkout.js"
       />
     </div>
   )
