@@ -35,7 +35,7 @@ export function InputWrapper<T extends FieldValues>({ name, label, control, clas
           {label && <FormLabel>{label}</FormLabel>}
 
           <FormControl>
-            <Input type={type} placeholder={placeholder || `Enter ${label}`} {...props} {...field} />
+            <Input type={type} placeholder={placeholder || `Enter ${label}`} {...field} {...props} />
           </FormControl>
 
           <FormMessage />

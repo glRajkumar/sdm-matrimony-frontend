@@ -35,6 +35,13 @@ export function checkApprovalStatus() {
   })
 }
 
+export function isExists(email: string) {
+  return sendApiReq({
+    url: endPoints.exists,
+    params: { email },
+  })
+}
+
 export function forgotPass(data: any) {
   return sendApiReq({
     isAuthendicated: false,

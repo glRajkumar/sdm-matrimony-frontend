@@ -17,6 +17,7 @@ export const endPoints = {
   verifyAccount: "/account/verify",
   updateMobile: "/account/mobile",
   updateEmail: "/account/email",
+  exists: "/account/exists",
 
   static: "/static",
 
