@@ -18,18 +18,42 @@ type planDetailsT = {
   duration: string
 }
 
+export const planValidityMonths: Record<subscribedToT, number> = {
+  basic: 3,
+  gold: 6,
+  diamond: 9,
+  platinum: 12,
+} as const
+
 export const planPrices: Record<subscribedToT, number> = {
-  basic: 2_500,
-  gold: 3_500,
-  diamond: 5_000,
-  platinum: 6_000,
+  basic: 1_500,
+  gold: 3_200,
+  diamond: 5_500,
+  platinum: 7_000,
 }
 
 export const profilesCount: Record<subscribedToT, number> = {
-  basic: 30,
-  gold: 50,
+  basic: 20,
+  gold: 45,
   diamond: 70,
-  platinum: 90,
+  platinum: 100,
+}
+
+export const extraProfiles: any = {
+  10: 1_000,
+  20: 1_850,
+  40: 3_000,
+  100: 7_000,
+  999: 20_000,
+}
+
+export const assistedPrices: any = {
+  1: 10_000,
+  2: 18_000,
+  3: 25_000,
+  4: 34_000,
+  5: 42_000,
+  6: 50_000,
 }
 
 export const planDetails: Record<subscribedToT, planDetailsT> = {

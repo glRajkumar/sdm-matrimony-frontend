@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { useCurrentPlan } from "@/hooks/use-user";
 
-import { PlanBadge, planDetails, planPrices, profilesCount } from "@/components/common/plan-badge"
+import { assistedPrices, extraProfiles, PlanBadge, planDetails, planPrices, profilesCount } from "@/components/common/plan-badge"
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -149,12 +149,12 @@ function PlanDetails() {
       </div>
 
       {
-        (addedProfiles >= 50 || currentPlan?.isAssisted) &&
+        (addedProfiles > 0 || currentPlan?.isAssisted) &&
         <div className="space-y-4">
           <h4 className="font-medium">Additional Services</h4>
 
           {
-            addedProfiles >= 50 &&
+            addedProfiles > 0 &&
             <div className="p-4 rounded-lg border bg-muted/30">
               <p className="df mb-2">
                 <CheckCircle className="h-4 w-4 text-green-500" />
@@ -178,7 +178,7 @@ function PlanDetails() {
               <p className="df text-sm">
                 <span>{currentPlan?.noOfProfilesCanView === 999 ? "Unlimited" : `+${addedProfiles}`} profiles</span>
                 {currentPlan?.noOfProfilesCanView !== 999 && <span className=" text-gray-500">(Total {currentPlan?.noOfProfilesCanView} profiles)</span>}
-                <span className="ml-auto text-lg font-semibold">₹{(currentPlan?.noOfProfilesCanView === 999 ? 20_000 : (addedProfiles / 50) * 1_000)?.toLocaleString()}</span>
+                <span className="ml-auto text-lg font-semibold">₹{currentPlan?.noOfProfilesCanView === 999 ? extraProfiles[999] : (extraProfiles?.[addedProfiles])?.toLocaleString()}</span>
               </p>
             </div>
           }
@@ -208,7 +208,7 @@ function PlanDetails() {
               <p className="df text-sm">
                 <span>{currentPlan?.assistedMonths} months</span>
                 <span className="mr-auto text-gray-500">(Expiring on: {format(assistedExpire, "dd MMM yyyy")})</span>
-                <span className="text-lg font-semibold">₹{(currentPlan?.assistedMonths * 10_000)?.toLocaleString()}</span>
+                <span className="text-lg font-semibold">₹{(assistedPrices[currentPlan?.assistedMonths])?.toLocaleString()}</span>
               </p>
             </div>
           }
