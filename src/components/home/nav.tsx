@@ -7,16 +7,15 @@ function Nav() {
     <nav className="bg-card/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="df h-16">
-          <img
-            src="/logos/logo-512.webp"
-            width={48}
-            height={48}
-            alt='SDM-logo'
-          />
-
-          <span className="hidden sm:block text-2xl font-bold bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">
-            SD Matrimony
-          </span>
+          <Link href="/" className="df gap-0.5 mr-auto">
+            <img
+              src="/logos/logo-512.webp"
+              width={48}
+              height={48}
+              alt='SDM-logo'
+            />
+            <span className='hidden sm:block text-2xl font-bold text-pink-700'>SD Matrimony</span>
+          </Link>
 
           <Link href="#contact" className="hidden md:block md:ml-auto md:mr-4 text-gray-700 hover:text-rose-500 transition-colors font-medium">
             Contact
