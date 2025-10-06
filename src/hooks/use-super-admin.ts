@@ -80,8 +80,9 @@ export function useGetUserCreationStatsPerAdmin() {
   })
 }
 
-type uctT = adminT & {
+export type uctT = adminT & {
   created: number
+  users: Pick<userT, "_id" | "fullName" | "maritalStatus" | "profileImg">[]
 }
 export function useGetUserCreationStatsToday() {
   return useQuery<uctT[], Error, uctT[]>({
