@@ -37,6 +37,7 @@ export function checkApprovalStatus() {
 
 export function isExists(email: string) {
   return sendApiReq({
+    isAuthendicated: false,
     url: endPoints.exists,
     params: { email },
   })
