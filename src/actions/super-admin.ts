@@ -34,9 +34,10 @@ export function getUsersStatsCreatedBy() {
   })
 }
 
-export function getUsersStatsCreatedToday() {
+export function getUsersStatsCreated(date: string) {
   return sendApiReq({
-    url: endPoints.getUsersStatsCreatedToday,
+    url: endPoints.getUsersStatsCreated,
+    params: { date },
   })
 }
 

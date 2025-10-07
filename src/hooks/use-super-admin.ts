@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import {
   getPaidUsers, getAssistedSubscribedUsers, getAllPayments, getUsersByCreatedBy,
-  getUsersStatsCreatedBy, getUsersStatsCreatedToday, getAdminsList,
+  getUsersStatsCreatedBy, getUsersStatsCreated, getAdminsList,
   createAdmin, updateAdmin,
 } from "@/actions";
 
@@ -84,10 +84,10 @@ export type uctT = adminT & {
   created: number
   users: Pick<userT, "_id" | "fullName" | "maritalStatus" | "profileImg">[]
 }
-export function useGetUserCreationStatsToday() {
+export function useGetUserCreationStats(date: string) {
   return useQuery<uctT[], Error, uctT[]>({
-    queryKey: ["user-creation-stats-today"],
-    queryFn: getUsersStatsCreatedToday,
+    queryKey: ["user-creation-stats", date],
+    queryFn: () => getUsersStatsCreated(date),
   })
 }
 

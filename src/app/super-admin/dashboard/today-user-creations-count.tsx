@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { RefreshCcw } from "lucide-react";
 
-import { type uctT, useGetUserCreationStatsToday } from "@/hooks/use-super-admin";
+import { type uctT, useGetUserCreationStats } from "@/hooks/use-super-admin";
 
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { format } from "date-fns";
 
 function UserCard(ad: uctT) {
   const [show, setShow] = useState(false)
@@ -53,13 +55,27 @@ function UserCard(ad: uctT) {
 }
 
 function TodayUserCreationsCount() {
-  const { isLoading, isFetching, data, refetch } = useGetUserCreationStatsToday()
+  const [date, setDate] = useState(new Date())
+
+  const { isLoading, isFetching, data, refetch } = useGetUserCreationStats(format(date, "yyyy-MM-dd"))
 
   return (
     <Card className="gap-0">
       <CardHeader>
-        <CardTitle>Today User Creations</CardTitle>
-        <CardAction>
+        <CardTitle>User Creations</CardTitle>
+
+        <CardAction className="df">
+          <DatePicker
+            value={date}
+            onChange={(date) => setDate(date || new Date())}
+            className="w-28"
+            calendarProps={{
+              captionLayout: "dropdown",
+              disabled(date) {
+                return date > new Date()
+              },
+            }}
+          />
           <Button
             size="sm"
             variant="outline"
