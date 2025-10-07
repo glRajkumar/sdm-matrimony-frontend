@@ -9,9 +9,10 @@ import { toast } from 'sonner';
 import { z } from "zod";
 
 import { defaultValues, fieldList } from './data';
+
+import { detectInputType, filterObj, validateIdentifier } from '@/utils';
 import { contactDetailsSchema, createUserSchema } from '@/utils/user-schema';
-import { useRegisterImage } from '@/hooks/use-account';
-import { filterObj } from '@/utils';
+import { useIsExists, useRegisterImage } from '@/hooks/use-account';
 import { cn } from '@/lib/utils';
 
 import FieldWrapper from './field-wrapper';
@@ -60,6 +61,7 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
   })
 
   const { isPending: isPending1, mutateAsync: mutateRegisterImage } = useRegisterImage()
+  const { isPending: isPending2, mutateAsync } = useIsExists()
 
   const sector = methods.watch("proffessionalDetails.sector")
 
@@ -75,6 +77,28 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
       ])
     }
   }, [sector])
+
+  async function checkAvailability(name: any, val: string) {
+    const isEmail = detectInputType(val)
+    const key = isEmail === "email" ? "Email" : "Mobile number"
+    const isValid = validateIdentifier(val)
+    if (isValid !== true) {
+      toast.error(isValid)
+      methods.setError(name, { message: isValid })
+      return false
+    }
+
+    const { isExists } = await mutateAsync(val)
+    if (!isExists) {
+      methods.clearErrors(name)
+      return true
+    }
+
+    const message = `${key} already exists`
+    toast.error(message)
+    methods.setError(name, { message })
+    return false
+  }
 
   async function uploadPic(image: File | string) {
     if (typeof image === "string") return image
@@ -92,6 +116,16 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
     if (!profileImg) return toast.error('Profile image is required')
 
     try {
+      if (rest?.email) {
+        const isValid = await checkAvailability("email", rest?.email)
+        if (!isValid) return
+      }
+
+      if (rest?.contactDetails?.mobile) {
+        const isValid = await checkAvailability("contactDetails.mobile", rest?.contactDetails?.mobile)
+        if (!isValid) return
+      }
+
       let url = await uploadPic(profileImg)
 
       const images = [url]
@@ -156,6 +190,7 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
                       <FieldWrapper
                         key={field.name}
                         control={methods.control}
+                        onBlur={checkAvailability}
                         {...field}
                       />
                     ))
@@ -169,6 +204,7 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
           <Button
             type="submit"
             className="w-full bg-pink-500 hover:bg-pink-600"
+            disabled={isPending || isPending1 || isPending2}
           >
             {(isPending || isPending1) && <Loader className="animate-spin" />}
             {isAdmin ? "Create User" : "Sign Up"}

@@ -2,11 +2,11 @@ import { differenceInYears, parseISO } from 'date-fns';
 
 export * from "./enums";
 
-function detectInputType(value: string) {
+export function detectInputType(value: string) {
   if (!value) return ""
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  const mobileRegex = /^\d{10,15}$/
+  const mobileRegex = /^\d{10}$/
 
   if (emailRegex.test(value)) return "email"
   if (mobileRegex.test(value)) return "mobile"
@@ -26,8 +26,8 @@ export function validateIdentifier(value: string) {
   }
 
   if (type === "mobile") {
-    const mobileRegex = /^\d{10,15}$/
-    return mobileRegex.test(value) || "Please enter a valid mobile number (10-15 digits)"
+    const mobileRegex = /^\d{10}$/
+    return mobileRegex.test(value) || "Please enter a valid mobile number (10 digits)"
   }
 
   return "Please enter a valid email or mobile number"

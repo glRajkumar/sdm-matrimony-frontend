@@ -9,9 +9,10 @@ import { SubCaste } from './sub-caste';
 
 type FieldWrapperProps = Field & {
   control: Control<any>
+  onBlur: (n: string, v: string) => void
 }
 
-function FieldWrapper({ control, type, ...props }: FieldWrapperProps) {
+function FieldWrapper({ control, onBlur, type, ...props }: FieldWrapperProps) {
   if (type === "date") {
     return <DatePickerWrapper control={control} {...props} />
   }
@@ -50,6 +51,11 @@ function FieldWrapper({ control, type, ...props }: FieldWrapperProps) {
       type={type}
       {...props}
       defaultValue={undefined}
+      {...((props.name === "email" || props.name === "contactDetails.mobile") && {
+        onBlur(e) {
+          onBlur(props.name, e.target.value)
+        }
+      })}
     />
   )
 }

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import {
   checkApprovalStatus, forgotPass, login, logout, registerImage,
-  resendVerifyEmail, resetPass, signup, verifyAccount,
+  resendVerifyEmail, resetPass, signup, verifyAccount, isExists,
   updateEmail, updateMobile, updatePassword, userDetailsMini,
 } from "@/actions";
 import { removeToken, setToken } from "@/actions/token";
@@ -70,6 +70,12 @@ export function useCheckApprovalStatus() {
     onError(error) {
       toast(error.message)
     },
+  })
+}
+
+export function useIsExists() {
+  return useMutation({
+    mutationFn: isExists,
   })
 }
 
