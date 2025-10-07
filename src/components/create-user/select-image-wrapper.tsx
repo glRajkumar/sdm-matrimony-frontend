@@ -30,13 +30,18 @@ export function SelectImageWrapper({ name, label, rules, className }: props) {
     maxFiles: 1,
   })
 
+  function handleRemoveImage(e: any) {
+    e.stopPropagation()
+    setValue(name, "")
+  }
+
   return (
     <div className={className}>
       <Label htmlFor={`signup-${name}`} className='capitalize mb-2'>{label}</Label>
 
       <div
         {...getRootProps()}
-        className=" size-40 rounded object-cover border-2 border-dashed border-muted-foreground"
+        className="size-40 rounded object-cover border-2 border-dashed border-muted-foreground relative"
       >
         <Input
           type="file"
@@ -47,11 +52,21 @@ export function SelectImageWrapper({ name, label, rules, className }: props) {
 
         {
           file &&
-          <img
-            src={typeof file === "string" ? file : URL.createObjectURL(file)}
-            alt="user"
-            className="size-full object-cover"
-          />
+          <>
+            <img
+              src={typeof file === "string" ? file : URL.createObjectURL(file)}
+              alt="user"
+              className="size-full object-cover"
+            />
+
+            <button
+              type="button"
+              onClick={handleRemoveImage}
+              className="absolute top-0 right-0 p-1 bg-black/50 text-white rounded-bl cursor-pointer backdrop-blur"
+            >
+              <X size={16} />
+            </button>
+          </>
         }
       </div>
 

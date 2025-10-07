@@ -113,7 +113,7 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
     if (!isAdmin && !rest?.email && !rest?.contactDetails?.mobile) {
       return toast.error('Either email or mobile is required')
     }
-    if (!profileImg) return toast.error('Profile image is required')
+    // if (!profileImg) return toast.error('Profile image is required')
 
     try {
       if (rest?.email) {
@@ -126,9 +126,13 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
         if (!isValid) return
       }
 
-      let url = await uploadPic(profileImg)
+      let url = ""
+      const images: string[] = []
 
-      const images = [url]
+      if (profileImg) {
+        url = await uploadPic(profileImg)
+        images.push(url)
+      }
 
       if (data?.images?.length) {
         const urls = await Promise.all(data.images.map(uploadPic))
