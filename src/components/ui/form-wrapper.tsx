@@ -91,7 +91,7 @@ export function RadioWrapper<T extends FieldValues>({ name, label, control, clas
               {options.map((option) => (
                 <FormItem
                   key={typeof option === "object" ? `${option.value}` : `${option}`}
-                  className="flex items-center space-x-1"
+                  className="flex items-center flex-row space-x-1"
                 >
                   <FormControl>
                     <RadioGroupItem value={typeof option === "object" ? `${option.value}` : `${option}`} />

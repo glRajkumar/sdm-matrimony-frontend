@@ -82,7 +82,7 @@ export function useGetUserCreationStatsPerAdmin() {
 
 export type uctT = adminT & {
   created: number
-  users: Pick<userT, "_id" | "fullName" | "maritalStatus" | "profileImg">[]
+  users: Pick<userT, "_id" | "fullName" | "maritalStatus" | "profileImg" | "isBlocked" | "isDeleted">[]
 }
 export function useGetUserCreationStats(date: string) {
   return useQuery<uctT[], Error, uctT[]>({

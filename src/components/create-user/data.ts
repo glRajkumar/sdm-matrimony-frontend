@@ -181,14 +181,14 @@ export const fieldList: FieldSection[] = [
       },
       {
         name: "familyDetails.isFatherAlive",
-        label: "",
+        label: "Father's living status",
         type: "radio",
         options: aliveOptions,
         defaultValue: true,
       },
       {
         name: "familyDetails.isMotherAlive",
-        label: "",
+        label: "Mother's living status",
         type: "radio",
         options: aliveOptions,
         defaultValue: true,

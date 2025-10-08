@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { RefreshCcw } from "lucide-react";
+import { format } from "date-fns";
+import Link from "next/link";
 
 import { type uctT, useGetUserCreationStats } from "@/hooks/use-super-admin";
 
@@ -7,8 +9,7 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/componen
 import { DatePicker } from "@/components/ui/date-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 
 function UserCard(ad: uctT) {
   const [show, setShow] = useState(false)
@@ -44,7 +45,14 @@ function UserCard(ad: uctT) {
                   />
                   <p className="flex-1 text-sm">{u?.fullName}</p>
                 </Link>
-                <p className="px-4 py-0.5 text-xs rounded-full border">{u?.maritalStatus}</p>
+
+                <Badge variant="outline" className="font-normal">{u?.maritalStatus}</Badge>
+                {
+                  (u?.isBlocked || u?.isDeleted) &&
+                  <Badge variant="destructive" className="font-normal">
+                    {u.isBlocked ? "Blocked" : "Deleted"}
+                  </Badge>
+                }
               </div>
             ))
           }
@@ -54,7 +62,7 @@ function UserCard(ad: uctT) {
   )
 }
 
-function TodayUserCreationsCount() {
+function UserCreations() {
   const [date, setDate] = useState(new Date())
 
   const { isLoading, isFetching, data, refetch } = useGetUserCreationStats(format(date, "yyyy-MM-dd"))
@@ -106,4 +114,4 @@ function TodayUserCreationsCount() {
   )
 }
 
-export default TodayUserCreationsCount
+export default UserCreations
