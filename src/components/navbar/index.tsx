@@ -23,6 +23,10 @@ const superAdminLinks: linkT[] = [
     lable: "Make Match",
     href: "make-match",
   },
+  {
+    lable: "Invites",
+    href: "invites",
+  }
 ]
 
 const adminLinks: linkT[] = [

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import {
   getPaidUsers, getAssistedSubscribedUsers, getAllPayments, getUsersByCreatedBy,
   getUsersStatsCreatedBy, getUsersStatsCreated, getAdminsList,
-  createAdmin, updateAdmin,
+  createAdmin, updateAdmin, getNotInvitedUsers, userInvited,
 } from "@/actions";
 
 type userAndPlanT = currentPlanT & {
@@ -106,6 +106,34 @@ export function useUpdateAdmin() {
     onSuccess(_, variables) {
       toast(`Admin ${variables._id ? "updated" : "created"} successfully`)
       queryClient.invalidateQueries({ queryKey: ["admins"] })
+    },
+    onError(error) {
+      toast(error?.message || "Something went wrong!!!")
+    }
+  })
+}
+
+export type niuT = Pick<userT, "_id" | "contactDetails" | "dob" | "profileImg" | "fullName">
+export function useGetNotInvitedUsers() {
+  const limit = 50
+
+  return useInfiniteQuery<niuT[], Error, niuT[]>({
+    queryKey: ["not-invited-users"],
+    queryFn: ({ pageParam }) => getNotInvitedUsers({ skip: pageParam || 0, limit }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    select: data => data?.pages?.flat() as any,
+  })
+}
+
+export function useUserInvite() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: userInvited,
+    onSuccess() {
+      toast("User invited successfully")
+      queryClient.invalidateQueries({ queryKey: ["not-invited-users"] })
     },
     onError(error) {
       toast(error?.message || "Something went wrong!!!")

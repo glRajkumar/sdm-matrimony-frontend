@@ -62,3 +62,17 @@ export function updateAdmin({ _id, ...data }: any) {
     data,
   })
 }
+
+export function getNotInvitedUsers(params: any = {}) {
+  return sendApiReq({
+    url: endPoints.getNotInvitedUsers,
+    params,
+  })
+}
+
+export function userInvited({ _id }: { _id: string }) {
+  return sendApiReq({
+    url: `${endPoints.inviteUser}/${_id}`,
+    method: "put",
+  })
+}

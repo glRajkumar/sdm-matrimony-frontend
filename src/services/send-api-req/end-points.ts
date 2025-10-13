@@ -52,4 +52,6 @@ export const endPoints = {
   getUsersStatsCreated: "/super-admin/users-stats/created",
   getAdminsList: "/super-admin/admins",
   updateAdmin: "/super-admin/admin",
+  getNotInvitedUsers: "/super-admin/users/not-invited",
+  inviteUser: "/super-admin/user/invite",
 }
