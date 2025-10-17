@@ -1,4 +1,5 @@
 
+import OpenInstruct from "./open-instruct"
 import Footer from "./footer"
 import Hero from "./hero"
 import Cta from "./cta"
@@ -11,6 +12,7 @@ function Home() {
       <Hero />
       <Cta />
       <Footer />
+      <OpenInstruct />
     </>
   )
 }
