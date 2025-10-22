@@ -11,6 +11,7 @@ function Page() {
     <CreateUser
       isPending={isPending}
       onSubmit={v => mutate(v)}
+      className='max-h-[65vh]'
     />
   )
 }
