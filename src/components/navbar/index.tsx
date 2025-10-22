@@ -59,8 +59,8 @@ const list: Record<rolesT, linkT[]> = {
 
 function Navbar({ role = "user" }: props) {
   return (
-    <nav className="df gap-4 py-3 px-6 shadow-md sticky top-0 bg-white z-[1]">
-      <Link href={`/${role}`} className="df gap-0.5 mr-auto">
+    <nav className="df sm:gap-4 py-3 px-6 shadow-md sticky top-0 bg-white z-[1]">
+      <Link href={`/${role}`} className="df gap-0.5 mr-auto shrink-0">
         <img
           src="/logos/logo-512.webp"
           width={48}
@@ -75,7 +75,7 @@ function Navbar({ role = "user" }: props) {
           <Link
             key={link.href}
             href={`/${role}/${link.href}`}
-            className='hover:text-pink-700'
+            className='text-xs sm:text-sm lg:text-base hover:text-pink-700'
           >
             {link.lable}
           </Link>

@@ -565,7 +565,7 @@ function Extractor({ updateStep }: props) {
             onClick={() => document.getElementById('image-upload')?.click()}
           >
             <Upload className="h-12 w-12 text-gray-400 mb-4" />
-            <p className="text-lg text-gray-500 mb-4">Drag and drop an image here, or click to select</p>
+            <p className="text-lg text-gray-500 mb-4 text-center">Drag and drop an image here, or click to select</p>
             <input
               type="file"
               accept="image/*"
