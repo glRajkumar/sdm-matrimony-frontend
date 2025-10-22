@@ -43,10 +43,10 @@ function ProfileSidebar({ user, canEdit }: props) {
   }
 
   return (
-    <div className="w-full md:w-1/3">
-      <Card>
+    <div className="relative isolate max-w-md">
+      <Card className="sticky top-20 z-[1]">
         <CardContent className="p-6">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center text-center">
             <div className="relative w-40 h-40 mb-4">
               <Image
                 src={user?.profileImg || "/imgs/user.jpg"}

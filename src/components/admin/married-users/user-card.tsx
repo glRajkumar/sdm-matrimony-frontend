@@ -7,7 +7,7 @@ function UserCard({
   proffessionalDetails, otherDetails,
 }: Partial<userT>) {
   return (
-    <Card className="mb-0 p-0 overflow-hidden transition-all duration-300 hover:shadow-md">
+    <Card className="mb-0 p-0 overflow-hidden transition-all duration-300 group-hover:shadow-md group-hover:scale-[1.01]">
       <div className="flex flex-col sm:flex-row">
         <div className="relative w-full sm:w-auto">
           <img

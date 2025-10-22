@@ -19,7 +19,7 @@ function UserProfile({ user, canEdit }: props) {
     <>
       <ProfileSidebar user={user} canEdit={canEdit} />
 
-      <div className="w-full md:w-2/3">
+      <div className="@2xl:col-span-2">
         <Tabs defaultValue="personal">
           <TabsList className="grid grid-cols-4 mb-2">
             <TabsTrigger value="personal">Personal</TabsTrigger>
