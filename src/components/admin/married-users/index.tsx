@@ -9,7 +9,11 @@ import GenLoader from "@/components/admin/gen-loader";
 import LoadMore from "@/components/common/load-more";
 import UserCard from "./user-card";
 
-function MarriedUsers() {
+type props = {
+  role?: rolesT
+}
+
+function MarriedUsers({ role = "admin" }: props) {
   const { data: users, isLoading, isFetching, fetchNextPage, hasNextPage } = useMarriedUsers()
   const navigate = useRouter()
 
@@ -29,8 +33,8 @@ function MarriedUsers() {
         !isLoading && users?.map(({ marriedTo, ...user }) => (
           <div
             key={user._id}
-            className="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto relative cursor-pointer"
-            onClick={() => navigate.push(`/admin/married/${user._id}_${marriedTo._id}`)}
+            className="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto relative cursor-pointer group"
+            onClick={() => navigate.push(`/${role}/married/${user._id}_${marriedTo._id}`)}
           >
             <UserCard {...user} />
             <span className="w-0.5 h-full md:h-0.5 md:w-full absolute top-0 left-1/2 -translate-x-1/2 md:top-1/2 md:left-0 md:translate-x-0 md:-translate-y-1/2 z-[-1] bg-border" />
