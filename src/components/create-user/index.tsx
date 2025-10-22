@@ -183,12 +183,12 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
           fieldList
             .filter(field => isAdmin ? field.lable !== "Account Details" : true)
             .map(field => (
-              <div key={field.lable} className='py-8'>
+              <div key={field.lable} className='py-8 @container'>
                 <h4 className="mb-2 text-sm font-semibold text-gray-500">
                   {field.lable}
                 </h4>
 
-                <div className='grid md:grid-cols-2 items-start gap-4'>
+                <div className='grid @md:grid-cols-2 items-start gap-4'>
                   {
                     field.list.map(field => (
                       <FieldWrapper

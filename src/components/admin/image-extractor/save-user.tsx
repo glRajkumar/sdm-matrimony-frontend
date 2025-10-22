@@ -53,7 +53,7 @@ function SaveUser({ data, updateStep }: props) {
           isPending={isPending}
           extractedData={data?.uploaded || []}
           onSubmit={onSubmit}
-          className='p-6 mr-8 max-h-[80vh] border rounded-lg'
+          className='p-6 mr-0 max-h-[80vh] border rounded-lg'
         />
       </div>
     </section>

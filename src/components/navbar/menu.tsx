@@ -46,7 +46,7 @@ function Menu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="dc size-8 p-0 rounded-full uppercase bg-primary text-primary-foreground hover:bg-primary/90"
+        className="dc size-8 p-0 shrink-0 rounded-full uppercase bg-primary text-primary-foreground hover:bg-primary/90"
         disabled={isLoading}
       >
         {isLoading && <Loader className="size-4 animate-spin" />}

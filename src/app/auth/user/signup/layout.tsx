@@ -5,11 +5,11 @@ import { CardDescription, CardTitle } from "@/components/ui/card";
 function Layout({ children }: readOnlyChildren) {
   return (
     <>
-      <div className="flex flex-col items-center space-y-2 mb-6">
+      <div className="dc gap-0 flex-col -mt-8 mb-4">
         <img
           src="/logos/logo-512.webp"
-          width={80}
-          height={80}
+          width={60}
+          height={60}
           alt='SDM-logo'
         />
         <CardTitle>Create Your Account</CardTitle>

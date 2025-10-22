@@ -64,7 +64,7 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-3rem)]", ...props }: 
 
   return (
     <>
-      <div className='df'>
+      <div className='df flex-wrap'>
         <Input
           className='w-60'
           value={table.getState().globalFilter}
