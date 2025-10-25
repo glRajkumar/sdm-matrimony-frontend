@@ -1,4 +1,4 @@
-import GenLoader from "@/components/admin/gen-loader";
+import GenLoader from "@/components/common/gen-loader";
 
 function Loading() {
   return <GenLoader />
