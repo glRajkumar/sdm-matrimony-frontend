@@ -5,7 +5,7 @@ import { Loader } from "lucide-react";
 
 import { useMarriedUsers } from "@/hooks/use-admin";
 
-import GenLoader from "@/components/admin/gen-loader";
+import GenLoader from "@/components/common/gen-loader";
 import LoadMore from "@/components/common/load-more";
 import UserCard from "./user-card";
 

@@ -1,7 +1,7 @@
-import GenLoader from "@/components/admin/gen-loader";
+import GenLoader from "@/components/common/gen-loader";
 
 function Loading() {
-  return <GenLoader />
+  return <GenLoader className="@2xl:col-span-3" />
 }
 
 export default Loading

@@ -1,11 +1,7 @@
-import { Loader } from "lucide-react";
+import GenLoader from "@/components/common/gen-loader";
 
 function Loading() {
-  return (
-    <div className="dc w-full h-[90vh]">
-      <Loader className="animate-spin" />
-    </div>
-  )
+  return <GenLoader className="@2xl:col-span-3" />
 }
 
 export default Loading
