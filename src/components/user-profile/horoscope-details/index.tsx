@@ -20,6 +20,7 @@ function getValue(val: string, map: Record<string, string>) {
 
 function HoroscopeDetails({ user, canEdit }: props) {
   const { isPending, unlockBtnClk } = useUnlock()
+  const isUnlocked = !!user?.contactDetails && user?.contactDetails?.mobile !== "restricted"
 
   return (
     <Card>
@@ -36,12 +37,12 @@ function HoroscopeDetails({ user, canEdit }: props) {
       </CardHeader>
 
       <CardContent>
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid min-[400px]:grid-cols-2 gap-4 mb-6">
           <div>
             <span className="text-sm text-muted-foreground">Nakshatra</span>
             <UpgradeBtn
               value={getValue(user?.vedicHoroscope?.nakshatra, nakshatraMap)}
-              unlocked={!!user?.contactDetails}
+              unlocked={isUnlocked}
               isPending={isPending}
               unlockBtnClk={() => unlockBtnClk(user._id)}
             />
@@ -50,7 +51,7 @@ function HoroscopeDetails({ user, canEdit }: props) {
             <span className="text-sm text-muted-foreground">Rasi</span>
             <UpgradeBtn
               value={getValue(user?.vedicHoroscope?.rasi, raasiMap)}
-              unlocked={!!user?.contactDetails}
+              unlocked={isUnlocked}
               isPending={isPending}
               unlockBtnClk={() => unlockBtnClk(user._id)}
             />
@@ -59,7 +60,7 @@ function HoroscopeDetails({ user, canEdit }: props) {
             <span className="text-sm text-muted-foreground">Lagna</span>
             <UpgradeBtn
               value={getValue(user?.vedicHoroscope?.lagna, raasiMap)}
-              unlocked={!!user?.contactDetails}
+              unlocked={isUnlocked}
               isPending={isPending}
               unlockBtnClk={() => unlockBtnClk(user._id)}
             />
