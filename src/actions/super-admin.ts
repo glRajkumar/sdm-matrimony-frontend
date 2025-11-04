@@ -28,16 +28,24 @@ export function getUsersByCreatedBy(params: any = {}) {
   })
 }
 
-export function getUsersStatsCreatedBy() {
+export function getUsersGroupedByAdminCount(type: "date" | "caste" = "date") {
   return sendApiReq({
-    url: endPoints.getUsersStatsCreatedBy,
+    url: endPoints.getUsersGroupedByAdminCount,
+    params: { type },
   })
 }
 
-export function getUsersStatsCreated(date: string) {
+export function getUsersGroupedCount(params: any = {}) {
   return sendApiReq({
-    url: endPoints.getUsersStatsCreated,
-    params: { date },
+    url: endPoints.getUsersGroupedCount,
+    params,
+  })
+}
+
+export function getUsersGroupList(params: any = {}) {
+  return sendApiReq({
+    url: endPoints.getUsersGroupedList,
+    params,
   })
 }
 

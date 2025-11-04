@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { RefreshCcw } from "lucide-react";
 
-import { useGetUserCreationStatsPerAdmin } from "@/hooks/use-super-admin";
+import { useGetUsersGroupedByAdminCount } from "@/hooks/use-super-admin";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SelectWrapper } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
-function groupData(data: Record<string, number>, type: "day" | "month") {
-  if (type === "day") return Object.entries(data).map(([key, value]) => ({ key, value }))
+function groupData(data: Record<string, number>, dateType: "day" | "month" | "caste") {
+  if (dateType === "day" || dateType === "caste") return Object.entries(data).map(([key, value]) => ({ key, value }))
 
   const result: { key: string; value: number }[] = []
   const indexMap: Record<string, number> = {}
@@ -29,28 +29,42 @@ function groupData(data: Record<string, number>, type: "day" | "month") {
   return result
 }
 
-function UserCreationsPerAdmin() {
-  const { isLoading, isFetching, data, refetch } = useGetUserCreationStatsPerAdmin()
-  const [type, setType] = useState<"day" | "month">("day")
+function UsersGroupedByAdmin() {
+  const [type, setType] = useState<"date" | "caste">("date")
+  const { isLoading, isFetching, data, refetch } = useGetUsersGroupedByAdminCount(type)
+  const [dateType, setdateType] = useState<"day" | "month">("day")
+
+  const datesOpts: optionsT = [
+    { value: "day", label: "Day" },
+    { value: "month", label: "Month" },
+  ]
+
+  const typesOpts: optionsT = [
+    { value: "date", label: "Date" },
+    { value: "caste", label: "Caste" },
+  ]
 
   return (
     <Card className="gap-0">
       <CardHeader>
-        <CardTitle>User Creations Per Admin</CardTitle>
+        <CardTitle>Users Count by Admin</CardTitle>
         <CardAction className="df">
-          <Select
+          <SelectWrapper
             value={type}
-            onValueChange={v => setType(v as "day" | "month")}
-          >
-            <SelectTrigger size="sm">
-              <SelectValue placeholder="Select type" />
-            </SelectTrigger>
+            options={typesOpts}
+            placeholder="Select type"
+            onValueChange={v => setType(v as "date" | "caste")}
+          />
 
-            <SelectContent>
-              <SelectItem value="day">Day</SelectItem>
-              <SelectItem value="month">Month</SelectItem>
-            </SelectContent>
-          </Select>
+          {
+            type === "date" &&
+            <SelectWrapper
+              value={dateType}
+              options={datesOpts}
+              placeholder="Select date type"
+              onValueChange={v => setdateType(v as "day" | "month")}
+            />
+          }
 
           <Button
             size="sm"
@@ -73,16 +87,16 @@ function UserCreationsPerAdmin() {
             <div key={ad?._id} className="mb-2 p-4 border rounded-xl">
               <div className="df justify-between">
                 <div>
-                  <p>{ad?.fullName}</p>
-                  <p className="text-xs text-muted-foreground">{ad?.email}</p>
+                  <p>{ad?.fullName || "Individual"}</p>
+                  {ad?.email && <p className="text-xs text-muted-foreground">{ad?.email}</p>}
                 </div>
 
-                <div>{Object?.values(ad?.dates)?.reduce((a, b) => a + b, 0)}</div>
+                <div>{Object?.values(ad?.data)?.reduce((a, b) => a + b, 0)}</div>
               </div>
 
               <ul className="mt-2 df flex-wrap">
                 {
-                  ad?.dates && groupData(ad?.dates, type)
+                  ad?.data && groupData(ad?.data, type === "date" ? dateType : type)
                     .sort((a, b) => a.key.localeCompare(b.key))
                     .map(v => (
                       <li key={v.key} className="df justify-between px-2 py-1 text-xs border rounded-full bg-muted/20">
@@ -100,4 +114,4 @@ function UserCreationsPerAdmin() {
   )
 }
 
-export default UserCreationsPerAdmin
+export default UsersGroupedByAdmin

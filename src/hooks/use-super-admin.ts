@@ -5,8 +5,9 @@ import { toast } from "sonner";
 
 import {
   getPaidUsers, getAssistedSubscribedUsers, getAllPayments, getUsersByCreatedBy,
-  getUsersStatsCreatedBy, getUsersStatsCreated, getAdminsList,
+  getUsersGroupedByAdminCount, getUsersGroupedCount, getAdminsList,
   createAdmin, updateAdmin, getNotInvitedUsers, userInvited,
+  getUsersGroupList,
 } from "@/actions";
 
 type userAndPlanT = currentPlanT & {
@@ -71,23 +72,35 @@ export function useGetUsersByCreatedBy(data: createdByProps) {
 }
 
 type ucspaT = adminT & {
-  dates: Record<string, number>
+  data: Record<string, number>
 }
-export function useGetUserCreationStatsPerAdmin() {
+export function useGetUsersGroupedByAdminCount(type: "date" | "caste" = "date") {
   return useQuery<ucspaT[], Error, ucspaT[]>({
-    queryKey: ["user-creation-stats-per-admin"],
-    queryFn: getUsersStatsCreatedBy,
+    queryKey: ["users-grouped-by-admin", type],
+    queryFn: () => getUsersGroupedByAdminCount(type),
   })
 }
 
-export type uctT = adminT & {
+type uctT = adminT & {
   created: number
-  users: Pick<userT, "_id" | "fullName" | "maritalStatus" | "profileImg" | "isBlocked" | "isDeleted">[]
 }
-export function useGetUserCreationStats(date: string) {
+export function useGetUsersGroupedCount(params: any = {}) {
   return useQuery<uctT[], Error, uctT[]>({
-    queryKey: ["user-creation-stats", date],
-    queryFn: () => getUsersStatsCreated(date),
+    queryKey: ["users-grouped-count", params],
+    queryFn: () => getUsersGroupedCount(params),
+  })
+}
+
+type uglT = Pick<userT, "_id" | "fullName" | "maritalStatus" | "profileImg" | "isBlocked" | "isDeleted">
+export function useGetUsersGroupList(params: any = {}) {
+  const limit = 50
+
+  return useInfiniteQuery<uglT[], Error, uglT[]>({
+    queryKey: ["users-group-list", params],
+    queryFn: ({ pageParam }) => getUsersGroupList({ skip: pageParam || 0, limit, ...params }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    select: data => data?.pages?.flat() as any,
   })
 }
 
