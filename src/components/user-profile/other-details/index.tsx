@@ -23,7 +23,7 @@ function OtherDetails({ user, canEdit }: props) {
       </CardHeader>
 
       <CardContent>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid min-[400px]:grid-cols-2 gap-4">
           <div>
             <span className="text-sm text-muted-foreground">Mother Tongue</span>
             <p className="font-medium">{user?.otherDetails?.motherTongue || "---"}</p>

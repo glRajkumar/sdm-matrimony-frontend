@@ -17,7 +17,7 @@ type props = {
 function ContactDetails({ user, canEdit }: props) {
   const { isPending, unlockBtnClk } = useUnlock()
   const isUnlocked = !!user?.contactDetails && user?.contactDetails?.mobile !== "restricted"
-  console.log(user)
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -33,7 +33,7 @@ function ContactDetails({ user, canEdit }: props) {
       </CardHeader>
 
       <CardContent>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid min-[400px]:grid-cols-2 gap-4">
           <div>
             <span className="text-sm text-muted-foreground">Phone Number</span>
             {

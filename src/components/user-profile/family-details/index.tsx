@@ -23,7 +23,7 @@ function FamilyDetails({ user, canEdit }: props) {
       </CardHeader>
 
       <CardContent>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid min-[400px]:grid-cols-2 gap-4">
           <div>
             <span className="text-sm text-muted-foreground">Father's Name</span>
             <p className="font-medium">{user?.familyDetails?.fatherName} {!user?.familyDetails?.isFatherAlive ? "(Deceased)" : ""}</p>

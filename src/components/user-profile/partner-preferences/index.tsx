@@ -23,7 +23,7 @@ function PartnerPreferences({ user, canEdit }: props) {
       </CardHeader>
 
       <CardContent>
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid min-[400px]:grid-cols-2 gap-4 mb-6">
           <div>
             <span className="text-sm text-muted-foreground">Age Range</span>
             <p className="font-medium">

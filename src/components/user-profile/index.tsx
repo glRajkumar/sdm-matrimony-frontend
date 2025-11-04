@@ -21,7 +21,7 @@ function UserProfile({ user, canEdit }: props) {
 
       <div className="@2xl:col-span-2">
         <Tabs defaultValue="personal">
-          <TabsList className="grid grid-cols-4 mb-2">
+          <TabsList className="grid grid-cols-2 min-[400px]:grid-cols-4 h-auto mb-2">
             <TabsTrigger value="personal">Personal</TabsTrigger>
             <TabsTrigger value="family">Family</TabsTrigger>
             <TabsTrigger value="horoscope">Horoscope</TabsTrigger>
