@@ -12,8 +12,9 @@ type props = {
 }
 function Dob({ user }: props) {
   const { isPending, unlockBtnClk } = useUnlock()
+  const isUnlocked = !!user?.contactDetails && user?.contactDetails?.mobile !== "restricted"
 
-  if (!user?.contactDetails) {
+  if (!isUnlocked) {
     return (
       <Button
         size="sm"

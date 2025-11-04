@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { differenceInYears } from 'date-fns';
+// import { differenceInYears } from 'date-fns';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -114,7 +114,7 @@ function getPayload(userPartnerPreferences: Pick<userT, "partnerPreferences"> & 
     ageRange: "",
     lagna: "",
     rasi: "",
-    maxAge: differenceInYears(new Date(), new Date(userPartnerPreferences?.dob || "")) || "",
+    // maxAge: differenceInYears(new Date(), new Date(userPartnerPreferences?.dob || "")) || "",
   }
 
   Object.entries(payload).forEach(([key, value]) => {
