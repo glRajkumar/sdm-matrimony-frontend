@@ -5,8 +5,9 @@ import { toast } from "sonner";
 
 import {
   getPaidUsers, getAssistedSubscribedUsers, getAllPayments, getUsersByCreatedBy,
-  getUsersStatsCreatedBy, getUsersStatsCreated, getAdminsList,
+  getUsersGroupedByAdminCount, getUsersGroupedCount, getAdminsList,
   createAdmin, updateAdmin, getNotInvitedUsers, userInvited,
+  getUsersGroupList,
 } from "@/actions";
 
 type userAndPlanT = currentPlanT & {
@@ -18,9 +19,9 @@ export function useGetPaidUsers() {
 
   return useInfiniteQuery<userAndPlanT[], Error, userAndPlanT[]>({
     queryKey: ["paid-users"],
-    queryFn: ({ pageParam }) => getPaidUsers({ skip: pageParam || 0, limit }),
+    queryFn: ({ pageParam }) => getPaidUsers({ skip: (pageParam as number || 0) * limit, limit }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }
@@ -30,9 +31,9 @@ export function useGetAssistedSubscribedUsers() {
 
   return useInfiniteQuery<userAndPlanT[], Error, userAndPlanT[]>({
     queryKey: ["assisted-subscribed-users"],
-    queryFn: ({ pageParam }) => getAssistedSubscribedUsers({ skip: pageParam || 0, limit }),
+    queryFn: ({ pageParam }) => getAssistedSubscribedUsers({ skip: (pageParam as number || 0) * limit, limit }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }
@@ -47,9 +48,9 @@ export function useGetAllPayments() {
 
   return useInfiniteQuery<userAllPaymentsT[], Error, userAllPaymentsT[]>({
     queryKey: ["all-payments"],
-    queryFn: ({ pageParam }) => getAllPayments({ skip: pageParam || 0, limit }),
+    queryFn: ({ pageParam }) => getAllPayments({ skip: (pageParam as number || 0) * limit, limit }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }
@@ -63,31 +64,43 @@ export function useGetUsersByCreatedBy(data: createdByProps) {
 
   return useInfiniteQuery<Partial<userT>[], Error, Partial<userT>[]>({
     queryKey: ["users-by-created-by", data],
-    queryFn: ({ pageParam }) => getUsersByCreatedBy({ skip: pageParam || 0, limit, ...data }),
+    queryFn: ({ pageParam }) => getUsersByCreatedBy({ skip: (pageParam as number || 0) * limit, limit, ...data }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }
 
 type ucspaT = adminT & {
-  dates: Record<string, number>
+  data: Record<string, number>
 }
-export function useGetUserCreationStatsPerAdmin() {
+export function useGetUsersGroupedByAdminCount(type: "date" | "caste" = "date") {
   return useQuery<ucspaT[], Error, ucspaT[]>({
-    queryKey: ["user-creation-stats-per-admin"],
-    queryFn: getUsersStatsCreatedBy,
+    queryKey: ["users-grouped-by-admin", type],
+    queryFn: () => getUsersGroupedByAdminCount(type),
   })
 }
 
-export type uctT = adminT & {
+type uctT = adminT & {
   created: number
-  users: Pick<userT, "_id" | "fullName" | "maritalStatus" | "profileImg" | "isBlocked" | "isDeleted">[]
 }
-export function useGetUserCreationStats(date: string) {
+export function useGetUsersGroupedCount(params: any = {}) {
   return useQuery<uctT[], Error, uctT[]>({
-    queryKey: ["user-creation-stats", date],
-    queryFn: () => getUsersStatsCreated(date),
+    queryKey: ["users-grouped-count", params],
+    queryFn: () => getUsersGroupedCount(params),
+  })
+}
+
+type uglT = Pick<userT, "_id" | "fullName" | "maritalStatus" | "profileImg" | "isBlocked" | "isDeleted">
+export function useGetUsersGroupList(params: any = {}) {
+  const limit = 50
+
+  return useInfiniteQuery<uglT[], Error, uglT[]>({
+    queryKey: ["users-group-list", params],
+    queryFn: ({ pageParam }) => getUsersGroupList({ skip: (pageParam as number || 0) * limit, limit, ...params }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
+    select: data => data?.pages?.flat() as any,
   })
 }
 
@@ -119,9 +132,9 @@ export function useGetNotInvitedUsers() {
 
   return useInfiniteQuery<niuT[], Error, niuT[]>({
     queryKey: ["not-invited-users"],
-    queryFn: ({ pageParam }) => getNotInvitedUsers({ skip: pageParam || 0, limit }),
+    queryFn: ({ pageParam }) => getNotInvitedUsers({ skip: (pageParam as number || 0) * limit, limit }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }

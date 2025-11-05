@@ -1,9 +1,9 @@
 import useUIStore from "@/store/ui";
 
 import AssistedSubscribedUser from "./assisted-subscribed-user";
-import UserCreationsPerAdmin from "./user-creations-per-admin";
+import UsersGroupedByAdmin from "./users-grouped-by-admin";
 import UsersAllPayments from "./users-all-payments";
-import UserCreations from "./user-creations";
+import UsersGrouped from "./users-grouped";
 import CreateAdmin from "./create-admin";
 import PaidUsers from "./paid-users";
 import Admins from "./admins";
@@ -13,8 +13,8 @@ function Dashboard() {
 
   return (
     <>
-      <UserCreations />
-      <UserCreationsPerAdmin />
+      <UsersGrouped />
+      <UsersGroupedByAdmin />
       <PaidUsers />
       <AssistedSubscribedUser />
       <UsersAllPayments />
