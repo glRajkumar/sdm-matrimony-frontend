@@ -7,13 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import LoadMore from "@/components/common/load-more";
 
 type props = {
-  date: string,
   createdBy: string
+  date?: string
+  caste?: string
 }
 
-function List({ createdBy, date }: props) {
+function List({ createdBy, ...rest }: props) {
   const { isLoading, data, isFetching, hasNextPage, fetchNextPage } = useGetUsersGroupList({
-    date,
+    ...rest,
     createdBy,
   })
 

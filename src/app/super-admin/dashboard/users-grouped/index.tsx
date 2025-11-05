@@ -3,28 +3,50 @@ import { RefreshCcw } from "lucide-react";
 import { format } from "date-fns";
 
 import { useGetUsersGroupedCount } from "@/hooks/use-super-admin";
+import { useStatics } from "@/hooks/use-general";
 
-import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { SelectWrapper } from "@/components/ui/select";
 import { DatePicker } from "@/components/ui/date-picker";
+import { Combobox } from "@/components/ui/combobox";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import List from "./list";
 
+type typeT = "Date" | "Caste" | "Both"
+function decidePayload({ type, date, caste }: { type: typeT, caste: string, date: string }) {
+  if (type === "Both") return { date, caste }
+  if (type === "Caste") return { caste }
+  return { date }
+}
+
 function UsersGrouped() {
+  const [caste, setCaste] = useState("14 oor kaikolar mudaliyar")
+  const [type, setType] = useState<typeT>("Date")
   const [date, setDate] = useState(new Date())
 
-  const { isLoading, isFetching, data, refetch } = useGetUsersGroupedCount({
-    date: format(date, "yyyy-MM-dd"),
-  })
+  const { data: castes, isLoading: isCasteLoading } = useStatics("castes")
+
+  const payload = decidePayload({ type, date: format(date, "yyyy-MM-dd"), caste })
+  const { isLoading, isFetching, data, refetch } = useGetUsersGroupedCount(payload)
 
   return (
     <Card className="gap-0">
-      <CardHeader>
-        <CardTitle>Users Grouped</CardTitle>
+      <CardHeader className="flex items-center gap-4 flex-wrap pb-1">
+        <CardTitle className="shrink-0 mr-auto">Users Grouped</CardTitle>
 
-        <CardAction className="df">
-          <DatePicker
+        <div className="w-24">
+          <SelectWrapper
+            options={["Date", "Caste", "Both"]}
+            placeholder="Select type"
+            value={type}
+            onValueChange={v => setType(v as typeT)}
+          />
+        </div>
+
+        {
+          type !== "Caste" && <DatePicker
             value={date}
             onChange={(date) => setDate(date || new Date())}
             className="w-28"
@@ -35,14 +57,28 @@ function UsersGrouped() {
               },
             }}
           />
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => refetch()}
-          >
-            <RefreshCcw className={isLoading || isFetching ? "animate-spin" : ""} />
-          </Button>
-        </CardAction>
+        }
+
+        {
+          type !== "Date" &&
+          <div className="w-56">
+            <Combobox
+              value={caste}
+              options={castes}
+              isLoading={isCasteLoading}
+              emptyMessage="No caste found"
+              canCreateNew={false}
+              onValueChange={setCaste}
+            />
+          </div>
+        }
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => refetch()}
+        >
+          <RefreshCcw className={isLoading || isFetching ? "animate-spin" : ""} />
+        </Button>
       </CardHeader>
 
       <CardContent className="max-h-80 py-4 overflow-auto">
@@ -65,8 +101,11 @@ function UsersGrouped() {
                 </div>
               </CollapsibleTrigger>
 
-              <CollapsibleContent className=" border-t">
-                <List createdBy={ad._id} date={format(date, "yyyy-MM-dd")} />
+              <CollapsibleContent className="border-t">
+                <List
+                  createdBy={ad._id}
+                  {...payload}
+                />
               </CollapsibleContent>
             </Collapsible>
           ))

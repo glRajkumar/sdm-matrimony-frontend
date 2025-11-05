@@ -19,9 +19,9 @@ export function useGetPaidUsers() {
 
   return useInfiniteQuery<userAndPlanT[], Error, userAndPlanT[]>({
     queryKey: ["paid-users"],
-    queryFn: ({ pageParam }) => getPaidUsers({ skip: pageParam || 0, limit }),
+    queryFn: ({ pageParam }) => getPaidUsers({ skip: (pageParam as number || 0) * limit, limit }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }
@@ -31,9 +31,9 @@ export function useGetAssistedSubscribedUsers() {
 
   return useInfiniteQuery<userAndPlanT[], Error, userAndPlanT[]>({
     queryKey: ["assisted-subscribed-users"],
-    queryFn: ({ pageParam }) => getAssistedSubscribedUsers({ skip: pageParam || 0, limit }),
+    queryFn: ({ pageParam }) => getAssistedSubscribedUsers({ skip: (pageParam as number || 0) * limit, limit }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }
@@ -48,9 +48,9 @@ export function useGetAllPayments() {
 
   return useInfiniteQuery<userAllPaymentsT[], Error, userAllPaymentsT[]>({
     queryKey: ["all-payments"],
-    queryFn: ({ pageParam }) => getAllPayments({ skip: pageParam || 0, limit }),
+    queryFn: ({ pageParam }) => getAllPayments({ skip: (pageParam as number || 0) * limit, limit }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }
@@ -64,9 +64,9 @@ export function useGetUsersByCreatedBy(data: createdByProps) {
 
   return useInfiniteQuery<Partial<userT>[], Error, Partial<userT>[]>({
     queryKey: ["users-by-created-by", data],
-    queryFn: ({ pageParam }) => getUsersByCreatedBy({ skip: pageParam || 0, limit, ...data }),
+    queryFn: ({ pageParam }) => getUsersByCreatedBy({ skip: (pageParam as number || 0) * limit, limit, ...data }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }
@@ -97,9 +97,9 @@ export function useGetUsersGroupList(params: any = {}) {
 
   return useInfiniteQuery<uglT[], Error, uglT[]>({
     queryKey: ["users-group-list", params],
-    queryFn: ({ pageParam }) => getUsersGroupList({ skip: pageParam || 0, limit, ...params }),
+    queryFn: ({ pageParam }) => getUsersGroupList({ skip: (pageParam as number || 0) * limit, limit, ...params }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }
@@ -132,9 +132,9 @@ export function useGetNotInvitedUsers() {
 
   return useInfiniteQuery<niuT[], Error, niuT[]>({
     queryKey: ["not-invited-users"],
-    queryFn: ({ pageParam }) => getNotInvitedUsers({ skip: pageParam || 0, limit }),
+    queryFn: ({ pageParam }) => getNotInvitedUsers({ skip: (pageParam as number || 0) * limit, limit }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.length === limit ? lastPage.length : undefined,
+    getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
   })
 }

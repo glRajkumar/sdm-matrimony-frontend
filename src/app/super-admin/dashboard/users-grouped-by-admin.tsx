@@ -46,7 +46,7 @@ function UsersGroupedByAdmin() {
 
   return (
     <Card className="gap-0">
-      <CardHeader>
+      <CardHeader className="pb-1">
         <CardTitle>Users Count by Admin</CardTitle>
         <CardAction className="df">
           <SelectWrapper
