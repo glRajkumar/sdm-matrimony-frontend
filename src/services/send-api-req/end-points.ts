@@ -43,6 +43,8 @@ export const endPoints = {
 
   createOrder: "/payment/create-order",
   verifyPayment: "/payment/verify",
+  testCreateOrder: "/payment/test-create-order",
+  testVerifyPayment: "/payment/test-verify",
 
   getPaidUsers: "/super-admin/users/paid",
   getAssistedSubscribedUsers: "/super-admin/users/assisted-subscribed",

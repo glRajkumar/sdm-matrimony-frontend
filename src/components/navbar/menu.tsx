@@ -34,6 +34,10 @@ const superAdminLinks = [
     lable: "Image Extractor",
     href: "image-extractor",
   },
+  {
+    lable: "Test Payment",
+    href: "test-payment",
+  },
 ]
 
 function Menu() {

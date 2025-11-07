@@ -26,7 +26,7 @@ const superAdminLinks: linkT[] = [
   {
     lable: "Invites",
     href: "invites",
-  }
+  },
 ]
 
 const adminLinks: linkT[] = [
@@ -59,7 +59,7 @@ const list: Record<rolesT, linkT[]> = {
 
 function Navbar({ role = "user" }: props) {
   return (
-    <nav className="df sm:gap-4 py-3 px-6 shadow-md sticky top-0 bg-white z-[1]">
+    <nav className="df sm:gap-4 py-3 px-6 shadow-md sticky top-0 bg-white z-1">
       <Link href={`/${role}`} className="df gap-0.5 mr-auto shrink-0">
         <img
           src="/logos/logo-512.webp"

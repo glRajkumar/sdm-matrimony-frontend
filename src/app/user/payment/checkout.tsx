@@ -79,7 +79,7 @@ function Checkout({ showCheckout = true }: props) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-50 px-8 py-20">
+    <div className="min-h-screen bg-linear-to-br from-pink-50 to-rose-50 px-8 py-20">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -116,7 +116,7 @@ function Checkout({ showCheckout = true }: props) {
                         <div
                           key={key}
                           className={`relative rounded-xl border transition-all cursor-pointer ${isSelected
-                            ? "border-pink-500 bg-gradient-to-r from-pink-50 to-pink-50 shadow-md"
+                            ? "border-pink-500 bg-linear-to-r from-pink-50 to-pink-50 shadow-md"
                             : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
                             }`}
                         >
@@ -148,7 +148,7 @@ function Checkout({ showCheckout = true }: props) {
                                   // "Phone numbers & contact details"
                                 ].map((feature, index) => (
                                   <div key={index} className="flex items-center gap-2 text-gray-600">
-                                    <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
+                                    <Check className="h-4 w-4 text-green-500 shrink-0" />
                                     <span className="text-sm">{feature}</span>
                                   </div>
                                 ))}

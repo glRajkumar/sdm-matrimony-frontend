@@ -15,3 +15,19 @@ export function verifyPayment(data: any) {
     data,
   })
 }
+
+export function testCreateOrder(data: any) {
+  return sendApiReq({
+    url: endPoints.testCreateOrder,
+    method: "post",
+    data,
+  })
+}
+
+export function testVerifyPayment(data: any) {
+  return sendApiReq({
+    url: endPoints.testVerifyPayment,
+    method: "post",
+    data,
+  })
+}
