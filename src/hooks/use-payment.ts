@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { createOrder, verifyPayment } from "@/actions";
+import { createOrder, testCreateOrder, testVerifyPayment, verifyPayment } from "@/actions";
 
 export function useCreateOrder() {
   return useMutation({
@@ -23,6 +23,27 @@ export function useVerifyPayment() {
       queryClient.invalidateQueries({ queryKey: ["user-details-mini"] })
       toast.success("Payment verified successfully")
       navigate.push("/user")
+    },
+    onError: (error) => {
+      toast.error(error?.message || "Failed to verify payment")
+    },
+  })
+}
+
+export function useTestCreateOrder() {
+  return useMutation({
+    mutationFn: testCreateOrder,
+    onError: (error) => {
+      toast.error(error?.message || "Failed to create order")
+    },
+  })
+}
+
+export function useTestVerifyPayment() {
+  return useMutation({
+    mutationFn: testVerifyPayment,
+    onSuccess: () => {
+      toast.success("Payment verified successfully")
     },
     onError: (error) => {
       toast.error(error?.message || "Failed to verify payment")
