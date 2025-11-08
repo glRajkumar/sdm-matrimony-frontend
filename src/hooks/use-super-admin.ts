@@ -3,6 +3,8 @@
 import { useMutation, useInfiniteQuery, useQueryClient, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { type findUserSchemaT } from "./use-user-filters";
+
 import {
   getPaidUsers, getAssistedSubscribedUsers, getAllPayments, getUsersByCreatedBy,
   getUsersGroupedByAdminCount, getUsersGroupedCount, getAdminsList,
@@ -126,13 +128,13 @@ export function useUpdateAdmin() {
   })
 }
 
-export type niuT = Pick<userT, "_id" | "contactDetails" | "dob" | "profileImg" | "fullName">
-export function useGetNotInvitedUsers() {
+export type niuT = Pick<userT, "_id" | "contactDetails" | "dob" | "profileImg" | "fullName" | "otherDetails">
+export function useGetNotInvitedUsers(data: findUserSchemaT) {
   const limit = 50
 
   return useInfiniteQuery<niuT[], Error, niuT[]>({
-    queryKey: ["not-invited-users"],
-    queryFn: ({ pageParam }) => getNotInvitedUsers({ skip: (pageParam as number || 0) * limit, limit }),
+    queryKey: ["not-invited-users", data],
+    queryFn: ({ pageParam }) => getNotInvitedUsers({ skip: (pageParam as number || 0) * limit, limit, ...data }),
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
