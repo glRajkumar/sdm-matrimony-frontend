@@ -43,6 +43,20 @@ export function isPrimitive(value: unknown): value is primitiveT {
   return ["string", "number", "boolean", "symbol", "bigint", "undefined"].includes(typeof value) || value === null
 }
 
+export function parsePrimitive(value: primitiveT): primitiveT {
+  if (typeof value !== "string") return value
+
+  const trimmed = value.trim()
+
+  if (trimmed === "true") return true
+  if (trimmed === "false") return false
+  if (trimmed === "null") return null
+  if (trimmed === "undefined") return undefined
+  if (/^-?\d+(\.\d+)?$/.test(trimmed)) return Number(trimmed)
+
+  return trimmed
+}
+
 export function isFalsey(value: primitiveT): boolean {
   return value === null || value === "" || value === undefined || (typeof value === "number" && isNaN(value))
 }

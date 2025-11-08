@@ -13,20 +13,26 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "@/components/ui/command"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { Separator } from "./separator"
 import { Button } from "@/components/ui/button"
+import { Badge } from "./badge"
 
-type Props = {
-  value?: string
+type base = {
   options: optionsT
   isLoading?: boolean
   placeholder?: string
   emptyMessage?: string
+}
+
+type comboboxProps = base & {
+  value?: string
   canCreateNew?: boolean
   onValueChange?: (value: string) => void
 }
@@ -39,7 +45,7 @@ function Combobox({
   emptyMessage = "",
   canCreateNew = false,
   onValueChange = () => { },
-}: Props) {
+}: comboboxProps) {
   const { ref, width } = useElementWidth<HTMLButtonElement>()
 
   const [query, setQuery] = useState('')
@@ -128,7 +134,7 @@ function Combobox({
                 >
                   <Check
                     className={cn(
-                      "mr-2 h-4 w-4",
+                      "h-4 w-4",
                       value === (typeof option === "object" ? `${option.value}` : `${option}`) ? "opacity-100" : "opacity-0"
                     )}
                   />
@@ -157,6 +163,176 @@ function Combobox({
   )
 }
 
+type btnLableProps = {
+  value: primitiveT[]
+  options: optionsT
+  isLoading?: boolean
+  placeholder?: string
+}
+function ButtonLabel({ isLoading = false, value = [], options = [], placeholder = "" }: btnLableProps) {
+  const getLabel = (val: primitiveT) => {
+    const found = options.find(o => typeof o === "object" ? o.value === val : o === val)
+    return typeof found === "object" ? found.label : found || val
+  }
+
+  if (isLoading)
+    return (
+      <>
+        <Loader2 className="size-4 animate-spin" />
+        <span>Loading...</span>
+      </>
+    )
+
+  if (value.length === 0) {
+    if (!placeholder) return null
+    return <span className="text-muted-foreground">{placeholder}</span>
+  }
+
+  if (value.length <= 2) {
+    return value.map(getLabel).map(v => (
+      <Badge
+        variant="secondary"
+        className="rounded-sm px-1 font-normal"
+        key={`${v}`}
+      >
+        {`${v}`}
+      </Badge>
+    ))
+  }
+
+  return (
+    <Badge
+      variant="secondary"
+      className="rounded-sm px-1 font-normal"
+    >
+      {value.length} selected
+    </Badge>
+  )
+}
+
+type multiSelectComboboxProps = base & {
+  lable?: string
+  value?: primitiveT[]
+  onValueChange?: (value: primitiveT[]) => void
+}
+
+function MultiSelectCombobox({
+  lable = "",
+  value = [],
+  options = [],
+  isLoading = false,
+  placeholder = "",
+  emptyMessage = "",
+  onValueChange = () => { },
+}: multiSelectComboboxProps) {
+  const { ref, width } = useElementWidth<HTMLButtonElement>()
+  const [query, setQuery] = useState("")
+  const [open, setOpen] = useState(false)
+
+  const filteredOptions = options.filter((option) => {
+    const label = typeof option === "object" ? option.label : option
+    return `${label}`.toLowerCase().includes(query.toLowerCase())
+  })
+
+  const handleSelect = (selected: primitiveT) => {
+    const newValues = value.includes(selected)
+      ? value.filter((v) => v !== selected)
+      : [...value, selected]
+    onValueChange(newValues)
+  }
+
+  const handleClear = () => {
+    onValueChange([])
+    setQuery("")
+    setOpen(false)
+  }
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          ref={ref}
+          role="combobox"
+          variant="outline"
+          aria-expanded={open}
+          className="w-full justify-between font-normal"
+        >
+          {
+            lable &&
+            <>
+              <span className="font-medium">{lable}</span>
+              {value.length > 0 && <Separator orientation="vertical" className="mx-2 h-4" />}
+            </>
+          }
+
+          <ButtonLabel
+            value={value}
+            options={options}
+            isLoading={isLoading}
+            placeholder={placeholder}
+          />
+
+          <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+
+      <PopoverContent className="p-0" style={{ width: width ? `${width}px` : "auto" }}>
+        <Command shouldFilter={false}>
+          <CommandInput
+            value={query}
+            placeholder="Search..."
+            onValueChange={setQuery}
+          />
+
+          <CommandList>
+            <CommandEmpty>{emptyMessage || "No options found"}</CommandEmpty>
+
+            <CommandGroup>
+              {filteredOptions.map((option) => {
+                const optValue = typeof option === "object" ? option.value : option
+                const label = typeof option === "object" ? option.label : option
+                const selected = value.includes(optValue)
+
+                return (
+                  <CommandItem
+                    key={`${optValue}`}
+                    value={`${optValue}`}
+                    onSelect={() => handleSelect(optValue)}
+                  >
+                    <Check
+                      className={cn(
+                        "h-4 w-4",
+                        selected ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {`${label}`}
+                  </CommandItem>
+                )
+              })}
+
+              {value.length > 0 && (
+                <>
+                  <CommandSeparator />
+                  <CommandGroup>
+                    <CommandItem
+                      className="justify-center text-center"
+                      onSelect={handleClear}
+                      value="__clear__"
+                    >
+                      Clear selection(s)
+                    </CommandItem>
+                  </CommandGroup>
+                </>
+              )}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
 export {
-  Combobox
+  Combobox,
+  MultiSelectCombobox,
 }

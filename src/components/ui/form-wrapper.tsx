@@ -1,19 +1,20 @@
-"use client"
+"use client";
 
 import { useState } from 'react';
 import { Control, FieldValues, Path } from "react-hook-form";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
+import { parsePrimitive } from '@/utils';
 import { cn } from "@/lib/utils";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { Combobox, MultiSelectCombobox } from "./combobox";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 import { Calendar } from "./calendar";
 import { Textarea } from "./textarea";
-import { Combobox } from "./combobox";
 import { Button } from "./button";
 import { Input } from "./input";
 
@@ -81,11 +82,7 @@ export function RadioWrapper<T extends FieldValues>({ name, label, control, clas
           <FormControl>
             <RadioGroup
               value={`${field.value}`}
-              onValueChange={(value) => {
-                if (value === 'true') field.onChange(true)
-                else if (value === 'false') field.onChange(false)
-                else field.onChange(value)
-              }}
+              onValueChange={value => field.onChange(parsePrimitive(value))}
               className="flex items-center gap-12"
             >
               {options.map((option) => (
@@ -126,11 +123,7 @@ export function SelectWrapper<T extends FieldValues>({ name, label, control, cla
 
           <Select
             value={`${field.value}`}
-            onValueChange={(value) => {
-              if (value === 'true') field.onChange(true)
-              else if (value === 'false') field.onChange(false)
-              else field.onChange(value)
-            }}
+            onValueChange={value => field.onChange(parsePrimitive(value))}
           >
             <FormControl>
               <SelectTrigger>
@@ -212,7 +205,7 @@ type ComboboxWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
   canCreateNew?: boolean
   emptyMessage?: string
 }
-export function ComboboxWrapper<T extends FieldValues>({ name, label, control, className, options, canCreateNew, placeholder, emptyMessage, isLoading }: ComboboxWrapperProps<T>) {
+export function ComboboxWrapper<T extends FieldValues>({ name, label, control, className, placeholder, ...rest }: ComboboxWrapperProps<T>) {
   return (
     <FormField
       name={name}
@@ -223,17 +216,43 @@ export function ComboboxWrapper<T extends FieldValues>({ name, label, control, c
 
           <FormControl>
             <Combobox
-              options={options}
-              isLoading={isLoading}
+              {...rest}
               placeholder={placeholder || `Select ${label}`}
-              emptyMessage={emptyMessage}
-              canCreateNew={canCreateNew}
               value={`${field.value || ""}`}
-              onValueChange={(value) => {
-                if (value === 'true') field.onChange(true)
-                else if (value === 'false') field.onChange(false)
-                else field.onChange(value)
-              }}
+              onValueChange={value => field.onChange(parsePrimitive(value))}
+            />
+          </FormControl>
+
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  )
+}
+
+type MultiSelectComboboxWrapperProps<T extends FieldValues> = BaseWrapperProps<T> & {
+  options: optionsT
+  isLoading?: boolean
+  placeholder?: string
+  emptyMessage?: string
+  inlineLable?: boolean
+}
+export function MultiSelectComboboxWrapper<T extends FieldValues>({ name, label, control, className, placeholder, inlineLable = false, ...rest }: MultiSelectComboboxWrapperProps<T>) {
+  return (
+    <FormField
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <FormItem className={cn("relative", className)}>
+          {label && !inlineLable && <FormLabel>{label}</FormLabel>}
+
+          <FormControl>
+            <MultiSelectCombobox
+              {...rest}
+              value={field.value}
+              lable={inlineLable ? label : ""}
+              placeholder={inlineLable ? "" : placeholder || `Select ${label}`}
+              onValueChange={val => field.onChange(val.map(parsePrimitive))}
             />
           </FormControl>
 
