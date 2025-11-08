@@ -2,6 +2,9 @@
 
 import { useGetNotInvitedUsers } from "@/hooks/use-super-admin";
 
+import { useUserFilters } from "@/hooks/use-user-filters";
+
+import UsersFiltersRow from "@/components/common/users-filters-row";
 import { Skeleton } from "@/components/ui/skeleton";
 import LoadMore from "@/components/common/load-more";
 
@@ -9,10 +12,25 @@ import InviteAction from "./invite-action";
 import NumberCopy from "./number-copy";
 
 function Page() {
-  const { isLoading, data, isFetching, hasNextPage, fetchNextPage, refetch } = useGetNotInvitedUsers()
+  const methods = useUserFilters({
+    maritalStatus: [],
+    fullName: "",
+    gender: [],
+    caste: [],
+  })
+  const { isLoading, data, isFetching, hasNextPage, fetchNextPage } = useGetNotInvitedUsers({})
+
+  function onSubmit() {
+
+  }
 
   return (
     <div className="p-8">
+      <UsersFiltersRow
+        methods={methods}
+        onSubmit={onSubmit}
+      />
+
       <table className="w-full table-fixed overflow-x-auto">
         <thead>
           <tr className="text-left">

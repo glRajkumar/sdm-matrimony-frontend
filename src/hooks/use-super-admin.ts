@@ -9,6 +9,7 @@ import {
   createAdmin, updateAdmin, getNotInvitedUsers, userInvited,
   getUsersGroupList,
 } from "@/actions";
+import { findUserSchemaT } from "./use-user-filters";
 
 type userAndPlanT = currentPlanT & {
   user: Partial<userT>
@@ -127,8 +128,15 @@ export function useUpdateAdmin() {
 }
 
 export type niuT = Pick<userT, "_id" | "contactDetails" | "dob" | "profileImg" | "fullName">
-export function useGetNotInvitedUsers() {
+export function useGetNotInvitedUsers(data: findUserSchemaT) {
   const limit = 50
+  const payload: Record<string, unknown> = {}
+
+  for (const key of Object.keys(data) as (keyof findUserSchemaT)[]) {
+    const value = data[key]
+    payload[key] = Array.isArray(value) ? value.join(',') : value
+  }
+  console.log(payload)
 
   return useInfiniteQuery<niuT[], Error, niuT[]>({
     queryKey: ["not-invited-users"],
