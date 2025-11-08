@@ -38,6 +38,7 @@ function Page() {
           <thead>
             <tr className="text-left">
               <th className="w-40 px-1 py-2 text-sm font-medium">User</th>
+              <th className="w-28 px-1 py-2 text-sm font-medium">Caste</th>
               <th className="w-28 px-1 py-2 text-sm font-medium">Number</th>
               <th className="w-32 px-1 py-2 text-sm font-medium text-right">Action</th>
             </tr>
@@ -62,6 +63,10 @@ function Page() {
                       />
                       <p>{user?.fullName}</p>
                     </div>
+                  </td>
+
+                  <td className="px-1 py-2">
+                    {user?.otherDetails?.caste}
                   </td>
 
                   <td className="px-1 py-2">

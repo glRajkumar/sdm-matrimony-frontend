@@ -128,7 +128,7 @@ export function useUpdateAdmin() {
   })
 }
 
-export type niuT = Pick<userT, "_id" | "contactDetails" | "dob" | "profileImg" | "fullName">
+export type niuT = Pick<userT, "_id" | "contactDetails" | "dob" | "profileImg" | "fullName" | "otherDetails">
 export function useGetNotInvitedUsers(data: findUserSchemaT) {
   const limit = 50
 

@@ -3,36 +3,34 @@
 import { useState } from "react";
 import { Loader } from "lucide-react";
 import {
-  ColumnFiltersState,
   SortingState,
   VisibilityState,
   getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
-import { userListProps, useUsersList } from '@/hooks/use-admin';
-import { gender, maritalStatus } from '@/utils/enums';
-import { useStatics } from "@/hooks/use-general";
+import { useUserFilters, type findUserSchemaT } from "@/hooks/use-user-filters";
+import { useUsersList } from '@/hooks/use-admin';
 
-import { ColumnToggle, DataTable, ColumnFacetedFilter } from "@/components/ui/data-table";
+import { ColumnToggle, DataTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
 
-import { Input } from '@/components/ui/input';
+import UsersFiltersRow from "@/components/common/users-filters-row";
 import LoadMore from "@/components/common/load-more";
 
-function Users({ role = "admin", loaderHt = "h-[calc(100vh-3rem)]", ...props }: userListProps & { role?: rolesT, loaderHt?: string }) {
+function Users({ role = "admin", loaderHt = "h-[calc(100vh-12rem)]", ...props }: findUserSchemaT & { role?: rolesT, loaderHt?: string }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
 
-  const [globalFilter, setGlobalFilter] = useState('')
+  const { final, methods, onReset, onSubmit } = useUserFilters({
+    maritalStatus: [],
+    fullName: "",
+    gender: [],
+    caste: [],
+  })
 
-  const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage, } = useUsersList(props)
-  const { data: castes, isLoading: isCasteLoading } = useStatics("castes")
+  const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage, refetch } = useUsersList({ ...props, ...final })
 
   const currentTab: any = props.approvalStatus || (props.isBlocked ? "blocked" : "deleted")
 
@@ -42,60 +40,37 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-3rem)]", ...props }: 
     state: {
       sorting,
       columnVisibility,
-      columnFilters,
-      globalFilter,
     },
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
-    onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
   })
-
-  if (isLoading || isCasteLoading) return (
-    <div className={`dc ${loaderHt}`}>
-      <Loader className="animate-spin" />
-    </div>
-  )
 
   return (
     <>
-      <div className='df flex-wrap'>
-        <Input
-          className='w-60'
-          value={table.getState().globalFilter}
-          onChange={e => table.setGlobalFilter(e.target.value)}
-        />
-
-        <ColumnFacetedFilter
-          column={table.getColumn("gender")}
-          title="Gender"
-          options={gender.map(gen => ({ label: gen, value: gen }))}
-        />
-
-        <ColumnFacetedFilter
-          column={table.getColumn("maritalStatus")}
-          title="Marital Status"
-          options={maritalStatus.map(status => ({ label: status, value: status }))}
-        />
-
-        <ColumnFacetedFilter
-          column={table.getColumn("Caste")}
-          title="Caste"
-          options={castes?.map((status: string) => ({ label: status, value: status }))}
-        />
-
+      <UsersFiltersRow
+        methods={methods}
+        needReset={!!final && Object.keys(final)?.length > 0}
+        isLoading={isLoading || isFetching}
+        onSubmit={onSubmit}
+        onReset={onReset}
+        onRefresh={refetch}
+      >
         <ColumnToggle table={table} />
-      </div>
+      </UsersFiltersRow>
 
-      <DataTable
-        table={table}
-        className='my-4 [&_th:nth-child(-n+4)]:min-w-60'
-      />
+      {
+        isLoading ?
+          <div className={`dc ${loaderHt}`}>
+            <Loader className="animate-spin" />
+          </div>
+          :
+          <DataTable
+            table={table}
+            className='my-4 [&_th:nth-child(-n+4)]:min-w-60'
+          />
+      }
 
       {
         !isLoading && hasNextPage && !isFetching &&

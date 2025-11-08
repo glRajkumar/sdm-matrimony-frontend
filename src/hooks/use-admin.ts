@@ -3,42 +3,23 @@
 import { useMutation, useInfiniteQuery, useQueryClient, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { type findUserSchemaT } from "./use-user-filters";
+
 import {
   createUsers, extractImg, findUser, getMarriedUsers, getUsersList,
   updateUserDetails, userMarriedTo,
 } from "@/actions";
 
-export type userListProps = {
-  approvalStatus?: approvalStatusT | approvalStatusT[]
-  isBlocked?: boolean
-  isDeleted?: boolean
-  createdBy?: string
-}
-export function useUsersList({ approvalStatus, isBlocked, isDeleted, createdBy }: userListProps) {
+export function useUsersList(data: findUserSchemaT) {
   const limit = 50
-  const payload: any = {}
-
-  if (approvalStatus) {
-    payload["approvalStatus"] = approvalStatus.toString()
-  }
-  if (isBlocked) {
-    payload["isBlocked"] = isBlocked
-  }
-  if (isDeleted) {
-    payload["isDeleted"] = isDeleted
-  }
-
-  if (createdBy) {
-    payload["createdBy"] = createdBy
-  }
 
   return useInfiniteQuery<Partial<userT>[], Error, Partial<userT>[]>({
-    queryKey: ["user-list", payload],
+    queryKey: ["user-list", data],
     queryFn: ({ pageParam }) => {
       return getUsersList({
         skip: (pageParam as number || 0) * limit,
         limit,
-        ...payload,
+        ...data,
       })
     },
     initialPageParam: 0,
