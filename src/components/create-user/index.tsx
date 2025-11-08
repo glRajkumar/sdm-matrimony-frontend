@@ -204,7 +204,7 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
             ))
         }
 
-        <div className='py-2 sticky -bottom-px z-[1] bg-white'>
+        <div className='py-2 sticky -bottom-px z-1 bg-white'>
           <Button
             type="submit"
             className="w-full bg-pink-500 hover:bg-pink-600"

@@ -1,4 +1,3 @@
-import Link from "next/link";
 
 import { useGetUsersGroupList } from "@/hooks/use-super-admin";
 
@@ -31,14 +30,14 @@ function List({ createdBy, ...rest }: props) {
             key={u?._id}
             className="df py-1 px-4 even:bg-muted/80 hover:bg-primary/5"
           >
-            <Link href={`/super-admin/user/${u?._id}`} className="df flex-1 cursor-pointer">
+            <a target="_blank" href={`/super-admin/user/${u?._id}`} className="df flex-1 cursor-pointer">
               <img
                 className="size-10 shrink-0 rounded object-cover"
                 src={u?.profileImg || "/imgs/user.jpg"}
                 alt=""
               />
               <p className="flex-1 text-sm">{u?.fullName}</p>
-            </Link>
+            </a>
 
             <Badge
               variant="outline"

@@ -1,4 +1,5 @@
 import { FormProvider, type UseFormReturn } from "react-hook-form";
+import { RefreshCcw } from "lucide-react";
 
 import { type findUserSchemaT } from "@/hooks/use-user-filters";
 import { gender, maritalStatus } from '@/utils/enums';
@@ -12,10 +13,14 @@ type props = {
   methods: UseFormReturn<findUserSchemaT>
   children?: React.ReactNode
   className?: string
+  needReset?: boolean
+  isLoading: boolean
+  onReset: () => void
   onSubmit: (v: findUserSchemaT) => void
+  onRefresh?: () => void
 }
 
-function UsersFiltersRow({ methods, children, className, onSubmit }: props) {
+function UsersFiltersRow({ methods, children, className, needReset, isLoading, onSubmit, onReset, onRefresh }: props) {
   const { data: castes, isLoading: isCasteLoading } = useStatics("castes")
 
   return (
@@ -60,23 +65,53 @@ function UsersFiltersRow({ methods, children, className, onSubmit }: props) {
 
         {children}
 
+        <span className="flex-1"></span>
+
         {
           methods.formState.isDirty &&
           <Button
             type="button"
             variant="outline"
-            onClick={() => methods.reset()}
+            onClick={onReset}
             className="font-normal"
           >
-            Reset
+            Reset to previuos
+          </Button>
+        }
+
+        {
+          needReset &&
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={onReset}
+            className="border font-normal order-12"
+          >
+            Reset to Default
           </Button>
         }
 
         <Button
           type="submit"
-          className=" bg-pink-500 hover:bg-pink-400"
+          className="bg-pink-600 hover:bg-pink-500 order-12"
+          disabled={!methods.formState.isDirty}
         >
           Search
+        </Button>
+
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onRefresh}
+          className="font-normal group order-12"
+          disabled={isLoading}
+        >
+          <RefreshCcw
+            className={cn("transition-transform", {
+              "animate-spin": isLoading,
+              "group-hover:rotate-180": !isLoading,
+            })}
+          />
         </Button>
       </form>
     </FormProvider>

@@ -1,6 +1,9 @@
+import { useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { filterObj } from "@/utils";
 
 const strOrStrArrSchema = z.union([z.string(), z.array(z.string())]).optional()
 
@@ -31,10 +34,38 @@ export const findUsersSchema = z.object({
 
 export type findUserSchemaT = z.infer<typeof findUsersSchema>
 
-export function useUserFilters(defaultValues: findUserSchemaT = {}): UseFormReturn<findUserSchemaT> {
-  return useForm<findUserSchemaT>({
-    resolver: zodResolver(findUsersSchema) as any,
-    defaultValues,
-  })
-}
+export function useUserFilters(defaultValues: findUserSchemaT = {}) {
+  const [payload, setPaload] = useState({ ...defaultValues })
 
+  const methods = useForm({
+    resolver: zodResolver(findUsersSchema) as any,
+    defaultValues: { ...defaultValues },
+  })
+
+  const final = useMemo(() => {
+    const filtered: Record<string, unknown> = {}
+    for (const key of Object.keys(payload) as (keyof findUserSchemaT)[]) {
+      const value = payload[key]
+      filtered[key] = Array.isArray(value) ? value.join(',') : value
+    }
+
+    return filterObj(filtered) || {}
+  }, [payload])
+
+  function onReset() {
+    setPaload({ ...defaultValues })
+    methods.reset({ ...defaultValues })
+  }
+
+  function onSubmit(data: findUserSchemaT) {
+    setPaload({ ...data })
+    methods.reset({ ...methods.getValues() })
+  }
+
+  return {
+    final,
+    methods,
+    onReset,
+    onSubmit,
+  }
+}

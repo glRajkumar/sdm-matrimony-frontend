@@ -3,13 +3,14 @@
 import { useMutation, useInfiniteQuery, useQueryClient, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { type findUserSchemaT } from "./use-user-filters";
+
 import {
   getPaidUsers, getAssistedSubscribedUsers, getAllPayments, getUsersByCreatedBy,
   getUsersGroupedByAdminCount, getUsersGroupedCount, getAdminsList,
   createAdmin, updateAdmin, getNotInvitedUsers, userInvited,
   getUsersGroupList,
 } from "@/actions";
-import { findUserSchemaT } from "./use-user-filters";
 
 type userAndPlanT = currentPlanT & {
   user: Partial<userT>
@@ -130,17 +131,10 @@ export function useUpdateAdmin() {
 export type niuT = Pick<userT, "_id" | "contactDetails" | "dob" | "profileImg" | "fullName">
 export function useGetNotInvitedUsers(data: findUserSchemaT) {
   const limit = 50
-  const payload: Record<string, unknown> = {}
-
-  for (const key of Object.keys(data) as (keyof findUserSchemaT)[]) {
-    const value = data[key]
-    payload[key] = Array.isArray(value) ? value.join(',') : value
-  }
-  console.log(payload)
 
   return useInfiniteQuery<niuT[], Error, niuT[]>({
-    queryKey: ["not-invited-users"],
-    queryFn: ({ pageParam }) => getNotInvitedUsers({ skip: (pageParam as number || 0) * limit, limit }),
+    queryKey: ["not-invited-users", data],
+    queryFn: ({ pageParam }) => getNotInvitedUsers({ skip: (pageParam as number || 0) * limit, limit, ...data }),
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => lastPage.length === limit ? pages.length : undefined,
     select: data => data?.pages?.flat() as any,
