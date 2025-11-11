@@ -19,7 +19,7 @@ import { columns } from "./columns";
 
 import UsersFiltersRow from "@/components/common/users-filters-row";
 
-function Users({ role = "admin", loaderHt = "h-[calc(100vh-16rem)] sm:h-[calc(100vh-14rem)]", ...props }: findUserSchemaT & { role?: rolesT, loaderHt?: string }) {
+function Users({ role = "admin", loaderHt = "h-[calc(100vh-9.5rem)] sm:h-[calc(100vh-10.5rem)]", ...props }: findUserSchemaT & { role?: rolesT, loaderHt?: string }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -48,7 +48,7 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-16rem)] sm:h-[calc(10
   })
 
   return (
-    <>
+    <div className={cn("dfc", loaderHt)}>
       <UsersFiltersRow
         methods={methods}
         needReset={!!final && Object.keys(final)?.length > 0}
@@ -62,19 +62,19 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-16rem)] sm:h-[calc(10
 
       {
         isLoading ?
-          <div className={cn("dc", loaderHt)}>
+          <div className="dc scroll-y">
             <Loader className="animate-spin" />
           </div>
           :
           <DataTableVirtualized
             table={table}
-            className={cn('mt-4 sm:pr-4 sm:-mr-4 [&_th:nth-child(-n+4)]:min-w-60', loaderHt)}
+            className="scroll-y sm:pr-4 sm:-mr-4 [&_th:nth-child(-n+4)]:min-w-60"
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
             fetchNextPage={fetchNextPage}
           />
       }
-    </>
+    </div>
   )
 }
 

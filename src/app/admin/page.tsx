@@ -20,7 +20,7 @@ function Page() {
         <Users
           createdBy={user?._id}
           approvalStatus="approved"
-          loaderHt="h-[calc(100vh-12rem)] sm:h-[calc(100vh-10rem)]"
+          loaderHt="h-[calc(100vh-5.5rem)] sm:h-[calc(100vh-7rem)]"
         />
       }
     </section>
