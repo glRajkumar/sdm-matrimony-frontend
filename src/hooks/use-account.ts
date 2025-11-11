@@ -204,7 +204,7 @@ export function useLogout() {
   const router = useRouter()
 
   function onSuccess() {
-    const toUser = window.location.pathname.includes("user") ? "user" : "admin"
+    const toUser = window.location.pathname.startsWith("/user") ? "user" : "admin"
     removeToken()
     queryClient.clear()
     toast('Logged out successfully')
