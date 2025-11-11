@@ -23,11 +23,11 @@ function VerifyReminder({ email, onSuccess }: props) {
         </DialogDescription>
       </DialogHeader>
 
-      <DialogFooter className="flex justify-between">
+      <DialogFooter className="flex-row flex-wrap">
         <Button
           size="sm"
           variant="outline"
-          className="mr-auto"
+          className="max-[450px]:flex-1 mr-auto"
           disabled={isPending}
           onClick={() => update({ remindVerification: false })}
         >
@@ -39,16 +39,17 @@ function VerifyReminder({ email, onSuccess }: props) {
             size="sm"
             variant="outline"
             disabled={isPending}
+            className="max-[450px]:flex-1"
           >
             Verify Later
           </Button>
         </DialogClose>
 
-
         <Button
           size="sm"
           disabled={isPending}
           onClick={() => mutate({ email }, { onSuccess })}
+          className="max-[450px]:flex-1"
         >
           Verify Now
         </Button>

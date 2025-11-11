@@ -12,8 +12,8 @@ function Page() {
       type="full"
       users={users || []}
       isLoading={isLoading}
-      isFetching={isFetching}
       hasNextPage={false}
+      isFetchingNextPage={isFetching}
       fetchNextPage={() => { }}
     />
   )

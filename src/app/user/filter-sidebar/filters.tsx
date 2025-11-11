@@ -12,8 +12,10 @@ import { InputWrapper, SelectWrapper } from '@/components/ui/form-wrapper';
 import { SelectListWrapper } from '@/components/common/lists';
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { cn } from '@/lib/utils';
 
 interface props {
+  contentHt?: string
   hasFilters: boolean
   onSave: (filterData: any) => void
 }
@@ -126,7 +128,7 @@ function getPayload(userPartnerPreferences: Pick<userT, "partnerPreferences"> & 
   return payload
 }
 
-function Filters({ onSave, hasFilters }: props) {
+function Filters({ onSave, hasFilters, contentHt = "" }: props) {
   const { data: userMini, isLoading: isLoadingMini } = useUserDetailsMini()
   const { data: user, isLoading: isLoading2 } = usePartnerPreferences(isLoadingMini ? "" : userMini?._id || "")
 
@@ -195,7 +197,7 @@ function Filters({ onSave, hasFilters }: props) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="dfc max-h-[calc(100vh-10rem)]"
+          className={cn("dfc h-[calc(100vh-10rem)]", contentHt)}
         >
           <div className="scroll-y -mx-4 md:-mx-6 px-4 md:px-6 py-4 space-y-4 border-y">
             <SelectWrapper

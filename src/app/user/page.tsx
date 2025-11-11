@@ -1,15 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useUsersList } from "@/hooks/use-user";
 
 import FilterSideBar from "./filter-sidebar";
 import List from "./list";
 
+function useKey(filterData: objT | undefined) {
+  const [id, setId] = useState(() => crypto.randomUUID())
+  const prevDataRef = useRef<objT | undefined>(filterData)
+
+  useEffect(() => {
+    const prev = prevDataRef.current
+    const isChanged = JSON.stringify(prev) !== JSON.stringify(filterData)
+
+    if (isChanged) {
+      setId(crypto.randomUUID())
+      prevDataRef.current = filterData
+    }
+  }, [filterData])
+
+  return id
+}
+
 function Page() {
   const [filterData, setFilterData] = useState<objT | undefined>(undefined)
-  const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage } = useUsersList(filterData)
+  const { data: users, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useUsersList(filterData)
+  const id = useKey(filterData)
 
   function onSave(filterData: objT) {
     setFilterData(filterData)
@@ -23,11 +41,12 @@ function Page() {
       />
 
       <List
+        key={id}
         type="full"
         users={users || []}
         isLoading={isLoading}
-        isFetching={isFetching}
         hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}
       />
     </div>

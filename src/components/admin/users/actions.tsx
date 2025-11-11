@@ -31,11 +31,11 @@ function Actions({ _id, currentTab, role }: props) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className="px-2">
         <BsThreeDots />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end">
         <DropdownMenuItem asChild>
           <Link href={`/${role}/user/${_id}`}>
             View

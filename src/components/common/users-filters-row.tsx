@@ -49,7 +49,7 @@ function UsersFiltersRow({ methods, children, className, needReset, isLoading, o
           label="Marital Status"
           options={maritalStatus}
           control={methods.control}
-          className="min-w-40"
+          className="min-w-32 sm:min-w-40"
           inlineLable
         />
 
@@ -59,7 +59,7 @@ function UsersFiltersRow({ methods, children, className, needReset, isLoading, o
           options={castes}
           control={methods.control}
           isLoading={isCasteLoading}
-          className="min-w-56"
+          className="min-w-44 sm:min-w-56"
           inlineLable
         />
 

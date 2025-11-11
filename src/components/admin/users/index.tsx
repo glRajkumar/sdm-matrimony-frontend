@@ -12,14 +12,14 @@ import {
 
 import { useUserFilters, type findUserSchemaT } from "@/hooks/use-user-filters";
 import { useUsersList } from '@/hooks/use-admin';
+import { cn } from "@/lib/utils";
 
-import { ColumnToggle, DataTable } from "@/components/ui/data-table";
+import { ColumnToggle, DataTableVirtualized } from "@/components/ui/data-table";
 import { columns } from "./columns";
 
 import UsersFiltersRow from "@/components/common/users-filters-row";
-import LoadMore from "@/components/common/load-more";
 
-function Users({ role = "admin", loaderHt = "h-[calc(100vh-12rem)]", ...props }: findUserSchemaT & { role?: rolesT, loaderHt?: string }) {
+function Users({ role = "admin", loaderHt = "h-[calc(100vh-9.5rem)] sm:h-[calc(100vh-10.5rem)]", ...props }: findUserSchemaT & { role?: rolesT, loaderHt?: string }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -30,7 +30,7 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-12rem)]", ...props }:
     caste: [],
   })
 
-  const { data: users, isLoading, isFetching, hasNextPage, fetchNextPage, refetch } = useUsersList({ ...props, ...final })
+  const { data: users, isLoading, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } = useUsersList({ ...props, ...final })
 
   const currentTab: any = props.approvalStatus || (props.isBlocked ? "blocked" : "deleted")
 
@@ -48,7 +48,7 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-12rem)]", ...props }:
   })
 
   return (
-    <>
+    <div className={cn("dfc", loaderHt)}>
       <UsersFiltersRow
         methods={methods}
         needReset={!!final && Object.keys(final)?.length > 0}
@@ -62,28 +62,19 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-12rem)]", ...props }:
 
       {
         isLoading ?
-          <div className={`dc ${loaderHt}`}>
+          <div className="dc scroll-y">
             <Loader className="animate-spin" />
           </div>
           :
-          <DataTable
+          <DataTableVirtualized
             table={table}
-            className='my-4 [&_th:nth-child(-n+4)]:min-w-60'
+            className="scroll-y sm:pr-4 sm:-mr-4 [&_th:nth-child(-n+4)]:min-w-60"
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
           />
       }
-
-      {
-        !isLoading && hasNextPage && !isFetching &&
-        <LoadMore fn={fetchNextPage} />
-      }
-
-      {
-        isFetching &&
-        <div className="dc my-6">
-          <Loader className="animate-spin" />
-        </div>
-      }
-    </>
+    </div>
   )
 }
 

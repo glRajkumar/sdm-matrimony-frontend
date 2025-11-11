@@ -4,7 +4,7 @@ import Users from "@/components/admin/users";
 
 function Page() {
   return (
-    <section className="px-2 sm:px-4 py-8">
+    <section className="px-2 sm:px-4 pt-4 sm:pt-8">
       <Tabs defaultValue="approved">
         <TabsList className="w-full mb-4 border-b bg-transparent rounded-none">
           {

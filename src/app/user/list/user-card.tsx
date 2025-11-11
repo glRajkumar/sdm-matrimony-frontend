@@ -31,7 +31,7 @@ function UserCard({
 }: props) {
   const hasPlan = currentPlan && new Date(currentPlan.expiryDate).getTime() > new Date().getTime()
   return (
-    <Card className="mb-6 p-0 overflow-hidden transition-all duration-300 hover:shadow-md @container/card">
+    <Card className="p-0 overflow-hidden transition-all duration-300 hover:shadow-md @container/card">
       <div className="flex flex-col @lg/card:flex-row">
         <div className="relative w-full @lg/card:w-auto">
           <img

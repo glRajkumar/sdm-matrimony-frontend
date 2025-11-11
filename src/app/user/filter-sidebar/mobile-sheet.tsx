@@ -22,7 +22,7 @@ function MobileSheet({ hasFilters, onSave }: props) {
       <SheetTrigger asChild>
         <Button
           variant="outline"
-          className="md:hidden mt-8 ml-4 -mb-2 sticky top-20 z-[1]"
+          className="md:hidden fixed top-20 left-4 z-1"
         >
           <Menu /> Filters
         </Button>
@@ -35,6 +35,7 @@ function MobileSheet({ hasFilters, onSave }: props) {
         </SheetHeader>
 
         <Filters
+          contentHt="h-[calc(100vh-6rem)]"
           hasFilters={hasFilters}
           onSave={onSave}
         />
