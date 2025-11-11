@@ -1,17 +1,27 @@
 "use client";
 
-import { useGetNotInvitedUsers } from "@/hooks/use-super-admin";
+import { useState } from "react";
+import { Loader } from "lucide-react";
+import {
+  SortingState,
+  VisibilityState,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
+import { useGetNotInvitedUsers } from "@/hooks/use-super-admin";
 import { useUserFilters } from "@/hooks/use-user-filters";
 
+import { ColumnToggle, DataTableVirtualized } from "@/components/ui/data-table";
 import UsersFiltersRow from "@/components/common/users-filters-row";
-import { Skeleton } from "@/components/ui/skeleton";
-import LoadMore from "@/components/common/load-more";
 
-import InviteAction from "./invite-action";
-import NumberCopy from "./number-copy";
+import { columns } from "./columns";
 
 function Page() {
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [sorting, setSorting] = useState<SortingState>([])
+
   const { final, methods, onReset, onSubmit } = useUserFilters({
     maritalStatus: [],
     fullName: "",
@@ -19,10 +29,23 @@ function Page() {
     caste: [],
   })
 
-  const { isLoading, data, isFetching, hasNextPage, fetchNextPage, refetch } = useGetNotInvitedUsers(final)
+  const { isLoading, data, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } = useGetNotInvitedUsers(final)
+
+  const table = useReactTable({
+    data: data as any || [],
+    columns,
+    state: {
+      sorting,
+      columnVisibility,
+    },
+    onSortingChange: setSorting,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  })
 
   return (
-    <div className="relative isolate">
+    <div className="dfc h-[calc(100vh-5rem)]">
       <UsersFiltersRow
         methods={methods}
         needReset={!!final && Object.keys(final)?.length > 0}
@@ -30,75 +53,23 @@ function Page() {
         onSubmit={onSubmit}
         onReset={onReset}
         onRefresh={refetch}
-        className="py-3 px-8 sticky top-18 bg-background z-1 shadow"
-      />
-
-      <div className="px-8">
-        <table className="w-full table-fixed overflow-x-auto">
-          <thead>
-            <tr className="text-left">
-              <th className="w-40 px-1 py-2 text-sm font-medium">User</th>
-              <th className="w-28 px-1 py-2 text-sm font-medium">Caste</th>
-              <th className="w-28 px-1 py-2 text-sm font-medium">Number</th>
-              <th className="w-32 px-1 py-2 text-sm font-medium text-right">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {
-              isLoading &&
-              <tr><td colSpan={3}><Skeleton className="h-96" /></td></tr>
-            }
-
-            {
-              !isLoading &&
-              data?.map(user => (
-                <tr key={user?._id} className="mb-2 text-sm odd:bg-muted/60">
-                  <td className="px-1 py-2">
-                    <div className="df">
-                      <img
-                        className="size-10 shrink-0 rounded object-cover"
-                        src={user?.profileImg || "/imgs/user.jpg"}
-                        alt=""
-                      />
-                      <p>{user?.fullName}</p>
-                    </div>
-                  </td>
-
-                  <td className="px-1 py-2">
-                    {user?.otherDetails?.caste}
-                  </td>
-
-                  <td className="px-1 py-2">
-                    <NumberCopy
-                      number={user?.contactDetails?.mobile || ""}
-                    />
-                  </td>
-
-                  <td className="px-1 py-2 text-right">
-                    <InviteAction user={user} />
-                  </td>
-                </tr>
-              ))
-            }
-
-            {
-              !isLoading && data?.length === 0 &&
-              <tr>
-                <td colSpan={3}>
-                  <div className="dc h-60 p-8 text-center text-sm text-gray-500 border rounded-lg">
-                    No users found to invite.
-                  </div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
+        className="py-3 px-4 md:px-8 shadow"
+      >
+        <ColumnToggle table={table} />
+      </UsersFiltersRow>
 
       {
-        !isLoading && hasNextPage && !isFetching &&
-        <LoadMore fn={fetchNextPage} />
+        isLoading ?
+          <div className="dc scroll-y">
+            <Loader className="animate-spin" />
+          </div>
+          : <DataTableVirtualized
+            table={table}
+            className="mt-4 px-4 md:px-8 scroll-y [&_th:nth-child(-n+3)]:min-w-60"
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
+          />
       }
     </div>
   )

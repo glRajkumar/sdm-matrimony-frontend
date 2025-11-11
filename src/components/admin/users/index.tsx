@@ -72,7 +72,6 @@ function Users({ role = "admin", loaderHt = "h-[calc(100vh-16rem)] sm:h-[calc(10
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
             fetchNextPage={fetchNextPage}
-            virtualizerOpts={{ paddingEnd: 10, }}
           />
       }
     </>
