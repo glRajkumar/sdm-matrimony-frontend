@@ -9,11 +9,11 @@ import { Button } from "@/components/ui/button";
 import { getAge } from "@/utils";
 
 type props = {
-  user: userT
+  user: userT & { hasFullAccess?: boolean }
 }
 function Dob({ user }: props) {
   const { isPending, unlockBtnClk } = useUnlock()
-  const isUnlocked = !!user?.contactDetails && user?.contactDetails?.mobile !== "restricted"
+  const isUnlocked = !!user?.hasFullAccess
 
   return (
     <p className="df flex-wrap font-medium">

@@ -10,13 +10,13 @@ import UpgradeBtn from "./upgrade-btn";
 import Edit from "./edit";
 
 type props = {
-  user: userT
+  user: userT & { hasFullAccess?: boolean }
   canEdit: boolean
 }
 
 function ContactDetails({ user, canEdit }: props) {
   const { isPending, unlockBtnClk } = useUnlock()
-  const isUnlocked = !!user?.contactDetails && user?.contactDetails?.mobile !== "restricted"
+  const isUnlocked = !!user?.hasFullAccess
 
   return (
     <Card>

@@ -167,8 +167,10 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
 
       onSubmit(filterObj(payload) as Partial<userT>)
 
-    } catch (error) {
-      toast.error('Failed to register')
+    } catch (error: any) {
+      toast.error('Failed to register', {
+        description: error?.message || ""
+      })
     }
   }
 

@@ -14,7 +14,7 @@ import { InputWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
-function Edit({ user }: { user: userT }) {
+function Edit({ user }: { user: userT & { hasFullAccess?: boolean } }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 

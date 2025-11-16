@@ -10,7 +10,7 @@ import VerdicPic from "./verdic-pic";
 import Edit from "./edit";
 
 type props = {
-  user: userT
+  user: userT & { hasFullAccess?: boolean }
   canEdit: boolean
 }
 
@@ -20,7 +20,7 @@ function getValue(val: string, map: Record<string, string>) {
 
 function HoroscopeDetails({ user, canEdit }: props) {
   const { isPending, unlockBtnClk } = useUnlock()
-  const isUnlocked = !!user?.contactDetails && user?.contactDetails?.mobile !== "restricted"
+  const isUnlocked = !!user?.hasFullAccess
 
   return (
     <Card>
@@ -80,6 +80,7 @@ function HoroscopeDetails({ user, canEdit }: props) {
           <VerdicPic
             user={user}
             isPending={isPending}
+            isUnlocked={isUnlocked}
             unlockBtnClk={unlockBtnClk}
           />
         </div>

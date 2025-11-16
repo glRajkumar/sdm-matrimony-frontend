@@ -4,7 +4,7 @@ import Edit from "./edit";
 import Dob from "./dob";
 
 type props = {
-  user: userT
+  user: userT & { hasFullAccess?: boolean }
   canEdit: boolean
 }
 
