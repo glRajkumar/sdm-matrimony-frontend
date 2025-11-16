@@ -10,7 +10,7 @@ import FamilyDetails from "./family-details";
 import OtherDetails from "./other-details";
 
 type props = {
-  user: userT
+  user: userT & { hasFullAccess?: boolean }
   canEdit: boolean
 }
 

@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Edit from "./edit";
 
 type props = {
-  user: userT
+  user: userT & { hasFullAccess?: boolean }
   canEdit: boolean
 }
 

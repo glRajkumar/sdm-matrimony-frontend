@@ -13,7 +13,7 @@ import AddImageDialog from "./add-image-dialog";
 import ImageView from "./image-view";
 
 type props = {
-  user: userT
+  user: userT & { hasFullAccess?: boolean }
   canEdit: boolean
 }
 
@@ -44,7 +44,7 @@ function ProfileSidebar({ user, canEdit }: props) {
 
   return (
     <div className="relative isolate max-w-md">
-      <Card className="sticky top-20 z-[1]">
+      <Card className="sticky top-20 z-1">
         <CardContent className="p-6">
           <div className="flex flex-col items-center text-center">
             <div className="relative w-40 h-40 mb-4">

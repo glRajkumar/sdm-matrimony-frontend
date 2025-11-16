@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from '@/components/ui/input';
 import { Form } from "@/components/ui/form";
 
-function Edit({ user }: { user: userT }) {
+function Edit({ user }: { user: userT & { hasFullAccess?: boolean } }) {
   const { mutate, isPending } = useUpdateProfile()
   const [open, setOpen] = useState(false)
 

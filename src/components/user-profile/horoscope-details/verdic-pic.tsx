@@ -5,13 +5,14 @@ import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type props = {
-  user: userT
+  user: userT & { hasFullAccess?: boolean }
+  isUnlocked: boolean
   isPending: boolean
   unlockBtnClk: (id: string) => void
 }
 
-function VerdicPic({ user, isPending, unlockBtnClk }: props) {
-  if (!user?.contactDetails) {
+function VerdicPic({ user, isPending, isUnlocked, unlockBtnClk }: props) {
+  if (!isUnlocked) {
     return (
       <Button
         size="sm"
