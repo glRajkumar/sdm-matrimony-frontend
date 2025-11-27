@@ -1,10 +1,9 @@
-import { Check, CheckCheck, Copy, Loader } from "lucide-react";
-import { format } from "date-fns";
+import { Check, Copy } from "lucide-react";
 
-import { type niuT, useUserInvite } from "@/hooks/use-super-admin";
+import { type niuT } from "@/hooks/use-super-admin";
 import useClipboardCopy from "@/hooks/use-clipboard-copy";
+import { createPass } from "@/utils/password";
 
-import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group";
 import { Button } from "@/components/ui/button";
 
 type props = {
@@ -12,12 +11,10 @@ type props = {
 }
 
 function InviteAction({ user }: props) {
-  const { mutate, isPending } = useUserInvite()
-
   const { copied, onCopyClk } = useClipboardCopy()
 
   function onCopy() {
-    const pass = `${user.fullName.replace(/\s/g, "").slice(0, 4)}_${format(new Date(user?.dob), "ddMMyy")}`
+    const pass = createPass(user?.fullName, user?.dob)
     onCopyClk(`
 Hello ${user?.fullName || "User"},
 
@@ -37,33 +34,16 @@ If you did not intend to join SD Matrimony or believe this was a mistake, you ca
     `)
   }
 
-  function invited() {
-    mutate({ _id: user?._id })
-  }
-
   return (
-    <ButtonGroup className="ml-auto">
-      <Button
-        onClick={onCopy}
-        variant="outline"
-        size="sm"
-      >
-        {copied ? <Check /> : <Copy />}
-        {copied ? "Copied" : "Copy"}
-      </Button>
-
-      <ButtonGroupSeparator />
-
-      <Button
-        onClick={invited}
-        disabled={isPending}
-        variant="outline"
-        size="sm"
-      >
-        {isPending ? <Loader className="animate-spin" /> : <CheckCheck />}
-        Invited
-      </Button>
-    </ButtonGroup>
+    <Button
+      size="sm"
+      variant="outline"
+      onClick={onCopy}
+      className="flex ml-auto"
+    >
+      {copied ? <Check /> : <Copy />}
+      {copied ? "Copied" : "Copy"}
+    </Button>
   )
 }
 
