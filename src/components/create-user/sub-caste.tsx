@@ -4,9 +4,10 @@ import { useFormContext } from "react-hook-form";
 type props = {
   name: string
   additionalOpts?: string | string[]
+  className?: string
 }
 
-export function SubCaste({ name, additionalOpts }: props) {
+export function SubCaste({ name, additionalOpts, className }: props) {
   const { control, watch } = useFormContext()
   const choosed = watch(name.replace("subCaste", "caste"))
 
@@ -16,6 +17,7 @@ export function SubCaste({ name, additionalOpts }: props) {
       control={control}
       choosed={choosed}
       additionalOpts={additionalOpts}
+      className={className}
     />
   )
 }

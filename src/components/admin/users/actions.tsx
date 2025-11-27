@@ -3,7 +3,9 @@ import Link from "next/link";
 
 import type { tab } from "./types";
 
+import { useResetPassByAdmin } from "@/hooks/use-super-admin";
 import { useUpdateUserMutate } from "@/hooks/use-admin";
+import { createPass } from "@/utils/password";
 
 import {
   DropdownMenu,
@@ -14,11 +16,14 @@ import {
 
 type props = {
   _id: string
-  currentTab: tab
+  dob: string
   role: rolesT
+  fullName: string
+  currentTab: tab
 }
 
-function Actions({ _id, currentTab, role }: props) {
+function Actions({ _id, currentTab, role, fullName, dob }: props) {
+  const { mutate: resetPass, isPending: resetPassPending } = useResetPassByAdmin()
   const { mutate } = useUpdateUserMutate()
 
   function updateStatus(approvalStatus: "approved" | "rejected") {
@@ -27,6 +32,10 @@ function Actions({ _id, currentTab, role }: props) {
 
   function updateActions(data: Partial<userT>) {
     mutate({ _id, ...data, approvalStatus: "pending" })
+  }
+
+  function onReset() {
+    resetPass({ _id, password: createPass(fullName, dob) })
   }
 
   return (
@@ -41,6 +50,16 @@ function Actions({ _id, currentTab, role }: props) {
             View
           </Link>
         </DropdownMenuItem>
+
+        {
+          role === "super-admin" && currentTab === "approved" &&
+          <DropdownMenuItem
+            onClick={onReset}
+            disabled={resetPassPending}
+          >
+            Reset Password
+          </DropdownMenuItem>
+        }
 
         {
           currentTab !== "approved" && (

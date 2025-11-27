@@ -12,37 +12,37 @@ type FieldWrapperProps = Field & {
   onBlur: (n: string, v: string) => void
 }
 
-function FieldWrapper({ control, onBlur, type, ...props }: FieldWrapperProps) {
+function FieldWrapper({ control, onBlur, type, isRequired, ...props }: FieldWrapperProps) {
   if (type === "date") {
-    return <DatePickerWrapper control={control} {...props} />
+    return <DatePickerWrapper control={control} {...props} className={isRequired ? "" : 'hidden'} />
   }
 
   if (type === "file" && "multiple" in props) {
-    return <SelectMultiImageWrapper {...props} />
+    return <SelectMultiImageWrapper {...props} className={isRequired ? "ca-images" : 'hidden'} />
   }
 
   if (type === "file") {
-    return <SelectImageWrapper {...props} />
+    return <SelectImageWrapper {...props} className={isRequired ? "ca-profile" : 'hidden'} />
   }
 
   if (type === "select" && "options" in props) {
-    return <SelectWrapper control={control} {...props} />
+    return <SelectWrapper control={control} {...props} className={isRequired ? "" : 'hidden'} />
   }
 
   if (type === "combobox" && "listName" in props) {
-    return <SelectListWrapper control={control} {...props} />
+    return <SelectListWrapper control={control} {...props} className={isRequired ? "" : 'hidden'} />
   }
 
   if (type === "radio" && "options" in props) {
-    return <RadioWrapper control={control} {...props} />
+    return <RadioWrapper control={control} {...props} className={isRequired ? "" : 'hidden'} />
   }
 
   if (type === "password") {
-    return <PasswordWrapper />
+    return <PasswordWrapper className={isRequired ? "" : 'hidden'} />
   }
 
   if (type === "subCaste") {
-    return <SubCaste {...props} />
+    return <SubCaste {...props} className={isRequired ? "" : 'hidden'} />
   }
 
   return (
@@ -56,6 +56,7 @@ function FieldWrapper({ control, onBlur, type, ...props }: FieldWrapperProps) {
           onBlur(props.name, e.target.value)
         }
       })}
+      className={isRequired ? "" : 'hidden'}
     />
   )
 }

@@ -65,7 +65,7 @@ function Page() {
           </div>
           : <DataTableVirtualized
             table={table}
-            className="mt-4 px-4 md:px-8 scroll-y [&_th:nth-child(-n+3)]:min-w-60"
+            className="px-4 md:px-8 scroll-y [&_th:nth-child(-n+4)]:min-w-60"
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
             fetchNextPage={fetchNextPage}

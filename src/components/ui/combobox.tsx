@@ -211,7 +211,7 @@ function ButtonLabel({ isLoading = false, value = [], options = [], placeholder 
 }
 
 type multiSelectComboboxProps = base & {
-  lable?: string
+  lable?: React.ReactNode
   value?: primitiveT[]
   onValueChange?: (value: primitiveT[]) => void
 }

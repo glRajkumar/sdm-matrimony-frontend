@@ -2,14 +2,19 @@ import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { usePathname } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
-import { format } from "date-fns";
 import { toast } from "sonner";
+
+import { createPass } from "@/utils/password";
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export function PasswordWrapper() {
+type props = {
+  className?: string
+}
+
+export function PasswordWrapper({ className }: props) {
   const [showPassword, setShowPassword] = useState(true)
   const { control, getValues, setValue, clearErrors } = useFormContext()
 
@@ -22,7 +27,7 @@ export function PasswordWrapper() {
     if (!fullName) return toast("Please fill in Full Name.")
     if (!dob) return toast("Please fill in Date of Birth.")
 
-    const password = `${fullName.replace(/\s/g, "").slice(0, 4)}_${format(new Date(dob), "ddMMyy")}`
+    const password = createPass(fullName, dob)
     setValue("password", password)
     clearErrors("password")
   }
@@ -32,7 +37,7 @@ export function PasswordWrapper() {
       name="password"
       control={control}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           <div className="df justify-between">
             <FormLabel>Password</FormLabel>
             {isAdmin && (
