@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { usePathname } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
-import { format } from "date-fns";
 import { toast } from "sonner";
+
+import { createPass } from "@/utils/password";
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -22,7 +23,7 @@ export function PasswordWrapper() {
     if (!fullName) return toast("Please fill in Full Name.")
     if (!dob) return toast("Please fill in Date of Birth.")
 
-    const password = `${fullName.replace(/\s/g, "").slice(0, 4)}_${format(new Date(dob), "ddMMyy")}`
+    const password = createPass(fullName, dob)
     setValue("password", password)
     clearErrors("password")
   }

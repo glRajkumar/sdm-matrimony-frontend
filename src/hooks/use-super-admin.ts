@@ -9,7 +9,7 @@ import {
   getPaidUsers, getAssistedSubscribedUsers, getAllPayments, getUsersByCreatedBy,
   getUsersGroupedByAdminCount, getUsersGroupedCount, getAdminsList,
   createAdmin, updateAdmin, getNotInvitedUsers, userInvited,
-  getUsersGroupList,
+  getUsersGroupList, resetPassByAdmin,
 } from "@/actions";
 
 type userAndPlanT = currentPlanT & {
@@ -149,6 +149,18 @@ export function useUserInvite() {
     onSuccess() {
       toast("User invited successfully")
       queryClient.invalidateQueries({ queryKey: ["not-invited-users"] })
+    },
+    onError(error) {
+      toast(error?.message || "Something went wrong!!!")
+    }
+  })
+}
+
+export function useResetPassByAdmin() {
+  return useMutation({
+    mutationFn: resetPassByAdmin,
+    onSuccess() {
+      toast("Password reset successfully")
     },
     onError(error) {
       toast(error?.message || "Something went wrong!!!")

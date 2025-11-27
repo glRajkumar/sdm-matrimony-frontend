@@ -2,6 +2,7 @@
 
 import { ColumnSorter } from "@/components/ui/data-table";
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 
 import type { tab } from "./types";
 
@@ -13,14 +14,18 @@ export const columns = (currentTab: tab, role: rolesT): ColumnDef<Partial<userT>
     header: ({ column }) => <ColumnSorter column={column} title="Name" />,
     cell({ row }) {
       return (
-        <div className="df">
+        <Link
+          href={`/${role}/user/${row.original._id}`}
+          target="_blank"
+          className="df hover:text-pink-500"
+        >
           <img
             className="size-16 shrink-0 rounded object-cover"
             src={row.original.profileImg || "/imgs/user.jpg"}
             alt=""
           />
-          <p>{row.original.fullName}</p>
-        </div>
+          <span>{row.original.fullName}</span>
+        </Link>
       )
     },
     filterFn: (row, id, value) => value?.includes(row?.getValue(id)),
@@ -71,6 +76,8 @@ export const columns = (currentTab: tab, role: rolesT): ColumnDef<Partial<userT>
       return (
         <Actions
           _id={row?.original?._id || ""}
+          dob={row?.original?.dob || ""}
+          fullName={row?.original?.fullName || ""}
           currentTab={currentTab}
           role={role}
         />

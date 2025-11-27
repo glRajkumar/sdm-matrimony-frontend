@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 
 import FieldWrapper from './field-wrapper';
 import { Button } from '@/components/ui/button';
+import { createPass } from '@/utils/password';
 
 type props = {
   isPending: boolean
@@ -162,7 +163,7 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
       }
 
       if (isAdmin) {
-        payload.password = `${rest.fullName.replace(/\s/g, "").slice(0, 4)}_${format(new Date(data?.dob), "ddMMyy")}`
+        payload.password = createPass(rest.fullName, data?.dob)
       }
 
       onSubmit(filterObj(payload) as Partial<userT>)

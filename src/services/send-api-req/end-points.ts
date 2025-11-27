@@ -57,4 +57,5 @@ export const endPoints = {
   updateAdmin: "/super-admin/admin",
   getNotInvitedUsers: "/super-admin/users/not-invited",
   inviteUser: "/super-admin/user/invite",
+  resetPassByAdmin: "/super-admin/user/password",
 }

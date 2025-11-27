@@ -84,3 +84,11 @@ export function userInvited({ _id }: { _id: string }) {
     method: "put",
   })
 }
+
+export function resetPassByAdmin({ _id, password }: { _id: string, password: string }) {
+  return sendApiReq({
+    url: `${endPoints.resetPassByAdmin}/${_id}`,
+    method: "put",
+    data: { password },
+  })
+}
