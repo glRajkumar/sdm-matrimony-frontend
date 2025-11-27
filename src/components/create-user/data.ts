@@ -7,6 +7,7 @@ type BaseField = {
   name: Path<userInputT>
   label: string
   defaultValue?: primitiveT
+  isRequired?: boolean
 }
 
 type TextField = BaseField & {
@@ -62,11 +63,13 @@ export const fieldList: FieldSection[] = [
         name: "email",
         label: "Email",
         type: "email",
+        isRequired: true,
       },
       {
         name: "password",
         label: "Password",
         type: "password",
+        isRequired: true,
       }
     ]
   },
@@ -77,6 +80,7 @@ export const fieldList: FieldSection[] = [
         name: "profileImg",
         label: "Profile Image",
         type: "file",
+        isRequired: true,
       },
       {
         name: "images",
@@ -88,17 +92,20 @@ export const fieldList: FieldSection[] = [
         name: "fullName",
         label: "Full Name",
         type: "text",
+        isRequired: true,
       },
       {
         name: "gender",
         label: "Gender",
         type: "select",
         options: gender,
+        isRequired: true,
       },
       {
         name: "dob",
         label: "Date of Birth",
         type: "date",
+        isRequired: true,
       },
       {
         name: "maritalStatus",
@@ -106,6 +113,7 @@ export const fieldList: FieldSection[] = [
         type: "select",
         options: maritalStatus,
         defaultValue: "Single",
+        isRequired: true,
       }
     ]
   },
@@ -116,6 +124,7 @@ export const fieldList: FieldSection[] = [
         name: "contactDetails.mobile",
         label: "Mobile Number",
         type: "tel",
+        isRequired: true,
       },
       {
         name: "contactDetails.address",
@@ -132,17 +141,20 @@ export const fieldList: FieldSection[] = [
         label: "Highest Qualification",
         type: "combobox",
         listName: "educationLevels",
+        isRequired: true,
       },
       {
         name: "proffessionalDetails.qualifications",
         label: "Qualifications",
-        type: "text"
+        type: "text",
+        isRequired: true,
       },
       {
         name: "proffessionalDetails.sector",
         label: "Sector",
         type: "combobox",
         listName: "sectors",
+        isRequired: true,
       },
       {
         name: "proffessionalDetails.profession",
@@ -150,11 +162,13 @@ export const fieldList: FieldSection[] = [
         type: "combobox",
         listName: "professions",
         canCreateNew: true,
+        isRequired: true,
       },
       {
         name: "proffessionalDetails.companyName",
         label: "Company Name",
-        type: "text"
+        type: "text",
+        isRequired: true,
       },
       {
         name: "proffessionalDetails.salary",
@@ -163,6 +177,7 @@ export const fieldList: FieldSection[] = [
         defaultValue: 0,
         step: 1000,
         min: 0,
+        isRequired: true,
       }
     ]
   },
@@ -172,12 +187,14 @@ export const fieldList: FieldSection[] = [
       {
         name: "familyDetails.fatherName",
         label: "Father's Name",
-        type: "text"
+        type: "text",
+        isRequired: true,
       },
       {
         name: "familyDetails.motherName",
         label: "Mother's Name",
-        type: "text"
+        type: "text",
+        isRequired: true,
       },
       {
         name: "familyDetails.isFatherAlive",

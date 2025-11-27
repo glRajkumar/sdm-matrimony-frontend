@@ -17,8 +17,9 @@ type props<T extends FieldValues> = BaseProps<T> & {
   listName: staticsNameT
   placeholder?: string
   canCreateNew?: boolean
+  className?: string
 }
-export function SelectListWrapper<T extends FieldValues>({ name, label, control, placeholder, listName, canCreateNew, additionalOpts }: props<T>) {
+export function SelectListWrapper<T extends FieldValues>({ name, label, control, placeholder, listName, canCreateNew, className, additionalOpts }: props<T>) {
   const { data, isLoading } = useStatics(listName)
 
   return (
@@ -33,14 +34,16 @@ export function SelectListWrapper<T extends FieldValues>({ name, label, control,
       isLoading={isLoading}
       placeholder={placeholder || `Select ${label}`}
       canCreateNew={canCreateNew}
+      className={className}
     />
   )
 }
 
 type props2<T extends FieldValues> = BaseProps<T> & {
   choosed: string
+  className?: string
 }
-export function SelectSubCastesWrapper<T extends FieldValues>({ name, control, choosed = "", additionalOpts }: props2<T>) {
+export function SelectSubCastesWrapper<T extends FieldValues>({ name, control, choosed = "", className, additionalOpts }: props2<T>) {
   const { data, isLoading } = useStatics("casteMap")
 
   return (
@@ -54,6 +57,7 @@ export function SelectSubCastesWrapper<T extends FieldValues>({ name, control, c
       ]}
       isLoading={isLoading}
       placeholder="Select Sub / Other Caste"
+      className={className}
       canCreateNew
     />
   )

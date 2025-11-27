@@ -34,11 +34,13 @@ function UserCard({
     <Card className="p-0 overflow-hidden transition-all duration-300 hover:shadow-md @container/card">
       <div className="flex flex-col @lg/card:flex-row">
         <div className="relative w-full @lg/card:w-auto">
-          <img
-            className="w-full @lg/card:w-60 h-60 object-cover"
-            src={profileImg || "/imgs/user.jpg"}
-            alt={fullName || "Profile Image"}
-          />
+          <Link href={`/user/profile/${_id}`}>
+            <img
+              className="w-full @lg/card:w-60 h-60 object-cover hover:scale-105 transition-transform"
+              src={profileImg || "/imgs/user.jpg"}
+              alt={fullName || "Profile Image"}
+            />
+          </Link>
           {isLiked && (
             <Badge variant="secondary" className="absolute top-2 right-2 bg-white/80">
               <Heart className="h-3 w-3 mr-1 fill-rose-500 text-rose-500" />

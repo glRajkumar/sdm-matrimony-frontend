@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from 'lucide-react';
-import { format } from "date-fns";
 import { toast } from 'sonner';
 import { z } from "zod";
 
@@ -13,11 +12,11 @@ import { defaultValues, fieldList } from './data';
 import { detectInputType, filterObj, validateIdentifier } from '@/utils';
 import { contactDetailsSchema, createUserSchema } from '@/utils/user-schema';
 import { useIsExists, useRegisterImage } from '@/hooks/use-account';
+import { createPass } from '@/utils/password';
 import { cn } from '@/lib/utils';
 
 import FieldWrapper from './field-wrapper';
 import { Button } from '@/components/ui/button';
-import { createPass } from '@/utils/password';
 
 type props = {
   isPending: boolean
@@ -56,6 +55,8 @@ function getSchema(isAdmin: boolean) {
 }
 
 function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: props) {
+  const [isMini, setIsMini] = useState(!isAdmin)
+
   const methods = useForm({
     resolver: zodResolver(getSchema(!!isAdmin)),
     defaultValues: extractedData ? getDefaultExtractedData(extractedData) : { ...defaultValues },
@@ -80,6 +81,7 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
   }, [sector])
 
   async function checkAvailability(name: any, val: string) {
+    if (!val) return
     const isEmail = detectInputType(val)
     const key = isEmail === "email" ? "Email" : "Mobile number"
     const isValid = validateIdentifier(val)
@@ -185,6 +187,7 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
         {
           fieldList
             .filter(field => isAdmin ? field.lable !== "Account Details" : true)
+            .filter(field => isMini ? field.list.some(f => f.isRequired) : true)
             .map(field => (
               <div key={field.lable} className='py-8 @container'>
                 <h4 className="mb-2 text-sm font-semibold text-gray-500">
@@ -198,6 +201,7 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
                         key={field.name}
                         control={methods.control}
                         onBlur={checkAvailability}
+                        isRequired={isMini ? field.isRequired : true}
                         {...field}
                       />
                     ))
@@ -208,6 +212,17 @@ function CreateUser({ isPending, isAdmin, className, extractedData, onSubmit }: 
         }
 
         <div className='py-2 sticky -bottom-px z-1 bg-white'>
+          {
+            !isAdmin &&
+            <button
+              type="button"
+              onClick={() => setIsMini(p => !p)}
+              className="ml-auto mb-2 block text-sm text-red-500 hover:text-red-600 cursor-pointer"
+            >
+              Show {isMini ? "all fields" : "required fields only"}
+            </button>
+          }
+
           <Button
             type="submit"
             className="w-full bg-pink-500 hover:bg-pink-600"

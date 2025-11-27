@@ -10,7 +10,11 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export function PasswordWrapper() {
+type props = {
+  className?: string
+}
+
+export function PasswordWrapper({ className }: props) {
   const [showPassword, setShowPassword] = useState(true)
   const { control, getValues, setValue, clearErrors } = useFormContext()
 
@@ -33,7 +37,7 @@ export function PasswordWrapper() {
       name="password"
       control={control}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           <div className="df justify-between">
             <FormLabel>Password</FormLabel>
             {isAdmin && (

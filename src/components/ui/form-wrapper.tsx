@@ -20,7 +20,7 @@ import { Input } from "./input";
 
 type BaseWrapperProps<T extends FieldValues> = {
   name: Path<T>
-  label?: string
+  label?: React.ReactNode
   control: Control<T>
   className?: string
 }
