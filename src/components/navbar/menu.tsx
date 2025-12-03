@@ -14,16 +14,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const adminLinks = [
-  {
-    lable: "Married users",
-    href: "married",
-  },
-  {
-    lable: "Make Match",
-    href: "make-match",
-  },
-]
+// const adminLinks = [
+//   {
+//     lable: "Married users",
+//     href: "married",
+//   },
+//   {
+//     lable: "Make Match",
+//     href: "make-match",
+//   },
+// ]
 
 const superAdminLinks = [
   {
@@ -84,7 +84,7 @@ function Menu() {
           </>
         }
 
-        {
+        {/* {
           !isLoading && role === "admin" &&
           adminLinks.map(link => (
             <DropdownMenuItem key={link.href} asChild>
@@ -93,7 +93,7 @@ function Menu() {
               </Link>
             </DropdownMenuItem>
           ))
-        }
+        } */}
 
         {
           !isLoading && role === "super-admin" &&

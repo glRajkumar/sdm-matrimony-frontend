@@ -31,8 +31,8 @@ function Confirm({ male, female, onConfirm }: props) {
 
   function onSubmit() {
     mutate({
-      _id: male?._id || "",
-      marriedTo: female?._id || "",
+      _id: male?._id || female?._id || "",
+      marriedTo: male?._id ? female?._id || "" : "",
       marriedOn: new Date(new Date(marriedOn).setHours(0, 0, 0, 0)).toISOString(),
     })
 
@@ -46,7 +46,7 @@ function Confirm({ male, female, onConfirm }: props) {
     >
       <div className="dc md:col-span-2">
         <AlertDialogTrigger
-          disabled={isPending || !male || !female}
+          disabled={isPending || (!male && !female)}
           asChild
         >
           <Button>
