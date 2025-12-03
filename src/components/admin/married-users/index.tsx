@@ -1,13 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Loader } from "lucide-react";
 
 import { useMarriedUsers } from "@/hooks/use-admin";
 
 import GenLoader from "@/components/common/gen-loader";
 import LoadMore from "@/components/common/load-more";
-import UserCard from "./user-card";
+
+import UserCard, { Empty } from "./user-card";
 
 type props = {
   role?: rolesT
@@ -15,7 +15,14 @@ type props = {
 
 function MarriedUsers({ role = "admin" }: props) {
   const { data: users, isLoading, isFetching, fetchNextPage, hasNextPage } = useMarriedUsers()
-  const navigate = useRouter()
+
+  function navigateTo(maleId: string, femaleId: string) {
+    if (maleId && femaleId) {
+      window.open(`/${role}/married/${maleId}_${femaleId}`)
+    } else {
+      window.open(`/${role}/user/${maleId || femaleId}`)
+    }
+  }
 
   if (isLoading) return (
     <GenLoader className="h-[calc(100vh-4rem)]" />
@@ -30,15 +37,15 @@ function MarriedUsers({ role = "admin" }: props) {
   return (
     <div className="p-6">
       {
-        !isLoading && users?.map(({ marriedTo, ...user }) => (
+        !isLoading && users?.map(({ male, female }) => (
           <div
-            key={user._id}
+            key={male?._id || female?._id}
             className="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto relative cursor-pointer group"
-            onClick={() => navigate.push(`/${role}/married/${user._id}_${marriedTo._id}`)}
+            onClick={() => navigateTo(male?._id as string, female?._id as string)}
           >
-            <UserCard {...user} />
+            {male ? <UserCard {...male} /> : <Empty />}
             <span className="w-0.5 h-full md:h-0.5 md:w-full absolute top-0 left-1/2 -translate-x-1/2 md:top-1/2 md:left-0 md:translate-x-0 md:-translate-y-1/2 z-[-1] bg-border" />
-            <UserCard {...marriedTo} />
+            {female ? <UserCard {...female} /> : <Empty />}
           </div>
         ))
       }

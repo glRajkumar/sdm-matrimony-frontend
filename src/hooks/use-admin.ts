@@ -28,7 +28,7 @@ export function useUsersList(data: findUserSchemaT) {
   })
 }
 
-type marriedUserT = Partial<userT> & { marriedTo: Partial<userT> }
+type marriedUserT = { male: Partial<userT>, female: Partial<userT> }
 export function useMarriedUsers() {
   const limit = 50
 
