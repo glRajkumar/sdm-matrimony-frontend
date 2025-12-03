@@ -41,4 +41,12 @@ function UserCard({
   )
 }
 
+export function Empty() {
+  return (
+    <Card className="dc mb-0 p-0 overflow-hidden transition-all duration-300">
+      Match not found
+    </Card>
+  )
+}
+
 export default UserCard
