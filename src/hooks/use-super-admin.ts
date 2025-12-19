@@ -9,7 +9,7 @@ import {
   getPaidUsers, getAssistedSubscribedUsers, getAllPayments, getUsersByCreatedBy,
   getUsersGroupedByAdminCount, getUsersGroupedCount, getAdminsList,
   createAdmin, updateAdmin, getNotInvitedUsers, userInvited,
-  getUsersGroupList, resetPassByAdmin,
+  getUsersGroupList, resetPassByAdmin, makePaymentForUser,
 } from "@/actions";
 
 type userAndPlanT = currentPlanT & {
@@ -161,6 +161,18 @@ export function useResetPassByAdmin() {
     mutationFn: resetPassByAdmin,
     onSuccess() {
       toast("Password reset successfully")
+    },
+    onError(error) {
+      toast(error?.message || "Something went wrong!!!")
+    }
+  })
+}
+
+export function useMakePaymentForUser() {
+  return useMutation({
+    mutationFn: makePaymentForUser,
+    onSuccess() {
+      toast("Payment added successfully")
     },
     onError(error) {
       toast(error?.message || "Something went wrong!!!")

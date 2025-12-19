@@ -92,3 +92,11 @@ export function resetPassByAdmin({ _id, password }: { _id: string, password: str
     data: { password },
   })
 }
+
+export function makePaymentForUser(data: Omit<currentPlanT, "createdAt" | "expiryDate">) {
+  return sendApiReq({
+    url: endPoints.makePaymentForUser,
+    method: "post",
+    data,
+  })
+}

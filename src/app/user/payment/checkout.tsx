@@ -200,10 +200,7 @@ function Checkout({ showCheckout = true }: props) {
                   }
                 </div>
 
-                <div className="mb-6">
-                </div>
-
-                <div className="mb-1 text-sm text-gray-600">Get personalized assistance from our relationship experts</div>
+                <div className="mb-1 mt-6 text-sm text-gray-600">Get personalized assistance from our relationship experts</div>
 
                 <div className="df flex-wrap">
                   <Checkbox id="assisted" checked={isAssisted} onCheckedChange={(value) => setIsAssisted(value as boolean)} />
