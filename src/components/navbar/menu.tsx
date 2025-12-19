@@ -35,8 +35,8 @@ const superAdminLinks = [
     href: "image-extractor",
   },
   {
-    lable: "Test Payment",
-    href: "test-payment",
+    lable: "Payment",
+    href: "payment",
   },
 ]
 
