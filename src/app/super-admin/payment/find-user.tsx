@@ -6,9 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { useFindUser } from "@/hooks/use-admin";
+import { gender } from "@/utils";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { InputWrapper } from "@/components/ui/form-wrapper";
+import { InputWrapper, SelectWrapper } from "@/components/ui/form-wrapper";
 import { Button } from "@/components/ui/button";
 
 type props = {
@@ -19,6 +20,7 @@ type props = {
 function FindUser({ selected, setSelected }: props) {
   const schema = z.object({
     email: z.string().optional(),
+    gender: z.string().optional(),
     mobile: z.string().optional(),
     fullName: z.string().optional(),
   })
@@ -47,6 +49,7 @@ function FindUser({ selected, setSelected }: props) {
     resolver: zodResolver(schema),
     defaultValues: {
       email: "",
+      gender: "Male",
       mobile: "",
       fullName: "",
     },
@@ -58,8 +61,9 @@ function FindUser({ selected, setSelected }: props) {
     const payload: formT = {}
 
     if (data.email) payload.email = data.email
-    if (data.fullName) payload.fullName = data.fullName
+    if (data.gender) payload.gender = data.gender
     if (data.mobile) payload.mobile = data.mobile
+    if (data.fullName) payload.fullName = data.fullName
 
     setFilters(payload)
   }
@@ -80,6 +84,14 @@ function FindUser({ selected, setSelected }: props) {
       <CardContent className="space-y-4">
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(applyFilters)}>
+            <SelectWrapper
+              name="gender"
+              control={methods.control}
+              options={gender}
+              label="Gender"
+              className="mb-4 gap-0.5"
+            />
+
             {list.map((filter) => (
               <InputWrapper
                 control={methods.control}

@@ -1,5 +1,21 @@
 import { useState } from "react"
+import { Loader } from "lucide-react"
+import { toast } from "sonner"
 
+import { assistedPrices, extraProfiles, PlanBadge, planDetails, planPrices, planValidityMonths, profilesCount } from "@/components/common/plan-badge"
+import { useMakePaymentForUser } from "@/hooks/use-super-admin"
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -7,8 +23,6 @@ import { Separator } from "@/components/ui/separator"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-
-import { assistedPrices, extraProfiles, PlanBadge, planDetails, planPrices, planValidityMonths, profilesCount } from "@/components/common/plan-badge"
 
 import FindUser from "./find-user"
 
@@ -18,24 +32,10 @@ function MakePaymentForUser() {
   const [assistedMonths, setAssistedMonths] = useState(1)
   const [subscribedTo, setSubscribedTo] = useState<subscribedToT>("basic")
   const [isAssisted, setIsAssisted] = useState(false)
+  const [key, setKey] = useState(0)
   const [_id, setId] = useState("")
 
-  const handlePayment = async () => {
-    const noOfProfilesCanView = !addAdditionalProfiles
-      ? profilesCount[subscribedTo]
-      : additionalProfilesCount === 999
-        ? additionalProfilesCount
-        : additionalProfilesCount + profilesCount[subscribedTo]
-
-    const payload = {
-      subscribedTo,
-      noOfProfilesCanView,
-      isAssisted,
-      assistedMonths,
-    }
-
-
-  }
+  const { mutate, isPending } = useMakePaymentForUser()
 
   let finalAmount = planPrices[subscribedTo]
 
@@ -52,10 +52,42 @@ function MakePaymentForUser() {
     finalAmount += assistedPrices[assistedMonths]
   }
 
+  const handlePayment = async () => {
+    if (!_id) return toast.error("Choose user first")
+
+    const noOfProfilesCanView = !addAdditionalProfiles
+      ? profilesCount[subscribedTo]
+      : additionalProfilesCount === 999
+        ? additionalProfilesCount
+        : additionalProfilesCount + profilesCount[subscribedTo]
+
+    const payload = {
+      _id,
+      isAssisted,
+      subscribedTo,
+      assistedMonths,
+      noOfProfilesCanView,
+      amount: finalAmount,
+    }
+
+    mutate(payload, {
+      onSuccess() {
+        setAdditionalProfilesCount(10)
+        setAddAdditionalProfiles(false)
+        setAssistedMonths(1)
+        setSubscribedTo("basic")
+        setIsAssisted(false)
+        setKey(p => p + 1)
+        setId("")
+      }
+    })
+  }
+
   return (
     <div className="grid lg:grid-cols-3 gap-8">
       <div className="lg:col-span-2">
         <FindUser
+          key={key}
           selected={_id || ""}
           setSelected={setId}
         />
@@ -215,15 +247,38 @@ function MakePaymentForUser() {
           </CardContent>
 
           <CardFooter>
-            <Button
-              size="lg"
-              className="w-full bg-pink-600 hover:bg-pink-700"
-              onClick={handlePayment}
-            // disabled={isCreateOrderPending}
-            >
-              {/* {isCreateOrderPending && <Loader className="animate-spin" />} */}
-              Proceed to Payment - ₹{finalAmount.toLocaleString()}
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  size="lg"
+                  className="w-full bg-pink-600 hover:bg-pink-700"
+                  disabled={!_id}
+                >
+                  Proceed
+                </Button>
+              </AlertDialogTrigger>
+
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <AlertDialogFooter>
+                  <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
+
+                  <AlertDialogAction asChild>
+                    <Button
+                      onClick={handlePayment}
+                      disabled={isPending}
+                    >
+                      {isPending && <Loader className="animate-spin" />}
+                      Proceed to Payment - ₹{finalAmount.toLocaleString()}
+                    </Button>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </CardFooter>
         </Card>
       </div>
